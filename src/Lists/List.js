@@ -3,9 +3,9 @@ import React from 'react';
 const List = () => {
   return (
     <ul>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>ALL</li>
+      <li>AML</li>
+      <li>Wilm's Tumor</li>
     </ul>
   );
 }

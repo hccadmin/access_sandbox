@@ -1,0 +1,492 @@
+[{
+	"id": "CANALL132664997",
+	"name": "ALL",
+	"risk_strats": [{
+		"id": "RISLOW31113445",
+		"name": "Low Risk",
+		"regimens": [{
+			"id": "REGALL126256230",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL328042918",
+			"name": "ALL Regimen 2"
+		}]
+	}, {
+		"id": "RISHIG174657985",
+		"name": "High Risk",
+		"regimens": [{
+			"id": "REGALL988539994",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL310601427",
+			"name": "ALL Regimen 2"
+		}, {
+			"id": "REGALL169617605",
+			"name": "ALL Regimen 3"
+		}]
+	}, {
+		"id": "RISVER892085016",
+		"name": "Very High Risk",
+		"regimens": [{
+			"id": "REGALL164267050",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL790215970",
+			"name": "ALL Regimen 2"
+		}, {
+			"id": "REGALL149335834",
+			"name": "ALL Regimen 4"
+		}]
+	}]
+}, {
+	"id": "CANAML664186510",
+	"name": "AML",
+	"risk_strats": [{
+		"id": "RISSTR830870669",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGSTA155256074",
+			"name": "Standard Dose Induction"
+		}, {
+			"id": "REGLOW270509208",
+			"name": "Low Dose Induction"
+		}]
+	}]
+}, {
+	"id": "CANAPL844316807",
+	"name": "APL",
+	"risk_strats": [{
+		"id": "RISSTA645906593",
+		"name": "Standard Risk",
+		"regimens": [{
+			"id": "REGSTA405858529",
+			"name": "Standard Risk Dose"
+		}]
+	}, {
+		"id": "RISHIG196604721",
+		"name": "High Risk",
+		"regimens": [{
+			"id": "REGHIG666253924",
+			"name": "High Risk Dose"
+		}]
+	}]
+}, {
+	"id": "CANBUR451277723",
+	"name": "Burkitt Lymphoma",
+	"risk_strats": [{
+		"id": "RISSTA818031195",
+		"name": "Stage 1or2",
+		"regimens": [{
+			"id": "REGBUR117525069",
+			"name": "Burkitt Lymphoma Regimen 1"
+		}]
+	}, {
+		"id": "RISSTA909760374",
+		"name": "Stage 3",
+		"regimens": [{
+			"id": "REGBUR3400917",
+			"name": "Burkitt Lymphoma Regimen 2"
+		}]
+	}, {
+		"id": "RISSTA283449843",
+		"name": "Stage 4",
+		"regimens": [{
+			"id": "REGBUR35087019",
+			"name": "Burkitt Lymphoma Regimen 3"
+		}]
+	}]
+}, {
+	"id": "CANDLB341141115",
+	"name": "DLBCL",
+	"risk_strats": [{
+		"id": "RISSTR837406580",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGR-C709607029",
+			"name": "R-CHOP"
+		}, {
+			"id": "REGCHO423616058",
+			"name": "CHOP"
+		}]
+	}]
+}, {
+	"id": "CANEWI572188770",
+	"name": "Ewing Sarcoma",
+	"risk_strats": [{
+		"id": "RISSTR9991405",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGAEW113235419",
+			"name": "AEWS1031"
+		}]
+	}]
+}, {
+	"id": "CANGER785507302",
+	"name": "Germ Cell Tumor",
+	"risk_strats": [{
+		"id": "RISLOW889264608",
+		"name": "Low Risk"
+	}, {
+		"id": "RISSTA502609808",
+		"name": "Standard Risk",
+		"regimens": [{
+			"id": "REGPEB508147225",
+			"name": "PEB"
+		}, {
+			"id": "REGJEB379160569",
+			"name": "JEB"
+		}, {
+			"id": "REGBEP810554763",
+			"name": "BEP 3 Cycles"
+		}]
+	}, {
+		"id": "RISPOO361990803",
+		"name": "Poor Risk",
+		"regimens": [{
+			"id": "REGBEP757765212",
+			"name": "BEP 4 Cycles"
+		}]
+	}]
+}, {
+	"id": "CANHEP122737706",
+	"name": "Hepatoblastoma",
+	"risk_strats": [{
+		"id": "RISNON909378434",
+		"name": "Non Metastatic",
+		"regimens": [{
+			"id": "REGCIS804188397",
+			"name": "Cisplatin Monotherapy"
+		}]
+	}, {
+		"id": "RISMET666197247",
+		"name": "Metastatic",
+		"regimens": [{
+			"id": "REGCIS635439607",
+			"name": "Cisplatin Monotherapy"
+		}, {
+			"id": "REGCIS468977622",
+			"name": "Cisplatin + Carboplatin + Doxorubicin"
+		}]
+	}]
+}, {
+	"id": "CANHOD435759509",
+	"name": "Hodgkin's Lymphoma",
+	"risk_strats": [{
+		"id": "RISLOW268478789",
+		"name": "Low Risk",
+		"regimens": [{
+			"id": "REGABV445190829",
+			"name": "ABVD 4 Cycles"
+		}, {
+			"id": "REGABV782200096",
+			"name": "ABVE-PC"
+		}, {
+			"id": "REGCOP337331168",
+			"name": "COPP"
+		}, {
+			"id": "REGCOP591696147",
+			"name": "COPDac"
+		}, {
+			"id": "REGOPP541340982",
+			"name": "OPPA"
+		}, {
+			"id": "REGOEP369163186",
+			"name": "OEPA"
+		}, {
+			"id": "REGCOP375239336",
+			"name": "COPP ABVD 4 Cycles"
+		}]
+	}, {
+		"id": "RISINT469455632",
+		"name": "Intermediate Risk",
+		"regimens": [{
+			"id": "REGABV871600720",
+			"name": "ABVD 6 Cycles"
+		}, {
+			"id": "REGABV181958143",
+			"name": "ABVE-PC"
+		}, {
+			"id": "REGCOP308387487",
+			"name": "COPP"
+		}, {
+			"id": "REGCOP64559393",
+			"name": "COPDac"
+		}, {
+			"id": "REGOPP531823377",
+			"name": "OPPA"
+		}, {
+			"id": "REGOEP985197395",
+			"name": "OEPA"
+		}]
+	}, {
+		"id": "RISHIG536501721",
+		"name": "High Risk",
+		"regimens": [{
+			"id": "REGABV398577103",
+			"name": "ABVD 6 Cycles"
+		}, {
+			"id": "REGABV881040937",
+			"name": "ABVE-PC"
+		}, {
+			"id": "REGCOP66604684",
+			"name": "COPP"
+		}, {
+			"id": "REGCOP744575179",
+			"name": "COPDac"
+		}, {
+			"id": "REGOPP422989936",
+			"name": "OPPA"
+		}, {
+			"id": "REGOEP626482182",
+			"name": "OEPA"
+		}, {
+			"id": "REGCOP246989959",
+			"name": "COPP ABVD 6 Cycles"
+		}]
+	}]
+}, {
+	"id": "CANKAP278704147",
+	"name": "Kaposi Sarcoma",
+	"risk_strats": [{
+		"id": "RISSTR157837308",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGVIN967317652",
+			"name": "Vincristine Monotherapy"
+		}, {
+			"id": "REGETO395955053",
+			"name": "Etoposide Monotherapy"
+		}, {
+			"id": "REGBLE917556222",
+			"name": "Bleomycin Monotherapy"
+		}, {
+			"id": "REGVIN804522426",
+			"name": "Vincristine + Bleomycin Doublet"
+		}, {
+			"id": "REGABV330205732",
+			"name": "ABV Standard Dose with Vincristine"
+		}, {
+			"id": "REGABV836357153",
+			"name": "ABV Standard Dose with Vinblastine"
+		}, {
+			"id": "REGABV210107",
+			"name": "ABV Low Dose with Vincristine"
+		}, {
+			"id": "REGAVA975121758",
+			"name": "AVA"
+		}]
+	}]
+}, {
+	"id": "CANLGG278859227",
+	"name": "LGG",
+	"risk_strats": [{
+		"id": "RISFUL799741917",
+		"name": "Fully Resectable",
+		"regimens": [{
+			"id": "REGCAR488828654",
+			"name": "Carboplatin + Vincristine"
+		}]
+	}, {
+		"id": "RISUNR386779406",
+		"name": "Unresectable or Incomplete Resection",
+		"regimens": [{
+			"id": "REGCAR799262264",
+			"name": "Carboplatin + Vincristine"
+		}]
+	}]
+}, {
+	"id": "CANLYM712229383",
+	"name": "Lymphoblastic Lymphoma",
+	"risk_strats": [{
+		"id": "RISLOW759405818",
+		"name": "Low Risk",
+		"regimens": [{
+			"id": "REGALL764024104",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL752777666",
+			"name": "ALL Regimen 2"
+		}]
+	}, {
+		"id": "RISHIG223225978",
+		"name": "High Risk",
+		"regimens": [{
+			"id": "REGALL107368098",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL406135949",
+			"name": "ALL Regimen 2"
+		}, {
+			"id": "REGALL300662420",
+			"name": "ALL Regimen 3"
+		}]
+	}, {
+		"id": "RISVER348483258",
+		"name": "Very High Risk",
+		"regimens": [{
+			"id": "REGALL804839474",
+			"name": "ALL Regimen 1"
+		}, {
+			"id": "REGALL407137035",
+			"name": "ALL Regimen 2"
+		}, {
+			"id": "REGALL204006620",
+			"name": "ALL Regimen 4"
+		}]
+	}]
+}, {
+	"id": "CANNEU173708491",
+	"name": "Neuroblastoma",
+	"risk_strats": [{
+		"id": "RISLOW673599088",
+		"name": "Low Risk"
+	}, {
+		"id": "RISINT147390204",
+		"name": "Intermediate Risk",
+		"regimens": [{
+			"id": "REG80%986200983",
+			"name": "80% Dose Intermediate Risk Regimen"
+		}, {
+			"id": "REG100523765012",
+			"name": "100% Dose Intermediate Risk Regimen"
+		}]
+	}, {
+		"id": "RISHIG770984500",
+		"name": "High Risk",
+		"regimens": [{
+			"id": "REGPAL958811367",
+			"name": "Palliative Cyclophosphamide Monotherapy"
+		}, {
+			"id": "REGMOD413250488",
+			"name": "Modified POG-9341"
+		}]
+	}]
+}, {
+	"id": "CANOST351155730",
+	"name": "Osteosarcoma",
+	"risk_strats": [{
+		"id": "RISSTR506532632",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGMET828517681",
+			"name": "Methotrexate-Feasible"
+		}, {
+			"id": "REGMET521627165",
+			"name": "Methotrexate NOT Feasible"
+		}]
+	}]
+}, {
+	"id": "CANRET94466839",
+	"name": "Retinoblastoma",
+	"risk_strats": [{
+		"id": "RISNON888712822",
+		"name": "Non Metastatic",
+		"regimens": [{
+			"id": "REGCEV503183899",
+			"name": "CEV"
+		}]
+	}, {
+		"id": "RISMET409095888",
+		"name": "Metastatic",
+		"regimens": [{
+			"id": "REGCHO103714579",
+			"name": "CHO"
+		}]
+	}]
+}, {
+	"id": "CANRHA158974332",
+	"name": "Rhadbomyosarcoma",
+	"risk_strats": [{
+		"id": "RISSTR654574702",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGVAC676992432",
+			"name": "VAC"
+		}]
+	}]
+}, {
+	"id": "CANSTA823963265",
+	"name": "Standard-Risk Medulloblastoma",
+	"risk_strats": [{
+		"id": "RISSTR569801083",
+		"name": "strat",
+		"regimens": [{
+			"id": "REGCIS194947534",
+			"name": "Cisplatin-based Combination"
+		}, {
+			"id": "REGCIS751977727",
+			"name": "Cisplatin + Carboplatin-based Combination"
+		}]
+	}]
+}, {
+	"id": "CANWIL2350323",
+	"name": "Wilms Tumor",
+	"risk_strats": [{
+		"id": "RISLOW584608356",
+		"name": "Low Risk Stage 1",
+		"regimens": [{
+			"id": "REGVIN819620164",
+			"name": "Vincristine + Actinomycin D"
+		}]
+	}, {
+		"id": "RISLOW349638833",
+		"name": "Low Risk Stage 2",
+		"regimens": [{
+			"id": "REGVIN820300989",
+			"name": "Vincristine + Actinomycin D"
+		}, {
+			"id": "REGVIN721651240",
+			"name": "Vincristine + Actinomycin D 5 Cycles"
+		}]
+	}, {
+		"id": "RISLOW59086608",
+		"name": "Low Risk Stage 3",
+		"regimens": [{
+			"id": "REGVIN969756282",
+			"name": "Vincristine + Actinomycin D"
+		}, {
+			"id": "REGVIN117629040",
+			"name": "Vincristine + Actinomycin D 5 Cycles"
+		}]
+	}, {
+		"id": "RISINT196575621",
+		"name": "Intermediate Risk Stage 1",
+		"regimens": [{
+			"id": "REGVIN695876195",
+			"name": "Vincristine + Actinomycin D"
+		}, {
+			"id": "REGVIN929591110",
+			"name": "Vincristine + Actinomycin D 1 Cycle"
+		}]
+	}, {
+		"id": "RISINT437730692",
+		"name": "Intermediate Risk Stage 2",
+		"regimens": [{
+			"id": "REGVIN171813215",
+			"name": "Vincristine + Actinomycin D"
+		}, {
+			"id": "REGVIN849924863",
+			"name": "Vincristine + Actinomycin D 5 Cycles"
+		}]
+	}, {
+		"id": "RISINT840336340",
+		"name": "Intermediate Risk Stage 3",
+		"regimens": [{
+			"id": "REGVIN828725916",
+			"name": "Vincristine + Actinomycin D + Doxorubicin"
+		}, {
+			"id": "REGVIN265544563",
+			"name": "Vincristine + Actinomycin D + Doxorubicin 5 Cycles"
+		}]
+	}, {
+		"id": "RISHIG663664131",
+		"name": "High Risk All Stages",
+		"regimens": [{
+			"id": "REGVIN445831727",
+			"name": "Vincristine + Actinomycin D + Doxorubicin"
+		}, {
+			"id": "REGVIN713077238",
+			"name": "Vincristine + Actinomycin D + Doxorubicin 5 Cycles"
+		}]
+	}]
+}]
