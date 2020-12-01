@@ -1,6 +1,6 @@
 import React from 'react'
 import List from './List';
-import { debug, render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 beforeEach( () => {
   render(<List />);
