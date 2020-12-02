@@ -3,14 +3,13 @@ import { render, screen } from '@testing-library/react';
 import PracticeInterface from "./PracticeInterface";
 
 beforeEach( () => {
-  let cancers = [];
+  const data = [];
   render(
     <PracticeInterface 
-      cancers={ cancers } 
+      data={ data } 
     />
   );
 });
 
-it('should have a heading', () => {
-  expect(screen.getByRole('heading')).toBeInTheDocument();
+it('should display different risks depending on the cancer selection', () => {
 });
