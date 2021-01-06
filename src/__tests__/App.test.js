@@ -3,12 +3,9 @@ import { screen, render } from '@testing-library/react'
 import { Regimen, RiskStrat, Cancer } from '../models';
 import App from '../App';
 
-beforeEach( () => {
+it('displays the title "Access Forecast"', () => {
   render(<App />);
-});
-
-it('should show a list of cancers', async () => {
-  expect( await screen.findByRole('list')).toBeInTheDocument();
+  expect(screen.getByRole('heading')).toHaveTextContent(/^access forecast$/i);
 });
 
 const getRegimens = () => {

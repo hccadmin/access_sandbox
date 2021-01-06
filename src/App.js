@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DBQueryer } from './DBQueryer/DBQueryer';
 import { CancerModel } from './models';
+import Container from 'react-bootstrap/Container';
 
 const App = () => {
   const [cancers, setCancers] = useState([]);
@@ -29,10 +30,11 @@ const App = () => {
     }
   });
 
-  return cancers.length > 0 && (
-    <>
+  return (
+    <Container>
+      <h1>Access Forecast</h1>
       { output(cancers) }
-    </>
+    </Container>
   );
 }
 
