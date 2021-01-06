@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { DBQueryer } from './DBQueryer/DBQueryer';
-import { CancerModel } from './models';
 import Container from 'react-bootstrap/Container';
+import UserInterface from './user_interface/UserInterface';
 
 const App = () => {
-  const [cancers, setCancers] = useState([]);
 
+/*
   const output = (bundle) => {
     if (!Array.isArray(bundle)) {
       return;
@@ -19,21 +18,12 @@ const App = () => {
       );
     });
   }
-
-  useEffect( () => {
-    if (cancers.length === 0) {
-      DBQueryer.getAll("cancers")
-        .then( (dbCancers) => {
-          CancerModel.load(dbCancers);
-          setCancers(CancerModel.getCancersFull());
-        });
-    }
-  });
+*/
 
   return (
     <Container>
       <h1>Access Forecast</h1>
-      { output(cancers) }
+      <UserInterface />
     </Container>
   );
 }
