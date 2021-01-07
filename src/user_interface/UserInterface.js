@@ -24,7 +24,7 @@ const UserInterface = () => {
         .then( (dbCancers) => {
           CancerModel.load(dbCancers);
           setCancersFull(CancerModel.getCancersFull());
-          setCancersOnly(CancerModel.getCancersOnly());
+          setCancersOnly(CancerModel.getCancerNames());
         });
     }
   });

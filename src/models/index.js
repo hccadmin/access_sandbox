@@ -40,7 +40,7 @@ class CancerModel {
     cm.createCancerModel(dbCancers);
   }
   
-  static getCancersOnly(){
+  static getCancerNames(){
     return CancerModel.cancers.map( (cancer) => {
       return cancer.name;
     });

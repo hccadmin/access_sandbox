@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-//import firebase from 'firebase';
-//import firebaseConfig from './firebase.config';
 import 'jquery/dist/jquery.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { Provider } from 'react-redux';
+import store from './state/store';
 
-// Initialize Firebase
-//firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+		<Provider store={ store }>
+			<App />
+		</Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
