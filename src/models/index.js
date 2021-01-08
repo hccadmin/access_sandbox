@@ -10,7 +10,7 @@ class CancerObject {
   }
 
   getContents() {
-    return this.contents;
+    return { name: this.name, contents: this.contents };
   }
 }
 
@@ -58,15 +58,16 @@ class CancerModel {
     cancers =  results.map( (result) => {
       riskStrats = result.risk_strats.map( (rs) => {
         regimens = rs.regimens.map( (regimen) => {
-          return new Regimen(regimen);
+          const reg = new Regimen(regimen);
+          return reg.getContents();
         });
         const risk = new RiskStrat(rs.strat_name, rs.percent_total/100);
         risk.setContents(regimens);
-        return risk;
+        return risk.getContents();
       });
       const cancer = new Cancer(result.cancer);
       cancer.setContents(riskStrats);
-      return cancer;
+      return cancer.getContents();
     });
     CancerModel.cancers = this.sortCancers(cancers);
   }

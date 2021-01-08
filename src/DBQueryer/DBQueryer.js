@@ -11,16 +11,8 @@ const DBQueryer = ( () => {
     return querySnapshot.docs.map( (doc) => doc.data() );
   }
 
-  const getAllInCollection = async (name) => {
-    if (!collections.hasOwnProperty(name)) {
-      const result = await getAllFromDB(name);
-      collections[name] = result;
-    }
-    return collections[name];
-  }
-
   return {
-    getAll: getAllInCollection
+    getAll: getAllFromDB
   }
 
 })();

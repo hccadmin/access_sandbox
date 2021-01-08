@@ -9,7 +9,7 @@ const initialState = {
   }
 };
 
-const loadDBCancers = createAsyncThunk(
+export const loadCancers = createAsyncThunk(
   'cancers/loadCancersStatus',
   async(thunkAPI) => {
     const dbCancers = await DBQueryer.getAll('cancers');
@@ -31,7 +31,7 @@ const cancersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadDBCancers.fulfilled, (state, action) => {
+      .addCase(loadCancers.fulfilled, (state, action) => {
         state.cancers = action.payload;
       })
   }
@@ -39,6 +39,6 @@ const cancersSlice = createSlice({
 
 const { actions, reducer } = cancersSlice;
 
-export const { getCancerNames, getCancersFull, loadCancers } = actions;
+export const { getCancerNames, getCancersFull } = actions;
 
 export default reducer;

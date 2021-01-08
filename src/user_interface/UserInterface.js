@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { loadCancers } from '../state/cancersSlice';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,16 +11,46 @@ import UserInputs from './UserInputs';
 import { DBQueryer } from '../dbqueryer/DBQueryer';
 import { CancerModel } from '../models';
 
-const UserInterface = () => {
-  const [cancersFull, setCancersFull] = useState([]);
-  const [cancersOnly, setCancersOnly] = useState([]);
+const mapStateToProps = (state) => {
+  return {
+    names: state.cancers.names,
+    full: state.cancers.full
+  }
+}
+
+const UserInterface = ({ names, full }) => {
+  const dispatch = useDispatch();
   const titles = {
     country: 'Argentina',
     year: '2020',
     calculation_source: 'Consolidated'
   }
 
+  if (names.length === 0 && full.length === 0) {
+    dispatch(loadCancers());
+  }
+
+
+  /*
+    loadCancers().then( (cancers) => {
+      setCancersFull(cancers.full);
+      setCancersOnly(cancers.names);
+    });
+  */
   useEffect( () => {
+  /*
+    dispatch(loadCancers()).then( (cancers) => {
+      setCancersFull(cancers.full);
+      setCancersOnly(cancers.names);
+    });
+  */
+  });
+
+    /*
+    loadCancers().then( (cancers) => {
+      setCancersFull(cancers.full);
+      setCancersOnly(cancers.names);
+    });
     if (cancersFull.length === 0 && cancersOnly.length === 0) {
       DBQueryer.getAll("cancers")
         .then( (dbCancers) => {
@@ -28,6 +60,7 @@ const UserInterface = () => {
         });
     }
   });
+    */
 
   return (
     <Container>
@@ -47,11 +80,11 @@ const UserInterface = () => {
         </Row>
       </header>
       <UserInputs
-        cancersOnly={ cancersOnly }
-        cancersFull={ cancersFull }
+        cancersOnly={ names }
+        cancersFull={ full }
       />
     </Container>
   );
 }
 
-export default UserInterface;
+export default connect(mapStateToProps)(UserInterface);
