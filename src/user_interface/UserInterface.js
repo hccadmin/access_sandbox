@@ -30,38 +30,6 @@ const UserInterface = ({ names, full }) => {
     dispatch(loadCancers());
   }
 
-
-  /*
-    loadCancers().then( (cancers) => {
-      setCancersFull(cancers.full);
-      setCancersOnly(cancers.names);
-    });
-  */
-  useEffect( () => {
-  /*
-    dispatch(loadCancers()).then( (cancers) => {
-      setCancersFull(cancers.full);
-      setCancersOnly(cancers.names);
-    });
-  */
-  });
-
-    /*
-    loadCancers().then( (cancers) => {
-      setCancersFull(cancers.full);
-      setCancersOnly(cancers.names);
-    });
-    if (cancersFull.length === 0 && cancersOnly.length === 0) {
-      DBQueryer.getAll("cancers")
-        .then( (dbCancers) => {
-          CancerModel.load(dbCancers);
-          setCancersFull(CancerModel.getCancersFull());
-          setCancersOnly(CancerModel.getCancerNames());
-        });
-    }
-  });
-    */
-
   return (
     <Container>
       <h2>Temporary static inputs</h2>

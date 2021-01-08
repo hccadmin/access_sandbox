@@ -1,3 +1,4 @@
+/*
 class CancerObject {
   contents = [];
 
@@ -23,53 +24,44 @@ class RiskStrat extends CancerObject {
     super(name);
     this.percentage = percentage;
   }
-
- 
 }
 
 class Cancer extends CancerObject {
-  
 }
+*/
 
 class CancerModel {
-  cancers = [];
-  costs = [];
+  #cancers = [];
 
-  static load(dbCancers) {
-    const cm = new CancerModel();
-    cm.createCancerModel(dbCancers);
+  loadCancers(dbCancers) {
+    this.#cancers = this.restructure(dbCancers);
   }
-  
-  static getCancerNames(){
-    return CancerModel.cancers.map( (cancer) => {
+
+  getCancerNames() {
+    return this.#cancers.map( (cancer) => {
       return cancer.name;
     });
   }
 
-  static getCancersFull(){
-    return CancerModel.cancers;
+  getCancersFull() {
+    return this.#cancers;
   }
 
-  static getCosts(){
-  }
-
-  createCancerModel(results) {
-    let cancers, riskStrats, regimens;
-    cancers =  results.map( (result) => {
-      riskStrats = result.risk_strats.map( (rs) => {
-        regimens = rs.regimens.map( (regimen) => {
-          const reg = new Regimen(regimen);
-          return reg.getContents();
-        });
-        const risk = new RiskStrat(rs.strat_name, rs.percent_total/100);
-        risk.setContents(regimens);
-        return risk.getContents();
+  restructure(results) {
+    const cancers =  results.map( (result) => {
+      const riskStrats = result.risk_strats.map( (rs) => {
+        return {
+          name: rs.strat_name,
+          percent_total: rs.percent_total/100,
+          regimens: rs.regimens
+        }
       });
-      const cancer = new Cancer(result.cancer);
-      cancer.setContents(riskStrats);
-      return cancer.getContents();
+      return {
+        name: result.cancer,
+        risk_strats: riskStrats
+      }
     });
-    CancerModel.cancers = this.sortCancers(cancers);
+    return this.sortCancers(cancers);
   }
 
   sortCancers(cancers) {
@@ -84,7 +76,6 @@ class CancerModel {
     });
     return cancers;
   }
-
 }
 
 export { CancerModel }
