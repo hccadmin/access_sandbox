@@ -6,7 +6,8 @@ const initialState = {
   cancers: {
     names: [],
     full: []
-  }
+  },
+  selected: {}
 };
 
 const cm = new CancerModel();
@@ -28,8 +29,12 @@ const cancersSlice = createSlice({
   name: 'cancers',
   initialState: initialState,
   reducers: {
-    getCancerNames(state, action) {},
-    getCancersFull(state, action) {}
+    getRisksAndRegs(state, action) {
+      const found = state.cancers.full.find( (cancer) => {
+        return cancer.name === action.payload;
+      });
+      state.selected = found;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -41,6 +46,6 @@ const cancersSlice = createSlice({
 
 const { actions, reducer } = cancersSlice;
 
-export const { getCancerNames, getCancersFull } = actions;
+export const { getRisksAndRegs } = actions;
 
 export default reducer;

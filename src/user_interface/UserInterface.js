@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/cancersSlice';
-import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import StaticTitle from './StaticTitle';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
-import { DBQueryer } from '../dbqueryer/DBQueryer';
-import { CancerModel } from '../models';
 
-const mapStateToProps = (state) => {
-  return {
-    names: state.cancers.names,
-    full: state.cancers.full
-  }
-}
-
-const UserInterface = ({ names, full }) => {
+const UserInterface = () => {
   const dispatch = useDispatch();
+
+  const names = useSelector( (state) => {
+    return state.cancers.names;
+  });
+
+  const selected = useSelector( (state) => {
+    return state.selected;
+  });
+
   const titles = {
     country: 'Argentina',
     year: '2020',
     calculation_source: 'Consolidated'
   }
 
-  if (names.length === 0 && full.length === 0) {
+  if (names.length === 0 ) {
     dispatch(loadCancers());
   }
 
@@ -46,13 +44,20 @@ const UserInterface = ({ names, full }) => {
               );
             })}
         </Row>
+        <Row>
+          <Col md="3">
+            <CancerButtons cancers={ names } />
+          </Col>
+          <Col md="9">
+            { 
+              !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
+                <UserInputs selected={ selected } />
+            }
+          </Col>
+        </Row>
       </header>
-      <UserInputs
-        cancersOnly={ names }
-        cancersFull={ full }
-      />
     </Container>
   );
 }
 
-export default connect(mapStateToProps)(UserInterface);
+export default UserInterface;
