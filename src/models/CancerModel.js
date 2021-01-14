@@ -1,40 +1,12 @@
-/*
-class CancerObject {
-  contents = [];
-
-  constructor(name) {
-    this.name = name;
-  }
-
-  setContents(contents) {
-    this.contents = contents;
-  }
-
-  getContents() {
-    return { name: this.name, contents: this.contents };
-  }
-}
-
-class Regimen extends CancerObject {
-
-}
-
-class RiskStrat extends CancerObject {
-  constructor(name, percentage) {
-    super(name);
-    this.percentage = percentage;
-  }
-}
-
-class Cancer extends CancerObject {
-}
-*/
+import { makeHashKey } from '../helpers/utilities';
 
 class CancerModel {
   #cancers = [];
+  #regimens = {};
 
-  loadCancers(dbCancers) {
+  loadCancers(dbCancers, dbRegimens) {
     this.#cancers = this.restructure(dbCancers);
+    this.#regimens = this.buildRegimens(dbRegimens);
   }
 
   getCancerNames() {
@@ -45,6 +17,29 @@ class CancerModel {
 
   getCancersFull() {
     return this.#cancers;
+  }
+
+  getRegimens() {
+    return this.#regimens;
+  }
+
+  buildRegimens(results) {
+    let regimens = {};
+    results.forEach( (result) => {
+      const { cancer, risk_strat, name, drugs } = result
+      const regkey = makeHashKey(cancer, risk_strat, name);
+      if (!regimens.hasOwnProperty(regkey)) {
+        regimens[regkey] = { cancer, risk_strat, regimen: name, drugs: {} };
+      }
+      drugs.forEach( (drug) => {
+        const drugkey = makeHashKey(drug.drug);
+        if( !regimens[regkey].drugs.hasOwnProperty(drugkey) ) {
+          regimens[regkey].drugs[drugkey] = [];
+        }
+        regimens[regkey].drugs[drugkey].push({...drug });
+      });
+    });
+    return regimens;
   }
 
   restructure(results) {

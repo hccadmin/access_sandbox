@@ -3,15 +3,16 @@ const sentenceCase = (str) => {
   return result[0].toUpperCase() + result.substring(1); 
 }
 
-const makeHashKey = (str) => {
+const makeHashKey = (...elements) => {
+  const str = elements.join('');
   const arr = str.split(/[\s-]/).map( (el) => {
     return removePunctuation(el.toLowerCase());
   });
-  console.log(arr.join('_'));
+  return arr.join('');
 }
 
 const removePunctuation = (str) => {
-  return str.replace(/\'/, "");
+  return str.replace(/[^A-Za-z\s]/, "");
 }
 
 export {

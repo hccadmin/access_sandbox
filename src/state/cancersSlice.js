@@ -15,11 +15,16 @@ const cm = new CancerModel();
 export const loadCancers = createAsyncThunk(
   'cancers/loadCancersStatus',
   async(thunkAPI) => {
-    const dbCancers = await DBQueryer.getAll('cancers');
-    cm.loadCancers(dbCancers);
-    const cancers = {
-      names: cm.getCancerNames(),
-      full: cm.getCancersFull()
+    let cancers = { names: [], full: [] };
+    try {
+      const dbCancers = await DBQueryer.getAll('cancers');
+      const dbRegimens = await DBQueryer.getAll('regimens');
+      cm.loadCancers(dbCancers, dbRegimens);
+      cancers.names = cm.getCancerNames();
+      cancers.full = cm.getCancersFull();
+    }
+    catch (e) {
+      console.log(e);
     }
     return cancers;
   }
