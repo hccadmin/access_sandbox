@@ -2,6 +2,22 @@ import { makeHashKey } from '../helpers/utilities';
 
 class CancerModel {
   #cancers = [];
+  /**
+   * {
+   *   cancer-riskstrat-reg hash: {
+   *     cancer,
+   *     risk_strat,
+   *     regimen,
+   *     drug hash: [
+   *       {
+   *         drug,
+   *         units,
+   *         total_dosage
+   *       }
+   *     ]
+   *   }
+   * }
+   */
   #regimens = {};
 
   loadCancers(dbCancers, dbRegimens) {
