@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { getRisksAndRegs } from '../state/cancersSlice';
+import { getRisksAndRegs } from '../state/slices/cancersSlice';
 
 const CancerButtons = ({ cancers }) => {
   const dispatch = useDispatch();

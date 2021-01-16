@@ -11,11 +11,16 @@ const makeHashKey = (...elements) => {
   return arr.join('');
 }
 
+const to4decimals = (num) => {
+  return Number.parseFloat(num.toFixed(4));
+}
+
 const removePunctuation = (str) => {
   return str.replace(/[^A-Za-z\s]/, "");
 }
 
 export {
   makeHashKey,
+  to4decimals,
   sentenceCase
 }

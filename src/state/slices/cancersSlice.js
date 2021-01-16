@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { DBQueryer } from '../dbqueryer/DBQueryer';
-import { CancerModel } from '../models';
+import { DBQueryer } from '../../dbqueryer/DBQueryer';
+import { CancerModel } from '../../models';
 
 const initialState = {
-  cancers: {
-    names: [],
-    full: []
-  },
+  names: [],
+  full: [],
   selected: {}
 };
 
@@ -24,7 +22,7 @@ export const loadCancers = createAsyncThunk(
       cancers.full = cm.getCancersFull();
     }
     catch (e) {
-      console.log(e);
+      console.error(e);
     }
     return cancers;
   }
@@ -35,7 +33,7 @@ const cancersSlice = createSlice({
   initialState: initialState,
   reducers: {
     getRisksAndRegs(state, action) {
-      const found = state.cancers.full.find( (cancer) => {
+      const found = state.full.find( (cancer) => {
         return cancer.name === action.payload;
       });
       state.selected = found;
@@ -44,7 +42,8 @@ const cancersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadCancers.fulfilled, (state, action) => {
-        state.cancers = action.payload;
+        state.full = action.payload.full;
+        state.names = action.payload.names;
       })
   }
 });

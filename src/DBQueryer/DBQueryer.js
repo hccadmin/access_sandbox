@@ -6,9 +6,21 @@ const DBQueryer = ( () => {
   const db = dbInstance.getDB();
   const collections = {};
 
-  const getRegimens = async(cancer) => {
-    const querySnapshot = await db.collection('regimens').where('cancer', '==', cancer).get();
+  const getBsa = async(setting) => {
+    const querySnapshot = await db.collection('bsa_ht_wt')
+      .where('name', '==', setting).get();
     return querySnapshot.docs.map( (doc) => doc.data() );
+  }
+
+  const getSetting = async(setting, year) => {
+    year = parseInt(year);
+    const querySnapshot = await db.collection('diagnosed_standard')
+      .where('setting', '==', setting)
+      .where('year', '==', year).get();
+    //querySnapshot.docs.forEach( doc => console.log(doc.data()) );
+    return querySnapshot.docs.map( (doc) => doc.data() );
+    /*
+    */
   }
 
   const getAllFromDB = async (name) => {
@@ -18,7 +30,8 @@ const DBQueryer = ( () => {
 
   return {
     getAll: getAllFromDB,
-    getRegimens: getRegimens
+    getBsa: getBsa,
+    getSetting: getSetting
   }
 
 })();
