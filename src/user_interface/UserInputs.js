@@ -61,6 +61,8 @@ const UserInputs = ({ selected }) => {
                     </thead>
                     <tbody>
                     { selected.risk_strats.map( (rs, i) => {
+                      const currCancer = user[cancerHash];
+                      const rsHash = cancerHash + makeHashKey(rs.name);
                       return (
                         <tr key={ i }>
                           <td>{ rs.name || "Risk stratification" }</td>
@@ -69,13 +71,23 @@ const UserInputs = ({ selected }) => {
                             { rs.regimens.length === 1 ? rs.regimens[0] :
                             <Form.Control 
                               as="select" 
-                              name={ cancerHash + makeHashKey(rs.name) }
+                              name={ rsHash }
                               onChange={ captureRegimen }
+                              value={ 
+                                (currCancer.risks[rsHash] && 
+                                  currCancer.risks[rsHash].hasOwnProperty('regimen') ) ?
+                                  currCancer.risks[rsHash].regimen : "0"
+                              }
                             >
-                              <option name="select">--Select a regimen--</option>
+                              <option value="0" name="select">--Select a regimen--</option>
                             { rs.regimens.map( (reg, j) => {
                               return (
-                                <option key={ j } name={ reg } value={ reg }>{ reg }</option>
+                                <option 
+                                  key={ j } 
+                                  name={ reg } 
+                                  value={ reg }>
+                                  { reg }
+                                </option>
                               );
                             })}
                             </Form.Control>
