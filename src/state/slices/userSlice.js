@@ -18,21 +18,32 @@ const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
-    setIncidence(state, action) {
-      const { cancer, incidence } = action.payload;
+    initializeCancer(state, action) {
+      const cancer = action.payload;
       if (!state.hasOwnProperty(cancer)) {
         state[cancer] = {};
+        state[cancer].risks = {};
       }
+    },
+    setIncidence(state, action) {
+      const { cancer, incidence } = action.payload;
       state[cancer].incidence = incidence;
     },
-    setRiskStrat(cancerRisk) {},
-    setRegimen(cancerRisk) {},
+    setRiskStrat(state, action) {},
+    setRegimen(state, action) {
+      const { cancer, riskStrat, regimen } = action.payload;
+      if (!state[cancer].risks.hasOwnProperty(riskStrat)) {
+        state[cancer].risks[riskStrat] = {};
+      }
+      state[cancer].risks[riskStrat].regimen = regimen;
+    }
   }
 });
 
 const { actions, reducer } = userSlice;
 
 export const {
+  initializeCancer,
   setIncidence,
   setRiskStrat,
   setRegimen

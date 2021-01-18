@@ -11,7 +11,6 @@ import { setIncidence, setRiskStrat, setRegimen } from '../state/slices/userSlic
 const UserInputs = ({ selected }) => {
 
   const cancerHash = makeHashKey(selected.name);
-
   const dispatch = useDispatch();
 
   const user = useSelector( (state) => {
@@ -20,8 +19,16 @@ const UserInputs = ({ selected }) => {
 
   const captureIncidence = (e) => {
     const captured = { cancer: cancerHash, incidence: e.target.value }
-    //console.log(captured);
     dispatch( setIncidence(captured) );
+  }
+
+  const captureRegimen = (e) => {
+    const captured = { 
+      cancer: cancerHash, 
+      riskStrat: e.target.name, 
+      regimen: e.target.value 
+    };
+    dispatch( setRegimen(captured) );
   }
 
   return (
@@ -35,7 +42,7 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
                   <Form.Text>Enter the estimated number of cases</Form.Text>
-                  <Form.Control value={ user[cancerHash] ? user[cancerHash].incidence : "" } type="text" onChange={ captureIncidence } />
+                  <Form.Control value={ user[cancerHash].incidence || "" } type="number" onChange={ captureIncidence } />
                 </Form.Group>
               </Col>
             </Row>
@@ -60,7 +67,11 @@ const UserInputs = ({ selected }) => {
                           <td>{ `${ (rs.percent_total * 100).toFixed() }%` }</td>
                           <td>
                             { rs.regimens.length === 1 ? rs.regimens[0] :
-                            <Form.Control as="select">
+                            <Form.Control 
+                              as="select" 
+                              name={ cancerHash + makeHashKey(rs.name) }
+                              onChange={ captureRegimen }
+                            >
                               <option name="select">--Select a regimen--</option>
                             { rs.regimens.map( (reg, j) => {
                               return (
