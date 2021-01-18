@@ -17,7 +17,6 @@ const DBQueryer = ( () => {
     const querySnapshot = await db.collection('diagnosed_standard')
       .where('setting', '==', setting)
       .where('year', '==', year).get();
-    //querySnapshot.docs.forEach( doc => console.log(doc.data()) );
     return querySnapshot.docs.map( (doc) => doc.data() );
     /*
     */

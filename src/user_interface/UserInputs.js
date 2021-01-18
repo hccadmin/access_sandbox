@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
+import { makeHashKey } from '../helpers/utilities';
+import { setIncidence, setRiskStrat, setRegimen } from '../state/slices/userSlice';
 
 const UserInputs = ({ selected }) => {
+
+  const cancerHash = makeHashKey(selected.name);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector( (state) => {
+    return state.user;
+  });
+
+  const captureIncidence = (e) => {
+    const captured = { cancer: cancerHash, incidence: e.target.value }
+    //console.log(captured);
+    dispatch( setIncidence(captured) );
+  }
+
   return (
     <div role="user-inputs">
       <Card>
@@ -17,7 +35,7 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
                   <Form.Text>Enter the estimated number of cases</Form.Text>
-                  <Form.Control type="text" />
+                  <Form.Control value={ user[cancerHash] ? user[cancerHash].incidence : "" } type="text" onChange={ captureIncidence } />
                 </Form.Group>
               </Col>
             </Row>
