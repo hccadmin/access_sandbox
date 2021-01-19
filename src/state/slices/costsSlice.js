@@ -1,17 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { DBQueryer } from '../dbqueryer/DBQueryer';
-import { CostModel } from '../models'
+import { DBQueryer } from '../../dbqueryer/DBQueryer';
+import { CostModel } from '../../models'
 
 const initialState = {
+  priceType: ""
 };
 
 const cm = new CostModel();
 
-export const loadRegimens = createAsyncThunk(
-  'cancers/loadRegimensStatus',
-  async(cancer, thunkAPI) => {
-    const regimens = await DBQueryer.getRegimens(cancer);
-    return regimens;
+export const loadPrices = createAsyncThunk(
+  'costs/loadPricesStatus',
+  async(type, thunkAPI) => {
+    const prices = await DBQueryer.getAll('prices');
+    cm.loadDrugPrices(type, prices);
+    return type;
   }
 );
 
@@ -19,18 +21,18 @@ const costsSlice = createSlice({
   name: 'costs',
   initialState: initialState,
   reducers: {
-    updateRegimen(state, action) {}
+    setCost(state, action) {}
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadRegimens.fulfilled, (state, action) => {
-        state.costs = action.payload;
+      .addCase(loadPrices.fulfilled, (state, action) => {
+        state.priceType = action.payload;
       })
   }
 });
 
 const { actions, reducer } = costsSlice;
 
-export const { updateRegimen } = actions;
+export const { setCost } = actions;
 
 export default reducer;

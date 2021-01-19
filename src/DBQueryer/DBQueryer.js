@@ -4,7 +4,6 @@ import { dbInstance } from '../helpers/dbinstance';
 
 const DBQueryer = ( () => {
   const db = dbInstance.getDB();
-  const collections = {};
 
   const getBsa = async(setting) => {
     const querySnapshot = await db.collection('bsa_ht_wt')
@@ -18,8 +17,6 @@ const DBQueryer = ( () => {
       .where('setting', '==', setting)
       .where('year', '==', year).get();
     return querySnapshot.docs.map( (doc) => doc.data() );
-    /*
-    */
   }
 
   const getAllFromDB = async (name) => {

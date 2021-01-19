@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadSetting } from '../state/slices/settingSlice';
+import { loadPrices } from '../state/slices/costsSlice';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,16 +25,19 @@ const UserInterface = () => {
     return state.setting;
   });
 
-  const titles = {
-    country: '',
-    year: '',
-    calculation_source: 'Consolidated'
+  const priceType = useSelector( (state) => {
+    return state.costs.priceType;
+  });
+
+  const loadDefaultCountryYear = () => {
+    if (setting.name == "") {
+      dispatch( loadSetting({ setting: 'Argentina', year: '2020' }));
+    }
   }
 
-  const loadDefaultSetting = () => {
-    if (setting.name == "" || !setting.name === titles.country) {
-      //console.log("button was pressed");
-      dispatch( loadSetting({ setting: 'Argentina', year: '2020' }));
+  const loadDefaultPriceType = () => {
+    if (priceType === "") {
+      dispatch( loadPrices('consolidated'));
     }
   }
 
@@ -61,11 +65,12 @@ const UserInterface = () => {
           <Col>
             <StaticTitle 
               heading={ "Calculation source" }
-              text={ "Consolidated" }
+              text={ priceType }
             />
           </Col>
         </Row>
-        <Button onClick={ loadDefaultSetting }>Load Argentina 2020 values</Button>
+        <Button onClick={ loadDefaultCountryYear }>Load Argentina 2020 values</Button>
+        <Button onClick={ loadDefaultPriceType }>Load consolidated prices</Button>
       </header>
       <div className="main">
         <Row>
