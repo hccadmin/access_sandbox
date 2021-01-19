@@ -19,9 +19,9 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     initializeCancer(state, action) {
-      const cancer = action.payload;
+      const { cancer, name } = action.payload;
       if (!state.hasOwnProperty(cancer)) {
-        state[cancer] = {};
+        state[cancer] = { name };
         state[cancer].risks = {};
       }
     },

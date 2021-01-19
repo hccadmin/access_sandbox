@@ -10,7 +10,7 @@ import StaticTitle from './StaticTitle';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
-const UserInterface = () => {
+const UserInterface = ({ visible, setVisible, loadAllCosts }) => {
   const dispatch = useDispatch();
 
   const names = useSelector( (state) => {
@@ -41,51 +41,60 @@ const UserInterface = () => {
     }
   }
 
+  const initCostCalc = () => {
+    setVisible({ inputs: false, results: true });
+    loadAllCosts();
+  }
+    
+
   if (names.length === 0 ) {
     dispatch(loadCancers());
   }
 
   return (
-    <Container>
-      <h2>Temporary static inputs</h2>
-      <header role="header">
-        <Row>
-          <Col>
-            <StaticTitle 
-              heading={ "Country" }
-              text={ setting.name }
-            />
-          </Col>
-          <Col>
-            <StaticTitle 
-              heading={ "Year" }
-              text={ setting.year }
-            />
-          </Col>
-          <Col>
-            <StaticTitle 
-              heading={ "Calculation source" }
-              text={ priceType }
-            />
-          </Col>
-        </Row>
-        <Button onClick={ loadDefaultCountryYear }>Load Argentina 2020 values</Button>
-        <Button onClick={ loadDefaultPriceType }>Load consolidated prices</Button>
-      </header>
-      <div className="main">
-        <Row>
-          <Col md="3">
-            <CancerButtons cancers={ names } />
-          </Col>
-          <Col md="9">
-            { 
-              !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
-                <UserInputs selected={ selected } />
-            }
-          </Col>
-        </Row>
-      </div>
-    </Container>
+    <div className={ visible ? 'visible position-static' : 'invisible position-absolute' }>
+      <Container>
+        <h2>Temporary static inputs</h2>
+        <header role="header">
+          <Row>
+            <Col>
+              <StaticTitle 
+                heading={ "Country" }
+                text={ setting.name }
+              />
+            </Col>
+            <Col>
+              <StaticTitle 
+                heading={ "Year" }
+                text={ setting.year }
+              />
+            </Col>
+            <Col>
+              <StaticTitle 
+                heading={ "Calculation source" }
+                text={ priceType }
+              />
+            </Col>
+          </Row>
+          <Button onClick={ loadDefaultCountryYear }>Load Argentina 2020 values</Button>
+          <Button onClick={ loadDefaultPriceType }>Load consolidated prices</Button>
+        </header>
+        <div className="main">
+          <Row>
+            <Col md="3">
+              <CancerButtons cancers={ names } />
+            </Col>
+            <Col md="9">
+              { 
+                !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
+                  <UserInputs selected={ selected } />
+              }
+            </Col>
+            <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
+          </Row>
+        </div>
+      </Container>
+    </div>
   );
 }
 

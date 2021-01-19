@@ -5,6 +5,7 @@ import { CancerModel } from '../../models';
 const initialState = {
   names: [],
   full: [],
+  regimens: {},
   selected: {}
 };
 
@@ -13,13 +14,14 @@ const cm = new CancerModel();
 export const loadCancers = createAsyncThunk(
   'cancers/loadCancersStatus',
   async(thunkAPI) => {
-    let cancers = { names: [], full: [] };
+    let cancers = { names: [], full: [], regimens: {} };
     try {
       const dbCancers = await DBQueryer.getAll('cancers');
       const dbRegimens = await DBQueryer.getAll('regimens');
       cm.loadCancers(dbCancers, dbRegimens);
       cancers.names = cm.getCancerNames();
       cancers.full = cm.getCancersFull();
+      cancers.regimens = cm.getRegimens();
     }
     catch (e) {
       console.error(e);
@@ -44,6 +46,7 @@ const cancersSlice = createSlice({
       .addCase(loadCancers.fulfilled, (state, action) => {
         state.full = action.payload.full;
         state.names = action.payload.names;
+        state.regimens = action.payload.regimens;
       })
   }
 });

@@ -21,7 +21,11 @@ const costsSlice = createSlice({
   name: 'costs',
   initialState: initialState,
   reducers: {
-    setCost(state, action) {}
+    loadAllCostData(state, action) {
+      //console.log(action.payload);
+      const { setting, user, regimens } = action.payload;
+      cm.loadAllCostData(setting, user, regimens);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -33,6 +37,6 @@ const costsSlice = createSlice({
 
 const { actions, reducer } = costsSlice;
 
-export const { setCost } = actions;
+export const { loadAllCostData } = actions;
 
 export default reducer;

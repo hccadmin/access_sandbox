@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { getRisksAndRegs } from '../state/slices/cancersSlice';
 import { initializeCancer } from '../state/slices/userSlice';
 import { makeHashKey } from '../helpers/utilities';
@@ -12,23 +13,24 @@ const CancerButtons = ({ cancers }) => {
   const loadCancer = (e) => {
     const cancerHash = makeHashKey(e.target.innerText);
     dispatch(getRisksAndRegs(e.target.innerText));
-    dispatch( initializeCancer(cancerHash));
+    dispatch( initializeCancer({ cancer: cancerHash, name: e.target.innerText }));
   }
 
   return (
-    cancers.map( (cancer, i) => {
-      return (
-        <Button 
-          block 
-          variant="secondary" 
-          key={ i } 
-          size="lg"
-          onClick={ loadCancer }
-        >
-            { cancer }
-        </Button>
-      );
-    })
+    <ButtonGroup vertical>
+      { cancers.map( (cancer, i) => {
+        return (
+          <Button 
+            block 
+            variant="outline-secondary" 
+            key={ i } 
+            onClick={ loadCancer }
+          >
+              { cancer }
+          </Button>
+        );
+      })}
+    </ButtonGroup>
   );
 }
 

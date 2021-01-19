@@ -16,7 +16,7 @@ const to4decimals = (num) => {
 }
 
 const removePunctuation = (str) => {
-  return str.replace(/[^A-Za-z\s]/, "");
+  return str.replace(/[^A-Za-z\s\d]/, "");
 }
 
 export {
