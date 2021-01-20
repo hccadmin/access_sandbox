@@ -18,8 +18,35 @@ const UserInputs = ({ selected }) => {
   });
 
   const captureIncidence = (e) => {
-    const captured = { cancer: cancerHash, incidence: e.target.value }
+    // When the user starts typing, check if this cancer has only 1 reg per
+    // risk strat. If so, assign reg to risks in user state
+    const input = e.target.value;
+    const captured = { cancer: cancerHash, incidence: input }
+    // Make sure there is at least a single digit incidence number
     dispatch( setIncidence(captured) );
+    const singleRegArr = loadSingleRegs(selected.risk_strats);
+    if (singleRegArr && user[cancerHash] ) {
+      singleRegArr.forEach( (sra) => {
+        saveRegimen(sra);
+      });
+    }
+  }
+
+  const loadSingleRegs = (riskStrats) => {
+    let singleRegArr = [];
+    riskStrats.forEach( (rs) => {
+      if (rs.regimens.length === 1) {
+        const rsHash = makeHashKey(cancerHash, rs.name);
+        singleRegArr.push(
+          { 
+            cancer: cancerHash,
+            riskStrat: rsHash,
+            regimen: rs.regimens[0] 
+          }
+        );
+      }
+    });
+    return (singleRegArr.length > 0) && singleRegArr;
   }
 
   const captureRegimen = (e) => {
@@ -28,6 +55,10 @@ const UserInputs = ({ selected }) => {
       riskStrat: e.target.name, 
       regimen: e.target.value 
     };
+    saveRegimen(captured);
+  }
+
+  const saveRegimen = (captured) => {
     dispatch( setRegimen(captured) );
   }
 
@@ -62,7 +93,7 @@ const UserInputs = ({ selected }) => {
                     <tbody>
                     { selected.risk_strats.map( (rs, i) => {
                       const currCancer = user[cancerHash];
-                      const rsHash = cancerHash + makeHashKey(rs.name);
+                      const rsHash = makeHashKey(cancerHash, rs.name);
                       return (
                         <tr key={ i }>
                           <td>{ rs.name || "Risk stratification" }</td>
