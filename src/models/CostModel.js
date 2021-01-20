@@ -1,13 +1,54 @@
 import { makeHashKey } from '../helpers/utilities';
 
 class CostModel {
+  // Cost per drug
   #drugs = {};
-  #costs = {};
+  #bodyStats;
+  
+  /**
+   * Step 1) Total dosages per drug per drug unit type
+   *
+   * cancer {
+   *   name:
+   *   drugs {
+   *     drug {
+   *       name:
+   *       druga: [],
+   *       units:
+   *       drugb: [],
+   *       drugc: []
+   */
+  #drugDosages = {};
+
+  // 
+  /**
+   * Step 2) Drug costs per m/f age ranges
+   *
+   * cancer {
+   *  drugs
+   *    drug
+   *      male
+   *        under_one
+   *        one_to_four
+   *        five_to_nine
+   *        ten_to_fourteen
+   *      female
+   *        under_one
+   *        one_to_four
+   *        five_to_nine
+   *        ten_to_fourteen
+   */
+  #genderAgeRanges = {};
+
+  // Helper for drug hashing
   #drugUnit = {
     "mg/m2": "bsa",
     "mg/kg": "wt",
     "mg" : "generic"
   }
+
+  // Final obj
+  #costs = {};
 
   /**
    * costs {
@@ -18,18 +59,47 @@ class CostModel {
   loadDrugPrices(type, prices) {
     this.price_type = type;
     this.#drugs = prices;
-    //console.log(prices);
   }
 
   loadAllCostData(setting, user, regimens) {
     const { incidences, bodyStats } = setting;
-    this.#costs = this.setupCostObj(user, bodyStats, regimens);
+    this.#bodyStats = bodyStats;
+    this.#drugDosages = this.setupCostObj(user, regimens);
+    this.#genderAgeRanges = JSON.parse( JSON.stringify(this.#drugDosages) );
+    console.log(this.#genderAgeRanges);
+    this.assembleGenderAgeRanges();
     //assembleCosts(setting, user, regimens);
   }
 
-  setupCostObj(user, bodyStats, regimens) {
+  assembleGenderAgeRanges() {
+    //console.log(this.#genderAgeRanges);
+    /*
+    */
+    const ageRanges = Object.keys(this.#bodyStats['bsa']);
+    let genderAgeRangeObj = {};
+    const cancerKeys = Object.keys(this.#genderAgeRanges);
+    cancerKeys.forEach( (cancer) => {
+      const currCancer = this.#genderAgeRanges[cancer];
+      const drugs = Object.keys(currCancer.drugs);
+      drugs.forEach( (drug) => {
+        const drugTypes = Object.keys(currCancer.drugs[drug]);
+        drugTypes.forEach( (type) => {
+          currCancer.drugs[drug][type].dosages.forEach( (dosage) => {
+            // Need to finish by looping through ageRanges, 
+            // creating the genderAgeDrug hash in genderAgeObj,
+            // inputting bsa/wt calculation for each gender, age range
+          }); // dosages forEach
+        });// drugTypes forEach
+      });// currCancer drugs forEach
+    });// cancers forEach
+  }
+
+
+
+  setupCostObj(user, regimens) {
     let costObj = {};
     for( const cancer in user ) {
+      let drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
         costObj[cancer] = { name: user[cancer].name, drugs: {} };
       }
@@ -40,8 +110,9 @@ class CostModel {
           const reg = makeHashKey(currCancer.risks[risk].regimen);
           return risk + reg;
         });
-        const drugArr = this.loadDrugArray(regHashes, regimens);
+        drugArr = this.loadDrugArray(regHashes, regimens);
       }
+      costObj[cancer].drugs = drugArr;
     }
     return costObj;
   }
@@ -62,13 +133,16 @@ class CostModel {
             const drugHash = makeHashKey(drug, unit);
             if (!drugsArr[drug].hasOwnProperty(drugHash)) {
               drugsArr[drug].name = dr.drug;
-              drugsArr[drug][drugHash] = [];
+              drugsArr[drug][drugHash] = {};
+              drugsArr[drug][drugHash].units = unit;
+              drugsArr[drug][drugHash].dosages = [];
             }
-            drugsArr[drug][drugHash].push(dr.total_dosage);
+            drugsArr[drug][drugHash].dosages.push(dr.total_dosage);
           }); // drug dosage forEach
         }); // Drug name keys from reg obj lit
     });// cancer-reg hashes forEach from selected cancers
-    console.log(drugsArr);
+    //console.log(drugsArr);
+    return drugsArr;
   }
 
   assembleCosts(setting, user, regimens) {
