@@ -45,11 +45,12 @@ class SettingModel {
 
   calcIncidencePercentages(age_ranges) {
     let newRanges = {};
-    const total = this.getIncidenceTotal(Object.values(age_ranges));
+    let total = this.getIncidenceTotal(Object.values(age_ranges));
     for( const age in age_ranges ) {
       const value = age_ranges[age]/total;
       newRanges[age] = to4decimals(value);
     }
+    total = to4decimals(total);
     return { total, age_ranges: newRanges };
   }
 
@@ -57,7 +58,7 @@ class SettingModel {
     const total = vals.reduce( (acc, val) => {
       return acc + val;
     });
-    return to4decimals(total);
+    return total;
   }
 
 }

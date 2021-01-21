@@ -4,9 +4,10 @@ class CostModel {
   // Cost per drug
   #drugs = {};
   #bodyStats;
+  #userCancers = [];
   
   /**
-   * Step 1) Total dosages per drug per drug unit type
+   * Step 1: Total dosages per drug per drug unit type
    *
    * cancer {
    *   name:
@@ -21,23 +22,42 @@ class CostModel {
 
   // 
   /**
-   * Step 2) Drug costs per m/f age ranges
+   * Step 2: Drug costs per m/f age ranges
    *
-   * cancer {
-   *  drugs
-   *    drug
-   *      male
-   *        under_one
-   *        one_to_four
-   *        five_to_nine
-   *        ten_to_fourteen
-   *      female
-   *        under_one
-   *        one_to_four
-   *        five_to_nine
-   *        ten_to_fourteen
+   * cancer { name, drugs }
+   *  drugs { drug } 
+   *    drug { name, drugType }
+   *      drugType{ units, dosages }
+   *        dosages[]
+   *          under_one {}
+   *            male
+   *            female
+   *          one_to_four {}
+   *            male
+   *            female
+   *          five_to_nine {}
+   *            male
+   *            female
+   *          ten_to_fourteen {}
+   *            male
+   *            female
    */
   #genderAgeRanges = {};
+
+  /**
+   * Step 3: Age segmented incidences
+   *
+   * Multiply age segmented incidence percentages in Setting
+   * by user input incidence
+   *
+   * cancer { name, age_ranges }
+   *   age_ranges {
+   *     under_one
+   *     one_to_four
+   *     five_to_nine
+   *     ten_to_fourteen
+   */
+  #ageRangeIncidences = {};
 
   // Helper for drug hashing
   #drugUnit = {
@@ -63,22 +83,36 @@ class CostModel {
   loadAllCostData(setting, user, regimens) {
     const { incidences, bodyStats } = setting;
     this.#bodyStats = bodyStats;
+    this.#userCancers = Object.keys(user);
     this.#drugDosages = this.setupCostObj(user, regimens);
-    this.#genderAgeRanges = JSON.parse( JSON.stringify(this.#drugDosages) );
-    //console.log(this.#genderAgeRanges);
-    this.assembleGenderAgeRanges();
+    const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
+    this.#genderAgeRanges = this.assembleGenderAgeRanges(drugDosageCopy);
+    this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     //assembleCosts(setting, user, regimens);
   }
 
-  assembleGenderAgeRanges() {
+  calcAgeRangeIncidences(user, incidences) {
+    let ageRangeIncObj = {};
+    this.#userCancers.forEach( (cancer) => {
+      const { age_ranges, ...incidence } = incidences[cancer];
+      ageRangeIncObj[cancer] = incidence;
+      ageRangeIncObj[cancer].age_ranges = {};
+      const currCancer = ageRangeIncObj[cancer];
+      Object.keys(age_ranges).forEach( (range) => {
+        currCancer.age_ranges[range] = age_ranges[range] * parseFloat(user[cancer].incidence);
+      });
+    });
+    return ageRangeIncObj;
+  }
+
+  assembleGenderAgeRanges(drugDosages) {
     //console.log(this.#genderAgeRanges);
     /*
     */
     const ageRanges = Object.keys(this.#bodyStats['bsa']);
-    let genderAgeRangeObj = {};
-    const cancerKeys = Object.keys(this.#genderAgeRanges);
+    const cancerKeys = Object.keys(drugDosages);
     cancerKeys.forEach( (cancer) => {
-      const currCancer = this.#genderAgeRanges[cancer];
+      const currCancer = drugDosages[cancer];
       const drugs = Object.keys(currCancer.drugs);
       drugs.forEach( (drug) => {
         const currDrug = currCancer.drugs[drug];
@@ -97,8 +131,6 @@ class CostModel {
                 genderAgeDosageObj[ar].female = dosage; 
               }
               else {
-              /*
-              */
                 const male = parseFloat(this.#bodyStats[unit][ar]['male']);
                 const female = parseFloat(this.#bodyStats[unit][ar]['female']);
                 genderAgeDosageObj[ar].male = to4decimals(male * dosage); 
@@ -111,7 +143,7 @@ class CostModel {
         });// drugTypes forEach
       });// currCancer drugs forEach
     });// cancers forEach
-   console.log(this.#genderAgeRanges); 
+    return drugDosages;
   }
 
 
@@ -164,9 +196,6 @@ class CostModel {
     });// cancer-reg hashes forEach from selected cancers
     //console.log(drugsArr);
     return drugsArr;
-  }
-
-  assembleCosts(setting, user, regimens) {
   }
 
   getDrugPrices() {
