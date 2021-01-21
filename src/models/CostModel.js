@@ -1,4 +1,4 @@
-import { makeHashKey } from '../helpers/utilities';
+import { makeHashKey, to4decimals } from '../helpers/utilities';
 
 class CostModel {
   // Cost per drug
@@ -13,10 +13,9 @@ class CostModel {
    *   drugs {
    *     drug {
    *       name:
-   *       druga: [],
-   *       units:
-   *       drugb: [],
-   *       drugc: []
+   *       druga {
+   *         units:
+   *         dosages: []
    */
   #drugDosages = {};
 
@@ -66,7 +65,7 @@ class CostModel {
     this.#bodyStats = bodyStats;
     this.#drugDosages = this.setupCostObj(user, regimens);
     this.#genderAgeRanges = JSON.parse( JSON.stringify(this.#drugDosages) );
-    console.log(this.#genderAgeRanges);
+    //console.log(this.#genderAgeRanges);
     this.assembleGenderAgeRanges();
     //assembleCosts(setting, user, regimens);
   }
@@ -82,16 +81,36 @@ class CostModel {
       const currCancer = this.#genderAgeRanges[cancer];
       const drugs = Object.keys(currCancer.drugs);
       drugs.forEach( (drug) => {
-        const drugTypes = Object.keys(currCancer.drugs[drug]);
+        const currDrug = currCancer.drugs[drug];
+        const drugTypeKeys = Object.keys(currDrug);
+        const [name, ...drugTypes] = drugTypeKeys;
         drugTypes.forEach( (type) => {
-          currCancer.drugs[drug][type].dosages.forEach( (dosage) => {
-            // Need to finish by looping through ageRanges, 
-            // creating the genderAgeDrug hash in genderAgeObj,
-            // inputting bsa/wt calculation for each gender, age range
+          currDrug[type].dosages.forEach( (dosage) => {
+            let genderAgeDosageArr = [];
+            let genderAgeDosageObj = {};
+            ageRanges.forEach( (ar) => {
+              let unit = currDrug[type].units;
+              genderAgeDosageObj[ar] = { male: "", female: "" };
+              unit = (unit === "wt" ? "weight" : unit);
+              if (unit === "generic") {
+                genderAgeDosageObj[ar].male = dosage; 
+                genderAgeDosageObj[ar].female = dosage; 
+              }
+              else {
+                const male = to4decimals(this.#bodyStats[unit][ar]['male']);
+                const female = to4decimals(this.#bodyStats[unit][ar]['female']);
+                genderAgeDosageObj[ar].male = male * dosage; 
+                genderAgeDosageObj[ar].female = female * dosage; 
+              }
+              genderAgeDosageArr.push(genderAgeDosageObj)
+            }); // age ranges forEach
+            console.log(genderAgeDosageArr);
           }); // dosages forEach
         });// drugTypes forEach
+        console.log(currDrug);
       });// currCancer drugs forEach
     });// cancers forEach
+   //console.log(this.#genderAgeRanges); 
   }
 
 
@@ -110,6 +129,7 @@ class CostModel {
           const reg = makeHashKey(currCancer.risks[risk].regimen);
           return risk + reg;
         });
+        //console.log(regHashes);
         drugArr = this.loadDrugArray(regHashes, regimens);
       }
       costObj[cancer].drugs = drugArr;
