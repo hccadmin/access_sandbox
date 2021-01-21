@@ -51,6 +51,9 @@ class CostModel {
    * by user input incidence
    *
    * cancer { name, age_ranges }
+   *   %male
+   *   %female
+   *   total
    *   age_ranges {
    *     under_one
    *     one_to_four
@@ -88,6 +91,7 @@ class CostModel {
     const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
     this.#genderAgeRanges = this.assembleGenderAgeRanges(drugDosageCopy);
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
+    console.log(this.#genderAgeRanges);
     //assembleCosts(setting, user, regimens);
   }
 
@@ -106,9 +110,6 @@ class CostModel {
   }
 
   assembleGenderAgeRanges(drugDosages) {
-    //console.log(this.#genderAgeRanges);
-    /*
-    */
     const ageRanges = Object.keys(this.#bodyStats['bsa']);
     const cancerKeys = Object.keys(drugDosages);
     cancerKeys.forEach( (cancer) => {

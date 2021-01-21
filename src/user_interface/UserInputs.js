@@ -17,14 +17,15 @@ const UserInputs = ({ selected }) => {
     return state.user;
   });
 
-  const captureIncidence = (e) => {
+  const captureValues = (e) => {
     // When the user starts typing, check if this cancer has only 1 reg per
     // risk strat. If so, assign reg to risks in user state
-    const input = e.target.value;
-    const captured = { cancer: cancerHash, incidence: input }
-    // Make sure there is at least a single digit incidence number
-    dispatch( setIncidence(captured) );
     const singleRegArr = loadSingleRegs(selected.risk_strats);
+    if (e.target.name === "incidence") {
+      const input = e.target.value;
+      const captured = { cancer: cancerHash, incidence: input }
+      dispatch( setIncidence(captured) );
+    }
     if (singleRegArr && user[cancerHash] ) {
       singleRegArr.forEach( (sra) => {
         saveRegimen(sra);
@@ -41,6 +42,7 @@ const UserInputs = ({ selected }) => {
           { 
             cancer: cancerHash,
             riskStrat: rsHash,
+            percentage: rs.percent_total,
             regimen: rs.regimens[0] 
           }
         );
@@ -49,10 +51,11 @@ const UserInputs = ({ selected }) => {
     return (singleRegArr.length > 0) && singleRegArr;
   }
 
-  const captureRegimen = (e) => {
+  const captureRegimen = (e, percentage) => {
     const captured = { 
       cancer: cancerHash, 
       riskStrat: e.target.name, 
+      percentage: percentage,
       regimen: e.target.value 
     };
     saveRegimen(captured);
@@ -73,7 +76,7 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
                   <Form.Text>Enter the estimated number of cases</Form.Text>
-                  <Form.Control value={ user[cancerHash].incidence || "" } type="number" onChange={ captureIncidence } />
+                  <Form.Control name="incidence" value={ user[cancerHash].incidence || "" } type="number" onChange={ captureValues } />
                 </Form.Group>
               </Col>
             </Row>
@@ -103,7 +106,7 @@ const UserInputs = ({ selected }) => {
                             <Form.Control 
                               as="select" 
                               name={ rsHash }
-                              onChange={ captureRegimen }
+                              onChange={ (e) => { captureRegimen(e, rs.percent_total) } }
                               value={ 
                                 (currCancer.risks[rsHash] && 
                                   currCancer.risks[rsHash].hasOwnProperty('regimen') ) ?

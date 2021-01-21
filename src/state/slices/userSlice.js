@@ -31,11 +31,12 @@ const userSlice = createSlice({
     },
     setRiskStrat(state, action) {},
     setRegimen(state, action) {
-      const { cancer, riskStrat, regimen } = action.payload;
+      const { cancer, riskStrat, percentage, regimen } = action.payload;
       if (!state[cancer].risks.hasOwnProperty(riskStrat)) {
         state[cancer].risks[riskStrat] = {};
       }
       state[cancer].risks[riskStrat].regimen = regimen;
+      state[cancer].risks[riskStrat].percentage = percentage;
     }
   }
 });
