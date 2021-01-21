@@ -85,8 +85,8 @@ class CostModel {
         const drugTypeKeys = Object.keys(currDrug);
         const [name, ...drugTypes] = drugTypeKeys;
         drugTypes.forEach( (type) => {
+          let genderAgeDosageArr = [];
           currDrug[type].dosages.forEach( (dosage) => {
-            let genderAgeDosageArr = [];
             let genderAgeDosageObj = {};
             ageRanges.forEach( (ar) => {
               let unit = currDrug[type].units;
@@ -97,20 +97,21 @@ class CostModel {
                 genderAgeDosageObj[ar].female = dosage; 
               }
               else {
-                const male = to4decimals(this.#bodyStats[unit][ar]['male']);
-                const female = to4decimals(this.#bodyStats[unit][ar]['female']);
-                genderAgeDosageObj[ar].male = male * dosage; 
-                genderAgeDosageObj[ar].female = female * dosage; 
+              /*
+              */
+                const male = parseFloat(this.#bodyStats[unit][ar]['male']);
+                const female = parseFloat(this.#bodyStats[unit][ar]['female']);
+                genderAgeDosageObj[ar].male = to4decimals(male * dosage); 
+                genderAgeDosageObj[ar].female = to4decimals(female * dosage); 
               }
-              genderAgeDosageArr.push(genderAgeDosageObj)
             }); // age ranges forEach
-            console.log(genderAgeDosageArr);
+            genderAgeDosageArr.push(genderAgeDosageObj)
           }); // dosages forEach
+          currDrug[type].dosages = genderAgeDosageArr;
         });// drugTypes forEach
-        console.log(currDrug);
       });// currCancer drugs forEach
     });// cancers forEach
-   //console.log(this.#genderAgeRanges); 
+   console.log(this.#genderAgeRanges); 
   }
 
 
