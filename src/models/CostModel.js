@@ -5,6 +5,7 @@ class CostModel {
   #drugs = {};
   #bodyStats;
   #userCancers = [];
+  #ageRanges = [];
   
   /**
    * Step 1: Total dosages per drug per drug unit type
@@ -24,23 +25,16 @@ class CostModel {
   /**
    * Step 2: Drug costs per m/f age ranges
    *
-   * cancer { name, drugs }
-   *  drugs { drug } 
-   *    drug { name, drugType }
-   *      drugType{ units, dosages }
-   *        dosages[]
-   *          under_one {}
-   *            male
-   *            female
-   *          one_to_four {}
-   *            male
-   *            female
-   *          five_to_nine {}
-   *            male
-   *            female
-   *          ten_to_fourteen {}
-   *            male
-   *            female
+   * cancer { name, risk_strats }
+   *  risk_strats {
+   *    risk_strat { percentage, drugs }
+   *      drugs { drug } 
+   *        drug { name, drugType }
+   *          drugType{ units, dosages }
+   *            dosages[]
+   *              under_one {}
+   *                male
+   *                female
    */
   #genderAgeRanges = {};
 
@@ -87,29 +81,36 @@ class CostModel {
     const { incidences, bodyStats } = setting;
     this.#bodyStats = bodyStats;
     this.#userCancers = Object.keys(user);
+    this.#ageRanges = Object.keys(bodyStats.bsa);
     this.#drugDosages = this.setupCostObj(user, regimens);
     const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
     this.#genderAgeRanges = this.assembleGenderAgeRanges(drugDosageCopy);
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     //console.log(this.#genderAgeRanges);
+    //console.log(this.#ageRangeIncidences);
   }
 
   calcAgeRangeIncidences(user, incidences) {
     let ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
       const { age_ranges, ...incidence } = incidences[cancer];
+      const risks = user[cancer].risks;
       ageRangeIncObj[cancer] = incidence;
-      ageRangeIncObj[cancer].age_ranges = {};
-      const currCancer = ageRangeIncObj[cancer];
-      Object.keys(age_ranges).forEach( (range) => {
-        currCancer.age_ranges[range] = age_ranges[range] * parseFloat(user[cancer].incidence);
+      ageRangeIncObj[cancer].risk_strats = {}
+      Object.keys(risks).forEach( (risk) => {
+        ageRangeIncObj[cancer].risk_strats[risk] = {};
+        const currRisk = ageRangeIncObj[cancer].risk_strats[risk];
+        currRisk.age_ranges = {};
+        this.#ageRanges.forEach( (ar) => {
+          currRisk.age_ranges[ar] = age_ranges[ar] * parseFloat(user[cancer].incidence) * user[cancer].risks[risk].percentage;
+        });
       });
     });
+    console.log(ageRangeIncObj);
     return ageRangeIncObj;
   }
 
   assembleGenderAgeRanges(drugDosages) {
-    const ageRanges = Object.keys(this.#bodyStats['bsa']);
     const cancerKeys = Object.keys(drugDosages);
     cancerKeys.forEach( (cancer) => {
       const currCancer = drugDosages[cancer];
@@ -124,7 +125,7 @@ class CostModel {
             let genderAgeDosageArr = [];
             currDrug[type].dosages.forEach( (dosage) => {
               let genderAgeDosageObj = {};
-              ageRanges.forEach( (ar) => {
+              this.#ageRanges.forEach( (ar) => {
                 let unit = currDrug[type].units;
                 genderAgeDosageObj[ar] = { male: "", female: "" };
                 unit = (unit === "wt" ? "weight" : unit);
