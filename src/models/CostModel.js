@@ -91,8 +91,7 @@ class CostModel {
     const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
     this.#genderAgeRanges = this.assembleGenderAgeRanges(drugDosageCopy);
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
-    console.log(this.#genderAgeRanges);
-    //assembleCosts(setting, user, regimens);
+    //console.log(this.#genderAgeRanges);
   }
 
   calcAgeRangeIncidences(user, incidences) {
@@ -114,35 +113,38 @@ class CostModel {
     const cancerKeys = Object.keys(drugDosages);
     cancerKeys.forEach( (cancer) => {
       const currCancer = drugDosages[cancer];
-      const drugs = Object.keys(currCancer.drugs);
-      drugs.forEach( (drug) => {
-        const currDrug = currCancer.drugs[drug];
-        const drugTypeKeys = Object.keys(currDrug);
-        const [name, ...drugTypes] = drugTypeKeys;
-        drugTypes.forEach( (type) => {
-          let genderAgeDosageArr = [];
-          currDrug[type].dosages.forEach( (dosage) => {
-            let genderAgeDosageObj = {};
-            ageRanges.forEach( (ar) => {
-              let unit = currDrug[type].units;
-              genderAgeDosageObj[ar] = { male: "", female: "" };
-              unit = (unit === "wt" ? "weight" : unit);
-              if (unit === "generic") {
-                genderAgeDosageObj[ar].male = dosage; 
-                genderAgeDosageObj[ar].female = dosage; 
-              }
-              else {
-                const male = parseFloat(this.#bodyStats[unit][ar]['male']);
-                const female = parseFloat(this.#bodyStats[unit][ar]['female']);
-                genderAgeDosageObj[ar].male = to4decimals(male * dosage); 
-                genderAgeDosageObj[ar].female = to4decimals(female * dosage); 
-              }
-            }); // age ranges forEach
-            genderAgeDosageArr.push(genderAgeDosageObj)
-          }); // dosages forEach
-          currDrug[type].dosages = genderAgeDosageArr;
-        });// drugTypes forEach
-      });// currCancer drugs forEach
+      const risk_strats = Object.keys(currCancer.risk_strats);
+      risk_strats.forEach( (rs) => {
+        const drugs = Object.keys(currCancer.risk_strats[rs].drugs);
+        drugs.forEach( (drug) => {
+          const currDrug = currCancer.risk_strats[rs].drugs[drug];
+          const drugTypeKeys = Object.keys(currDrug);
+          const [name, ...drugTypes] = drugTypeKeys;
+          drugTypes.forEach( (type) => {
+            let genderAgeDosageArr = [];
+            currDrug[type].dosages.forEach( (dosage) => {
+              let genderAgeDosageObj = {};
+              ageRanges.forEach( (ar) => {
+                let unit = currDrug[type].units;
+                genderAgeDosageObj[ar] = { male: "", female: "" };
+                unit = (unit === "wt" ? "weight" : unit);
+                if (unit === "generic") {
+                  genderAgeDosageObj[ar].male = dosage; 
+                  genderAgeDosageObj[ar].female = dosage; 
+                }
+                else {
+                  const male = parseFloat(this.#bodyStats[unit][ar]['male']);
+                  const female = parseFloat(this.#bodyStats[unit][ar]['female']);
+                  genderAgeDosageObj[ar].male = to4decimals(male * dosage); 
+                  genderAgeDosageObj[ar].female = to4decimals(female * dosage); 
+                }
+              }); // age ranges forEach
+              genderAgeDosageArr.push(genderAgeDosageObj)
+            }); // dosages forEach
+            currDrug[type].dosages = genderAgeDosageArr;
+          });// drugTypes forEach
+        });// currCancer drugs forEach
+      });// risk_strats forEach
     });// cancers forEach
     return drugDosages;
   }
@@ -154,47 +156,46 @@ class CostModel {
     for( const cancer in user ) {
       let drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
-        costObj[cancer] = { name: user[cancer].name, drugs: {} };
+        costObj[cancer] = { name: user[cancer].name, risk_strats: {} };
+        //costObj[cancer] = { name: user[cancer].name, drugs: {} };
       }
       const currCancer = user[cancer];
       const risks = Object.keys(currCancer.risks);
       if (risks.length >= 1) {
-        const regHashes = risks.map( (risk) => {
-          const reg = makeHashKey(currCancer.risks[risk].regimen);
-          return risk + reg;
+        risks.forEach( (risk) => {
+          const regHash = makeHashKey(risk, currCancer.risks[risk].regimen);
+          costObj[cancer].risk_strats[risk] = {
+            percentage: currCancer.risks[risk].percentage,
+            drugs: this.loadDrugArray(regHash, regimens)
+          };
         });
-        //console.log(regHashes);
-        drugArr = this.loadDrugArray(regHashes, regimens);
       }
-      costObj[cancer].drugs = drugArr;
     }
     return costObj;
   }
 
-  loadDrugArray(regHashes, regimens) {
+  loadDrugArray(regHash, regimens) {
     let drugsArr= {};
     // iterate through user selected cancer regs
-    regHashes.forEach( (rh) => {
-      const reg = regimens[rh];
-    // Drug names as keys from regimen obj lit
-        Object.keys(reg.drugs).forEach( (drug) => {
-          if (!drugsArr.hasOwnProperty(drug)) {
-            drugsArr[drug] = {};
+    const reg = regimens[regHash];
+  // Drug names as keys from regimen obj lit
+      Object.keys(reg.drugs).forEach( (drug) => {
+        if (!drugsArr.hasOwnProperty(drug)) {
+          drugsArr[drug] = {};
+        }
+  // Array of drug dosages within a drug
+        reg.drugs[drug].forEach( (dr) => {
+          const unit = this.#drugUnit[dr.units];
+          const drugHash = makeHashKey(drug, unit);
+          if (!drugsArr[drug].hasOwnProperty(drugHash)) {
+            drugsArr[drug].name = dr.drug;
+            drugsArr[drug][drugHash] = {};
+            drugsArr[drug][drugHash].units = unit;
+            drugsArr[drug][drugHash].dosages = [];
           }
-    // Array of drug dosages within a drug
-          reg.drugs[drug].forEach( (dr) => {
-            const unit = this.#drugUnit[dr.units];
-            const drugHash = makeHashKey(drug, unit);
-            if (!drugsArr[drug].hasOwnProperty(drugHash)) {
-              drugsArr[drug].name = dr.drug;
-              drugsArr[drug][drugHash] = {};
-              drugsArr[drug][drugHash].units = unit;
-              drugsArr[drug][drugHash].dosages = [];
-            }
-            drugsArr[drug][drugHash].dosages.push(dr.total_dosage);
-          }); // drug dosage forEach
-        }); // Drug name keys from reg obj lit
-    });// cancer-reg hashes forEach from selected cancers
+          drugsArr[drug][drugHash].dosages.push(dr.total_dosage);
+        }); // drug dosage forEach
+      }); // Drug name keys from reg obj lit
     //console.log(drugsArr);
     return drugsArr;
   }
