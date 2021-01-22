@@ -36,7 +36,7 @@ class CostModel {
    *                male
    *                female
    */
-  #genderAgeRanges = {};
+  #ageRangeGenderDrugs = {};
 
   /**
    * Step 3: Age segmented incidences
@@ -48,11 +48,10 @@ class CostModel {
    *   %male
    *   %female
    *   total
-   *   age_ranges {
-   *     under_one
-   *     one_to_four
-   *     five_to_nine
-   *     ten_to_fourteen
+   *   risk_strats {
+   *     risk_strat {
+   *       age_ranges {
+   *         under_one
    */
   #ageRangeIncidences = {};
 
@@ -84,9 +83,10 @@ class CostModel {
     this.#ageRanges = Object.keys(bodyStats.bsa);
     this.#drugDosages = this.setupCostObj(user, regimens);
     const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
-    this.#genderAgeRanges = this.assembleGenderAgeRanges(drugDosageCopy);
+    this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs(drugDosageCopy);
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
-    //console.log(this.#genderAgeRanges);
+    const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
+    //console.log(this.#ageRangeGenderDrugs);
     //console.log(this.#ageRangeIncidences);
   }
 
@@ -106,11 +106,32 @@ class CostModel {
         });
       });
     });
-    console.log(ageRangeIncObj);
     return ageRangeIncObj;
   }
 
-  assembleGenderAgeRanges(drugDosages) {
+  getAgeRangeGenderIncidence() {
+    let ageRangeGenderIncObj = JSON.parse( JSON.stringify(this.#ageRangeIncidences) );
+  // Get male/female percentages from ageRangeIncidences
+  // Multiply by age range figures in ageRangeIncidences
+  // Overwrite results into ageRangeGenderDrugs
+    this.#userCancers.forEach( (cancer) => {
+      const currCancer = ageRangeGenderIncObj[cancer];
+      Object.keys(currCancer.risk_strats).forEach( (rs) => {
+        const currRiskCopy = currCancer.risk_strats[rs];
+        const currRiskSource = this.#ageRangeIncidences[cancer].risk_strats[rs];
+        this.#ageRanges.forEach( (ar) => {
+        // Overwrite original data with new obj
+          currRiskCopy.age_ranges[ar] = { male: "", female: "" };
+          currRiskCopy.age_ranges[ar].male = currCancer.male_percentage * currRiskSource.age_ranges[ar];
+          currRiskCopy.age_ranges[ar].female = currCancer.female_percentage * currRiskSource.age_ranges[ar];
+        });// ageRanges forEach
+      });// current cancer risk strats forEach
+    });// user cancer forEach
+    console.log(ageRangeGenderIncObj);
+    return ageRangeGenderIncObj;
+  }
+
+  assembleAgeRangeGenderDrugs(drugDosages) {
     const cancerKeys = Object.keys(drugDosages);
     cancerKeys.forEach( (cancer) => {
       const currCancer = drugDosages[cancer];
