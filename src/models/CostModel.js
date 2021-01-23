@@ -85,8 +85,7 @@ class CostModel {
     this.#userCancers = Object.keys(user);
     this.#ageRanges = Object.keys(bodyStats.bsa);
     this.#drugDosages = this.setupCostObj(user, regimens);
-    const drugDosageCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
-    this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs(drugDosageCopy);
+    this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosage = this.calcTotalDosage(ageRangeGenderIncidence);
@@ -172,10 +171,10 @@ class CostModel {
     //console.log(totalDosage);
   }
 
-  assembleAgeRangeGenderDrugs(drugDosages) {
-    const cancerKeys = Object.keys(drugDosages);
-    cancerKeys.forEach( (cancer) => {
-      const currCancer = drugDosages[cancer];
+  assembleAgeRangeGenderDrugs() {
+    const drugDosagesCopy = JSON.parse( JSON.stringify(this.#drugDosages) );
+    this.#userCancers.forEach( (cancer) => {
+      const currCancer = drugDosagesCopy[cancer];
       const risk_strats = Object.keys(currCancer.risk_strats);
       risk_strats.forEach( (rs) => {
         const drugs = Object.keys(currCancer.risk_strats[rs].drugs);
@@ -209,7 +208,7 @@ class CostModel {
         });// currCancer drugs forEach
       });// risk_strats forEach
     });// cancers forEach
-    return drugDosages;
+    return drugDosagesCopy
   }
 
 
