@@ -48,9 +48,9 @@ class SettingModel {
     let total = this.getIncidenceTotal(Object.values(age_ranges));
     for( const age in age_ranges ) {
       const value = age_ranges[age]/total;
-      newRanges[age] = to4decimals(value);
+      newRanges[age] = value;
     }
-    total = to4decimals(total);
+    total = total;
     return { total, age_ranges: newRanges };
   }
 
