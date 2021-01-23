@@ -137,20 +137,23 @@ class CostModel {
 
   calcTotalDosage(ageRangeGenderInc) {
     //console.log(ageRangeGenderInc);
-    let totalAgeRangeGenderDosage = JSON.parse( JSON.stringify(this.#ageRangeGenderDrugs) );
+    let totalDosage = {};
     this.#userCancers.forEach( (cancer) => {
+      totalDosage[cancer] = {};
       Object.keys(ageRangeGenderInc[cancer].risk_strats).forEach( (rs) => {
         // Gives us age_ranges obj
         const incsByAgeRange = ageRangeGenderInc[cancer].risk_strats[rs];
         // Gives us drugs obj
-        const drugsByGender = totalAgeRangeGenderDosage[cancer].risk_strats[rs]
+        const drugsByGender = this.#ageRangeGenderDrugs[cancer].risk_strats[rs];
+        totalDosage[cancer].drugs = {};
         //console.log(drugsByGender, incsByAgeRange);
         Object.keys(drugsByGender.drugs).forEach( (drug) => {
+          let dosageTotal = 0;
           const { name, ...drugTypes } = drugsByGender.drugs[drug];
+          console.log(drugTypes);
           Object.keys(drugTypes).forEach( (type) => {
             const drugTypesByGender = drugsByGender.drugs[drug][type];
             drugTypesByGender.dosages.forEach( (dosage) => {
-              let dosageTotal = 0;
               this.#ageRanges.forEach( (ar) => {
                 ['male', 'female'].forEach( (gender) => {
                   const ageGenderTotal = dosage[ar][gender] * incsByAgeRange.age_ranges[ar][gender];
@@ -162,10 +165,11 @@ class CostModel {
               */
             }); // forEach dosages
           }); // forEach drug types
+          totalDosage[cancer].drugs[drug] = dosageTotal;
         }); // forEach drug
       }); // forEach risk strat
     }); // forEach cancer
-    console.log(totalAgeRangeGenderDosage);
+    //console.log(totalDosage);
   }
 
   assembleAgeRangeGenderDrugs(drugDosages) {
