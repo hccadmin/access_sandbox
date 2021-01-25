@@ -89,10 +89,12 @@ class CostModel {
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosage = this.calcTotalDosage(ageRangeGenderIncidence);
+    console.log(this.#drugDosages);
     //console.log(this.#ageRangeGenderDrugs);
-    //console.log(this.#ageRangeIncidences);
+    //console.log(ageRangeGenderIncidence);
   }
 
+// Stores raw setting incidence * user input incidence * risk strat percentage
   calcAgeRangeIncidences(user, incidences) {
     let ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
@@ -147,12 +149,14 @@ class CostModel {
         totalDosage[cancer].drugs = {};
         //console.log(drugsByGender, incsByAgeRange);
         Object.keys(drugsByGender.drugs).forEach( (drug) => {
-          let dosageTotal = 0;
+          totalDosage[cancer].drugs[drug] = {};
           const { name, ...drugTypes } = drugsByGender.drugs[drug];
-          console.log(drugTypes);
           Object.keys(drugTypes).forEach( (type) => {
+            totalDosage[cancer].drugs[drug][type] = 0;
+            let totalTypeDosage = totalDosage[cancer].drugs[drug][type];
             const drugTypesByGender = drugsByGender.drugs[drug][type];
             drugTypesByGender.dosages.forEach( (dosage) => {
+              let dosageTotal = 0;
               this.#ageRanges.forEach( (ar) => {
                 ['male', 'female'].forEach( (gender) => {
                   const ageGenderTotal = dosage[ar][gender] * incsByAgeRange.age_ranges[ar][gender];
@@ -162,9 +166,10 @@ class CostModel {
               });// forEach age ranges
               /*
               */
+              totalTypeDosage = dosageTotal;
+              //console.log(type, totalTypeDosage);
             }); // forEach dosages
           }); // forEach drug types
-          totalDosage[cancer].drugs[drug] = dosageTotal;
         }); // forEach drug
       }); // forEach risk strat
     }); // forEach cancer
@@ -254,6 +259,9 @@ class CostModel {
             drugsArr[drug][drugHash] = {};
             drugsArr[drug][drugHash].units = unit;
             drugsArr[drug][drugHash].dosages = [];
+            if (dr.hasOwnProperty('max_dose')) {
+              drugsArr[drug][drugHash].max_dose = dr.max_dose;
+            }
           }
           drugsArr[drug][drugHash].dosages.push(dr.total_dosage);
         }); // drug dosage forEach
