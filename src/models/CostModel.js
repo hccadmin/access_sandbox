@@ -62,18 +62,22 @@ class CostModel {
     "mg" : "generic"
   }
 
-  // Final obj
-  #costs = {};
+  // Final cost obj
+  #totalDosageAndCost = {};
 
   /**
    * costs {
-   *   cancer: {
-   *    drug: 
-   *      low
-   *      med
-   *      high
+   *   cancer: { 
+   *     drugs {
+   *       drug { dosage, costs } 
+   *         dosage: 
+   *         costs {
+   *           low
+   *           med
+   *           high
    *    
    */
+
   loadDrugPrices(type, prices) {
     this.price_type = type;
     this.#drugs = prices;
@@ -87,11 +91,18 @@ class CostModel {
     this.#drugDosages = this.setupCostObj(user, regimens);
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
-    const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
-    const totalDosage = this.calcTotalDosage(ageRangeGenderIncidence);
+    //const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
+    //const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
+    //this.#totalDosageAndCost = this.calcTotalDosageAndCost(totalDosageByType);
     //console.log(this.#drugDosages);
-    //console.log(this.#ageRangeGenderDrugs);
+    console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
+    //console.log(totalDosageByType);
+  }
+
+
+  getTotalDosageAndCost() {
+    return this.#totalDosageAndCost;
   }
 
 // Stores raw setting incidence * user input incidence * risk strat percentage
@@ -136,7 +147,44 @@ class CostModel {
     return ageRangeGenderIncObj;
   }
 
-  calcTotalDosage(ageRangeGenderInc) {
+  calcTotalDosageAndCost(totalDosageByType) {
+    let totalDosageAndCost = {};
+    const prices = this.getDrugPrices();
+    this.#userCancers.forEach( (cancer) => {
+      totalDosageAndCost[cancer] = { drugs: {} };
+      const sourceDrugDosage = totalDosageByType[cancer].drugs;
+      Object.keys(sourceDrugDosage).forEach( (drug) => {
+        totalDosageAndCost[cancer].drugs[drug] = {};
+        const drugTotalDestination = totalDosageAndCost[cancer].drugs[drug];
+        const sourceDrugDosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+        drugTotalDestination.total_dosage = sourceDrugDosageTotal;
+        drugTotalDestination.costs = {};
+        Object.keys(prices[drug]).forEach( (tier) => {
+          const price = prices[drug][tier];
+          drugTotalDestination.costs[tier] = sourceDrugDosageTotal * price;
+        }); // Price tiers forEach
+      }); // Drug keys in prices obj forEach
+    }); // Cancers forEach
+    //console.log(totalDosageAndCost);
+  }
+
+  getDrugTotals(totalDosageByType) {
+    let total = 0;
+    Object.keys(totalDosageByType).forEach( (type) => {
+      const typeTotal = totalDosageByType[type].dosages.reduce( (subtotal, dosage) => {
+        return subtotal + dosage;
+      });
+      total += typeTotal;
+    });
+    //console.log(totalDosageByType, total);
+    return total;
+    /*
+    */
+  }
+
+
+
+  calcTotalDosageByType(ageRangeGenderInc) {
     //console.log(ageRangeGenderInc);
     let totalDosage = {};
     this.#userCancers.forEach( (cancer) => {
@@ -164,8 +212,6 @@ class CostModel {
                   dosageTotal += ageGenderTotal;
                 });// forEach gender
               });// forEach age ranges
-              /*
-              */
               totalTypeDosages.push(dosageTotal);
               //console.log(type, totalTypeDosage);
             }); // forEach dosages
@@ -173,7 +219,7 @@ class CostModel {
         }); // forEach drug
       }); // forEach risk strat
     }); // forEach cancer
-    console.log(totalDosage);
+    return totalDosage;
   }
 
   assembleAgeRangeGenderDrugs() {
@@ -276,22 +322,18 @@ class CostModel {
   }
 
   getDrugPrices() {
-    const prices = this.#drugs.map( (drug) => {
+    let prices = {};
+    this.#drugs.forEach( (drug) => {
+      const drugName = makeHashKey(drug.name);
       const filtered = Object.keys(drug.pricing).filter( (type) => {
         if (type === this.price_type) {
           return true;
         }
         return false;
       });
-      return { name: drug.name, ...drug.pricing[filtered.pop()] };
+      prices[drugName] = { ...drug.pricing[filtered.pop()] };
     });
-  }
-
-  loadParams(cancer, regimens) {
-    /*
-    if (!this.#costs.hasOwnProperty(cancer)) {
-      this.#costs[cancer] 
-    */
+    return prices;
   }
 }
 
