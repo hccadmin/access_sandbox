@@ -89,7 +89,7 @@ class CostModel {
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosage = this.calcTotalDosage(ageRangeGenderIncidence);
-    console.log(this.#drugDosages);
+    //console.log(this.#drugDosages);
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
   }
@@ -152,8 +152,8 @@ class CostModel {
           totalDosage[cancer].drugs[drug] = {};
           const { name, ...drugTypes } = drugsByGender.drugs[drug];
           Object.keys(drugTypes).forEach( (type) => {
-            totalDosage[cancer].drugs[drug][type] = 0;
-            let totalTypeDosage = totalDosage[cancer].drugs[drug][type];
+            totalDosage[cancer].drugs[drug][type] = { dosages: [] };
+            let totalTypeDosages = totalDosage[cancer].drugs[drug][type].dosages;
             const drugTypesByGender = drugsByGender.drugs[drug][type];
             drugTypesByGender.dosages.forEach( (dosage) => {
               let dosageTotal = 0;
@@ -166,14 +166,14 @@ class CostModel {
               });// forEach age ranges
               /*
               */
-              totalTypeDosage = dosageTotal;
+              totalTypeDosages.push(dosageTotal);
               //console.log(type, totalTypeDosage);
             }); // forEach dosages
           }); // forEach drug types
         }); // forEach drug
       }); // forEach risk strat
     }); // forEach cancer
-    //console.log(totalDosage);
+    console.log(totalDosage);
   }
 
   assembleAgeRangeGenderDrugs() {
@@ -195,16 +195,21 @@ class CostModel {
                 let unit = currDrug[type].units;
                 genderAgeDosageObj[ar] = { male: "", female: "" };
                 unit = (unit === "wt" ? "weight" : unit);
-                if (unit === "generic") {
-                  genderAgeDosageObj[ar].male = dosage; 
-                  genderAgeDosageObj[ar].female = dosage; 
-                }
-                else {
-                  const male = parseFloat(this.#bodyStats[unit][ar]['male']);
-                  const female = parseFloat(this.#bodyStats[unit][ar]['female']);
-                  genderAgeDosageObj[ar].male = male * dosage; 
-                  genderAgeDosageObj[ar].female = female * dosage; 
-                }
+                ['male', 'female'].forEach( (gender) => {
+                  if (unit === "generic") {
+                    genderAgeDosageObj[ar][gender] = dosage; 
+                  }
+                  else {
+                    const bodyStat = parseFloat(this.#bodyStats[unit][ar][gender]);
+                    const ageGenderDosage = bodyStat * dosage; 
+                    if ( currDrug[type].hasOwnProperty('max_dose') && ageGenderDosage > currDrug[type].max_dose ) {
+                      genderAgeDosageObj[ar][gender] = currDrug[type].max_dose;
+                    }
+                    else {
+                      genderAgeDosageObj[ar][gender] = ageGenderDosage;
+                    }
+                  }
+                }); // gender forEach
               }); // age ranges forEach
               genderAgeDosageArr.push(genderAgeDosageObj)
             }); // dosages forEach
