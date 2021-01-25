@@ -91,13 +91,13 @@ class CostModel {
     this.#drugDosages = this.setupCostObj(user, regimens);
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
-    //const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
-    //const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
+    const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
+    const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     //this.#totalDosageAndCost = this.calcTotalDosageAndCost(totalDosageByType);
     //console.log(this.#drugDosages);
-    console.log(this.#ageRangeGenderDrugs);
+    //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
-    //console.log(totalDosageByType);
+    console.log(totalDosageByType);
   }
 
 
@@ -188,22 +188,24 @@ class CostModel {
     //console.log(ageRangeGenderInc);
     let totalDosage = {};
     this.#userCancers.forEach( (cancer) => {
-      totalDosage[cancer] = {};
+      totalDosage[cancer] = { risk_strats: {} };
       Object.keys(ageRangeGenderInc[cancer].risk_strats).forEach( (rs) => {
         // Gives us age_ranges obj
         const incsByAgeRange = ageRangeGenderInc[cancer].risk_strats[rs];
         // Gives us drugs obj
         const drugsByGender = this.#ageRangeGenderDrugs[cancer].risk_strats[rs];
-        totalDosage[cancer].drugs = {};
+        totalDosage[cancer].risk_strats[rs] = { drugs: {} };
+        const totalDrugDosage = totalDosage[cancer].risk_strats[rs];
         //console.log(drugsByGender, incsByAgeRange);
         Object.keys(drugsByGender.drugs).forEach( (drug) => {
-          totalDosage[cancer].drugs[drug] = {};
+          totalDrugDosage.drugs[drug] = {};
           const { name, ...drugTypes } = drugsByGender.drugs[drug];
           Object.keys(drugTypes).forEach( (type) => {
-            totalDosage[cancer].drugs[drug][type] = { dosages: [] };
-            let totalTypeDosages = totalDosage[cancer].drugs[drug][type].dosages;
+            totalDrugDosage.drugs[drug][type] = { dosages: [] };
+            let totalTypeDosages = totalDrugDosage.drugs[drug][type].dosages;
             const drugTypesByGender = drugsByGender.drugs[drug][type];
             drugTypesByGender.dosages.forEach( (dosage) => {
+              //console.log(dosage);
               let dosageTotal = 0;
               this.#ageRanges.forEach( (ar) => {
                 ['male', 'female'].forEach( (gender) => {
@@ -213,11 +215,13 @@ class CostModel {
                 });// forEach gender
               });// forEach age ranges
               totalTypeDosages.push(dosageTotal);
-              //console.log(type, totalTypeDosage);
+              //console.log(type, totalTypeDosages);
             }); // forEach dosages
+            //console.log(totalTypeDosages);
           }); // forEach drug types
         }); // forEach drug
       }); // forEach risk strat
+      //console.log(totalDosage);
     }); // forEach cancer
     return totalDosage;
   }
