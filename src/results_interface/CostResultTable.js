@@ -2,7 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 const CostResultTable = ({ cancer, costs }) => {
-  return (cancer && costs) && (
+  return (
     <>
       <h5>{ cancer }</h5>
       <Table striped bordered hover size="sm">
@@ -27,6 +27,13 @@ const CostResultTable = ({ cancer, costs }) => {
               </tr>
             );
           })}
+          <tr>
+            <td><strong>Totals</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
         </tbody>
       </Table>
     </>

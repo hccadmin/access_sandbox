@@ -68,8 +68,10 @@ class CostModel {
   /**
    * costs {
    *   cancer: { 
-   *     drugs {
-   *       drug { total_dosage, costs } 
+   *     totals: { dosage, low, med, high }
+   *     drugs: [
+   *       drug: { name, total_dosage, costs } 
+   *         name
    *         total_dosage: 
    *         costs {
    *           low
@@ -151,35 +153,40 @@ class CostModel {
     let totalDosageAndCost = {};
     const prices = this.getDrugPrices();
     this.#userCancers.forEach( (cancer) => {
-      totalDosageAndCost[cancer] = { drugs: {} };
-      const tdcd = totalDosageAndCost[cancer].drugs;
+      totalDosageAndCost[cancer] = { totals: { dosage: 0 }, drugs: {} };
+      const tdc = totalDosageAndCost[cancer];
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
         Object.keys(sourceDrugDosage).forEach( (drug) => {
-          if (!tdcd.hasOwnProperty(drug)) {
-            tdcd[drug] = { 
+          if (!tdc.drugs.hasOwnProperty(drug)) {
+            tdc.drugs[drug] = { 
               name: sourceDrugDosage[drug].name,
               total_dosage: 0, 
               costs: {} 
             };
           }
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
-          tdcd[drug].total_dosage += dosageTotal;
+          tdc.drugs[drug].total_dosage += dosageTotal;
           Object.keys(prices[drug]).forEach( (tier) => {
-            if (!tdcd[drug].costs.hasOwnProperty(tier)) {
-              tdcd[drug].costs[tier] = 0;
+            if (!tdc.drugs[drug].costs.hasOwnProperty(tier)) {
+              tdc.drugs[drug].costs[tier] = 0;
+            }
+            if (!tdc.totals.hasOwnProperty(tier)) {
+              tdc.totals[tier] = 0;
             }
             const price = prices[drug][tier];
-            tdcd[drug].costs[tier] += dosageTotal * price;
+            const dosagePrice = dosageTotal * price;
+            tdc.drugs[drug].costs[tier] += dosagePrice;
+            tdc.totals[tier] += dosagePrice;
           }); // Price tiers forEach
+          tdc.totals.dosage += dosageTotal;
         }); // Drug keys in prices obj forEach
       }); // Risk strats forEach
       //console.log(totalDosageAndCost[cancer].drugs);
       const costArr = this.objToArray(totalDosageAndCost[cancer].drugs);
-      totalDosageAndCost[cancer].drugs = null;
-      totalDosageAndCost[cancer] = sortObjects(costArr);
+      totalDosageAndCost[cancer].drugs = sortObjects(costArr);
     }); // Cancers forEach
-    //console.log(totalDosageAndCost);
+    console.log(totalDosageAndCost);
     return totalDosageAndCost;
   }
 
