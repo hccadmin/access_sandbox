@@ -1,4 +1,4 @@
-import { makeHashKey } from '../helpers/utilities';
+import { makeHashKey, sortObjects } from '../helpers/utilities';
 
 class CancerModel {
   #cancers = [];
@@ -72,21 +72,9 @@ class CancerModel {
         risk_strats: riskStrats
       }
     });
-    return this.sortCancers(cancers);
+    return sortObjects(cancers);
   }
-
-  sortCancers(cancers) {
-    cancers.sort( (cancer1, cancer2) => {
-      if (cancer1.name < cancer2.name) {
-        return -1;
-      }
-      if (cancer1.name > cancer2.name) {
-        return 1;
-      }
-      return 0;
-    });
-    return cancers;
-  }
+  
 }
 
 export default CancerModel;

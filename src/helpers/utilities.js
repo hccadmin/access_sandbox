@@ -19,8 +19,22 @@ const removePunctuation = (str) => {
   return str.replace(/[^A-Za-z\s\d]/, "");
 }
 
+const sortObjects = (objs) => {
+  objs.sort( (obj1, obj2) => {
+    if (obj1.name < obj2.name) {
+      return -1;
+    }
+    if (obj1.name > obj2.name) {
+      return 1;
+    }
+    return 0;
+  });
+  return objs;
+}
+
 export {
   makeHashKey,
   to4decimals,
-  sentenceCase
+  sentenceCase,
+  sortObjects
 }

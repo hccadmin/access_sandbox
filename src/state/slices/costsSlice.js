@@ -3,7 +3,8 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CostModel } from '../../models'
 
 const initialState = {
-  priceType: ""
+  priceType: "",
+  list: {}
 };
 
 const cm = new CostModel();
@@ -25,6 +26,7 @@ const costsSlice = createSlice({
       //console.log(action.payload);
       const { setting, user, regimens } = action.payload;
       cm.loadAllCostData(setting, user, regimens);
+      state.list = cm.getTotalDosageAndCost();
     }
   },
   extraReducers: (builder) => {

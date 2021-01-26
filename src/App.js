@@ -20,11 +20,20 @@ const App = () => {
     return state.cancers.regimens;
   });
 
+  const costList = useSelector( (state) => {
+    return state.costs.list;
+  });
+
   const loadAllCosts = () => {
     dispatch( loadAllCostData({ setting, user, regimens }));
   }
 
   const [visibility, setVisibility] = useState({ inputs: true, results: false });
+
+  const selections = { 
+    setting: setting.name,
+    year: setting.year
+  }
 
   return (
     <Container>
@@ -34,7 +43,13 @@ const App = () => {
         setVisible={ setVisibility } 
         loadAllCosts={ loadAllCosts }
       />
-      <ResultsInterface visible={ visibility.results } setVisible={ setVisibility } />
+      <ResultsInterface 
+        visible={ visibility.results } 
+        setVisible={ setVisibility } 
+        costs={ costList }
+        cancers={ user }
+        selections={ selections }
+      />
     </Container>
   );
 }

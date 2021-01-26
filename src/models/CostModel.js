@@ -1,4 +1,4 @@
-import { makeHashKey, to4decimals } from '../helpers/utilities';
+import { makeHashKey, to4decimals, sortObjects } from '../helpers/utilities';
 
 class CostModel {
   // Cost per drug
@@ -174,6 +174,10 @@ class CostModel {
           }); // Price tiers forEach
         }); // Drug keys in prices obj forEach
       }); // Risk strats forEach
+      //console.log(totalDosageAndCost[cancer].drugs);
+      const costArr = this.objToArray(totalDosageAndCost[cancer].drugs);
+      totalDosageAndCost[cancer].drugs = null;
+      totalDosageAndCost[cancer] = sortObjects(costArr);
     }); // Cancers forEach
     //console.log(totalDosageAndCost);
     return totalDosageAndCost;
@@ -192,6 +196,14 @@ class CostModel {
     return total;
     /*
     */
+  }
+
+  objToArray(drugs) {
+    const arr = [];
+    Object.keys(drugs).forEach( (drug) => {
+      arr.push(drugs[drug]);
+    });
+    return arr;
   }
 
   calcTotalDosageByType(ageRangeGenderInc) {
