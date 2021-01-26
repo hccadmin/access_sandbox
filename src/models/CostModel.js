@@ -98,6 +98,7 @@ class CostModel {
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
     //console.log(totalDosageByType);
+    //console.log(this.#totalDosageAndCost);
   }
 
   getTotalDosageAndCost() {
@@ -156,7 +157,11 @@ class CostModel {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
         Object.keys(sourceDrugDosage).forEach( (drug) => {
           if (!tdcd.hasOwnProperty(drug)) {
-            tdcd[drug] = { total_dosage: 0, costs: {} };
+            tdcd[drug] = { 
+              name: sourceDrugDosage[drug].name,
+              total_dosage: 0, 
+              costs: {} 
+            };
           }
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
           tdcd[drug].total_dosage += dosageTotal;
@@ -175,8 +180,9 @@ class CostModel {
   }
 
   getDrugTotals(totalDosageByType) {
+    const { name, ...drugTypes } = totalDosageByType;
     let total = 0;
-    Object.keys(totalDosageByType).forEach( (type) => {
+    Object.keys(drugTypes).forEach( (type) => {
       const typeTotal = totalDosageByType[type].dosages.reduce( (subtotal, dosage) => {
         return subtotal + dosage;
       });
@@ -205,6 +211,7 @@ class CostModel {
           totalDrugDosage.drugs[drug] = {};
           const { name, ...drugTypes } = drugsByGender.drugs[drug];
           Object.keys(drugTypes).forEach( (type) => {
+            totalDrugDosage.drugs[drug].name = name;
             totalDrugDosage.drugs[drug][type] = { dosages: [] };
             let totalTypeDosages = totalDrugDosage.drugs[drug][type].dosages;
             const drugTypesByGender = drugsByGender.drugs[drug][type];
