@@ -6,7 +6,14 @@ class CostModel {
   #bodyStats;
   #userCancers = [];
   #ageRanges = [];
-  
+ 
+  // Helper for drug hashing
+  #drugUnit = {
+    "mg/m2": "bsa",
+    "mg/kg": "wt",
+    "mg" : "generic"
+  }
+ 
   /**
    * Step 1: Total dosages per drug per drug unit type
    *
@@ -15,7 +22,7 @@ class CostModel {
    *   drugs {
    *     drug {
    *       name:
-   *       druga {
+   *       drugType {
    *         units:
    *         dosages: []
    */
@@ -55,13 +62,6 @@ class CostModel {
    */
   #ageRangeIncidences = {};
 
-  // Helper for drug hashing
-  #drugUnit = {
-    "mg/m2": "bsa",
-    "mg/kg": "wt",
-    "mg" : "generic"
-  }
-
   // Final cost obj
   #totalDosageAndCost = {};
 
@@ -69,8 +69,8 @@ class CostModel {
    * costs {
    *   cancer: { 
    *     drugs {
-   *       drug { dosage, costs } 
-   *         dosage: 
+   *       drug { total_dosage, costs } 
+   *         total_dosage: 
    *         costs {
    *           low
    *           med
@@ -93,13 +93,12 @@ class CostModel {
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
-    //this.#totalDosageAndCost = this.calcTotalDosageAndCost(totalDosageByType);
+    this.#totalDosageAndCost = this.calcTotalDosageAndCost(totalDosageByType);
     //console.log(this.#drugDosages);
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
-    console.log(totalDosageByType);
+    //console.log(totalDosageByType);
   }
-
 
   getTotalDosageAndCost() {
     return this.#totalDosageAndCost;
@@ -152,20 +151,27 @@ class CostModel {
     const prices = this.getDrugPrices();
     this.#userCancers.forEach( (cancer) => {
       totalDosageAndCost[cancer] = { drugs: {} };
-      const sourceDrugDosage = totalDosageByType[cancer].drugs;
-      Object.keys(sourceDrugDosage).forEach( (drug) => {
-        totalDosageAndCost[cancer].drugs[drug] = {};
-        const drugTotalDestination = totalDosageAndCost[cancer].drugs[drug];
-        const sourceDrugDosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
-        drugTotalDestination.total_dosage = sourceDrugDosageTotal;
-        drugTotalDestination.costs = {};
-        Object.keys(prices[drug]).forEach( (tier) => {
-          const price = prices[drug][tier];
-          drugTotalDestination.costs[tier] = sourceDrugDosageTotal * price;
-        }); // Price tiers forEach
-      }); // Drug keys in prices obj forEach
+      const tdcd = totalDosageAndCost[cancer].drugs;
+      Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
+        const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
+        Object.keys(sourceDrugDosage).forEach( (drug) => {
+          if (!tdcd.hasOwnProperty(drug)) {
+            tdcd[drug] = { total_dosage: 0, costs: {} };
+          }
+          const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+          tdcd[drug].total_dosage += dosageTotal;
+          Object.keys(prices[drug]).forEach( (tier) => {
+            if (!tdcd[drug].costs.hasOwnProperty(tier)) {
+              tdcd[drug].costs[tier] = 0;
+            }
+            const price = prices[drug][tier];
+            tdcd[drug].costs[tier] += dosageTotal * price;
+          }); // Price tiers forEach
+        }); // Drug keys in prices obj forEach
+      }); // Risk strats forEach
     }); // Cancers forEach
     //console.log(totalDosageAndCost);
+    return totalDosageAndCost;
   }
 
   getDrugTotals(totalDosageByType) {
@@ -181,8 +187,6 @@ class CostModel {
     /*
     */
   }
-
-
 
   calcTotalDosageByType(ageRangeGenderInc) {
     //console.log(ageRangeGenderInc);
@@ -270,8 +274,6 @@ class CostModel {
     });// cancers forEach
     return drugDosagesCopy
   }
-
-
 
   setupCostObj(user, regimens) {
     let costObj = {};
