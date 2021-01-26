@@ -2,10 +2,10 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 const CostResultTable = ({ cancer, costs }) => {
-  return (
+  return (cancer && costs) && (
     <>
       <h5>{ cancer }</h5>
-      <Table striped bordered hover>
+      <Table striped bordered hover size="sm">
         <thead>
           <tr>
             <th>Drugs</th> 
@@ -16,6 +16,17 @@ const CostResultTable = ({ cancer, costs }) => {
           </tr>
         </thead>
         <tbody>
+          { costs.map( (cost, i) => {
+            return (
+              <tr key={ i }>
+                <td>{ cost.name }</td>
+                <td>{ cost.total_dosage.toFixed(2) }</td>
+                <td>${ cost.costs['low'].toFixed(2) }</td>
+                <td>${ cost.costs['med'].toFixed(2) }</td>
+                <td>${ cost.costs['high'].toFixed(2) }</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </>

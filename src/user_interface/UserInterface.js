@@ -10,7 +10,7 @@ import StaticTitle from './StaticTitle';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
-const UserInterface = ({ visible, setVisible, loadAllCosts }) => {
+const UserInterface = ({ setVisible, loadAllCosts }) => {
   const dispatch = useDispatch();
 
   const names = useSelector( (state) => {
@@ -30,7 +30,7 @@ const UserInterface = ({ visible, setVisible, loadAllCosts }) => {
   });
 
   const loadDefaultCountryYear = () => {
-    if (setting.name == "") {
+    if (setting.name === "") {
       dispatch( loadSetting({ setting: 'Argentina', year: '2020' }));
     }
   }
@@ -52,7 +52,7 @@ const UserInterface = ({ visible, setVisible, loadAllCosts }) => {
   }
 
   return (
-    <div className={ visible ? 'visible position-static' : 'invisible position-absolute' }>
+    <div>
       <Container>
         <h2>Temporary static inputs</h2>
         <header role="header">

@@ -37,19 +37,24 @@ const App = () => {
 
   return (
     <Container>
-      <h1>Access Forecast</h1>
-      <UserInterface 
-        visible={ visibility.inputs } 
-        setVisible={ setVisibility } 
-        loadAllCosts={ loadAllCosts }
-      />
-      <ResultsInterface 
-        visible={ visibility.results } 
-        setVisible={ setVisibility } 
-        costs={ costList }
-        cancers={ user }
-        selections={ selections }
-      />
+    { visibility.inputs ? 
+      <>
+        <h1>Access Forecast</h1>
+        <UserInterface 
+          setVisible={ setVisibility } 
+          loadAllCosts={ loadAllCosts }
+        />
+      </>
+      :
+      <>
+        <ResultsInterface 
+          setVisible={ setVisibility } 
+          costs={ costList }
+          cancers={ user }
+          selections={ selections }
+        />
+      </>
+    }
     </Container>
   );
 }
