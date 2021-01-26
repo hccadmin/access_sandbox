@@ -186,7 +186,6 @@ class CostModel {
       const costArr = this.objToArray(totalDosageAndCost[cancer].drugs);
       totalDosageAndCost[cancer].drugs = sortObjects(costArr);
     }); // Cancers forEach
-    console.log(totalDosageAndCost);
     return totalDosageAndCost;
   }
 

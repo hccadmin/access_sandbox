@@ -16,7 +16,7 @@ const CostResultTable = ({ cancer, costs }) => {
           </tr>
         </thead>
         <tbody>
-          { costs.map( (cost, i) => {
+          { costs.drugs.map( (cost, i) => {
             return (
               <tr key={ i }>
                 <td>{ cost.name }</td>
@@ -29,10 +29,10 @@ const CostResultTable = ({ cancer, costs }) => {
           })}
           <tr>
             <td><strong>Totals</strong></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{ costs.totals.dosage.toFixed(2) }</td>
+            <td>${ costs.totals.low.toFixed(2) }</td>
+            <td>${ costs.totals.med.toFixed(2) }</td>
+            <td>${ costs.totals.high.toFixed(2) }</td>
           </tr>
         </tbody>
       </Table>

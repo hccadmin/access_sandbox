@@ -37,9 +37,9 @@ const App = () => {
 
   return (
     <Container>
+      <h1>Access Forecast</h1>
     { visibility.inputs ? 
       <>
-        <h1>Access Forecast</h1>
         <UserInterface 
           setVisible={ setVisibility } 
           loadAllCosts={ loadAllCosts }
