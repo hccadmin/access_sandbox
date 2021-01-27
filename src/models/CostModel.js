@@ -86,13 +86,17 @@ class CostModel {
   }
 
   loadAllCostData(setting, user, regimens) {
+    const filteredInput = this.removeEmptyInputs(user);
+    if (!filteredInput) {
+      return filteredInput;
+    }
     const { incidences, bodyStats } = setting;
     this.#bodyStats = bodyStats;
-    this.#userCancers = Object.keys(user);
+    this.#userCancers = Object.keys(filteredInput);
     this.#ageRanges = Object.keys(bodyStats.bsa);
-    this.#drugDosages = this.setupCostObj(user, regimens);
+    this.#drugDosages = this.setupCostObj(filteredInput, regimens);
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
-    this.#ageRangeIncidences = this.calcAgeRangeIncidences(user, incidences);
+    this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredInput, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     this.#totalDosageAndCost = this.calcTotalDosageAndCost(totalDosageByType);
@@ -101,11 +105,23 @@ class CostModel {
     //console.log(ageRangeGenderIncidence);
     //console.log(totalDosageByType);
     //console.log(this.#totalDosageAndCost);
+    return true;
   }
 
   getTotalDosageAndCost() {
     return this.#totalDosageAndCost;
   }
+
+  removeEmptyInputs(source) {
+    let inputs = JSON.parse( JSON.stringify(source));
+    Object.keys(inputs).forEach( (input) => {
+      if (!inputs[input].hasOwnProperty('incidence')) {
+        delete inputs[input];
+      }
+    });
+    return Object.keys(inputs).length >= 1 && inputs;
+  }
+
 
 // Stores raw setting incidence * user input incidence * risk strat percentage
   calcAgeRangeIncidences(user, incidences) {

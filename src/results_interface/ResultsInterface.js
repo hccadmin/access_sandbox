@@ -7,21 +7,26 @@ const ResultsInterface = ({ setVisible, costs, cancers, selections }) => {
     setVisible({ inputs: true, results: false });
   }
 
+  console.log(cancers);
+
   return (
     <div>
       <h2>Costs</h2>
-      <p><strong>Setting: </strong>{ selections.setting }<br />
-      <strong>Year: </strong>{ selections.year }</p>
-      
-      { Object.keys(cancers).map( (cancer, i) => {
-        return (
-          <CostResultTable 
-            key={ i }
-            cancer={ cancers[cancer].name }
-            costs={ costs[cancer] }
-          />
-        );
-      })}
+      { costs ? 
+        <>
+          <p><strong>Setting: </strong>{ selections.setting }<br />
+          <strong>Year: </strong>{ selections.year }</p>
+          { Object.keys(cancers).map( (cancer, i) => {
+            return (
+              <CostResultTable 
+                key={ i }
+                cancer={ cancers[cancer].name }
+                costs={ costs[cancer] }
+              />
+            );
+          })}
+        </> : <p>You need to add incidents to each cancer to get costs</p>
+      }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
     </div>
   );

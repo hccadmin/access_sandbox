@@ -25,8 +25,8 @@ const costsSlice = createSlice({
     loadAllCostData(state, action) {
       //console.log(action.payload);
       const { setting, user, regimens } = action.payload;
-      cm.loadAllCostData(setting, user, regimens);
-      state.list = cm.getTotalDosageAndCost();
+      const hasValidInputs = cm.loadAllCostData(setting, user, regimens);
+      state.list = hasValidInputs && cm.getTotalDosageAndCost();
     }
   },
   extraReducers: (builder) => {
