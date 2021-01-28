@@ -50,7 +50,6 @@ const App = () => {
         <ResultsInterface 
           setVisible={ setVisibility } 
           costs={ costList }
-          cancers={ user }
           selections={ selections }
         />
       </>

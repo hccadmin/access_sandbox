@@ -2,12 +2,10 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import CostResultTable from './CostResultTable';
 
-const ResultsInterface = ({ setVisible, costs, cancers, selections }) => {
+const ResultsInterface = ({ setVisible, costs, selections }) => {
   const backToInputs = () => {
     setVisible({ inputs: true, results: false });
   }
-
-  console.log(cancers);
 
   return (
     <div>
@@ -16,12 +14,12 @@ const ResultsInterface = ({ setVisible, costs, cancers, selections }) => {
         <>
           <p><strong>Setting: </strong>{ selections.setting }<br />
           <strong>Year: </strong>{ selections.year }</p>
-          { Object.keys(cancers).map( (cancer, i) => {
+          { Object.keys(costs).map( (cost, i) => {
             return (
               <CostResultTable 
                 key={ i }
-                cancer={ cancers[cancer].name }
-                costs={ costs[cancer] }
+                cancer={ costs[cost].name }
+                costs={ costs[cost] }
               />
             );
           })}

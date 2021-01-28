@@ -62,12 +62,15 @@ class CostModel {
    */
   #ageRangeIncidences = {};
 
-  // Final cost obj
-  #totalDosageAndCost = {};
-
   /**
+   * Final step: Total dosages/costs
+   *
+   * Calculate total dosage/costs per drug 
+   * and total dosage/cost per cancer
+   *
    * costs {
    *   cancer: { 
+   *     name
    *     totals: { dosage, low, med, high }
    *     drugs: [
    *       drug: { name, total_dosage, costs } 
@@ -79,6 +82,8 @@ class CostModel {
    *           high
    *    
    */
+  #totalDosageAndCost = {};
+
 
   loadDrugPrices(type, prices) {
     this.price_type = type;
@@ -127,9 +132,10 @@ class CostModel {
   calcAgeRangeIncidences(user, incidences) {
     let ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
-      const { age_ranges, ...incidence } = incidences[cancer];
+      const { cancer: name, age_ranges, ...incidence } = incidences[cancer];
       const risks = user[cancer].risks;
       ageRangeIncObj[cancer] = incidence;
+      ageRangeIncObj[cancer].name = name;
       ageRangeIncObj[cancer].risk_strats = {}
       Object.keys(risks).forEach( (risk) => {
         ageRangeIncObj[cancer].risk_strats[risk] = {};
@@ -140,6 +146,7 @@ class CostModel {
         });
       });
     });
+    //console.log(ageRangeIncObj);
     return ageRangeIncObj;
   }
 
@@ -169,7 +176,11 @@ class CostModel {
     let totalDosageAndCost = {};
     const prices = this.getDrugPrices();
     this.#userCancers.forEach( (cancer) => {
-      totalDosageAndCost[cancer] = { totals: { dosage: 0 }, drugs: {} };
+      totalDosageAndCost[cancer] = { 
+        name: totalDosageByType[cancer].name,
+        totals: { dosage: 0 }, 
+        drugs: {} 
+      };
       const tdc = totalDosageAndCost[cancer];
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
@@ -232,7 +243,10 @@ class CostModel {
     //console.log(ageRangeGenderInc);
     let totalDosage = {};
     this.#userCancers.forEach( (cancer) => {
-      totalDosage[cancer] = { risk_strats: {} };
+      totalDosage[cancer] = { 
+        name: ageRangeGenderInc[cancer].name,
+        risk_strats: {} 
+      };
       Object.keys(ageRangeGenderInc[cancer].risk_strats).forEach( (rs) => {
         // Gives us age_ranges obj
         const incsByAgeRange = ageRangeGenderInc[cancer].risk_strats[rs];
