@@ -15,6 +15,7 @@ const initialState = {
   drugs: [],
   years: [],
   countries: [],
+  price_source: [],
   regions: {}
 }
 
@@ -47,6 +48,7 @@ const uiSlice = createSlice({
         state.drugs = action.payload.drugs;
         state.years = action.payload.years;
         state.countries = action.payload.countries;
+        state.price_source = action.payload.price_source;
         state.regions = action.payload.regions;
       });
   }

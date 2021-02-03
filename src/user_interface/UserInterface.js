@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { makeHashKey } from '../helpers/utilities';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadSetting } from '../state/slices/settingSlice';
 import { loadPrices } from '../state/slices/costsSlice';
@@ -9,11 +8,35 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import StaticTitle from './StaticTitle';
+import ForecastSelect from './ForecastSelect';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
+const restructureUILabels = (uiLabels) => {
+  const { countries, years, price_source } = uiLabels;
+  return {
+    country: {
+      label: "Countries label",
+      list: countries
+    },
+    year: {
+      label: "Years label",
+      list: years
+    },
+    price_source: {
+      label: "Price source label",
+      list: price_source
+    }
+  };
+}
+
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
+
+
+  const inputs = restructureUILabels(uiLabels);
+  
+
 
   const names = useSelector( (state) => {
     return state.cancers.names;
@@ -52,6 +75,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     dispatch(loadCancers());
   }
 
+  const evaluateSelection = (e) => {
+    console.log(e.target.value);
+  }
+
   return (
     <div>
       <Container>
@@ -59,46 +86,18 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         <header role="header">
           <Form>
             <Row>
-              <Col>
-                <Form.Group>
-                  <h3>Country</h3>
-                  <Form.Label>Select a country from the list below</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="countries"
-                  >
-                    <option value="0">--Select a country--</option>
-                    { uiLabels.countries.map( (country, i) => {
-                      return (
-                        <option 
-                          key={ i }
-                          value={ country }
-                          name={ country }
-                        >{ country }
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group>
-              {/*
-                <StaticTitle 
-                  heading={ "Country" }
-                  text={ setting.name }
-                />
-              */}
-              </Col>
-              <Col>
-                <StaticTitle 
-                  heading={ "Year" }
-                  text={ setting.year }
-                />
-              </Col>
-              <Col>
-                <StaticTitle 
-                  heading={ "Calculation source" }
-                  text={ priceType }
-                />
-              </Col>
+              { Object.keys(inputs).map( (input, i) => {
+                return (
+                  <Col key={ i }>
+                    <ForecastSelect
+                      name={ input }
+                      options={ inputs[input].list }
+                      label={ inputs[input].label }
+                      sendSelection={ evaluateSelection }
+                    />
+                  </Col>
+                )
+              })}
             </Row>
           </Form>
           <Button onClick={ loadDefaultCountryYear }>Load Argentina 2020 values</Button>
