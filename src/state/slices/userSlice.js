@@ -10,6 +10,9 @@ import { createSlice } from '@reduxjs/toolkit'
  * }
  */
 const initialState = {
+  setting: "",
+  year: "",
+  price_source: ""
 }
 
 
@@ -24,6 +27,10 @@ const userSlice = createSlice({
         state[cancer] = { name };
         state[cancer].risks = {};
       }
+    },
+    setSelection(state, action) {
+      const { name, value } = action.payload;
+      state[name] = value;
     },
     setIncidence(state, action) {
       const { cancer, incidence } = action.payload;
@@ -45,6 +52,7 @@ const { actions, reducer } = userSlice;
 
 export const {
   initializeCancer,
+  setSelection,
   setIncidence,
   setRiskStrat,
   setRegimen

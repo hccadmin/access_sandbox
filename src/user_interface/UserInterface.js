@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadSetting } from '../state/slices/settingSlice';
 import { loadPrices } from '../state/slices/costsSlice';
+import { setSelection } from '../state/slices/userSlice';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,8 +16,8 @@ import UserInputs from './UserInputs';
 const restructureUILabels = (uiLabels) => {
   const { countries, years, price_source } = uiLabels;
   return {
-    country: {
-      label: "Countries label",
+    setting: {
+      label: "Setting label",
       list: countries
     },
     year: {
@@ -33,11 +34,8 @@ const restructureUILabels = (uiLabels) => {
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
 
-
   const inputs = restructureUILabels(uiLabels);
   
-
-
   const names = useSelector( (state) => {
     return state.cancers.names;
   });
@@ -54,18 +52,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.costs.priceType;
   });
 
-  const loadDefaultCountryYear = () => {
-    if (setting.name === "") {
-      dispatch( loadSetting({ setting: 'Argentina', year: '2020' }));
-    }
-  }
-
-  const loadDefaultPriceType = () => {
-    if (priceType === "") {
-      dispatch( loadPrices('consolidated'));
-    }
-  }
-
   const initCostCalc = () => {
     setVisible({ inputs: false, results: true });
     loadAllCosts();
@@ -76,7 +62,11 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   }
 
   const evaluateSelection = (e) => {
-    console.log(e.target.value);
+    const selection = {
+      name: e.target.name,
+      value: e.target.value
+    };
+    dispatch( setSelection(selection) );
   }
 
   return (
@@ -100,8 +90,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               })}
             </Row>
           </Form>
-          <Button onClick={ loadDefaultCountryYear }>Load Argentina 2020 values</Button>
-          <Button onClick={ loadDefaultPriceType }>Load consolidated prices</Button>
         </header>
         <div className="main">
           <Row>
