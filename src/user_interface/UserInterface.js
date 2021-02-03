@@ -46,7 +46,6 @@ const UserInterface = ({ setVisible, loadAllCosts }) => {
     loadAllCosts();
   }
     
-
   if (names.length === 0 ) {
     dispatch(loadCancers());
   }

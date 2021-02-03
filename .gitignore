@@ -2,6 +2,7 @@
 .*.swp
 /data_upload
 firebase.config.js
+.firebase
 
 # dependencies
 /node_modules
