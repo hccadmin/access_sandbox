@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadSetting } from '../state/slices/settingSlice';
-import { loadPrices } from '../state/slices/costsSlice';
 import { setSelection } from '../state/slices/userSlice';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

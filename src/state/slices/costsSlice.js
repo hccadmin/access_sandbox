@@ -1,20 +1,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CostModel } from '../../models'
+import { SettingModel } from '../../models';
 
 const initialState = {
   priceType: "",
   list: {}
 };
 
+const sm = new SettingModel();
 const cm = new CostModel();
 
-export const loadPrices = createAsyncThunk(
-  'costs/loadPricesStatus',
-  async(type, thunkAPI) => {
-    const prices = await DBQueryer.getAll('prices');
-    cm.loadDrugPrices(type, prices);
-    return type;
+export const initCostCalc = createAsyncThunk(
+  'costs/initCostCalcStatus',
+  async(criteria, thunkAPI) => {
+    const { user, regimens } = criteria;
+    const { setting, year, price_source, ...cancers } = user;
+    const result = await Promise.all([
+      DBQueryer.getSetting(setting, year),
+      DBQueryer.getBsa(setting),
+      DBQueryer.getAll('prices')
+    ]);
+    const [dbSetting, dbBsa, dbPrices] = result;
+    sm.loadSetting(dbSetting[0], dbBsa[0]);
+    const settingData = sm.getSettingData();
+
+    cm.loadDrugPrices(price_source, dbPrices);
+    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens);
+    return hasValidInputs && cm.getTotalDosageAndCost();
   }
 );
 
@@ -23,22 +36,23 @@ const costsSlice = createSlice({
   initialState: initialState,
   reducers: {
     loadAllCostData(state, action) {
-      //console.log(action.payload);
+    /* No longer needed
       const { setting, user, regimens } = action.payload;
       const hasValidInputs = cm.loadAllCostData(setting, user, regimens);
       state.list = hasValidInputs && cm.getTotalDosageAndCost();
+    */
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadPrices.fulfilled, (state, action) => {
-        state.priceType = action.payload;
+      .addCase(initCostCalc.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.list = action.payload;
       })
   }
 });
 
 const { actions, reducer } = costsSlice;
 
-export const { loadAllCostData } = actions;
 
 export default reducer;

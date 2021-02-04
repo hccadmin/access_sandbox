@@ -12,7 +12,7 @@ class SettingModel {
     this.#incidences = this.restructure(dbSetting.incidences);
   }
 
-  getSetting() {
+  getSettingData() {
     return {
       setting: this.setting,
       year: this.year,

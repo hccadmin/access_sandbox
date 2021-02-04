@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadAllCostData } from './state/slices/costsSlice';
+import { initCostCalc } from './state/slices/costsSlice';
 import { loadUI } from './state/slices/uiSlice';
 import Container from 'react-bootstrap/Container';
 import UserInterface from './user_interface/UserInterface';
@@ -11,10 +11,6 @@ const App = () => {
 
   const uiLabels = useSelector( (state) => {
     return state.ui;
-  });
-
-  const setting = useSelector( (state) => {
-    return state.setting;
   });
 
   const user = useSelector( (state) => {
@@ -30,14 +26,14 @@ const App = () => {
   });
 
   const loadAllCosts = () => {
-    dispatch( loadAllCostData({ setting, user, regimens }));
+    dispatch( initCostCalc({ user, regimens }));
   }
 
   const [visibility, setVisibility] = useState({ inputs: true, results: false });
 
   const selections = { 
-    setting: setting.name,
-    year: setting.year
+    setting: user.setting,
+    year: user.year
   }
 
   if ( uiLabels.cancers.length === 0) {
