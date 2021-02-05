@@ -35,8 +35,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   const inputs = restructureUILabels(uiLabels);
   
-  const names = useSelector( (state) => {
-    return state.cancers.names;
+  const cancers = useSelector( (state) => {
+    return state.cancers.full;
   });
 
   const selected = useSelector( (state) => {
@@ -55,17 +55,17 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     setVisible({ inputs: false, results: true });
     loadAllCosts();
   }
-    
-  if (names.length === 0 ) {
-    dispatch(loadCancers());
-  }
-
+   
   const evaluateSelection = (e) => {
     const selection = {
       name: e.target.name,
       value: e.target.value
     };
     dispatch( setSelection(selection) );
+  }
+
+  if (Object.keys(cancers).length < 1) {
+    dispatch( loadCancers() );
   }
 
   return (
@@ -93,7 +93,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         <div className="main">
           <Row>
             <Col md="3">
-              <CancerButtons cancers={ names } />
+              <CancerButtons cancers={ uiLabels.cancers } />
             </Col>
             <Col md="9">
               { 

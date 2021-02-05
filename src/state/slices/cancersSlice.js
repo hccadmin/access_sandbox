@@ -3,7 +3,6 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CancerModel } from '../../models';
 
 const initialState = {
-  names: [],
   full: [],
   regimens: {},
   selected: {}
@@ -19,7 +18,6 @@ export const loadCancers = createAsyncThunk(
       const dbCancers = await DBQueryer.getAll('cancers');
       const dbRegimens = await DBQueryer.getAll('regimens');
       cm.loadCancers(dbCancers, dbRegimens);
-      cancers.names = cm.getCancerNames();
       cancers.full = cm.getCancersFull();
       cancers.regimens = cm.getRegimens();
     }

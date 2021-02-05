@@ -10,6 +10,7 @@ const ForecastSelect = ({ name, options, label, sendSelection }) => {
       <Form.Control
         as="select"
         name={ name }
+        custom
         onChange={ sendSelection }
       >
         <option value="0">{ `--Select a ${ name.split('_').join(' ') }--` }</option>
