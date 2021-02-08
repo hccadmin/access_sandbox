@@ -7,7 +7,7 @@ const RiskStratToggle = ({ custom, riskStrat, setRiskPercentage }) => {
   }
   return (
     <Form.Control 
-      name="custom_risk" 
+      name="customRisk" 
       type="number" 
       placeholder="Enter the risk percentage"
       onChange={ setRiskPercentage } 

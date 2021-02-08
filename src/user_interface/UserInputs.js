@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import RiskStratToggle from './RiskStratToggle';
 import Card from 'react-bootstrap/Card';
@@ -13,8 +13,6 @@ import { setIncidence, setRiskStrat, setCustomRisk, setRegimen } from '../state/
 
 const UserInputs = ({ selected }) => {
 
-  //const [custom, toggleRiskStratType] = useState(false);
-
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -22,32 +20,27 @@ const UserInputs = ({ selected }) => {
     return state.user;
   });
 
-/*
-  const toggleRisk = (e) => {
-    toggleRiskStratType({ fixed: !riskStratType.fixed, custom: !riskStratType.custom });
-  }
-*/
 
-  const handleRiskToggle = (e) => {
-    const options = { fixed: false, custom: true };
-    const choice = options[e.target.value];
-    const results = { cancer: cancerHash, riskToggle: choice };
-    dispatch( setCustomRisk(results) );
-  }
-
-  const captureValues = (e) => {
+  const handleEvent = (e) => {
+    const name = e.target.name;
+    switch (name) {
+      case "incidence":
+        const input = e.target.value;
+        const captured = { cancer: cancerHash, incidence: input }
+        dispatch( setIncidence(captured) );
+        break;
+      case "riskToggle":
+        const options = { fixed: false, custom: true };
+        const choice = options[e.target.value];
+        const results = { cancer: cancerHash, riskToggle: choice };
+        dispatch( setCustomRisk(results) );
+        break;
+      case "customRisk":
+        break;
+    }
     // When the user starts typing, check if this cancer has only 1 reg per
     // risk strat. If so, assign reg to risks in user state
     const singleRegArr = loadSingleRegs(selected.risk_strats);
-    if (e.target.name === "incidence") {
-      const input = e.target.value;
-      const captured = { cancer: cancerHash, incidence: input }
-      dispatch( setIncidence(captured) );
-    }
-    else if (e.target.name === "custom_risk") {
-      console.log(e.target.value);
-    }
-    else {}
     if (singleRegArr && user[cancerHash] ) {
       singleRegArr.forEach( (sra) => {
         saveRegimen(sra);
@@ -98,7 +91,7 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
                   <Form.Text>Enter the estimated number of cases</Form.Text>
-                  <Form.Control name="incidence" value={ user[cancerHash].incidence || "" } type="number" onChange={ captureValues } />
+                  <Form.Control name="incidence" value={ user[cancerHash].incidence || "" } type="number" onChange={ handleEvent } />
                 </Form.Group>
               </Col>
             </Row>
@@ -112,9 +105,11 @@ const UserInputs = ({ selected }) => {
                     return (
                       <ToggleButton 
                         key={ i }
+                        checked={ value === 'custom' ? user[cancerHash].customRisk : !user[cancerHash].customRisk }
                         type="radio" 
                         value={ value }
-                        onChange={ handleRiskToggle }
+                        name="riskToggle"
+                        onChange={ handleEvent }
                       >{ sentenceCase(value) }
                       </ToggleButton>
                     );
@@ -137,7 +132,7 @@ const UserInputs = ({ selected }) => {
                           <td>{ rs.name || "Risk stratification" }</td>
 
                         {/* Risk strat override goes here */}
-                          <td><RiskStratToggle custom={ user[cancerHash].customRisk } riskStrat={ rs } setRiskPercentage={ captureValues } /></td>
+                          <td><RiskStratToggle custom={ user[cancerHash].customRisk } riskStrat={ rs } setRiskPercentage={ handleEvent } /></td>
                           <td>
                             { rs.regimens.length === 1 ? rs.regimens[0] :
                             <Form.Control 
