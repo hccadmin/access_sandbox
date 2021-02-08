@@ -24,13 +24,16 @@ const userSlice = createSlice({
     initializeCancer(state, action) {
       const { cancer, name } = action.payload;
       if (!state.hasOwnProperty(cancer)) {
-        state[cancer] = { name };
-        state[cancer].risks = {};
+        state[cancer] = { name, risks: {}, customRisk: false };
       }
     },
     setSelection(state, action) {
       const { name, value } = action.payload;
       state[name] = value;
+    },
+    setCustomRisk(state, action) {
+      const { cancer, riskToggle } = action.payload;
+      state[cancer].customRisk = riskToggle;
     },
     setIncidence(state, action) {
       const { cancer, incidence } = action.payload;
@@ -54,6 +57,7 @@ export const {
   initializeCancer,
   setSelection,
   setIncidence,
+  setCustomRisk,
   setRiskStrat,
   setRegimen
 } = actions;

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import RiskStratToggle from './RiskStratToggle';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import { makeHashKey } from '../helpers/utilities';
-import { setIncidence, setRiskStrat, setRegimen } from '../state/slices/userSlice';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import { makeHashKey, sentenceCase } from '../helpers/utilities';
+import { setIncidence, setRiskStrat, setCustomRisk, setRegimen } from '../state/slices/userSlice';
 
 const UserInputs = ({ selected }) => {
+
+  //const [custom, toggleRiskStratType] = useState(false);
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
@@ -16,6 +21,19 @@ const UserInputs = ({ selected }) => {
   const user = useSelector( (state) => {
     return state.user;
   });
+
+/*
+  const toggleRisk = (e) => {
+    toggleRiskStratType({ fixed: !riskStratType.fixed, custom: !riskStratType.custom });
+  }
+*/
+
+  const handleRiskToggle = (e) => {
+    const options = { fixed: false, custom: true };
+    const choice = options[e.target.value];
+    const results = { cancer: cancerHash, riskToggle: choice };
+    dispatch( setCustomRisk(results) );
+  }
 
   const captureValues = (e) => {
     // When the user starts typing, check if this cancer has only 1 reg per
@@ -26,6 +44,10 @@ const UserInputs = ({ selected }) => {
       const captured = { cancer: cancerHash, incidence: input }
       dispatch( setIncidence(captured) );
     }
+    else if (e.target.name === "custom_risk") {
+      console.log(e.target.value);
+    }
+    else {}
     if (singleRegArr && user[cancerHash] ) {
       singleRegArr.forEach( (sra) => {
         saveRegimen(sra);
@@ -85,6 +107,19 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Risks and regimens</Form.Label>
                   <Form.Text>Enter risk percentages and corresponding regimens(disabled for now)</Form.Text>
+                  <ButtonGroup toggle> 
+                  { ['fixed', 'custom'].map( (value, i) => {
+                    return (
+                      <ToggleButton 
+                        key={ i }
+                        type="radio" 
+                        value={ value }
+                        onChange={ handleRiskToggle }
+                      >{ sentenceCase(value) }
+                      </ToggleButton>
+                    );
+                  })}
+                  </ButtonGroup>
                   <Table>
                     <thead>
                       <tr>
@@ -100,7 +135,9 @@ const UserInputs = ({ selected }) => {
                       return (
                         <tr key={ i }>
                           <td>{ rs.name || "Risk stratification" }</td>
-                          <td>{ `${ (rs.percent_total * 100).toFixed() }%` }</td>
+
+                        {/* Risk strat override goes here */}
+                          <td><RiskStratToggle custom={ user[cancerHash].customRisk } riskStrat={ rs } setRiskPercentage={ captureValues } /></td>
                           <td>
                             { rs.regimens.length === 1 ? rs.regimens[0] :
                             <Form.Control 
