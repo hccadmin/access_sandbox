@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import RiskStratToggle from './RiskStratToggle';
 import Card from 'react-bootstrap/Card';
@@ -9,7 +8,12 @@ import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
-import { setIncidence, setRiskStrat, setCustomRisk, setRegimen } from '../state/slices/userSlice';
+import {
+  setIncidence, 
+  setRiskStrat, 
+  setCustomRisk, 
+  setRegimen 
+} from '../state/slices/userSlice';
 
 const UserInputs = ({ selected }) => {
 
@@ -19,7 +23,6 @@ const UserInputs = ({ selected }) => {
   const user = useSelector( (state) => {
     return state.user;
   });
-
 
   const handleEvent = (e) => {
     const name = e.target.name;
@@ -66,11 +69,10 @@ const UserInputs = ({ selected }) => {
     return (singleRegArr.length > 0) && singleRegArr;
   }
 
-  const captureRegimen = (e, percentage) => {
+  const captureRegimen = (e) => {
     const captured = { 
       cancer: cancerHash, 
       riskStrat: e.target.name, 
-      percentage: percentage,
       regimen: e.target.value 
     };
     saveRegimen(captured);
@@ -79,6 +81,17 @@ const UserInputs = ({ selected }) => {
   const saveRegimen = (captured) => {
     dispatch( setRegimen(captured) );
   }
+
+/*
+  if ( !user.hasOwnProperty(cancerHash) ) {
+    dispatch( initializeCancer({ 
+      cancer: cancerHash, 
+      risks: selected.risk_strats,
+      name: selected.name 
+    }));
+  }
+*/
+
 
   return (
     <div role="user-inputs">
@@ -124,7 +137,7 @@ const UserInputs = ({ selected }) => {
                       </tr>
                     </thead>
                     <tbody>
-                    { selected.risk_strats.map( (rs, i) => {
+                    { selected.risks.map( (rs, i) => {
                       const currCancer = user[cancerHash];
                       const rsHash = makeHashKey(cancerHash, rs.name);
                       return (
@@ -132,16 +145,24 @@ const UserInputs = ({ selected }) => {
                           <td>{ rs.name || "Risk stratification" }</td>
 
                         {/* Risk strat override goes here */}
-                          <td><RiskStratToggle custom={ user[cancerHash].customRisk } riskStrat={ rs } setRiskPercentage={ handleEvent } /></td>
+                          <td>
+                            <RiskStratToggle 
+                              custom={ user[cancerHash].customRisk } 
+                              riskStrat={ rs } 
+                              setRiskPercentage={ handleEvent } 
+                            />
+                          </td>
+
+                        {/* Regimens selection */}
                           <td>
                             { rs.regimens.length === 1 ? rs.regimens[0] :
                             <Form.Control 
                               as="select" 
                               name={ rsHash }
-                              onChange={ (e) => { captureRegimen(e, rs.percent_total) } }
+                              onChange={ (e) => { captureRegimen(e) } }
                               value={ 
                                 (currCancer.risks[rsHash] && 
-                                  currCancer.risks[rsHash].hasOwnProperty('regimen') ) ?
+                                  currCancer.risks[rsHash].regimen.length > 0 ) ?
                                   currCancer.risks[rsHash].regimen : "0"
                               }
                             >

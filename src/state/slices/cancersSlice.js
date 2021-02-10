@@ -5,7 +5,6 @@ import { CancerModel } from '../../models';
 const initialState = {
   full: [],
   regimens: {},
-  selected: {}
 };
 
 const cm = new CancerModel();
@@ -33,10 +32,6 @@ const cancersSlice = createSlice({
   initialState: initialState,
   reducers: {
     getRisksAndRegs(state, action) {
-      const found = state.full.find( (cancer) => {
-        return cancer.name === action.payload;
-      });
-      state.selected = found;
     }
   },
   extraReducers: (builder) => {
@@ -50,7 +45,5 @@ const cancersSlice = createSlice({
 });
 
 const { actions, reducer } = cancersSlice;
-
-export const { getRisksAndRegs } = actions;
 
 export default reducer;

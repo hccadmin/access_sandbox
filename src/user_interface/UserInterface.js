@@ -40,7 +40,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   });
 
   const selected = useSelector( (state) => {
-    return state.cancers.selected;
+    return state.user.selected;
   });
 
   const setting = useSelector( (state) => {

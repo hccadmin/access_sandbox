@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { makeHashKey } from '../../helpers/utilities';
 
 /**
  * cancer: {
@@ -12,19 +13,32 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   setting: "",
   year: "",
-  price_source: ""
+  price_source: "",
+  selected: {}
 }
 
-
+const assembleRisks = (cancer, risks) => {
+  let riskObj = {};
+  risks.forEach( (risk) => {
+    const riskHash = makeHashKey(cancer, risk.name);
+    riskObj[riskHash] = { 
+      percentage: risk.percent_total,
+      regimen: ""
+    };
+  });
+  return riskObj;
+}
 
 const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
     initializeCancer(state, action) {
-      const { cancer, name } = action.payload;
+      const { risks, cancer, name } = action.payload;
+      state.selected = { name, risks }
       if (!state.hasOwnProperty(cancer)) {
-        state[cancer] = { name, risks: {}, customRisk: false };
+        const riskObj = assembleRisks(cancer, risks);
+        state[cancer] = { name, risks: riskObj, customRisk: false };
       }
     },
     setSelection(state, action) {
@@ -41,12 +55,8 @@ const userSlice = createSlice({
     },
     setRiskStrat(state, action) {},
     setRegimen(state, action) {
-      const { cancer, riskStrat, percentage, regimen } = action.payload;
-      if (!state[cancer].risks.hasOwnProperty(riskStrat)) {
-        state[cancer].risks[riskStrat] = {};
-      }
+      const { cancer, riskStrat, regimen } = action.payload;
       state[cancer].risks[riskStrat].regimen = regimen;
-      state[cancer].risks[riskStrat].percentage = percentage;
     }
   }
 });
