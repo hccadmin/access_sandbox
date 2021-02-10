@@ -29,6 +29,15 @@ const assembleRisks = (cancer, risks) => {
   return riskObj;
 }
 
+const revertRisks = (selected, risks) => {
+  let risksRevert = { ...risks };
+  selected.risks.forEach( (risk) => {
+    const riskHash = makeHashKey(selected.name, risk.name);
+    risksRevert[riskHash].percentage = risk.percent_total;
+  });
+  return risksRevert;
+}
+
 const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
@@ -38,20 +47,39 @@ const userSlice = createSlice({
       state.selected = { name, risks }
       if (!state.hasOwnProperty(cancer)) {
         const riskObj = assembleRisks(cancer, risks);
-        state[cancer] = { name, risks: riskObj, customRisk: false };
+        state[cancer] = { 
+          name, 
+          risks: riskObj, 
+          showCustomRisk: false, 
+          hasCustomRisk: false 
+        };
       }
     },
     setSelection(state, action) {
       const { name, value } = action.payload;
       state[name] = value;
     },
-    setCustomRisk(state, action) {
-      const { cancer, riskToggle } = action.payload;
-      state[cancer].customRisk = riskToggle;
+    showCustomRisk(state, action) {
+      const options = { fixed: false, custom: true };
+      const { cancer, choice } = action.payload;
+      state[cancer].showCustomRisk = options[choice];
+      if (choice === "fixed") {
+        const reverted = revertRisks(state.selected, state[cancer].risks);
+        state[cancer].risks = reverted;
+        state[cancer].hasCustomRisk = false;
+      }
+      else {
+        Object.keys(state[cancer].risks).forEach( (risk) => {
+          state[cancer].risks[risk].percentage = "";
+        });
+      }
     },
     setPercentage(state, action) {
       const { cancer, riskName, value } = action.payload;
       state[cancer].risks[riskName].percentage = value;
+      if (!state[cancer].hasCustomRisk) {
+        state[cancer].hasCustomRisk = true;
+      }
     },
     setIncidence(state, action) {
       const { cancer, incidence } = action.payload;
@@ -72,7 +100,7 @@ export const {
   setSelection,
   setIncidence,
   setPercentage,
-  setCustomRisk,
+  showCustomRisk,
   setRiskStrat,
   setRegimen
 } = actions;

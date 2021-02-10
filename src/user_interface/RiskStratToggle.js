@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 
-const RiskStratToggle = ({ custom, riskStrat, setRiskPercentage }) => {
+const RiskStratToggle = ({ custom, riskStrat, setRiskPercentage, saved }) => {
   if (!custom) {
     return `${ riskStrat.percent_total }%`;
   }
@@ -10,6 +10,7 @@ const RiskStratToggle = ({ custom, riskStrat, setRiskPercentage }) => {
       data-risk={ riskStrat.name }
       name="customRisk" 
       type="number" 
+      value={ saved }
       placeholder="Enter the risk percentage"
       onChange={ setRiskPercentage } 
     />

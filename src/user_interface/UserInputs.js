@@ -12,7 +12,7 @@ import {
   setIncidence, 
   setRiskStrat, 
   setPercentage, 
-  setCustomRisk, 
+  showCustomRisk, 
   setRegimen 
 } from '../state/slices/userSlice';
 
@@ -34,10 +34,9 @@ const UserInputs = ({ selected }) => {
         dispatch( setIncidence(captured) );
         break;
       case "riskToggle":
-        const options = { fixed: false, custom: true };
-        const choice = options[e.target.value];
-        const results = { cancer: cancerHash, riskToggle: choice };
-        dispatch( setCustomRisk(results) );
+        const choice = e.target.value;
+        const results = { cancer: cancerHash, choice };
+        dispatch( showCustomRisk(results) );
         break;
       case "customRisk":
         const risk = e.target.dataset.risk;
@@ -127,7 +126,7 @@ const UserInputs = ({ selected }) => {
                       <ToggleButton 
                         key={ i }
                         disabled={ selected.risks.length === 1 }
-                        checked={ value === 'custom' ? user[cancerHash].customRisk : !user[cancerHash].customRisk }
+                        checked={ value === 'custom' ? user[cancerHash].showCustomRisk : !user[cancerHash].showCustomRisk }
                         type="radio" 
                         value={ value }
                         name="riskToggle"
@@ -156,9 +155,10 @@ const UserInputs = ({ selected }) => {
                         {/* Risk strat override goes here */}
                           <td>
                             <RiskStratToggle 
-                              custom={ user[cancerHash].customRisk } 
+                              custom={ user[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 
+                              saved={ user[cancerHash].hasCustomRisk && user[cancerHash].risks[rsHash].percentage }
                             />
                           </td>
 
