@@ -126,6 +126,7 @@ const UserInputs = ({ selected }) => {
                     return (
                       <ToggleButton 
                         key={ i }
+                        disabled={ selected.risks.length === 1 }
                         checked={ value === 'custom' ? user[cancerHash].customRisk : !user[cancerHash].customRisk }
                         type="radio" 
                         value={ value }
