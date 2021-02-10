@@ -140,9 +140,12 @@ class CostModel {
       Object.keys(risks).forEach( (risk) => {
         ageRangeIncObj[cancer].risk_strats[risk] = {};
         const currRisk = ageRangeIncObj[cancer].risk_strats[risk];
+        const percentage = user[cancer].risks[risk].percentage;
         currRisk.age_ranges = {};
         this.#ageRanges.forEach( (ar) => {
-          currRisk.age_ranges[ar] = age_ranges[ar] * parseFloat(user[cancer].incidence) * user[cancer].risks[risk].percentage;
+          currRisk.age_ranges[ar] = age_ranges[ar] * 
+            parseFloat(user[cancer].incidence) * 
+            ( parseFloat(percentage).toFixed(1) / 100 );
         });
       });
     });

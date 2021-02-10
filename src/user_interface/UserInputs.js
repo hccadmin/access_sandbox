@@ -11,6 +11,7 @@ import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import {
   setIncidence, 
   setRiskStrat, 
+  setPercentage, 
   setCustomRisk, 
   setRegimen 
 } from '../state/slices/userSlice';
@@ -39,11 +40,18 @@ const UserInputs = ({ selected }) => {
         dispatch( setCustomRisk(results) );
         break;
       case "customRisk":
+        const risk = e.target.dataset.risk;
+        const riskHash = makeHashKey(selected.name, risk);
+        dispatch( setPercentage({
+          cancer: cancerHash,
+          riskName: riskHash,
+          value: e.target.value
+        }));
         break;
     }
     // When the user starts typing, check if this cancer has only 1 reg per
     // risk strat. If so, assign reg to risks in user state
-    const singleRegArr = loadSingleRegs(selected.risk_strats);
+    const singleRegArr = loadSingleRegs(selected.risks);
     if (singleRegArr && user[cancerHash] ) {
       singleRegArr.forEach( (sra) => {
         saveRegimen(sra);

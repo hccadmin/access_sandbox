@@ -63,7 +63,7 @@ class CancerModel {
       const riskStrats = result.risk_strats.map( (rs) => {
         return {
           name: rs.strat_name,
-          percent_total: rs.percent_total/100,
+          percent_total: rs.percent_total,
           regimens: rs.regimens
         }
       });

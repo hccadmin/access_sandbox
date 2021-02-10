@@ -49,6 +49,10 @@ const userSlice = createSlice({
       const { cancer, riskToggle } = action.payload;
       state[cancer].customRisk = riskToggle;
     },
+    setPercentage(state, action) {
+      const { cancer, riskName, value } = action.payload;
+      state[cancer].risks[riskName].percentage = value;
+    },
     setIncidence(state, action) {
       const { cancer, incidence } = action.payload;
       state[cancer].incidence = incidence;
@@ -67,6 +71,7 @@ export const {
   initializeCancer,
   setSelection,
   setIncidence,
+  setPercentage,
   setCustomRisk,
   setRiskStrat,
   setRegimen
