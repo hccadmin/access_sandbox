@@ -2,13 +2,14 @@ import React from 'react';
 import { sentenceCase, makeHashKey } from '../helpers/utilities';
 import Form from 'react-bootstrap/Form';
 
-const ForecastSelect = ({ name, options, label, sendSelection }) => {
+const ForecastSelect = ({ name, value, options, label, sendSelection }) => {
   return (
     <Form.Group>
       <h3>{ sentenceCase(name) }</h3>
       <Form.Label>{ label }</Form.Label>
       <Form.Control
         as="select"
+        value={ value }
         name={ name }
         custom
         onChange={ sendSelection }

@@ -39,8 +39,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.cancers.full;
   });
 
-  const selected = useSelector( (state) => {
-    return state.user.selected;
+  const user = useSelector( (state) => {
+    return state.user;
   });
 
   const setting = useSelector( (state) => {
@@ -80,6 +80,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
                   <Col key={ i }>
                     <ForecastSelect
                       name={ input }
+                      value={ user[input] || 0 }
                       options={ inputs[input].list }
                       label={ inputs[input].label }
                       sendSelection={ evaluateSelection }
@@ -97,8 +98,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             </Col>
             <Col md="9">
               { 
-                !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
-                  <UserInputs selected={ selected } />
+                !user.selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
+                  <UserInputs selected={ user.selected } />
               }
             </Col>
             <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
