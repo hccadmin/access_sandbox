@@ -2,13 +2,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadSetting } from '../state/slices/settingSlice';
 import { setSelection } from '../state/slices/userSlice';
+import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import StaticTitle from './StaticTitle';
 import ForecastSelect from './ForecastSelect';
+import SettingButtons from './SettingButtons';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
@@ -34,6 +37,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
 
   const inputs = restructureUILabels(uiLabels);
+
+  const settings = ["health_system", "single_institution"];
   
   const cancers = useSelector( (state) => {
     return state.cancers.full;
@@ -55,6 +60,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     setVisible({ inputs: false, results: true });
     loadAllCosts();
   }
+
+  const setSetting = (e) => {
+    console.log(e.target.name);
+  }
    
   const evaluateSelection = (e) => {
     const selection = {
@@ -71,9 +80,18 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   return (
     <div>
       <Container>
-        <h2>User inputs</h2>
         <header role="header">
+          <h2>Step 1: Setting</h2>
+          <p>Choose to view costs as a Health System or a Single Institution</p>
+          <SettingButtons names={ settings } setSetting={ evaluateSelection } />
           <Form>
+              <Card>
+                <Card.Body>
+                  <Card.Title>
+                    { user.setting && sentenceCase(user.setting) }
+                  </Card.Title>
+                </Card.Body>
+              </Card>
             <Row>
               { Object.keys(inputs).map( (input, i) => {
                 return (
