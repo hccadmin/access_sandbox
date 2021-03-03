@@ -1,11 +1,11 @@
 import React from 'react';
-import { sentenceCase, makeHashKey } from '../helpers/utilities';
+import { sentenceCase, toSingular, makeHashKey } from '../helpers/utilities';
 import Form from 'react-bootstrap/Form';
 
 const ForecastSelect = ({ name, value, options, label, sendSelection }) => {
   return (
     <Form.Group>
-      <h3>{ sentenceCase(name) }</h3>
+    {/*<h3>{ sentenceCase(name) }</h3>*/}
       <Form.Label>{ label }</Form.Label>
       <Form.Control
         as="select"
@@ -14,14 +14,14 @@ const ForecastSelect = ({ name, value, options, label, sendSelection }) => {
         custom
         onChange={ sendSelection }
       >
-        <option value="0">{ `--Select a ${ name.split('_').join(' ') }--` }</option>
+        <option value="0">{ `--Select a ${ toSingular(name).split('_').join(' ') }--` }</option>
         { options.map( (option, i) => {
           return (
             <option 
               key={ i }
               value={ option }
               name={ option }
-            >{ option }
+            >{ sentenceCase(option) }
             </option>
           );
         })}

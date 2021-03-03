@@ -3,6 +3,28 @@ const sentenceCase = (str) => {
   return result[0].toUpperCase() + result.substring(1); 
 }
 
+const toSingular = (str) => {
+  let singular = "";
+  if (str.endsWith("ies")) {
+    singular = str.replace(/ies\b/, "y");
+  }
+  else {
+    singular = str.slice(0, -1);
+  }
+  return singular;
+}
+
+const toPlural = (str) => {
+  let plural = "";
+  if (str.endsWith("y")) {
+    plural = str.replace(/y\b/, "ies");
+  }
+  else {
+    plural = str = "s";
+  }
+  return plural;
+}
+
 const makeHashKey = (...elements) => {
   const str = elements.join('');
   const arr = str.split(/[\s-]/).map( (el) => {
@@ -36,5 +58,7 @@ export {
   makeHashKey,
   to4decimals,
   sentenceCase,
+  toSingular,
+  toPlural,
   sortObjects
 }

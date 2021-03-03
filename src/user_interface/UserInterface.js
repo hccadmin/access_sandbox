@@ -7,14 +7,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import StaticTitle from './StaticTitle';
 import ForecastSelect from './ForecastSelect';
 import SettingButtons from './SettingButtons';
+import SettingInputs from './SettingInputs';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
+/*
 const restructureUILabels = (uiLabels) => {
   const { countries, years, price_source } = uiLabels;
   return {
@@ -32,13 +32,17 @@ const restructureUILabels = (uiLabels) => {
     }
   };
 }
+*/
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
 
-  const inputs = restructureUILabels(uiLabels);
+  //const inputs = restructureUILabels(uiLabels);
 
-  const settings = ["health_system", "single_institution"];
+  const settings = {
+    health_systems: "health_system",
+    countries: "single_institution"
+  };
   
   const cancers = useSelector( (state) => {
     return state.cancers.full;
@@ -61,10 +65,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     loadAllCosts();
   }
 
-  const setSetting = (e) => {
-    console.log(e.target.name);
-  }
-   
   const evaluateSelection = (e) => {
     const selection = {
       name: e.target.name,
@@ -83,17 +83,16 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         <header role="header">
           <h2>Step 1: Setting</h2>
           <p>Choose to view costs as a Health System or a Single Institution</p>
-          <SettingButtons names={ settings } setSetting={ evaluateSelection } />
+          <SettingButtons names={ Object.values(settings) } setSetting={ evaluateSelection } />
+          <SettingInputs 
+            settings={ settings }
+            selected={ user.setting } 
+            uiLabels={ uiLabels }
+            setOption={ evaluateSelection } 
+          /> 
           <Form>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    { user.setting && sentenceCase(user.setting) }
-                  </Card.Title>
-                </Card.Body>
-              </Card>
             <Row>
-              { Object.keys(inputs).map( (input, i) => {
+              {/* Object.keys(inputs).map( (input, i) => {
                 return (
                   <Col key={ i }>
                     <ForecastSelect
@@ -105,7 +104,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
                     />
                   </Col>
                 )
-              })}
+              })*/}
             </Row>
           </Form>
         </header>

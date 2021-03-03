@@ -7,6 +7,8 @@ import UserInterface from './user_interface/UserInterface';
 import ResultsInterface from './results_interface/ResultsInterface';
 
 const App = () => {
+  const [visibility, setVisibility] = useState({ inputs: true, results: false });
+
   const dispatch = useDispatch();
 
   const uiLabels = useSelector( (state) => {
@@ -28,8 +30,6 @@ const App = () => {
   const loadAllCosts = () => {
     dispatch( initCostCalc({ user, regimens }));
   }
-
-  const [visibility, setVisibility] = useState({ inputs: true, results: false });
 
   const selections = { 
     setting: user.setting,

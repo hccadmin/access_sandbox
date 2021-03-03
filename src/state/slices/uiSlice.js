@@ -49,7 +49,11 @@ const uiSlice = createSlice({
         state.years = action.payload.years;
         state.countries = action.payload.countries;
         state.price_source = action.payload.price_source;
-        state.regions = action.payload.regions;
+        state.health_systems = action.payload.health_systems;
+        state.continents = action.payload.continents;
+        state.country_income_status = action.payload.country_income_status;
+        state.sub_regions = action.payload.sub_regions;
+        state.world_bank_regions = action.payload.world_bank_regions;
       });
   }
 });
