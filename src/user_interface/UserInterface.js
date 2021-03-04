@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
-import { loadSetting } from '../state/slices/settingSlice';
+import { setSettingInput } from '../state/slices/settingSlice';
 import { setSelection } from '../state/slices/userSlice';
 import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
@@ -14,30 +14,9 @@ import SettingInputs from './SettingInputs';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
-/*
-const restructureUILabels = (uiLabels) => {
-  const { countries, years, price_source } = uiLabels;
-  return {
-    setting: {
-      label: "Setting label",
-      list: countries
-    },
-    year: {
-      label: "Years label",
-      list: years
-    },
-    price_source: {
-      label: "Price source label",
-      list: price_source
-    }
-  };
-}
-*/
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
-
-  //const inputs = restructureUILabels(uiLabels);
 
   const settings = {
     health_systems: "health_system",
@@ -65,6 +44,19 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     loadAllCosts();
   }
 
+  const handleSettingInput = (e) => {
+    const input = {};
+    switch (e.target.name) {
+      case "health_system": 
+        break;
+      default:
+        input.name = e.target.name;
+        input.value = e.target.value;
+        break;
+    }
+    dispatch( setSettingInput(input) );
+  }
+
   const evaluateSelection = (e) => {
     const selection = {
       name: e.target.name,
@@ -83,7 +75,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         <header role="header">
           <h2>Step 1: Setting</h2>
           <p>Choose to view costs as a Health System or a Single Institution</p>
-          <SettingButtons names={ Object.values(settings) } setSetting={ evaluateSelection } />
+          <SettingButtons 
+            names={ Object.values(settings) } 
+            setSettingType={ handleSettingInput } 
+          />
           <SettingInputs 
             settings={ settings }
             selected={ user.setting } 

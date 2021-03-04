@@ -3,11 +3,14 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { SettingModel } from '../../models';
 
 const initialState = {
+  type: "",
+  subtype: "",
   name: "",
   year: "",
   incidences: []
 };
 
+/*
 const sm = new SettingModel();
 
 export const loadSetting = createAsyncThunk(
@@ -24,18 +27,23 @@ export const loadSetting = createAsyncThunk(
     catch (e) {
       console.error(e);
     }
-    /*
-    */
     return cleanSetting;
   }
 );
+
+*/
 
 const settingSlice = createSlice({
   name: 'setting',
   initialState: initialState,
   reducers: {
+    setSettingInput(state, action) {
+      const { name, value, ...inputs } = action.payload;
+      state[name] = value;
+    },
     getSetting(state, action) {}
   },
+/*
   extraReducers: (builder) => {
     builder
       .addCase(loadSetting.fulfilled, (state, action) => {
@@ -45,10 +53,11 @@ const settingSlice = createSlice({
         state.bodyStats = action.payload.bodyStats;
       })
   }
+*/
 });
 
 const { actions, reducer } = settingSlice;
 
-export const { getSetting } = actions;
+export const { getSetting, setSettingInput } = actions;
 
 export default reducer;
