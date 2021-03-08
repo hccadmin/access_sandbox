@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Fade from 'react-bootstrap/Fade';
+import Form from 'react-bootstrap/Form';
 import ForecastSelect from './ForecastSelect';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
@@ -52,6 +53,21 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     options={ uiLabels[setting.subtype] }
                     sendSelection={ setOption }
                   /> 
+                  <Form.Group>
+                    <Form.Label>Diagnosis type</Form.Label>
+                    {["diagnosed", "total"].map( (type, i) => {
+                      return (
+                        <Form.Check
+                          key={ i }
+                          type="radio"
+                          name="diagType"
+                          label={ sentenceCase(type) }
+                          value={ type }
+                          onChange={ setOption }
+                        />
+                      );
+                    })}
+                  </Form.Group>
                 </div>
               }
           </>

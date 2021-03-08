@@ -7,6 +7,7 @@ const initialState = {
   subtype: "",
   name: "",
   year: "",
+  diagType: "",
   incidences: []
 };
 
