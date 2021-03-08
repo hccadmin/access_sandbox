@@ -18,9 +18,17 @@ import UserInputs from './UserInputs';
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
 
-  const settings = {
-    health_systems: "health_system",
-    countries: "single_institution"
+  const settingsKeyVal = {
+    health_systems: {
+      buttonText: "Health system",
+      label: "geographical area",
+      next: "subtype",
+    },
+    countries: {
+      buttonText: "Single institution",
+      label: "country",
+      selectName: "name"
+    }
   };
   
   const cancers = useSelector( (state) => {
@@ -45,10 +53,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   }
 
   const handleSettingInput = (e) => {
-    const input = {};
+    const input = { reset: false };
     switch (e.target.name) {
-      case "health_system": 
-        break;
+      case "type": 
+        input.reset = true;
       default:
         input.name = e.target.name;
         input.value = e.target.value;
@@ -76,14 +84,15 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           <h2>Step 1: Setting</h2>
           <p>Choose to view costs as a Health System or a Single Institution</p>
           <SettingButtons 
-            names={ Object.values(settings) } 
+            names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
             setSettingType={ handleSettingInput } 
+            saved={ setting.type }
           />
           <SettingInputs 
-            settings={ settings }
-            selected={ user.setting } 
+            keyVals={ settingsKeyVal }
+            selected={ setting.type } 
             uiLabels={ uiLabels }
-            setOption={ evaluateSelection } 
+            setOption={ handleSettingInput } 
           /> 
           <Form>
             <Row>

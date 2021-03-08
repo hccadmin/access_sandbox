@@ -1,20 +1,21 @@
 import React from 'react';
-import { sentenceCase, toSingular, makeHashKey } from '../helpers/utilities';
+import { sentenceCase, toSingular, toPlural, makeHashKey } from '../helpers/utilities';
 import Form from 'react-bootstrap/Form';
 
-const ForecastSelect = ({ name, value, options, label, sendSelection }) => {
+const ForecastSelect = ({ name, id, value, options, label, sendSelection }) => {
   return (
     <Form.Group>
     {/*<h3>{ sentenceCase(name) }</h3>*/}
-      <Form.Label>{ label }</Form.Label>
+      <Form.Label>{ sentenceCase(toPlural(label)) }</Form.Label>
       <Form.Control
+        id={ id }
         as="select"
         value={ value }
         name={ name }
         custom
         onChange={ sendSelection }
       >
-        <option value="0">{ `--Select a ${ toSingular(name).split('_').join(' ') }--` }</option>
+        <option value="0">{ `--Select a ${ label }--` }</option>
         { options.map( (option, i) => {
           return (
             <option 

@@ -1,9 +1,15 @@
 const sentenceCase = (str) => {
-  let result = str.replaceAll(/_/g, ' ')
-  return result[0].toUpperCase() + result.substring(1); 
+  if ( isNaN(str) ) {
+    let result = str.replaceAll(/_/g, ' ')
+    return result[0].toUpperCase() + result.substring(1); 
+  }
+  return str;
 }
 
 const toSingular = (str) => {
+  if (!str || str.length === 0) {
+    return false;
+  }
   let singular = "";
   if (str.endsWith("ies")) {
     singular = str.replace(/ies\b/, "y");
@@ -15,12 +21,15 @@ const toSingular = (str) => {
 }
 
 const toPlural = (str) => {
+  if (!str || str.length === 0) {
+    return false;
+  }
   let plural = "";
   if (str.endsWith("y")) {
     plural = str.replace(/y\b/, "ies");
   }
   else {
-    plural = str = "s";
+    plural = str + "s";
   }
   return plural;
 }

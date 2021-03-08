@@ -38,7 +38,11 @@ const settingSlice = createSlice({
   initialState: initialState,
   reducers: {
     setSettingInput(state, action) {
-      const { name, value, ...inputs } = action.payload;
+      const { name, value, reset, ...inputs } = action.payload;
+      if (reset) {
+        state.subtype = "";
+        state.name = "";
+      }
       state[name] = value;
     },
     getSetting(state, action) {}
