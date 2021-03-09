@@ -19,6 +19,10 @@ const App = () => {
     return state.user;
   });
 
+  const setting = useSelector( (state) => {
+    return state.setting;
+  });
+
   const regimens = useSelector( (state) => {
     return state.cancers.regimens;
   });
@@ -28,12 +32,13 @@ const App = () => {
   });
 
   const loadAllCosts = () => {
-    dispatch( initCostCalc({ user, regimens }));
+    dispatch( initCostCalc({ setting, user, regimens }));
   }
 
   const selections = { 
-    setting: user.setting,
-    year: user.year
+    setting: setting.name,
+    year: setting.year,
+    diagType: setting.diagType
   }
 
   if ( uiLabels.cancers.length === 0) {
