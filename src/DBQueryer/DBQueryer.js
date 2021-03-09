@@ -11,9 +11,9 @@ const DBQueryer = ( () => {
     return querySnapshot.docs.map( (doc) => doc.data() );
   }
 
-  const getSetting = async(setting, year) => {
+  const getSetting = async(setting, year, diagType) => {
     year = parseInt(year);
-    const querySnapshot = await db.collection('diagnosed_standard')
+    const querySnapshot = await db.collection(diagType)
       .where('setting', '==', setting)
       .where('year', '==', year).get();
     return querySnapshot.docs.map( (doc) => doc.data() );

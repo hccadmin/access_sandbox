@@ -43,8 +43,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   sendSelection={ setOption }
                 /> 
               </div>
-              { setting.subtype &&
-                <div className="d-flex flex-wrap">
+              { (setting.subtype && setting.subtype !== "worldwide") &&
                   <ForecastSelect
                     name="name"
                     id={ setting.subtype }
@@ -53,6 +52,8 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     options={ uiLabels[setting.subtype] }
                     sendSelection={ setOption }
                   /> 
+                }
+                { setting.subtype &&
                   <Form.Group>
                     <Form.Label>Diagnosis type</Form.Label>
                     {["diagnosed", "total"].map( (type, i) => {
@@ -62,15 +63,14 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                           type="radio"
                           name="diagType"
                           label={ sentenceCase(type) }
-                          value={ type }
+                          value={ `${type}_standard` }
                           onChange={ setOption }
                         />
                       );
                     })}
                   </Form.Group>
-                </div>
-              }
-          </>
+                }
+            </>
         }
         </Card.Body>
       </Card>

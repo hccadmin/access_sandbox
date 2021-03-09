@@ -43,8 +43,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.setting;
   });
 
-  const priceType = useSelector( (state) => {
-    return state.costs.priceType;
+  const priceSource = useSelector( (state) => {
+    return state.costs.priceSource;
   });
 
   const initCostCalc = () => {
@@ -53,14 +53,11 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   }
 
   const handleSettingInput = (e) => {
-    const input = { reset: false };
-    switch (e.target.name) {
-      case "type": 
-        input.reset = true;
-      default:
-        input.name = e.target.name;
-        input.value = e.target.value;
-        break;
+    const name = e.target.name;
+    const value = e.target.value;
+    const input = { name, value, reset: false };
+    if (name === "type") {
+      input.reset = true;
     }
     dispatch( setSettingInput(input) );
   }

@@ -4,7 +4,7 @@ import { CostModel } from '../../models'
 import { SettingModel } from '../../models';
 
 const initialState = {
-  priceType: "",
+  priceSource: "consolidated",
   list: {}
 };
 
@@ -14,18 +14,19 @@ const cm = new CostModel();
 export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
-    const { user, regimens } = criteria;
-    const { setting, year, price_source, ...cancers } = user;
+    const { user, setting, regimens } = criteria;
+    const { name, type, year, diagType } = setting;
+    const { selected, ...cancers } = user;
     const result = await Promise.all([
-      DBQueryer.getSetting(setting, year),
-      DBQueryer.getBsa(setting),
+      DBQueryer.getSetting(name, year, diagType),
+      DBQueryer.getBsa(name),
       DBQueryer.getAll('prices')
     ]);
     const [dbSetting, dbBsa, dbPrices] = result;
     sm.loadSetting(dbSetting[0], dbBsa[0]);
     const settingData = sm.getSettingData();
 
-    cm.loadDrugPrices(price_source, dbPrices);
+    cm.loadDrugPrices(initialState.priceSource, dbPrices);
     const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens);
     return hasValidInputs && cm.getTotalDosageAndCost();
   }

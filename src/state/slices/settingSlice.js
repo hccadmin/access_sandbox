@@ -39,10 +39,21 @@ const settingSlice = createSlice({
   initialState: initialState,
   reducers: {
     setSettingInput(state, action) {
-      const { name, value, reset, ...inputs } = action.payload;
+      let { name, value, reset, ...inputs } = action.payload;
       if (reset) {
         state.subtype = "";
         state.name = "";
+      }
+      if (name === "subtype") { 
+        if (state.name === "Worldwide") {
+          state.name = "";
+        }
+        else if (value === "worldwide") {
+          state.subtype = value;
+          name = "name";
+          value = "Worldwide";
+        }
+        else {}
       }
       state[name] = value;
     },
