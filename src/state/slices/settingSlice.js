@@ -8,30 +8,30 @@ const initialState = {
   name: "",
   year: "",
   diagType: "",
-  incidences: []
+  incidences: {},
+  bodyStats: {}
 };
 
-/*
 const sm = new SettingModel();
 
-export const loadSetting = createAsyncThunk(
-  'setting/loadSettingStatus',
+export const loadIncidencesAndBsa = createAsyncThunk(
+  'setting/loadIncidencesAndBsaStatus',
   async(data, thunkAPI) => {
-    const { setting, year } = data;
+    const { name, type, year, diagType } = data;
     let cleanSetting;
-    try {
-      const dbSetting = await DBQueryer.getSetting(setting, year);
-      const dbBsa = await DBQueryer.getBsa(setting);
-      sm.loadSetting(dbSetting[0], dbBsa[0]);
-      cleanSetting = sm.getSetting();
-    }
-    catch (e) {
-      console.error(e);
-    }
-    return cleanSetting;
+    const result = await Promise.all([
+      DBQueryer.getSetting(name, year, `${diagType}_standard`),
+      DBQueryer.getBsa(name)
+    ]);
+    const [dbSetting, dbBodyStats] = result;
+    sm.loadSetting(dbSetting[0], dbBodyStats[0]);
+    const incidences = sm.getIncidences();
+    const bodyStats = sm.getBodyStats();
+    return { incidences, bodyStats };
   }
 );
 
+/*
 */
 
 const settingSlice = createSlice({
@@ -59,16 +59,14 @@ const settingSlice = createSlice({
     },
     getSetting(state, action) {}
   },
-/*
   extraReducers: (builder) => {
     builder
-      .addCase(loadSetting.fulfilled, (state, action) => {
-        state.name = action.payload.setting;
-        state.year = action.payload.year;
+      .addCase(loadIncidencesAndBsa.fulfilled, (state, action) => {
         state.incidences = action.payload.incidences;
-        state.bodyStats = action.payload.bodyStats;
+        state.bsa = action.payload.bodyStats;
       })
   }
+/*
 */
 });
 

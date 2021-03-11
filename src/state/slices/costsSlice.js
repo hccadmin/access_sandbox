@@ -18,7 +18,7 @@ export const initCostCalc = createAsyncThunk(
     const { name, type, year, diagType } = setting;
     const { selected, ...cancers } = user;
     const result = await Promise.all([
-      DBQueryer.getSetting(name, year, diagType),
+      DBQueryer.getSetting(name, year, `${diagType}_standard`),
       DBQueryer.getBsa(name),
       DBQueryer.getAll('prices')
     ]);
@@ -47,7 +47,6 @@ const costsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initCostCalc.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.list = action.payload;
       })
   }
