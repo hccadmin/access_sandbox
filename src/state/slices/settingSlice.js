@@ -34,17 +34,28 @@ export const loadIncidencesAndBsa = createAsyncThunk(
 /*
 */
 
+
 const settingSlice = createSlice({
   name: 'setting',
   initialState: initialState,
   reducers: {
     setSettingInput(state, action) {
       let { name, value, reset, ...inputs } = action.payload;
+
+// This mess needs to be seriously refactored
       if (reset) {
         state.subtype = "";
         state.name = "";
       }
-      if (name === "subtype") { 
+      if (name === "type") {
+        if (value === "Single institution") {
+          state.diagType = "diagnosed";
+        }
+        else {
+          state.diagType = "";
+        }
+      }
+      else if (name === "subtype") { 
         if (state.name === "Worldwide") {
           state.name = "";
         }
@@ -55,10 +66,21 @@ const settingSlice = createSlice({
         }
         else {}
       }
+      else {}
       state[name] = value;
     },
+
+    allFieldsFilled(state, action) {
+      const { name, year, diagType } = state;
+      console.log(name, year, diagType);
+      return [name, year, diagType].every( (input) => {
+        return input.length > 0;
+      });
+    },
+
     getSetting(state, action) {}
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(loadIncidencesAndBsa.fulfilled, (state, action) => {
@@ -72,6 +94,6 @@ const settingSlice = createSlice({
 
 const { actions, reducer } = settingSlice;
 
-export const { getSetting, setSettingInput } = actions;
+export const { setSettingInput, allFieldsFilled } = actions;
 
 export default reducer;

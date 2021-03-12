@@ -1,4 +1,6 @@
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useCompletedInputs } from '../hooks';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { setSettingInput } from '../state/slices/settingSlice';
 import { setSelection } from '../state/slices/userSlice';
@@ -17,6 +19,16 @@ import UserInputs from './UserInputs';
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const dispatch = useDispatch();
+
+  const setting = useSelector( (state) => {
+    return state.setting;
+  });
+
+  const areComplete = useCompletedInputs(setting.name, setting.year, setting.diagType);
+
+  useEffect( () => {
+    console.log(areComplete);
+  });
 
   const settingsKeyVal = {
     health_systems: {
@@ -39,10 +51,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.user;
   });
 
-  const setting = useSelector( (state) => {
-    return state.setting;
-  });
-
   const priceSource = useSelector( (state) => {
     return state.costs.priceSource;
   });
@@ -60,7 +68,11 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
       input.reset = true;
     }
     dispatch( setSettingInput(input) );
+    /*
+    */
   }
+
+
 
   const evaluateSelection = (e) => {
     const selection = {
