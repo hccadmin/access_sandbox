@@ -18,6 +18,7 @@ export const loadIncidencesAndBsa = createAsyncThunk(
   'setting/loadIncidencesAndBsaStatus',
   async(data, thunkAPI) => {
     const { name, type, year, diagType } = data;
+    console.log(data);
     let cleanSetting;
     const result = await Promise.all([
       DBQueryer.getSetting(name, year, `${diagType}_standard`),
@@ -46,6 +47,8 @@ const settingSlice = createSlice({
       if (reset) {
         state.subtype = "";
         state.name = "";
+        state.incidences = {};
+        state.bodyStats = {};
       }
       if (name === "type") {
         if (value === "Single institution") {
@@ -85,7 +88,7 @@ const settingSlice = createSlice({
     builder
       .addCase(loadIncidencesAndBsa.fulfilled, (state, action) => {
         state.incidences = action.payload.incidences;
-        state.bsa = action.payload.bodyStats;
+        state.bodyStats = action.payload.bodyStats;
       })
   }
 /*

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCompletedInputs } from '../hooks';
 import { loadCancers } from '../state/slices/cancersSlice';
+import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { setSettingInput } from '../state/slices/settingSlice';
 import { setSelection } from '../state/slices/userSlice';
 import { sentenceCase } from '../helpers/utilities';
@@ -10,6 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import SettingButtons from './SettingButtons';
 import SettingInputs from './SettingInputs';
@@ -24,11 +26,23 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.setting;
   });
 
-  const areComplete = useCompletedInputs(setting.name, setting.year, setting.diagType);
+  const { name, year, type, diagType, incidences } = setting;
+
+  const areComplete = useCompletedInputs(name, year, diagType);
+
+  const areIncidencesLoaded = (incs) => {
+    return Object.keys(incs).length > 0;
+  }
 
   useEffect( () => {
-    console.log(areComplete);
-  });
+    if (areComplete) {
+      dispatch(loadIncidencesAndBsa({
+        name, type, year, diagType
+      }));
+    }
+      /*
+      */
+  }, [name, type, year, diagType]);
 
   const settingsKeyVal = {
     health_systems: {
@@ -89,8 +103,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   return (
     <div>
       <Container>
-        <header role="header">
-          <h2>Step 1: Setting</h2>
+        <Step title="Step 1: Setting" fade="true">
           <p>Choose to view costs as a Health System or a Single Institution</p>
           <SettingButtons 
             names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
@@ -103,38 +116,21 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             uiLabels={ uiLabels }
             setOption={ handleSettingInput } 
           /> 
-          <Form>
+        </Step>
+          <Step title="Step 2: Cancers" fade={ areComplete }>
             <Row>
-              {/* Object.keys(inputs).map( (input, i) => {
-                return (
-                  <Col key={ i }>
-                    <ForecastSelect
-                      name={ input }
-                      value={ user[input] || 0 }
-                      options={ inputs[input].list }
-                      label={ inputs[input].label }
-                      sendSelection={ evaluateSelection }
-                    />
-                  </Col>
-                )
-              })*/}
+              <Col md="3">
+                <CancerButtons cancers={ uiLabels.cancers } />
+              </Col>
+              <Col md="9">
+                { 
+                  !user.selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
+                    <UserInputs selected={ user.selected } />
+                }
+              </Col>
+              <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
             </Row>
-          </Form>
-        </header>
-        <div className="main">
-          <Row>
-            <Col md="3">
-              <CancerButtons cancers={ uiLabels.cancers } />
-            </Col>
-            <Col md="9">
-              { 
-                !user.selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
-                  <UserInputs selected={ user.selected } />
-              }
-            </Col>
-            <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
-          </Row>
-        </div>
+          </Step>
       </Container>
     </div>
   );
