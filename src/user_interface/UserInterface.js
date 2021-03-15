@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useCompletedInputs } from '../hooks';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
-import { setSettingInput } from '../state/slices/settingSlice';
 import { setSelection } from '../state/slices/userSlice';
 import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
@@ -13,46 +11,20 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Step from './Step';
 import ForecastSelect from './ForecastSelect';
-import SettingButtons from './SettingButtons';
-import SettingInputs from './SettingInputs';
+import Step1Setting from './Step1Setting';
 import CancerButtons from './CancerButtons';
 import UserInputs from './UserInputs';
 
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
+  const [step2Visible, setStep2Visible] = useState(false);
+
   const dispatch = useDispatch();
 
   const setting = useSelector( (state) => {
     return state.setting;
   });
 
-  const { name, year, type, diagType, incidences } = setting;
-
-  const areComplete = useCompletedInputs(name, year, diagType);
-
-  useEffect( () => {
-    if (areComplete) {
-      dispatch(loadIncidencesAndBsa({
-        name, type, year, diagType
-      }));
-    }
-      /*
-      */
-  }, [name, type, year, diagType]);
-
-  const settingsKeyVal = {
-    health_systems: {
-      buttonText: "Health system",
-      label: "geographical area",
-      next: "subtype",
-    },
-    countries: {
-      buttonText: "Single institution",
-      label: "country",
-      selectName: "name"
-    }
-  };
-  
   const cancers = useSelector( (state) => {
     return state.cancers.full;
   });
@@ -69,19 +41,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     setVisible({ inputs: false, results: true });
     loadAllCosts();
   }
-
-  const handleSettingInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    const input = { name, value, reset: false };
-    if (name === "type") {
-      input.reset = true;
-    }
-    dispatch( setSettingInput(input) );
-    /*
-    */
-  }
-
 
 
   const evaluateSelection = (e) => {
@@ -101,19 +60,12 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
       <Container>
         <Step title="Step 1: Setting" fade="true">
           <p>Choose to view costs as a Health System or a Single Institution</p>
-          <SettingButtons 
-            names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
-            setSettingType={ handleSettingInput } 
-            saved={ setting.type }
-          />
-          <SettingInputs 
-            keyVals={ settingsKeyVal }
-            selected={ setting.type } 
+          <Step1Setting
             uiLabels={ uiLabels }
-            setOption={ handleSettingInput } 
-          /> 
+            setComplete={ setStep2Visible }
+          />
         </Step>
-          <Step title="Step 2: Cancers" fade={ areComplete }>
+          <Step title="Step 2: Cancers" fade={ step2Visible }>
             <Row>
               <Col md="3">
                 <CancerButtons cancers={ uiLabels.cancers } />
