@@ -30,10 +30,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   const areComplete = useCompletedInputs(name, year, diagType);
 
-  const areIncidencesLoaded = (incs) => {
-    return Object.keys(incs).length > 0;
-  }
-
   useEffect( () => {
     if (areComplete) {
       dispatch(loadIncidencesAndBsa({

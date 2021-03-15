@@ -10,11 +10,14 @@ const useCompletedInputs = (...inputs) => {
     });
   }
 
+  /*
   useEffect( () => {
     setComplete( allFieldsFilled(inputs) );
   });
+  */
 
-  return areComplete;
+  //return areComplete;
+  return allFieldsFilled(inputs);;
 }
 
 export { useCompletedInputs };
