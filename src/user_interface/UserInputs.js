@@ -16,7 +16,7 @@ import {
   setRegimen 
 } from '../state/slices/userSlice';
 
-const UserInputs = ({ selected }) => {
+const UserInputs = ({ selected, predictedIncs }) => {
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
@@ -24,6 +24,12 @@ const UserInputs = ({ selected }) => {
   const user = useSelector( (state) => {
     return state.user;
   });
+
+  const getIncidenceValue = (userInc, predictedIncs) => {
+    const predictedInc = predictedIncs.hasOwnProperty(cancerHash) && predictedIncs[cancerHash].total.toFixed();
+    return userInc || (predictedInc || "");
+  }
+
 
   const handleEvent = (e) => {
     const name = e.target.name;
@@ -111,7 +117,11 @@ const UserInputs = ({ selected }) => {
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
                   <Form.Text>Enter the estimated number of cases</Form.Text>
-                  <Form.Control name="incidence" value={ user[cancerHash].incidence || "" } type="number" onChange={ handleEvent } />
+                  <Form.Control 
+                    name="incidence" 
+                    value={ getIncidenceValue(user[cancerHash].incidence, predictedIncs) } 
+                    type="number" 
+                    onChange={ handleEvent } />
                 </Form.Group>
               </Col>
             </Row>

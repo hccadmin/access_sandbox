@@ -1,46 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadCancers } from '../state/slices/cancersSlice';
-import { setSettingInput } from '../state/slices/settingSlice';
-import { setSelection } from '../state/slices/userSlice';
+import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Step from './Step';
 import ForecastSelect from './ForecastSelect';
-import SettingButtons from './SettingButtons';
-import SettingInputs from './SettingInputs';
-import CancerButtons from './CancerButtons';
-import UserInputs from './UserInputs';
+import Step1Setting from './Step1Setting';
+import Step2Cancers from './Step2Cancers';
 
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
+  const [step2Visible, setStep2Visible] = useState(false);
+
   const dispatch = useDispatch();
 
-  const settingsKeyVal = {
-    health_systems: {
-      buttonText: "Health system",
-      label: "geographical area",
-      next: "subtype",
-    },
-    countries: {
-      buttonText: "Single institution",
-      label: "country",
-      selectName: "name"
-    }
-  };
-  
-  const cancers = useSelector( (state) => {
-    return state.cancers.full;
+  const setting = useSelector( (state) => {
+    return state.setting;
   });
 
   const user = useSelector( (state) => {
     return state.user;
-  });
-
-  const setting = useSelector( (state) => {
-    return state.setting;
   });
 
   const priceSource = useSelector( (state) => {
@@ -52,77 +35,24 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     loadAllCosts();
   }
 
-  const handleSettingInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    const input = { name, value, reset: false };
-    if (name === "type") {
-      input.reset = true;
-    }
-    dispatch( setSettingInput(input) );
-  }
-
-  const evaluateSelection = (e) => {
-    const selection = {
-      name: e.target.name,
-      value: e.target.value
-    };
-    dispatch( setSelection(selection) );
-  }
-
-  if (Object.keys(cancers).length < 1) {
-    dispatch( loadCancers() );
-  }
-
   return (
     <div>
       <Container>
-        <header role="header">
-          <h2>Step 1: Setting</h2>
+        <Step title="Step 1: Setting" fade={ true }>
           <p>Choose to view costs as a Health System or a Single Institution</p>
-          <SettingButtons 
-            names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
-            setSettingType={ handleSettingInput } 
-            saved={ setting.type }
-          />
-          <SettingInputs 
-            keyVals={ settingsKeyVal }
-            selected={ setting.type } 
+          <Step1Setting
             uiLabels={ uiLabels }
-            setOption={ handleSettingInput } 
-          /> 
-          <Form>
-            <Row>
-              {/* Object.keys(inputs).map( (input, i) => {
-                return (
-                  <Col key={ i }>
-                    <ForecastSelect
-                      name={ input }
-                      value={ user[input] || 0 }
-                      options={ inputs[input].list }
-                      label={ inputs[input].label }
-                      sendSelection={ evaluateSelection }
-                    />
-                  </Col>
-                )
-              })*/}
-            </Row>
-          </Form>
-        </header>
-        <div className="main">
-          <Row>
-            <Col md="3">
-              <CancerButtons cancers={ uiLabels.cancers } />
-            </Col>
-            <Col md="9">
-              { 
-                !user.selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
-                  <UserInputs selected={ user.selected } />
-              }
-            </Col>
-            <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
-          </Row>
-        </div>
+            setComplete={ setStep2Visible }
+          />
+        </Step>
+          <Step title="Step 2: Cancers" fade={ step2Visible }>
+            <Step2Cancers
+              selected={ user.selected }
+              executeCosts={ loadAllCosts }
+              uiCancers={ uiLabels.cancers }
+              predictedIncs={ setting.type === "Health system" && setting.incidences }
+            />
+          </Step>
       </Container>
     </div>
   );

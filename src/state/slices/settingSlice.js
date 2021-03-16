@@ -8,31 +8,33 @@ const initialState = {
   name: "",
   year: "",
   diagType: "",
-  incidences: []
+  incidences: {},
+  bodyStats: {}
 };
 
-/*
 const sm = new SettingModel();
 
-export const loadSetting = createAsyncThunk(
-  'setting/loadSettingStatus',
+export const loadIncidencesAndBsa = createAsyncThunk(
+  'setting/loadIncidencesAndBsaStatus',
   async(data, thunkAPI) => {
-    const { setting, year } = data;
+    const { name, type, year, diagType } = data;
+    console.log(data);
     let cleanSetting;
-    try {
-      const dbSetting = await DBQueryer.getSetting(setting, year);
-      const dbBsa = await DBQueryer.getBsa(setting);
-      sm.loadSetting(dbSetting[0], dbBsa[0]);
-      cleanSetting = sm.getSetting();
-    }
-    catch (e) {
-      console.error(e);
-    }
-    return cleanSetting;
+    const result = await Promise.all([
+      DBQueryer.getSetting(name, year, `${diagType}_standard`),
+      DBQueryer.getBsa(name)
+    ]);
+    const [dbSetting, dbBodyStats] = result;
+    sm.loadSetting(dbSetting[0], dbBodyStats[0]);
+    const incidences = sm.getIncidences();
+    const bodyStats = sm.getBodyStats();
+    return { incidences, bodyStats };
   }
 );
 
+/*
 */
+
 
 const settingSlice = createSlice({
   name: 'setting',
@@ -40,11 +42,24 @@ const settingSlice = createSlice({
   reducers: {
     setSettingInput(state, action) {
       let { name, value, reset, ...inputs } = action.payload;
+      console.log(name, value);
+
+// This mess needs to be seriously refactored
       if (reset) {
         state.subtype = "";
         state.name = "";
+        state.incidences = {};
+        state.bodyStats = {};
       }
-      if (name === "subtype") { 
+      if (name === "type") {
+        if (value === "Single institution") {
+          state.diagType = "diagnosed";
+        }
+        else {
+          state.diagType = "";
+        }
+      }
+      else if (name === "subtype") { 
         if (state.name === "Worldwide") {
           state.name = "";
         }
@@ -55,25 +70,34 @@ const settingSlice = createSlice({
         }
         else {}
       }
+      else {}
       state[name] = value;
     },
+
+    allFieldsFilled(state, action) {
+      const { name, year, diagType } = state;
+      console.log(name, year, diagType);
+      return [name, year, diagType].every( (input) => {
+        return input.length > 0;
+      });
+    },
+
     getSetting(state, action) {}
   },
-/*
+
   extraReducers: (builder) => {
     builder
-      .addCase(loadSetting.fulfilled, (state, action) => {
-        state.name = action.payload.setting;
-        state.year = action.payload.year;
+      .addCase(loadIncidencesAndBsa.fulfilled, (state, action) => {
         state.incidences = action.payload.incidences;
         state.bodyStats = action.payload.bodyStats;
       })
   }
+/*
 */
 });
 
 const { actions, reducer } = settingSlice;
 
-export const { getSetting, setSettingInput } = actions;
+export const { setSettingInput, allFieldsFilled } = actions;
 
 export default reducer;

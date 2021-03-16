@@ -59,6 +59,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     {["diagnosed", "total"].map( (type, i) => {
                       return (
                         <Form.Check
+                          checked={ setting.diagType === type }
                           key={ i }
                           type="radio"
                           name="diagType"

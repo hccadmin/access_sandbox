@@ -38,7 +38,6 @@ const cancersSlice = createSlice({
     builder
       .addCase(loadCancers.fulfilled, (state, action) => {
         state.full = action.payload.full;
-        state.names = action.payload.names;
         state.regimens = action.payload.regimens;
       })
   }
