@@ -11,7 +11,7 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
     return state.setting;
   });
 
-  const { name, year, type, diagType, incidences } = setting;
+  const { name, year, type, diagType } = setting;
 
 
   const allFieldsFilled = (...arr) => {
@@ -27,8 +27,6 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
         name, type, year, diagType
       }));
     }
-      /*
-      */
   }, [name, type, year, diagType]);
 
   const settingsKeyVal = {
