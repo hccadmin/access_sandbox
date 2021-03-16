@@ -64,7 +64,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                           type="radio"
                           name="diagType"
                           label={ sentenceCase(type) }
-                          value={ `${type}_standard` }
+                          value={ type }
                           onChange={ setOption }
                         />
                       );
