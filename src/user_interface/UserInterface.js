@@ -11,10 +11,12 @@ import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
+import Step3Prices from './Step3Prices';
 
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const [step2Visible, setStep2Visible] = useState(false);
+  const [step3Visible, setStep3Visible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -24,10 +26,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   const user = useSelector( (state) => {
     return state.user;
-  });
-
-  const priceSource = useSelector( (state) => {
-    return state.costs.priceSource;
   });
 
   const initCostCalc = () => {
@@ -53,6 +51,12 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               predictedIncs={ setting.type === "Health system" && setting.incidences }
             />
           </Step>
+        <Step title="Step 3: Prices" fade={ true }>
+          <p>Select price source and override default prices</p>
+          <Step3Prices 
+            drugNames={ uiLabels.drugs }
+          />
+        </Step>
       </Container>
     </div>
   );

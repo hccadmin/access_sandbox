@@ -3,8 +3,6 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CostModel } from '../../models'
 
 const initialState = {
-  priceSource: "consolidated",
-  list: {}
 };
 
 const cm = new CostModel();

@@ -4,7 +4,7 @@ import Fade from 'react-bootstrap/Fade';
 
 const Step = ({ title, fade, children }) => {
   return (
-    <Fade in={ fade }>
+    <Fade in={ fade } unmountOnExit>
       <section>
         <Card border="0">
           <Card.Body>
