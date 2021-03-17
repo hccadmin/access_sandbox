@@ -11,10 +11,8 @@ import { makeHashKey } from '../../helpers/utilities';
  * }
  */
 const initialState = {
-  setting: "",
-  year: "",
-  price_source: "",
-  selected: {}
+  selected: {},
+  initialized: false
 }
 
 const assembleRisks = (cancer, risks) => {
@@ -46,6 +44,7 @@ const userSlice = createSlice({
       const { risks, cancer, name } = action.payload;
       state.selected = { name, risks }
       if (!state.hasOwnProperty(cancer)) {
+        state.initialized = true;
         const riskObj = assembleRisks(cancer, risks);
         state[cancer] = { 
           name, 

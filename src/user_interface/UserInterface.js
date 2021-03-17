@@ -15,8 +15,7 @@ import Step3Prices from './Step3Prices';
 
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
-  const [step2Visible, setStep2Visible] = useState(false);
-  const [step3Visible, setStep3Visible] = useState(false);
+  const [stepVisible, setStepVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,10 +39,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           <p>Choose to view costs as a Health System or a Single Institution</p>
           <Step1Setting
             uiLabels={ uiLabels }
-            setComplete={ setStep2Visible }
+            setComplete={ setStepVisible }
           />
         </Step>
-          <Step title="Step 2: Cancers" fade={ step2Visible }>
+          <Step title="Step 2: Cancers" fade={ stepVisible }>
             <Step2Cancers
               selected={ user.selected }
               executeCosts={ loadAllCosts }
@@ -51,7 +50,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               predictedIncs={ setting.type === "Health system" && setting.incidences }
             />
           </Step>
-        <Step title="Step 3: Prices" fade={ true }>
+        <Step title="Step 3: Prices" fade={ setting.type === "Single institution" ? user.initialized : stepVisible }>
           <p>Select price source and override default prices</p>
           <Step3Prices 
             drugNames={ uiLabels.drugs }
