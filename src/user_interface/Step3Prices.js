@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import PriceTable from './PriceTable';
-import { setPriceSource } from '../state/slices/pricesSlice';
+import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
 
 const Step3Prices = ({ drugNames }) => {
 
@@ -13,6 +13,20 @@ const Step3Prices = ({ drugNames }) => {
   const priceSource = useSelector( (state) => {
     return state.prices.priceSource;
   });
+
+  const priceList = useSelector( (state) => {
+    return state.prices.priceList;
+  });
+
+  const filtered = useSelector( (state) => {
+    return state.prices.filtered;
+  });
+
+  useEffect( () => {
+    if ( Object.values(priceList).length === 0 ) {
+      dispatch( loadPrices() );
+    }
+  }, [priceList] );
 
   const setOption = (e) => {
     dispatch( setPriceSource(e.target.value) );
@@ -33,7 +47,7 @@ const Step3Prices = ({ drugNames }) => {
       </Row>
       <Row>
         <Col md="6">
-          <PriceTable drugs={ drugNames } />
+          <PriceTable drugs={ drugNames } list={ filtered } />
         </Col>
       </Row>
     </>

@@ -1,16 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import PriceModel from '../../models/PriceModel';
 import { DBQueryer } from '../../dbqueryer/DBQueryer';
 
 const initialState = {
   priceSource: "",
-  list: {}
+  priceList: {},
+  filtered: {}
 };
+
+const pm = new PriceModel();
 
 export const loadPrices = createAsyncThunk(
   'costs/loadPricesStatus',
   async(data, thunkAPI) => {
     const dbPrices = await DBQueryer.getAll('prices');
-    return dbPrices;
+    pm.loadDrugPrices(dbPrices);
+    const priceStructure = pm.getPriceStructure();
+    return priceStructure;
   }
 );
 
@@ -20,12 +26,13 @@ const pricesSlice = createSlice({
   reducers: {
     setPriceSource(state, action) {
       state.priceSource = action.payload;
+      state.filtered = state.priceList[state.priceSource];
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(loadPrices.fulfilled, (state, action) => {
-        state.list = action.payload;
+        state.priceList = action.payload;
       })
   }
 });
