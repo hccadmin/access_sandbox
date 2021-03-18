@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import CancerButtons from './CancerButtons';
-import UserInputs from './UserInputs';
+import CancerInputs from './CancerInputs';
 
 
 const Step2Cancers = ({ uiCancers, selected, executeCosts, predictedIncs }) => {
@@ -31,7 +31,7 @@ const Step2Cancers = ({ uiCancers, selected, executeCosts, predictedIncs }) => {
       <Col md="9">
         { 
           !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
-            <UserInputs selected={ selected } predictedIncs={ predictedIncs }/>
+            <CancerInputs selected={ selected } predictedIncs={ predictedIncs }/>
         }
       </Col>
       <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>

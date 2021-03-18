@@ -16,7 +16,7 @@ import {
   setRegimen 
 } from '../state/slices/userSlice';
 
-const UserInputs = ({ selected, predictedIncs }) => {
+const CancerInputs = ({ selected, predictedIncs }) => {
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
@@ -214,4 +214,4 @@ const UserInputs = ({ selected, predictedIncs }) => {
   );
 }
 
-export default UserInputs;
+export default CancerInputs;
