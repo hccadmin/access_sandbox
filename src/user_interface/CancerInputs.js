@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import ForecastToggle from './ForecastToggle';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import {
   setIncidence, 

@@ -2,10 +2,14 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
+import ForecastToggle from '../user_interface/ForecastToggle';
 
 const ResultsInterface = ({ setVisible, costs, selections }) => {
   const backToInputs = () => {
     setVisible({ inputs: true, results: false });
+  }
+
+  const toggleCost = ({}) => {
   }
 
   return (
@@ -15,6 +19,10 @@ const ResultsInterface = ({ setVisible, costs, selections }) => {
         <>
           <p><strong>Setting: </strong>{ selections.setting }<br />
           <strong>Year: </strong>{ selections.year }</p>
+          <ForecastToggle
+            names={ ['By cancer', 'By drug'] }
+            handleChange={ toggleCost }
+          />
           <Accordion>
             { Object.keys(costs).map( (cost, i) => {
               return (

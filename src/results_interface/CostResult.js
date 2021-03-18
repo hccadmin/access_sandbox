@@ -14,7 +14,7 @@ const CostResult = ({ cost, eventKey }) => {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={ eventKey }>
         <Card.Body>
-          <CostResultTable costs={ cost } />
+          <CostResultTable costs={ cost } type="cancer" />
         </Card.Body>
       </Accordion.Collapse>
     </Card>

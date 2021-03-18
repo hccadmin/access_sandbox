@@ -3,7 +3,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { sentenceCase } from '../helpers/utilities';
 
-const SettingButtons = ({ names, saved, setSettingType }) => {
+const ForecastToggle = ({ names, saved, handleChange }) => {
   return (
     <div className="setting-choice-buttons d-flex justify-content-center">
       <ButtonGroup toggle size="lg"> 
@@ -15,7 +15,7 @@ const SettingButtons = ({ names, saved, setSettingType }) => {
               checked={ saved === name }
               type="radio"
               key={ i } 
-              onChange={ setSettingType } 
+              onChange={ handleChange } 
             >
               { name }
             </ToggleButton>
@@ -26,4 +26,4 @@ const SettingButtons = ({ names, saved, setSettingType }) => {
   );
 }
 
-export default SettingButtons;
+export default ForecastToggle;

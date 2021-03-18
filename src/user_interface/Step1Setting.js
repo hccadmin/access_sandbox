@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSettingInput, loadIncidencesAndBsa } from '../state/slices/settingSlice';
-import SettingButtons from './SettingButtons';
+import ForecastToggle from './ForecastToggle';
 import SettingInputs from './SettingInputs';
 
 const Step1Setting = ({ uiLabels, setComplete }) => {
@@ -56,9 +56,9 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
 
   return (
     <>
-      <SettingButtons 
+      <ForecastToggle 
         names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
-        setSettingType={ handleSettingInput } 
+        handleChange={ handleSettingInput } 
         saved={ setting.type }
       />
       <SettingInputs 
