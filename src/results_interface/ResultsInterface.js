@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import CostResultTable from './CostResultTable';
+import Accordion from 'react-bootstrap/Accordion';
+import CostResult from './CostResult';
 
 const ResultsInterface = ({ setVisible, costs, selections }) => {
   const backToInputs = () => {
@@ -14,15 +15,15 @@ const ResultsInterface = ({ setVisible, costs, selections }) => {
         <>
           <p><strong>Setting: </strong>{ selections.setting }<br />
           <strong>Year: </strong>{ selections.year }</p>
-          { Object.keys(costs).map( (cost, i) => {
-            return (
-              <CostResultTable 
-                key={ i }
-                cancer={ costs[cost].name }
-                costs={ costs[cost] }
-              />
-            );
-          })}
+          <Accordion>
+            { Object.keys(costs).map( (cost, i) => {
+              return (
+                <CostResult key={ i } cost={ costs[cost] } eventKey={ i + 1 } />
+              );
+            })}
+        {/*
+        */}
+          </Accordion>
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>

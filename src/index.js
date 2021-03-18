@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'jquery/dist/jquery.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import Popper from 'popper.js';
 import { Provider } from 'react-redux';
 import store from './state/store';
 
