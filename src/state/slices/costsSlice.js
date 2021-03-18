@@ -3,6 +3,7 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CostModel } from '../../models'
 
 const initialState = {
+  costs: {}
 };
 
 const cm = new CostModel();
@@ -10,13 +11,11 @@ const cm = new CostModel();
 export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
-    const { user, setting, regimens } = criteria;
+    const { user, setting, regimens, prices } = criteria;
     const { incidences, bodyStats } = setting;
     const settingData = { incidences, bodyStats };
     const { selected, ...cancers } = user;
-    const dbPrices = await DBQueryer.getAll('prices');
-    cm.loadDrugPrices(initialState.priceSource, dbPrices);
-    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens);
+    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
     return hasValidInputs && cm.getTotalDosageAndCost();
   }
 );
@@ -36,7 +35,7 @@ const costsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initCostCalc.fulfilled, (state, action) => {
-        state.list = action.payload;
+        state.costs = action.payload;
       })
   }
 });

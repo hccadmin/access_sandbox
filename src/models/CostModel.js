@@ -4,6 +4,7 @@ class CostModel {
   // Cost per drug
   #drugs = {};
   #bodyStats;
+  #prices = {};
   #userCancers = [];
   #ageRanges = [];
  
@@ -84,19 +85,14 @@ class CostModel {
    */
   #totalDosageAndCost = {};
 
-
-  loadDrugPrices(type, prices) {
-    this.price_type = type;
-    this.#drugs = prices;
-  }
-
-  loadAllCostData(setting, user, regimens) {
+  loadAllCostData(setting, user, regimens, prices) {
     const filteredInput = this.removeEmptyInputs(user);
     if (!filteredInput) {
       return filteredInput;
     }
     const { incidences, bodyStats } = setting;
     this.#bodyStats = bodyStats;
+    this.#prices = prices;
     this.#userCancers = Object.keys(filteredInput);
     this.#ageRanges = Object.keys(bodyStats.bsa);
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
@@ -177,7 +173,6 @@ class CostModel {
 
   calcTotalDosageAndCost(totalDosageByType) {
     let totalDosageAndCost = {};
-    const prices = this.getDrugPrices();
     this.#userCancers.forEach( (cancer) => {
       totalDosageAndCost[cancer] = { 
         name: totalDosageByType[cancer].name,
@@ -197,14 +192,14 @@ class CostModel {
           }
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
           tdc.drugs[drug].total_dosage += dosageTotal;
-          Object.keys(prices[drug]).forEach( (tier) => {
+          Object.keys(this.#prices[drug].prices).forEach( (tier) => {
             if (!tdc.drugs[drug].costs.hasOwnProperty(tier)) {
               tdc.drugs[drug].costs[tier] = 0;
             }
             if (!tdc.totals.hasOwnProperty(tier)) {
               tdc.totals[tier] = 0;
             }
-            const price = prices[drug][tier];
+            const price = this.#prices[drug].prices[tier];
             const dosagePrice = dosageTotal * price;
             tdc.drugs[drug].costs[tier] += dosagePrice;
             tdc.totals[tier] += dosagePrice;

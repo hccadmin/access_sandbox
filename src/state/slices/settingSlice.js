@@ -18,7 +18,6 @@ export const loadIncidencesAndBsa = createAsyncThunk(
   'setting/loadIncidencesAndBsaStatus',
   async(data, thunkAPI) => {
     const { name, type, year, diagType } = data;
-    console.log(data);
     let cleanSetting;
     const result = await Promise.all([
       DBQueryer.getSetting(name, year, `${diagType}_standard`),
@@ -42,7 +41,6 @@ const settingSlice = createSlice({
   reducers: {
     setSettingInput(state, action) {
       let { name, value, reset, ...inputs } = action.payload;
-      console.log(name, value);
 
 // This mess needs to be seriously refactored
       if (reset) {

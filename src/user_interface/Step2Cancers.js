@@ -3,21 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import CancerButtons from './CancerButtons';
 import CancerInputs from './CancerInputs';
 
 
-const Step2Cancers = ({ uiCancers, selected, executeCosts, predictedIncs }) => {
+const Step2Cancers = ({ uiCancers, selected, predictedIncs }) => {
   const dispatch = useDispatch();
 
   const cancers = useSelector( (state) => {
     return state.cancers.full;
   });
-
-  const initCostCalc = () => {
-    executeCosts();
-  }
 
   if (Object.keys(cancers).length === 0) {
     dispatch( loadCancers() );
@@ -34,7 +29,6 @@ const Step2Cancers = ({ uiCancers, selected, executeCosts, predictedIncs }) => {
             <CancerInputs selected={ selected } predictedIncs={ predictedIncs }/>
         }
       </Col>
-      <Button onClick={ initCostCalc } size="lg">Calculate costs</Button>
     </Row>
   );
 }

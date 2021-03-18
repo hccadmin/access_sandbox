@@ -27,12 +27,16 @@ const App = () => {
     return state.cancers.regimens;
   });
 
-  const costList = useSelector( (state) => {
-    return state.costs.list;
+  const costs = useSelector( (state) => {
+    return state.costs.costs;
+  });
+
+  const prices = useSelector( (state) => {
+    return state.prices.filtered;
   });
 
   const loadAllCosts = () => {
-    dispatch( initCostCalc({ setting, user, regimens }));
+    dispatch( initCostCalc({ setting, user, regimens, prices }));
   }
 
   const selections = { 
@@ -60,7 +64,7 @@ const App = () => {
       <>
         <ResultsInterface 
           setVisible={ setVisibility } 
-          costs={ costList }
+          costs={ costs }
           selections={ selections }
         />
       </>

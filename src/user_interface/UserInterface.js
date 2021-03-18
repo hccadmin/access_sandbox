@@ -56,6 +56,9 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             drugNames={ uiLabels.drugs }
           />
         </Step>
+        <Step title="Calculate results" fade={ setting.type === "Single institution" ? user.initialized : stepVisible }>
+          <Button onClick={ initCostCalc } size="lg">Calculate</Button>
+        </Step>
       </Container>
     </div>
   );
