@@ -16,7 +16,7 @@ export const initCostCalc = createAsyncThunk(
     const settingData = { incidences, bodyStats };
     const { selected, ...cancers } = user;
     const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
-    return hasValidInputs && cm.getTotalDosageAndCost();
+    return hasValidInputs && cm.getTotalCostPerCancer();
   }
 );
 

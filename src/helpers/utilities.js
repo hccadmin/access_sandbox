@@ -50,6 +50,20 @@ const removePunctuation = (str) => {
   return str.replace(/[^A-Za-z\s\d]/, "");
 }
 
+const copyObjProps = (sourceObj) => {
+  let returnObj = {};
+  const props = Object.keys(sourceObj);
+  props.forEach( (prop) => {
+    if (typeof sourceObj[prop] === "object") {
+      returnObj[prop] = copyObjProps(sourceObj[prop]);
+    }
+    else {
+      returnObj[prop] = (typeof sourceObj[prop] === "number" ? 0 : "");
+    }
+  });
+  return returnObj;
+}
+
 const sortObjects = (objs) => {
   objs.sort( (obj1, obj2) => {
     if (obj1.name < obj2.name) {
@@ -68,6 +82,7 @@ export {
   to4decimals,
   sentenceCase,
   toSingular,
+  copyObjProps,
   toPlural,
   sortObjects
 }
