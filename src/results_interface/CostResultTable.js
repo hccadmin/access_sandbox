@@ -1,13 +1,15 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import { sentenceCase } from '../helpers/utilities';
 
-const CostResultTable = ({ costs, type }) => {
-  return costs && (
+const CostResultTable = ({ costs, type, tableLabel }) => {
+  const costsArr = costs.drugs || costs.cancers;
+  return costsArr && (
     <>
       <Table striped bordered hover size="sm">
         <thead>
           <tr>
-            <th>Drugs</th> 
+            <th>{ sentenceCase(tableLabel) }</th> 
             { type === "drug" && <th>Volume</th> }
             <th>Low price</th>
             <th>Med price</th>
@@ -15,7 +17,7 @@ const CostResultTable = ({ costs, type }) => {
           </tr>
         </thead>
         <tbody>
-          { costs.drugs.map( (cost, i) => {
+          { costsArr.map( (cost, i) => {
             return (
               <tr key={ i }>
                 <td>{ cost.name }</td>

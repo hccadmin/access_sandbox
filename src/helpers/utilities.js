@@ -1,9 +1,11 @@
 const sentenceCase = (str) => {
-  if ( isNaN(str) ) {
-    let result = str.replaceAll(/_/g, ' ')
-    return result[0].toUpperCase() + result.substring(1); 
+  if ( !isNaN(str) ) {
+    return str;
   }
-  return str;
+  if (str.includes("_")) {
+    str = str.replaceAll(/_/g, ' ')
+  }
+  return str[0].toUpperCase() + str.substring(1); 
 }
 
 const toSingular = (str) => {

@@ -6,7 +6,7 @@ import ForecastToggle from '../user_interface/ForecastToggle';
 
 const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) => {
 
-  const [costType, setCostType] = useState("By cancer");
+  const [costType, setCostType] = useState("cancer");
 
   const backToInputs = () => {
     setVisible({ inputs: true, results: false });
@@ -29,12 +29,12 @@ const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) =>
             name="costType"
             labels={ ['By cancer', 'By drug'] }
             handleChange={ toggleCost }
-            saved={ costType }
+            saved={ `By ${costType}` }
           />
           <Accordion>
             { Object.keys(costs).map( (cost, i) => {
               return (
-                <CostResult key={ i } cost={ costs[cost] } eventKey={ i + 1 } />
+                <CostResult key={ i } type={ costType } cost={ costs[cost] } eventKey={ i + 1 } />
               );
             })}
         {/*

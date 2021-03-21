@@ -3,7 +3,8 @@ import CostResultTable from './CostResultTable';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 
-const CostResult = ({ cost, eventKey }) => {
+const CostResult = ({ cost, type, eventKey }) => {
+  const tableLabel = (type === "drug" ? "cancer" : "drug");
   return (
     <Card border="0">
       <Accordion.Toggle as={ Card.Header } eventKey={ eventKey }>
@@ -14,7 +15,11 @@ const CostResult = ({ cost, eventKey }) => {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={ eventKey }>
         <Card.Body>
-          <CostResultTable costs={ cost } type="cancer" />
+          <CostResultTable 
+            costs={ cost } 
+            type={ type } 
+            tableLabel={ tableLabel } 
+          />
         </Card.Body>
       </Accordion.Collapse>
     </Card>
