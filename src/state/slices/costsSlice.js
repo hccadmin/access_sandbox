@@ -22,8 +22,7 @@ export const initCostCalc = createAsyncThunk(
 
 export const getCostsByType = createAsyncThunk(
   'costs/getCostsByTypeStatus',
-  async(byType, thunkAPI) => {
-    const type = byType.split(" ").pop().toLowerCase();
+  async(type, thunkAPI) => {
     const costs = await cm.getCostsByType(type);
     return costs;
   }

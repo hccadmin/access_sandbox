@@ -2,9 +2,9 @@ import React from 'react';
 import CostResultTable from './CostResultTable';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
+import { toPlural } from '../helpers/utilities';
 
-const CostResult = ({ cost, type, eventKey }) => {
-  const tableLabel = (type === "drug" ? "cancer" : "drug");
+const CostResult = ({ cost, type, eventKey, tableLabel }) => {
   return (
     <Card border="0">
       <Accordion.Toggle as={ Card.Header } eventKey={ eventKey }>
@@ -18,7 +18,7 @@ const CostResult = ({ cost, type, eventKey }) => {
           <CostResultTable 
             costs={ cost } 
             type={ type } 
-            tableLabel={ tableLabel } 
+            tableLabel={ toPlural(tableLabel) } 
           />
         </Card.Body>
       </Accordion.Collapse>

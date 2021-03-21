@@ -10,7 +10,7 @@ const ForecastToggle = ({ name, labels, saved, handleChange }) => {
         { labels.map( (label, i) => {
           return (
             <ToggleButton 
-              name="type" 
+              name={ name }
               value={ label } 
               checked={ saved === label }
               type="radio"

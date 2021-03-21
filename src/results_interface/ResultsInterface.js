@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
 import ForecastToggle from '../user_interface/ForecastToggle';
+import { getObjKey } from '../helpers/utilities';
 
 const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) => {
 
-  const [costType, setCostType] = useState("cancer");
+  const labels = {
+    drug: "By cancer",
+    cancer: "By drug"
+  };
+
+  const [costType, setCostType] = useState(labels.drug);
 
   const backToInputs = () => {
     setVisible({ inputs: true, results: false });
   }
 
-  const toggleCost = (e) => {
-    const type = e.target.value;
-    setCostType(type);
-    loadCostsByType(type);
-  }
+  const toggleCost = useCallback(
+    (e) => {
+      const type = e.target.value;
+      const key = getObjKey(labels, type);
+      setCostType(type);
+      loadCostsByType(type.split(" ").pop());
+    }, [costType]
+  );
 
   return (
     <div>
@@ -27,14 +36,20 @@ const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) =>
           <strong>Year: </strong>{ selections.year }</p>
           <ForecastToggle
             name="costType"
-            labels={ ['By cancer', 'By drug'] }
+            labels={ Object.values(labels) }
             handleChange={ toggleCost }
-            saved={ `By ${costType}` }
+            saved={ costType }
           />
           <Accordion>
             { Object.keys(costs).map( (cost, i) => {
               return (
-                <CostResult key={ i } type={ costType } cost={ costs[cost] } eventKey={ i + 1 } />
+                <CostResult 
+                  key={ i } 
+                  type={ costType } 
+                  cost={ costs[cost] } 
+                  eventKey={ i + 1 } 
+                  tableLabel={ getObjKey(labels, costType) }
+                />
               );
             })}
         {/*

@@ -36,6 +36,10 @@ const toPlural = (str) => {
   return plural;
 }
 
+const getObjKey = (obj, val) => {
+  return Object.keys(obj).find( (key) => obj[key] === val );
+}
+
 const makeHashKey = (...elements) => {
   const str = elements.join('');
   const arr = str.split(/[\s-]/).map( (el) => {
@@ -84,6 +88,7 @@ export {
   to4decimals,
   sentenceCase,
   toSingular,
+  getObjKey,
   copyObjProps,
   toPlural,
   sortObjects
