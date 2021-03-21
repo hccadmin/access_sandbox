@@ -57,7 +57,8 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
   return (
     <>
       <ForecastToggle 
-        names={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
+        name="type"
+        labels={ Object.keys(settingsKeyVal).map( setting => settingsKeyVal[setting].buttonText) } 
         handleChange={ handleSettingInput } 
         saved={ setting.type }
       />

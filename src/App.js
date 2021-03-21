@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { initCostCalc } from './state/slices/costsSlice';
+import { initCostCalc, getCostsByType  } from './state/slices/costsSlice';
 import { loadUI } from './state/slices/uiSlice';
 import Container from 'react-bootstrap/Container';
 import UserInterface from './user_interface/UserInterface';
@@ -39,6 +39,10 @@ const App = () => {
     dispatch( initCostCalc({ setting, user, regimens, prices }));
   }
 
+  const loadCostsByType = (type) => {
+    dispatch( getCostsByType(type));
+  }
+
   const selections = { 
     setting: setting.name,
     year: setting.year,
@@ -66,6 +70,7 @@ const App = () => {
           setVisible={ setVisibility } 
           costs={ costs }
           selections={ selections }
+          loadCostsByType={ loadCostsByType }
         />
       </>
     }

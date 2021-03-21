@@ -138,6 +138,10 @@ class CostModel {
     return this.#totalCostPerDrug;
   }
 
+  getCostsByType(type) {
+    return type === "cancer" ? this.#totalCostPerCancer : this.#totalCostPerDrug;
+  }
+
   removeEmptyInputs(source) {
     let inputs = JSON.parse( JSON.stringify(source));
     Object.keys(inputs).forEach( (input) => {

@@ -20,6 +20,15 @@ export const initCostCalc = createAsyncThunk(
   }
 );
 
+export const getCostsByType = createAsyncThunk(
+  'costs/getCostsByTypeStatus',
+  async(byType, thunkAPI) => {
+    const type = byType.split(" ").pop().toLowerCase();
+    const costs = await cm.getCostsByType(type);
+    return costs;
+  }
+);
+
 const costsSlice = createSlice({
   name: 'costs',
   initialState: initialState,
@@ -35,6 +44,9 @@ const costsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initCostCalc.fulfilled, (state, action) => {
+        state.costs = action.payload;
+      })
+      .addCase(getCostsByType.fulfilled, (state, action) => {
         state.costs = action.payload;
       })
   }

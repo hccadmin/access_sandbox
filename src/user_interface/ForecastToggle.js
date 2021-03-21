@@ -3,21 +3,21 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { sentenceCase } from '../helpers/utilities';
 
-const ForecastToggle = ({ names, saved, handleChange }) => {
+const ForecastToggle = ({ name, labels, saved, handleChange }) => {
   return (
     <div className="setting-choice-buttons d-flex justify-content-center">
       <ButtonGroup toggle size="lg"> 
-        { names.map( (name, i) => {
+        { labels.map( (label, i) => {
           return (
             <ToggleButton 
               name="type" 
-              value={ name } 
-              checked={ saved === name }
+              value={ label } 
+              checked={ saved === label }
               type="radio"
               key={ i } 
               onChange={ handleChange } 
             >
-              { name }
+              { label }
             </ToggleButton>
           );
         })}
