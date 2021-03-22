@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
 import ForecastToggle from '../user_interface/ForecastToggle';
+import ResultsUserSelections from './ResultsUserSelections';
 import { getObjKey } from '../helpers/utilities';
 
-const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) => {
+const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
 
   const labels = {
     drug: "By cancer",
@@ -13,6 +15,14 @@ const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) =>
   };
 
   const [costType, setCostType] = useState(labels.drug);
+
+  const setting = useSelector( (state) => {
+    return state.setting;
+  });
+
+  const priceSource = useSelector( (state) => {
+    return state.prices.priceSource;
+  });
 
   const backToInputs = () => {
     setVisible({ inputs: true, results: false });
@@ -32,8 +42,10 @@ const ResultsInterface = ({ setVisible, selections, costs, loadCostsByType }) =>
       <h2>Costs</h2>
       { costs ? 
         <>
-          <p><strong>Setting: </strong>{ selections.setting }<br />
-          <strong>Year: </strong>{ selections.year }</p>
+          <ResultsUserSelections
+            selections={ setting }
+            priceSource={ priceSource }
+          />
           <ForecastToggle
             name="costType"
             labels={ Object.values(labels) }

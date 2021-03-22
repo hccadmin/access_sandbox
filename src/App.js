@@ -43,12 +43,6 @@ const App = () => {
     dispatch( getCostsByType(type));
   }
 
-  const selections = { 
-    setting: setting.name,
-    year: setting.year,
-    diagType: setting.diagType
-  }
-
   if ( uiLabels.cancers.length === 0) {
     dispatch(loadUI());
   }
@@ -69,7 +63,6 @@ const App = () => {
         <ResultsInterface 
           setVisible={ setVisibility } 
           costs={ costs }
-          selections={ selections }
           loadCostsByType={ loadCostsByType }
         />
       </>
