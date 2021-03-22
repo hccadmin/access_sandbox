@@ -9,8 +9,11 @@ const CostResult = ({ cost, type, eventKey, tableLabel }) => {
     <Card border="0">
       <Accordion.Toggle as={ Card.Header } eventKey={ eventKey }>
         <div className="d-flex justify-content-between">
-          <p>{ cost.name }</p>
-          <p>Total median cost: { `$${cost.totals.med.toFixed(2)}` }</p>
+          <div className="w-50">{ cost.name }</div>
+          { type === "By drug" &&
+            <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
+          }
+          <div className="w-25">Total median cost: { `$${cost.totals.med.toFixed(2)}` }</div>
         </div>
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={ eventKey }>
