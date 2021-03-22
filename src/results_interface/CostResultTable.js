@@ -10,7 +10,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
         <thead>
           <tr>
             <th>{ sentenceCase(tableLabel) }</th> 
-            { type === "drug" && <th>Volume</th> }
+            { type === "By cancer" && <th>Volume</th> }
             <th>Low price</th>
             <th>Med price</th>
             <th>High price</th>
@@ -21,7 +21,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
             return (
               <tr key={ i }>
                 <td>{ cost.name }</td>
-              { type === "drug" && <td>{ cost.total_dosage.toFixed(2) }</td> }
+              { type === "By cancer" && <td>{ cost.total_dosage.toFixed(2) }</td> }
                 <td>${ cost.costs['low'].toFixed(2) }</td>
                 <td>${ cost.costs['med'].toFixed(2) }</td>
                 <td>${ cost.costs['high'].toFixed(2) }</td>
@@ -30,7 +30,9 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
           })}
           <tr>
             <td><strong>Totals</strong></td>
-            { type === "drugs" && <td>{ costs.totals.dosage.toFixed(2) }</td> }
+            { type === "By cancer" && 
+              <td>{ costs.totals.dosage.toFixed(2) }</td> 
+            }
             <td>${ costs.totals.low.toFixed(2) }</td>
             <td>${ costs.totals.med.toFixed(2) }</td>
             <td>${ costs.totals.high.toFixed(2) }</td>
