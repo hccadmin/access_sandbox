@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Table from 'react-bootstrap/Table';
+import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import { makeHashKey } from '../helpers/utilities';
 
 const PriceTable = ({ drugs, list }) => {
+  const overridePrice = (e) => {
+    console.log(e.target.value);
+  }
+
   return (
     <Table striped hover size="sm">
       <thead>
         <tr>
           <th>Drug name</th>
           <th>Price (in US dollars)</th>
+          <th>Price override</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +29,12 @@ const PriceTable = ({ drugs, list }) => {
             <tr key={ i }>
               <td>{ drug }</td>
               <td>{ Object.keys(list).length > 0  && displayed }</td> 
+              <td>
+                <UserOverrideToggle 
+                  name={ drugHash } 
+                  setOverride={ overridePrice }
+                />
+              </td>
             </tr>
           );
         })}

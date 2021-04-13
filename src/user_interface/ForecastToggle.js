@@ -10,7 +10,7 @@ const ForecastToggle = ({ name, labels, saved, handleChange }) => {
   const target = useRef(null);
 
   return (
-    <div className="setting-choice-buttons d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
       <ButtonGroup toggle size="lg"> 
         { labels.map( (label, i) => {
           return (

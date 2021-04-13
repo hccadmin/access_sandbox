@@ -46,7 +46,7 @@ const Step3Prices = ({ drugNames }) => {
         </Col>
       </Row>
       <Row>
-        <Col md="6">
+        <Col md="8">
           <PriceTable drugs={ drugNames } list={ filtered } />
         </Col>
       </Row>
