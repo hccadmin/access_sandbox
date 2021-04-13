@@ -8,6 +8,16 @@ const sentenceCase = (str) => {
   return str[0].toUpperCase() + str.substring(1); 
 }
 
+const titleCase = (str) => {
+  if ( !isNaN(str) ) {
+    return str;
+  }
+  if (str.includes("_")) {
+    str = str.replaceAll(/_/g, ' ')
+  }
+  return str.split(" ").map( frag => frag[0].toUpperCase() + frag.substring(1)).join(" "); 
+}
+
 const toSingular = (str) => {
   if (!str || str.length === 0) {
     return false;
