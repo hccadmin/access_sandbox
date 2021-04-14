@@ -32,7 +32,7 @@ const App = () => {
   });
 
   const prices = useSelector( (state) => {
-    return state.prices.filtered;
+    return state.prices;
   });
 
   const loadAllCosts = () => {

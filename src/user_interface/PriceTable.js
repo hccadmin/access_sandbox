@@ -19,7 +19,7 @@ const PriceTable = ({ drugs, list }) => {
     dispatch( overridePrice({ drug, newPrice }) );
   }
 
-  return (
+  return Object.keys(list).length > 0 && (
     <Table striped hover size="sm">
       <thead>
         <tr>
@@ -31,11 +31,8 @@ const PriceTable = ({ drugs, list }) => {
       <tbody>
       { drugs.map( (drug, i) => {
           const drugHash = makeHashKey(drug);
-          let displayed;
-          if (Object.keys(list).length > 0) {
-            const price = list[drugHash].prices.med;
-            displayed = isNaN(price) ? price : `$${ price.toFixed(3) }`;
-          }
+          const price = list[drugHash].prices.med;
+          const displayed = isNaN(price) ? price : `$${ price.toFixed(3) }`;
           return (
             <tr key={ i }>
               <td>{ drug }</td>

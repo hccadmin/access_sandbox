@@ -112,7 +112,7 @@ class CostModel {
     }
     const { incidences, bodyStats } = setting;
     this.#bodyStats = bodyStats;
-    this.#prices = prices;
+    this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     this.#userCancers = Object.keys(filteredInput);
     this.#ageRanges = Object.keys(bodyStats.bsa);
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
@@ -122,6 +122,8 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType);
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
+  /*
+  */
     //console.log(this.#drugDosages);
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
@@ -152,6 +154,18 @@ class CostModel {
     return Object.keys(inputs).length >= 1 && inputs;
   }
 
+// Merges any overriden drug prices with default price list
+  mergePrices(filtered, overrides) {
+    const list = JSON.parse( JSON.stringify(filtered) );
+    if (Object.keys(overrides).length > 0) {
+      Object.keys(list).forEach( (drug) => {
+        if (overrides.hasOwnProperty(drug)) {
+          list[drug].prices.override = overrides[drug];
+        }
+      });
+    }
+    return list;
+  }
 
 // Stores raw setting incidence * user input incidence * risk strat percentage
   calcAgeRangeIncidences(user, incidences) {
