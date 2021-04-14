@@ -46,6 +46,13 @@ const toPlural = (str) => {
   return plural;
 }
 
+// Filter out anything that's not a number except for 
+// a '.'
+const toCurrency = (str) => {
+  const filter = /[^\d*\.\d*]/g;
+  return str.replace(filter, "");
+}
+
 const getObjKey = (obj, val) => {
   return Object.keys(obj).find( (key) => obj[key] === val );
 }
@@ -98,6 +105,7 @@ export {
   to4decimals,
   sentenceCase,
   toSingular,
+  toCurrency,
   getObjKey,
   copyObjProps,
   toPlural,

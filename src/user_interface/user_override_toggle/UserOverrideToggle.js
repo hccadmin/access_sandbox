@@ -15,7 +15,7 @@ const UserOverrideToggle = ({ name, setOverride, saved }) => {
   return (
     <>
       <UserOverrideButtons 
-        name={ name }
+        name={ `${name}-override-buttons` }
         visibility={ visibility }
         handleEvent={ handleClick }
       />

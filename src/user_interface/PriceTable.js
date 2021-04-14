@@ -1,11 +1,22 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Table from 'react-bootstrap/Table';
 import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
-import { makeHashKey } from '../helpers/utilities';
+import { overridePrice } from '../state/slices/pricesSlice';
+import { makeHashKey, toCurrency } from '../helpers/utilities';
 
 const PriceTable = ({ drugs, list }) => {
-  const overridePrice = (e) => {
-    console.log(e.target.value);
+
+  const dispatch = useDispatch();
+
+  const overrides = useSelector( (state) => {
+    return state.prices.overrides;
+  });
+
+  const initOverride = (e) => {
+    const drug = e.target.name;
+    const newPrice = toCurrency(e.target.value);
+    dispatch( overridePrice({ drug, newPrice }) );
   }
 
   return (
@@ -32,7 +43,7 @@ const PriceTable = ({ drugs, list }) => {
               <td>
                 <UserOverrideToggle 
                   name={ drugHash } 
-                  setOverride={ overridePrice }
+                  setOverride={ initOverride }
                 />
               </td>
             </tr>

@@ -5,7 +5,8 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 const initialState = {
   priceSource: "",
   priceList: {},
-  filtered: {}
+  filtered: {},
+  overrides: {}
 };
 
 const pm = new PriceModel();
@@ -27,6 +28,9 @@ const pricesSlice = createSlice({
     setPriceSource(state, action) {
       state.priceSource = action.payload;
       state.filtered = state.priceList[state.priceSource];
+    },
+    overridePrice(state, action) {
+      state.overrides[action.payload.drug] = parseFloat(action.payload.newPrice);
     }
   },
   extraReducers: (builder) => {
@@ -39,6 +43,6 @@ const pricesSlice = createSlice({
 
 const { actions, reducer } = pricesSlice;
 
-export const { setPriceSource } = actions;
+export const { setPriceSource, overridePrice } = actions;
 
 export default reducer;
