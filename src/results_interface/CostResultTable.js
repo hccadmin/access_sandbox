@@ -4,6 +4,12 @@ import { sentenceCase } from '../helpers/utilities';
 
 const CostResultTable = ({ costs, type, tableLabel }) => {
   const costsArr = costs.drugs || costs.cancers;
+
+  const getOverrideCost = (cost) => {
+    const result = cost.hasOwnProperty('override') ? `$${cost.override.toFixed(2)}` : "-";
+    return result;
+  }
+
   return costsArr && (
     <>
       <Table striped bordered hover size="sm">
@@ -14,6 +20,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
             <th>Low price</th>
             <th>Med price</th>
             <th>High price</th>
+            <th>User price</th>
           </tr>
         </thead>
         <tbody>
@@ -22,9 +29,10 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
               <tr key={ i }>
                 <td>{ cost.name }</td>
               { type === "By cancer" && <td>{ cost.total_dosage.toFixed(2) }</td> }
-                <td>${ cost.costs['low'].toFixed(2) }</td>
-                <td>${ cost.costs['med'].toFixed(2) }</td>
-                <td>${ cost.costs['high'].toFixed(2) }</td>
+                <td>${ cost.costs.low.toFixed(2) }</td>
+                <td>${ cost.costs.med.toFixed(2) }</td>
+                <td>${ cost.costs.high.toFixed(2) }</td>
+                <td>{ getOverrideCost(cost.costs) }</td>
               </tr>
             );
           })}
@@ -36,6 +44,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
             <td>${ costs.totals.low.toFixed(2) }</td>
             <td>${ costs.totals.med.toFixed(2) }</td>
             <td>${ costs.totals.high.toFixed(2) }</td>
+            <td>{ getOverrideCost(costs.totals) }</td>
           </tr>
         </tbody>
       </Table>
