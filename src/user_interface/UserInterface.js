@@ -43,6 +43,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           />
         </Step>
           <Step title="Step 2: Cancers" fade={ stepVisible }>
+            <p>Click on the cancer buttons below to enter incidence details</p>
             <Step2Cancers
               selected={ user.selected }
               executeCosts={ loadAllCosts }

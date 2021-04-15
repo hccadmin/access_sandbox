@@ -26,6 +26,10 @@ const CancerInputs = ({ selected, predictedIncs }) => {
     return state.user;
   });
 
+  const validation = useSelector( (state) => {
+    return state.validation;
+  });
+
   const getIncidenceValue = (userInc, predictedIncs) => {
     const predictedInc = predictedIncs.hasOwnProperty(cancerHash) && predictedIncs[cancerHash].total.toFixed();
     return userInc || (predictedInc || "");
@@ -120,9 +124,13 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                   <Form.Text>Enter the estimated number of cases</Form.Text>
                   <Form.Control 
                     name="incidence" 
+                    isInvalid={ validation.incidence }
                     value={ getIncidenceValue(user[cancerHash].incidence, predictedIncs) } 
                     type="number" 
                     onChange={ handleEvent } />
+                  <Form.Control.Feedback type="invalid">
+                    You must enter an incidence number
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
