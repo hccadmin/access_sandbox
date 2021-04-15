@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import ValidationHelper from '../../helpers/ValidationHelper';
 
 const initialState = {
   incidence: false,
@@ -6,6 +7,13 @@ const initialState = {
   regimens: {}
 };
 
+/*
+export const checkForErrors = createAsyncThunk(
+  'validation/checkForErrorsStatus',
+  async(data, thunkAPI) => {
+  }
+);
+*/
 
 const validationSlice = createSlice({
   name: 'validation',

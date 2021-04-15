@@ -14,6 +14,10 @@ const CancerButtons = ({ cancers }) => {
     return state.cancers.full;
   });
 
+  const user = useSelector( (state) => {
+    return state.user;
+  });
+
   const getSelection = (cancerList, toFind) => {
     return cancerList.find( (cancer) => {
       return cancer.name === toFind;
