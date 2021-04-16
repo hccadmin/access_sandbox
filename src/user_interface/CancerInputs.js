@@ -9,6 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
+import { disableError } from '../state/slices/validationSlice';
 import {
   setIncidence, 
   setRiskStrat, 
@@ -43,6 +44,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
         const input = e.target.value;
         const captured = { cancer: cancerHash, incidence: input }
         dispatch( setIncidence(captured) );
+        dispatch( disableError("incidence") );
         break;
       case "riskToggle":
         const choice = e.target.value;

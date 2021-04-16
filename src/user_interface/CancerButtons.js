@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { getRisksAndRegs } from '../state/slices/cancersSlice';
 import { makeHashKey } from '../helpers/utilities';
-import { initializeCancer } from '../state/slices/userSlice';
+import { initializeCancer, setClicks } from '../state/slices/userSlice';
+import { validate } from '../state/slices/validationSlice';
 
 const CancerButtons = ({ cancers }) => {
+
+  const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", risks: {} });
+
   const dispatch = useDispatch();
 
   const cancersFull = useSelector( (state) => {
@@ -18,20 +22,41 @@ const CancerButtons = ({ cancers }) => {
     return state.user;
   });
 
+  const hasErrors = useSelector( (state) => {
+    return state.validation.hasErrors;
+  });
+
   const getSelection = (cancerList, toFind) => {
     return cancerList.find( (cancer) => {
       return cancer.name === toFind;
     });
   }
 
+  /*
+  */
+  useEffect( () => {
+    if (!hasErrors && user.cancerButtonClicks > 0) {
+      dispatch( initializeCancer({ ...cancerDisplay }) );
+    }
+  }, [user.cancerButtonClicks]);
+
   const loadCancer = (e) => {
     const selected = getSelection(cancersFull, e.target.innerText);
     const cancerHash = makeHashKey(selected.name);
-    dispatch( initializeCancer({
+    const cancerObj = {
       cancer: cancerHash,
       name: selected.name,
       risks: selected.risk_strats
-    }) );
+    };
+    if (user.initialized) {
+      dispatch( validate({ ...user }));
+      console.log(cancerHash);
+    }
+    else {
+      dispatch( initializeCancer({ ...cancerObj }));
+    }
+    dispatch( setClicks() );
+    setCancerDisplay({ ...cancerObj });
   }
 
   return (

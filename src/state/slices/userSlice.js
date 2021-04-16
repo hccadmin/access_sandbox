@@ -11,6 +11,7 @@ import { makeHashKey } from '../../helpers/utilities';
  * }
  */
 const initialState = {
+  cancerButtonClicks: 0,
   selected: {},
   initialized: false
 }
@@ -40,6 +41,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
+    setClicks(state, action) {
+      state.cancerButtonClicks += 1;
+    },
     initializeCancer(state, action) {
       const { risks, cancer, name } = action.payload;
       state.selected = { name, risks }
@@ -95,6 +99,7 @@ const userSlice = createSlice({
 const { actions, reducer } = userSlice;
 
 export const {
+  setClicks,
   initializeCancer,
   setSelection,
   setIncidence,
