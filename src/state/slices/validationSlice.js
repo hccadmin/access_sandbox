@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ValidationHelper from '../../helpers/ValidationHelper';
 
-const vh = new ValidationHelper();
 
 const initialState = {
   hasErrors: false,
@@ -9,6 +8,9 @@ const initialState = {
   risk_strats: {},
   regimens: {}
 };
+
+const initialCopy = { ...initialState };
+const vh = new ValidationHelper(initialCopy);
 
 /*
 export const checkForErrors = createAsyncThunk(
@@ -22,9 +24,9 @@ const validationSlice = createSlice({
   name: 'validation',
   initialState: initialState,
   reducers: {
-    validate(state, action) {
+    validateCancerInputs(state, action) {
       const { cancerHash, initialized, selected, ...cancers } = action.payload;
-      const hasErrors = vh.validate(cancers);
+      const hasErrors = vh.validateCancerInputs(cancers);
       state.hasErrors = hasErrors;
       state.incidence = hasErrors;
     },
@@ -42,6 +44,6 @@ const validationSlice = createSlice({
 
 const { actions, reducer } = validationSlice;
 
-export const { validate, setError, disableError, resetErrors } = actions;
+export const { validateCancerInputs, setError, disableError, resetErrors } = actions;
 
 export default reducer;

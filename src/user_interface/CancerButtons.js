@@ -6,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { getRisksAndRegs } from '../state/slices/cancersSlice';
 import { makeHashKey } from '../helpers/utilities';
 import { initializeCancer, setClicks } from '../state/slices/userSlice';
-import { validate } from '../state/slices/validationSlice';
+import { validateCancerInputs } from '../state/slices/validationSlice';
 
 const CancerButtons = ({ cancers }) => {
 
@@ -49,8 +49,7 @@ const CancerButtons = ({ cancers }) => {
       risks: selected.risk_strats
     };
     if (user.initialized) {
-      dispatch( validate({ ...user }));
-      console.log(cancerHash);
+      dispatch( validateCancerInputs({ ...user }));
     }
     else {
       dispatch( initializeCancer({ ...cancerObj }));

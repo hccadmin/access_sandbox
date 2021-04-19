@@ -1,16 +1,34 @@
 import { makeHashKey, to4decimals, sortObjects } from '../helpers/utilities';
 
 class ValidationHelper {
-  #instVar;
+  #errors = {};
+  #data = {};
 
-  validate(toValidate) {
-    const props = Object.values(toValidate).pop();
+  constructor(defaults) {
+    this.#errors = { ...defaults };
+  }
+
+  validateCancerInputs(toValidate) {
+    this.#data = Object.values(toValidate).pop();
+    let incidenceError = [];
+    if (!this.#data.hasOwnProperty("incidence")) {
+      incidenceError = this.checkRisksRegsForValues();
+    }
+    //console.log(props);
     /*
     */
-    const result = !props.hasOwnProperty("incidence");
-    console.log(result);
-    return result;
-    //return props.hasOwnProperty("incidence");
+    return incidenceError.length > 0;
+  }
+
+  checkRisksRegsForValues() {
+    /*
+    */
+    const risks = this.#data.risks;
+    const values = Object.keys(risks).filter( (riskKey) => {
+      return (risks[riskKey].regimen.length > 0) ||
+        (this.#data.hasCustomRisk && risks[riskKey].percentage.length > 0);
+    });
+    return values;
   }
 }
 
