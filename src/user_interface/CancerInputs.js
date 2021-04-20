@@ -9,7 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
-import { disableError } from '../state/slices/validationSlice';
+import { disableError, checkSelect } from '../state/slices/validationSlice';
 import {
   setIncidence, 
   setRiskStrat, 
@@ -96,6 +96,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
       regimen: e.target.value 
     };
     saveRegimen(captured);
+    dispatch( checkSelect(captured) );
   }
 
   const saveRegimen = (captured) => {
@@ -186,33 +187,39 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                         {/* Regimens selection */}
                           <td>
                             { rs.regimens.length === 1 ? rs.regimens[0] :
-                            <Form.Control 
-                              as="select" 
-                              name={ rsHash }
-                              onChange={ (e) => { captureRegimen(e) } }
-                              value={ 
-                                (currCancer.risks[rsHash] && 
-                                  currCancer.risks[rsHash].regimen.length > 0 ) ?
-                                  currCancer.risks[rsHash].regimen : "0"
-                              }
-                            >
-                              <option value="0" name="select">--Select a regimen--</option>
-                            { rs.regimens.map( (reg, j) => {
-                              return (
-                                <option 
-                                  key={ j } 
-                                  name={ reg } 
-                                  value={ reg }>
-                                  { reg }
-                                </option>
-                              );
-                            })}
-                            </Form.Control>
+                            <Form.Group> 
+                              <Form.Control 
+                                as="select" 
+                                name={ rsHash }
+                                onChange={ (e) => { captureRegimen(e) } }
+                                isInvalid={ validation.regimens[rsHash] || false }
+                                value={ 
+                                  (currCancer.risks[rsHash] && 
+                                    currCancer.risks[rsHash].regimen.length > 0 ) ?
+                                    currCancer.risks[rsHash].regimen : "0"
+                                }
+                              >
+                                <option value="0" name="select">--Select a regimen--</option>
+                              { rs.regimens.map( (reg, j) => {
+                                return (
+                                  <option 
+                                    key={ j } 
+                                    name={ reg } 
+                                    value={ reg }>
+                                    { reg }
+                                  </option>
+                                );
+                              })}
+                              </Form.Control>
+                              <Form.Control.Feedback type="invalid">
+                                You must select a regimen
+                              </Form.Control.Feedback>
+                            </Form.Group>
                             }
                           </td>
                         </tr>
                       );
-                    })}
+                    })}{/* End Risks map */}
                     </tbody>
                   </Table>
                 </Form.Group>

@@ -26,16 +26,25 @@ const validationSlice = createSlice({
   reducers: {
     validateCancerInputs(state, action) {
       const { cancerHash, initialized, selected, ...cancers } = action.payload;
-      const hasErrors = vh.validateCancerInputs(cancers);
-      state.hasErrors = hasErrors;
-      state.incidence = hasErrors;
+      const errors = vh.validateCancerInputs(cancers);
+      //console.log(errors);
+      state.hasErrors = errors.hasErrors;
+      state.incidence = errors.incidence;
+      //state.risk_strats = { ...errors.risk_strats };
+      state.regimens = { ...errors.regimens };
     },
-    setError(state, action) {
+    checkSelect(state, action) {
+      const { riskStrat, regimen } = action.payload;
+      if (regimen !== "0") {
+        state.regimens[riskStrat] = false;
+      }
     },
     disableError(state, action) {
       const errorType = action.payload;
       state.hasErrors = false;
       state[errorType] = false;
+      const newState = JSON.parse( JSON.stringify(state));
+      vh.resetErrors(newState);
     },
     resetErrors(state, action) {
     }
@@ -44,6 +53,6 @@ const validationSlice = createSlice({
 
 const { actions, reducer } = validationSlice;
 
-export const { validateCancerInputs, setError, disableError, resetErrors } = actions;
+export const { validateCancerInputs, checkSelect, disableError, resetErrors } = actions;
 
 export default reducer;
