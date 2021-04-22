@@ -50,7 +50,7 @@ const validationSlice = createSlice({
       state.hasErrors = false;
       state[errorType] = false;
       const newState = JSON.parse( JSON.stringify(state));
-      vh.resetErrors(newState);
+      vh.resetStateErrors(newState);
     },
     resetErrors(state, action) {
     }

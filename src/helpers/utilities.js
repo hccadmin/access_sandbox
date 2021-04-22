@@ -8,6 +8,7 @@ const sentenceCase = (str) => {
   return str[0].toUpperCase() + str.substring(1); 
 }
 
+
 const titleCase = (str) => {
   if ( !isNaN(str) ) {
     return str;

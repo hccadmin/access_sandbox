@@ -1,4 +1,4 @@
-import { makeHashKey, to4decimals, sortObjects } from '../helpers/utilities';
+import { makeHashKey } from '../helpers/utilities';
 
 class ValidationHelper {
   #errors = {};
@@ -15,28 +15,54 @@ class ValidationHelper {
     const keys = this.hasValues();
     if (keys.length > 0) {
       const objWithError = this.findObjWithErrors(keys);
+      //console.log(objWithError);
       if (objWithError) {
-        console.log(objWithError);
+        //console.log(objWithError);
         this.#errors.hasErrors = true;
+
+  // Check if there is an incidence number
         if (!this.hasIncidence(objWithError)) {
           this.#errors.incidence = true;
-          /*
-          if (this.hasCustomRiskOrRegimens(objWithError) ) {
-            console.log("No incidence but risk/reg");
-          }
-          */
         }
         //console.log(emptyRegs);
-        const risks = objWithError.risks;
-        const emptyRegs = this.checkForEmptyRegimens(risks);
-        if (emptyRegs.length > 0) {
-          emptyRegs.forEach( (reg) => {
-            this.#errors.regimens[reg] = true;
-          });
-          //console.log(this.#errors);
+        const errorRisks = objWithError.risks;
+        //const emptyRegs = this.checkForEmptyRegimens(risks);
+        let emptyRegKeys;
+        const filledRegimens = this.numberOf('regimen', errorRisks);
+        Object.keys(errorRisks).forEach( (risk) => {
+          if (filledRegimens.length > 0) {
+            if (filledRegimens.includes(risk)) {
+              this.#errors.regimens[risk] = false;
+            }
+          }
+          else {
+            this.#errors.regimens[risk] = true;
+          }
+        });
+        /*
+        */
+      /*
+        if (filledRegimens.length === 0) {
+          emptyRegKeys = Object.keys(risks);
         }
+        else {
+          //console.log(filledRegimens, Object.keys(risks));
+          emptyRegKeys = Object.keys(risks).filter( (key) => {
+            return !filledRegimens.includes(key);
+          });
+          //console.log(emptyRegKeys);
+        }
+        emptyRegKeys.forEach( (reg) => {
+          this.#errors.regimens[reg] = true;
+        });
+      */
+        //console.log(this.#errors);
+      } // if objWithError
+      else {
+        this.resetAllErrors();
       }
-    }
+    } // if hasValues
+    console.log(this.#data, this.#errors);
     return this.#errors;
   }
 
@@ -46,7 +72,16 @@ class ValidationHelper {
     });
   }
 
-  resetErrors(newState) {
+  resetAllErrors() {
+    this.#errors.hasErrors = false;
+    this.#errors.incidence = false;
+    Object.keys(this.#errors.regimens).forEach( (key) => {
+      this.#errors.regimens[key] = false;
+      this.#errors.risk_strats[key] = false;
+    });
+  }
+
+  resetStateErrors(newState) {
     this.#errors = { ...newState }
   }
 
@@ -83,7 +118,6 @@ class ValidationHelper {
       return (data[key].hasOwnProperty("incidence")) || (this.hasCustomRiskOrRegimens(data[key]) );
     });
     return arrKey;
-    //return arrKey.length > 0;
   }
 
   hasCustomRiskOrRegimens(obj) {
@@ -96,7 +130,6 @@ class ValidationHelper {
       if (key === 'regimen') {
         regimenFlag = values[value].hasMultipleRegimens;
       }
-      //console.log(key, values[value]);
       const toEvaluate = values[value][key];
       const evaluation = isNaN(toEvaluate) ? toEvaluate.length > 0 : toEvaluate > 0;
       return regimenFlag && evaluation;
