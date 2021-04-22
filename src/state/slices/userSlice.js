@@ -21,6 +21,7 @@ const assembleRisks = (cancer, risks) => {
   risks.forEach( (risk) => {
     const riskHash = makeHashKey(cancer, risk.name);
     riskObj[riskHash] = { 
+      hasMultipleRegimens: risk.hasMultipleRegimens,
       percentage: risk.percent_total,
       regimen: ""
     };

@@ -64,7 +64,8 @@ class CancerModel {
         return {
           name: rs.strat_name,
           percent_total: rs.percent_total,
-          regimens: rs.regimens
+          regimens: rs.regimens,
+          hasMultipleRegimens: rs.regimens.length > 1
         }
       });
       return {

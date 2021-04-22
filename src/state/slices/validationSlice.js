@@ -25,13 +25,19 @@ const validationSlice = createSlice({
   initialState: initialState,
   reducers: {
     validateCancerInputs(state, action) {
-      const { cancerHash, initialized, selected, ...cancers } = action.payload;
+      const { 
+        cancerHash, 
+        initialized, 
+        selected, 
+        cancerButtonClicks,
+        ...cancers 
+      } = action.payload;
       const errors = vh.validateCancerInputs(cancers);
-      //console.log(errors);
-      state.hasErrors = errors.hasErrors;
-      state.incidence = errors.incidence;
+      //console.log(cancers);
+      //state.hasErrors = errors.hasErrors;
+      //state.incidence = errors.incidence;
       //state.risk_strats = { ...errors.risk_strats };
-      state.regimens = { ...errors.regimens };
+      //state.regimens = { ...errors.regimens };
     },
     checkSelect(state, action) {
       const { riskStrat, regimen } = action.payload;
