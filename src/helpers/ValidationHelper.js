@@ -39,30 +39,15 @@ class ValidationHelper {
             this.#errors.regimens[risk] = true;
           }
         });
-        /*
-        */
-      /*
-        if (filledRegimens.length === 0) {
-          emptyRegKeys = Object.keys(risks);
-        }
-        else {
-          //console.log(filledRegimens, Object.keys(risks));
-          emptyRegKeys = Object.keys(risks).filter( (key) => {
-            return !filledRegimens.includes(key);
-          });
-          //console.log(emptyRegKeys);
-        }
-        emptyRegKeys.forEach( (reg) => {
-          this.#errors.regimens[reg] = true;
-        });
-      */
-        //console.log(this.#errors);
-      } // if objWithError
+      }
       else {
         this.resetAllErrors();
       }
     } // if hasValues
-    console.log(this.#data, this.#errors);
+    else {
+      this.resetAllErrors();
+    }
+    //console.log(this.#data, this.#errors);
     return this.#errors;
   }
 
@@ -86,7 +71,7 @@ class ValidationHelper {
   }
 
   hasIncidence(obj) {
-    return obj.hasOwnProperty("incidence");
+    return obj.hasOwnProperty("incidence") && obj.incidence.length > 1;
   }
 
   getLastArrItem(items) {
@@ -99,7 +84,7 @@ class ValidationHelper {
       //console.log(data[key].hasOwnProperty("incidence"));
       //console.log(this.numberOf('percentage', data[key].risks).length);
       //console.log(Object.keys(data[key].risks).length);
-      const hasNoErrors = data[key].hasOwnProperty("incidence") &&
+      const hasNoErrors = this.hasIncidence(data[key]) &&
         this.numberOf('percentage', data[key].risks).length === Object.keys(data[key].risks).length &&
         this.numberOf('regimen', data[key].risks).length === Object.keys(data[key].risks).length;
   // Need to flip the return value to get objs that do NOT all values filled
@@ -115,7 +100,7 @@ class ValidationHelper {
   hasValues() {
     const data = this.#data;
     const arrKey = Object.keys(data).filter( (key) => {
-      return (data[key].hasOwnProperty("incidence")) || (this.hasCustomRiskOrRegimens(data[key]) );
+      return (this.hasIncidence(data[key])) || (this.hasCustomRiskOrRegimens(data[key]) );
     });
     return arrKey;
   }
@@ -149,8 +134,6 @@ class ValidationHelper {
     return values;
   }
 
-  getRiskRegimenErrors(values) {
-  }
 }
 
 export default ValidationHelper;
