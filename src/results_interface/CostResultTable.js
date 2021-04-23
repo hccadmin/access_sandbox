@@ -1,11 +1,11 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import { sentenceCase } from '../helpers/utilities';
+import { sentenceCase, setCurrency } from '../helpers/utilities';
 
 const CostResultTable = ({ costs, type, tableLabel }) => {
   const costsArr = costs.drugs || costs.cancers;
 
-  const getOverrideCost = (cost) => {
+  const getUserCost = (cost) => {
     const result = cost.hasOwnProperty('override') ? `$${cost.override.toFixed(2)}` : "-";
     return result;
   }
@@ -29,10 +29,10 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
               <tr key={ i }>
                 <td>{ cost.name }</td>
               { type === "By cancer" && <td>{ cost.total_dosage.toFixed(2) }</td> }
-                <td>${ cost.costs.low.toFixed(2) }</td>
-                <td>${ cost.costs.med.toFixed(2) }</td>
-                <td>${ cost.costs.high.toFixed(2) }</td>
-                <td>{ getOverrideCost(cost.costs) }</td>
+                <td>{ setCurrency(cost.costs.low) }</td>
+                <td>{ setCurrency(cost.costs.med) }</td>
+                <td>{ setCurrency(cost.costs.high) }</td>
+                <td>{ getUserCost(cost.costs) }</td>
               </tr>
             );
           })}
@@ -41,10 +41,10 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
             { type === "By cancer" && 
               <td>{ costs.totals.dosage.toFixed(2) }</td> 
             }
-            <td>${ costs.totals.low.toFixed(2) }</td>
-            <td>${ costs.totals.med.toFixed(2) }</td>
-            <td>${ costs.totals.high.toFixed(2) }</td>
-            <td>{ getOverrideCost(costs.totals) }</td>
+            <td>{ setCurrency(costs.totals.low) }</td>
+            <td>{ setCurrency(costs.totals.med) }</td>
+            <td>{ setCurrency(costs.totals.high) }</td>
+            <td>{ getUserCost(costs.totals) }</td>
           </tr>
         </tbody>
       </Table>

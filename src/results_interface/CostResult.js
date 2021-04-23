@@ -2,7 +2,7 @@ import React from 'react';
 import CostResultTable from './CostResultTable';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import { toPlural } from '../helpers/utilities';
+import { toPlural, setCurrency } from '../helpers/utilities';
 
 const CostResult = ({ cost, type, eventKey, tableLabel }) => {
   return (
@@ -13,7 +13,7 @@ const CostResult = ({ cost, type, eventKey, tableLabel }) => {
           { type === "By drug" &&
             <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
           }
-          <div className="w-25">Total median cost: { `$${cost.totals.med.toFixed(2)}` }</div>
+          <div className="w-25">Total median cost: { setCurrency(cost.totals.med) }</div>
         </div>
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={ eventKey }>

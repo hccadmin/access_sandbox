@@ -54,7 +54,7 @@ const CancerButtons = ({ cancers }) => {
     else {
       dispatch( initializeCancer({ ...cancerObj }));
     }
-    dispatch( setClicks() );
+    dispatch( setClicks(1) );
     setCancerDisplay({ ...cancerObj });
   }
 

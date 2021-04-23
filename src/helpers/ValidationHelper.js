@@ -39,7 +39,7 @@ class ValidationHelper {
             this.#errors.regimens[risk] = true;
           }
         });
-      }
+      } // if objWithErrors
       else {
         this.resetAllErrors();
       }

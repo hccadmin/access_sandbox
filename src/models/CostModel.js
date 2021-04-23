@@ -243,9 +243,11 @@ class CostModel {
               tcpc.totals[tier] = 0;
             }
             const price = this.#prices[drug].prices[tier];
-            const dosagePrice = dosageTotal * price;
-            tcpc.drugs[drug].costs[tier] += dosagePrice;
-            tcpc.totals[tier] += dosagePrice;
+            if (!isNaN(price)) {
+              const dosagePrice = dosageTotal * price;
+              tcpc.drugs[drug].costs[tier] += dosagePrice;
+              tcpc.totals[tier] += dosagePrice;
+            }
           }); // Price tiers forEach
           tcpc.totals.dosage += dosageTotal;
         }); // Drug keys in prices obj forEach

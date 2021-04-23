@@ -45,6 +45,9 @@ const userSlice = createSlice({
     setClicks(state, action) {
       state.cancerButtonClicks += 1;
     },
+    resetClicks(state, action) {
+      state.cancerButtonClicks = 0;
+    },
     initializeCancer(state, action) {
       const { risks, cancer, name } = action.payload;
       state.selected = { name, risks }
@@ -101,6 +104,7 @@ const { actions, reducer } = userSlice;
 
 export const {
   setClicks,
+  resetClicks,
   initializeCancer,
   setSelection,
   setIncidence,

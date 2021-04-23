@@ -8,6 +8,9 @@ const sentenceCase = (str) => {
   return str[0].toUpperCase() + str.substring(1); 
 }
 
+const setCurrency = (toSet) => {
+  return toSet === 0 ? "No pricing available" : `$${ toSet.toFixed(2) }`;
+}
 
 const titleCase = (str) => {
   if ( !isNaN(str) ) {
@@ -109,6 +112,7 @@ export {
   toCurrency,
   getObjKey,
   copyObjProps,
+  setCurrency,
   toPlural,
   sortObjects
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
+import { resetClicks } from '../state/slices/userSlice';
 import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -29,6 +30,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   const initCostCalc = () => {
     setVisible({ inputs: false, results: true });
+    dispatch( resetClicks() );
     loadAllCosts();
   }
 
