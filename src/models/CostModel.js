@@ -223,6 +223,7 @@ class CostModel {
         drugs: {} 
       };
       const tcpc = totalCostPerCancer[cancer];
+      let currMedTotal = 0;
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
         Object.keys(sourceDrugDosage).forEach( (drug) => {
@@ -234,8 +235,9 @@ class CostModel {
             };
           }
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+          const currCancerDrugPrices = this.#prices[drug].prices;
           tcpc.drugs[drug].total_dosage += dosageTotal;
-          Object.keys(this.#prices[drug].prices).forEach( (tier) => {
+          Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
             if (!tcpc.drugs[drug].costs.hasOwnProperty(tier)) {
               tcpc.drugs[drug].costs[tier] = 0;
             }
@@ -246,10 +248,53 @@ class CostModel {
             if (!isNaN(price)) {
               const dosagePrice = dosageTotal * price;
               tcpc.drugs[drug].costs[tier] += dosagePrice;
+
+      // Add the current median cost total to temp currMedTotal variable whenever
+      // the price tier array for the current cancer does NOT include 'override'
+              if ( !Object.keys(currCancerDrugPrices).includes("override") ) {
+                if (tcpc.drugs[drug].costs.hasOwnProperty("med") ) {
+                  currMedTotal += tcpc.drugs[drug].costs["med"];
+                  console.log(`Iteration: ${ num + 1 }:`, currMedTotal);
+                //console.log("total added to", currMedTotal);
+                }
+              }
+              else {
+
+      // If the price tier array for current cancer DOES include user price 
+      // 'override' variable, first check if medAndUser cost prop, is initialized, 
+      // set it to zero if uninitialized.
+      // This is needed to compute total cost if the user overrode one of the drug 
+      // prices but not all drug prices. If there is user override, this cost
+      // is factored into the total. In not, median cost is factored in instead.
+                if (!tcpc.totals.hasOwnProperty("medAndUser") ) {
+                  tcpc.totals["medAndUser"] = 0;
+                }
+
+      // Next, add current median cost total to medAndUser totals property, 
+      // then reset the temp variable for next drug iteration. This ensures
+      // the medAndUser total will always take into account the running median
+      // cost along with user input drug price override
+                tcpc.totals["medAndUser"] += currMedTotal;
+                console.log("Drug price overridden", tcpc.totals["medAndUser"]);
+
+      // Add the current drug's dosage cost based on the user price override
+                if (tier === "override") {
+                  tcpc.totals["medAndUser"] += dosagePrice;
+                  //console.log("Is this even getting fucking called???");
+                  console.log("Drug price overridden", tcpc.totals["medAndUser"]);
+                  //console.log("current total", tcpc.totals["medAndUser"]);
+                }
+              } // if array of current drug tiers has overrides in it
               tcpc.totals[tier] += dosagePrice;
-            }
+            } // if price is a number (!isNaN)
           }); // Price tiers forEach
           tcpc.totals.dosage += dosageTotal;
+          /*
+          if ( Object.keys(currCancerDrugPrices).includes("override") ) {
+            //console.log(tcpc.drugs[drug].name);
+            tcpc.totals["medAndUser"] = ( tcpc.totals["med"] - tcpc.drugs[drug].costs["med"] ) + tcpc.totals["override"];
+          }
+          */
         }); // Drug keys in prices obj forEach
       }); // Risk strats forEach
       //console.log(totalDosageAndCost[cancer].drugs);
