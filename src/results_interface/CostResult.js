@@ -1,20 +1,18 @@
 import React from 'react';
-import CostResultTable from './CostResultTable';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
+import CostResultHeader from './CostResultHeader';
+import CostResultTable from './CostResultTable';
 import { toPlural, setCurrency } from '../helpers/utilities';
 
 const CostResult = ({ cost, type, eventKey, tableLabel }) => {
   return (
     <Card border="0">
       <Accordion.Toggle as={ Card.Header } eventKey={ eventKey }>
-        <div className="d-flex justify-content-between">
-          <div className="w-50">{ cost.name }</div>
-          { type === "By drug" &&
-            <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
-          }
-          <div className="w-25">Total median cost: { setCurrency(cost.totals.med) }</div>
-        </div>
+        <CostResultHeader
+          type={ type }
+          cost={ cost }
+        />
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={ eventKey }>
         <Card.Body>

@@ -10,6 +10,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
     return result;
   }
 
+
   return costsArr && (
     <>
       <Table striped bordered hover size="sm">

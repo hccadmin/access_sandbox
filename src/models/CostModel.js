@@ -122,6 +122,7 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType);
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
+    console.log(this.#totalCostPerDrug);
   /*
   */
     //console.log(this.#drugDosages);
