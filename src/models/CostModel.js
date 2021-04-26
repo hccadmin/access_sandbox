@@ -224,9 +224,13 @@ class CostModel {
         drugs: {} 
       };
       const tcpc = totalCostPerCancer[cancer];
-      let currMedTotal = 0;
+
+  // Risk strats loop
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
+        let currMedTotal = 0;
+
+  // Drugs loop
         Object.keys(sourceDrugDosage).forEach( (drug) => {
           if (!tcpc.drugs.hasOwnProperty(drug)) {
             tcpc.drugs[drug] = { 
@@ -237,13 +241,17 @@ class CostModel {
           }
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
           const currCancerDrugPrices = this.#prices[drug].prices;
+          const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
           tcpc.drugs[drug].total_dosage += dosageTotal;
+          if (hasOverride) {
+            tcpc.totals["medAndUser"] = 0;
+            console.log("override identified", tcpc.totals["medAndUser"]);
+          }
+          
+  // Price tiers loop where costs are computed
           Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
             if (!tcpc.drugs[drug].costs.hasOwnProperty(tier)) {
               tcpc.drugs[drug].costs[tier] = 0;
-            }
-            if ( Object.keys(currCancerDrugPrices).includes("override") ) {
-              tcpc.totals["medAndUser"] = 0;
             }
             if (!tcpc.totals.hasOwnProperty(tier)) {
               tcpc.totals[tier] = 0;
@@ -252,28 +260,42 @@ class CostModel {
             if (!isNaN(price)) {
               const dosagePrice = dosageTotal * price;
               tcpc.drugs[drug].costs[tier] += dosagePrice;
-              if (tier === "med") {
-                currMedTotal += dosagePrice;
+              if (hasOverride) {
+                if (tier === "override") {
+                  currMedTotal += dosagePrice;
+                }
+                if (tier === "med") {
+                  currMedTotal += 0;
+                }
               }
               tcpc.totals[tier] += dosagePrice;
             } // if price is a number (!isNaN)
-          }); // Price tiers forEach
+          }); 
+  // End price tiers loop
 
           if (tcpc.drugs[drug].costs.hasOwnProperty("override") ) {
             currMedTotal += tcpc.drugs[drug].costs["override"];
             currMedTotal -= tcpc.drugs[drug].costs["med"];
+            tcpc.totals["medAndUser"] += currMedTotal;
+            console.log("Curr med total", currMedTotal);
+            console.log("Override", tcpc.drugs[drug].costs["override"]);
+            console.log("Med", tcpc.drugs[drug].costs["med"]);
+            console.log("Med and User", tcpc.totals["medAndUser"]);
           }
+          //console.log("Drug totals", tcpc.totals);
 
       // Update special medAndUser prop with hybrid med/user override cost
       // total
-          tcpc.totals["medAndUser"] += currMedTotal;
+          //console.log(tcpc.totals["medAndUser"]);
 
       // Reset temp hybrid total variable for next drug loop iteration
           currMedTotal = 0;
 
       // Make sure to update the generic drug dosage totals before leaving loop
           tcpc.totals.dosage += dosageTotal;
-        }); // Drug keys in prices obj forEach
+        }); 
+  // End drugs loop
+
       }); // Risk strats forEach
       //console.log(totalCostPerCancer[cancer].drugs);
       const costArr = this.objToArray(totalCostPerCancer[cancer].drugs);

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const useTotalCostAssembler = (cost, type) => {
   const listType = type === "By drug" ? "drug" : "cancer";
-  const hasOverride = cost.totals.hasOwnProperty('override');
+  const hasOverride = cost.totals.hasOwnProperty('override') && cost.totals.override;
   const costData = {
     drug: {
       name: hasOverride ? "" : "median",
