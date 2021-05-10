@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
+import { removePriceOverride } from '../../state/slices/pricesSlice';
 import { useUserOverride } from '../../hooks';
 
 const UserOverrideToggle = ({ name, setOverride, saved }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
+  const dispatch = useDispatch();
 
-  const changeVisibility = (e) => {
+  const handleButtonClick = (e) => {
+    const drug = e.target.name.split("-").shift();
+    console.log(e.target.value);
+    if (e.target.value === "modeled") {
+      dispatch( removePriceOverride(drug) );
+    }
     setVisibility({
       modeled: !visibility.modeled,
       custom: !visibility.custom
@@ -18,7 +26,7 @@ const UserOverrideToggle = ({ name, setOverride, saved }) => {
       <UserOverrideButtons 
         name={ `${name}-override-buttons` }
         visibility={ visibility }
-        handleEvent={ changeVisibility }
+        handleEvent={ handleButtonClick }
       />
       <div className={ visibility.custom ? "visibile position-relative" : "invisible position-absolute" }>
         <Form.Control 

@@ -31,6 +31,11 @@ const pricesSlice = createSlice({
     },
     overridePrice(state, action) {
       state.overrides[action.payload.drug] = action.payload.newPrice;
+    },
+    removePriceOverride(state, action) {
+      if (state.overrides.hasOwnProperty(action.payload) ) {
+        delete state.overrides[action.payload];
+      }
     }
   },
   extraReducers: (builder) => {
@@ -43,6 +48,6 @@ const pricesSlice = createSlice({
 
 const { actions, reducer } = pricesSlice;
 
-export const { setPriceSource, overridePrice } = actions;
+export const { setPriceSource, overridePrice, removePriceOverride } = actions;
 
 export default reducer;
