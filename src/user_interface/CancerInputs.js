@@ -21,8 +21,6 @@ import {
 
 const CancerInputs = ({ selected, predictedIncs }) => {
 
-  const overrideTerms = terms.userInput.valueOverride;
-  //console.log(Object.values(overrideTerms));
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -127,7 +125,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
               <Col md="6">
                 <Form.Group>
                   <Form.Label>Incidence</Form.Label>
-                  <Form.Text>Enter the estimated number of cases</Form.Text>
+                  <Form.Text>{ terms.specific.step1.helpText.incidence }</Form.Text>
                   <Form.Control 
                     name="incidence" 
                     isInvalid={ validation.incidence }
@@ -135,7 +133,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                     type="number" 
                     onChange={ handleEvent } />
                   <Form.Control.Feedback type="invalid">
-                    You must enter an incidence number
+                    { terms.specific.step1.errors.incidence }
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -146,7 +144,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                   <Form.Label>Risks and regimens</Form.Label>
                   <Form.Text>Enter risk percentages and corresponding regimens(disabled for now)</Form.Text>
                   <ButtonGroup toggle> 
-                  { Object.values(overrideTerms).map( (value, i) => {
+                  { Object.values(terms.general.valueOverride).map( (value, i) => {
                     return (
                       <ToggleButton 
                         key={ i }
