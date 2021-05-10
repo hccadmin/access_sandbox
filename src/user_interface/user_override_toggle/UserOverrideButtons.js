@@ -5,10 +5,10 @@ import { makeHashKey, sentenceCase } from '../../helpers/utilities';
 import terms from '../../helpers/ui_terms';
 
 const UserOverrideButtons = ({ name, visibility, handleEvent }) => {
-  const overrideTerms = terms.userInput.valueOverride;
+
   return (
     <ButtonGroup toggle> 
-    { Object.values(overrideTerms).map( (value, i) => {
+    { Object.values(terms.general.valueOverride).map( (value, i) => {
       return (
         <ToggleButton 
           key={ i }

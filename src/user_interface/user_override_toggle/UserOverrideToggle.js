@@ -3,11 +3,11 @@ import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
 
 const UserOverrideToggle = ({ name, setOverride, saved }) => {
-  const [visibility, setVisibility] = useState({ fixed: true, custom: false });
+  const [visibility, setVisibility] = useState({ modeled: true, custom: false });
 
   const handleClick = (e) => {
     setVisibility({
-      fixed: !visibility.fixed,
+      modeled: !visibility.modeled,
       custom: !visibility.custom
     });
   }
