@@ -9,6 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
+import terms from '../helpers/ui_terms';
 import { disableError, checkSelect } from '../state/slices/validationSlice';
 import {
   setIncidence, 
@@ -20,6 +21,8 @@ import {
 
 const CancerInputs = ({ selected, predictedIncs }) => {
 
+  const overrideTerms = terms.userInput.valueOverride;
+  //console.log(Object.values(overrideTerms));
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -143,7 +146,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                   <Form.Label>Risks and regimens</Form.Label>
                   <Form.Text>Enter risk percentages and corresponding regimens(disabled for now)</Form.Text>
                   <ButtonGroup toggle> 
-                  { ['fixed', 'custom'].map( (value, i) => {
+                  { Object.values(overrideTerms).map( (value, i) => {
                     return (
                       <ToggleButton 
                         key={ i }
