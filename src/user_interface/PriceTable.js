@@ -41,6 +41,7 @@ const PriceTable = ({ drugs, list }) => {
                 <UserOverrideToggle 
                   name={ drugHash } 
                   setOverride={ initOverride }
+                  saved={ overrides.hasOwnProperty(drugHash) && overrides[drugHash] }
                 />
               </td>
             </tr>

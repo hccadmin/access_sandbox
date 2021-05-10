@@ -1,5 +1,21 @@
 import { useEffect, useState } from 'react';
 
+const useUserOverride = (saved) => {
+  const [visibility, setVisibility] = useState({ modeled: true, custom: false });
+
+  useEffect( () => {
+    if (typeof saved === "string") {
+      setVisibility({
+        modeled: false,
+        custom: true
+      });
+      //console.log("This should have been called");
+    }
+  }, [saved]);
+
+  return [visibility, setVisibility];
+}
+
 const useTotalCostAssembler = (cost, type) => {
   const listType = type === "By drug" ? "drug" : "cancer";
   const hasOverride = cost.totals.hasOwnProperty('override') && cost.totals.override;
@@ -36,4 +52,4 @@ const useCompletedInputs = (...inputs) => {
 }
 */
 
-export { useTotalCostAssembler };
+export { useTotalCostAssembler, useUserOverride };

@@ -30,7 +30,7 @@ const pricesSlice = createSlice({
       state.filtered = state.priceList[state.priceSource];
     },
     overridePrice(state, action) {
-      state.overrides[action.payload.drug] = parseFloat(action.payload.newPrice);
+      state.overrides[action.payload.drug] = action.payload.newPrice;
     }
   },
   extraReducers: (builder) => {
