@@ -122,7 +122,7 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType);
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
-    console.log(this.#totalCostPerDrug);
+    //console.log(this.#totalCostPerDrug);
   /*
   */
     //console.log(this.#drugDosages);
@@ -245,7 +245,7 @@ class CostModel {
           tcpc.drugs[drug].total_dosage += dosageTotal;
           if (hasOverride) {
             tcpc.totals["medAndUser"] = 0;
-            console.log("override identified", tcpc.totals["medAndUser"]);
+            //console.log("override identified", tcpc.totals["medAndUser"]);
           }
           
   // Price tiers loop where costs are computed
@@ -277,10 +277,10 @@ class CostModel {
             currMedTotal += tcpc.drugs[drug].costs["override"];
             currMedTotal -= tcpc.drugs[drug].costs["med"];
             tcpc.totals["medAndUser"] += currMedTotal;
-            console.log("Curr med total", currMedTotal);
-            console.log("Override", tcpc.drugs[drug].costs["override"]);
-            console.log("Med", tcpc.drugs[drug].costs["med"]);
-            console.log("Med and User", tcpc.totals["medAndUser"]);
+            //console.log("Curr med total", currMedTotal);
+            //console.log("Override", tcpc.drugs[drug].costs["override"]);
+            //console.log("Med", tcpc.drugs[drug].costs["med"]);
+            //console.log("Med and User", tcpc.totals["medAndUser"]);
           }
           //console.log("Drug totals", tcpc.totals);
 
