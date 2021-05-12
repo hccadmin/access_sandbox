@@ -1,9 +1,9 @@
 import React from 'react';
-import { setCurrency } from '../helpers/utilities';
+import { setCurrency, sentenceCase } from '../helpers/utilities';
 import { useTotalCostAssembler } from '../hooks';
 
 const CostResultHeader = ({ cost, type }) => {
-  const nameAndCost = useTotalCostAssembler(cost, type); 
+  const textAndCost = useTotalCostAssembler(cost, type); 
   const isByDrug = type === "By drug";
 
   return (
@@ -12,7 +12,9 @@ const CostResultHeader = ({ cost, type }) => {
       { isByDrug &&
         <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
       }
-      <div className="w-25">Total cost: { setCurrency(nameAndCost.cost) }</div>
+      <div className="w-25">Total cost: { setCurrency(textAndCost.cost) }<br />
+        <span><em>{ `(${ sentenceCase(textAndCost.helpText) })` }</em></span>
+      </div>
     </div>
   );
 }
