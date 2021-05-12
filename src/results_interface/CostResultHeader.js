@@ -12,7 +12,7 @@ const CostResultHeader = ({ cost, type }) => {
       { isByDrug &&
         <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
       }
-      <div className="w-25">Total { nameAndCost.name } cost: { setCurrency(nameAndCost.cost) }</div>
+      <div className="w-25">Total cost: { setCurrency(nameAndCost.cost) }</div>
     </div>
   );
 }

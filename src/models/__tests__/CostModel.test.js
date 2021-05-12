@@ -5,7 +5,22 @@ import {
   user
 } from '../fixtures/cost';
 
-// override: ATRA, 9.3
+/**
+ * Fixtures data:
+ *
+ * SETTING
+ * Single inst
+ * Afganistan
+ * 2015
+ *
+ * CANCERS
+ * APL
+ * Incidence: 11
+ *
+ * PRICES
+ * Consolidated
+ * ATRA override: $9.30
+ */
 
 import CostModel from '../CostModel';
 
@@ -35,12 +50,9 @@ describe('Total cost per cancer', () => {
   });
 
   test('should have apl, totals, drugs props with data in them', () => {
-    //console.log(tcpc);
     expect(tcpc.hasOwnProperty('apl')).toBeTruthy();
     expect(tcpc.apl.drugs.length).toEqual(4);
     expect(tcpc.apl.totals.hasOwnProperty('override')).toBeTruthy();
-    //const keysToCompare = ['name', 'totals', 'drugs'];
-    //expect(Object.keys(tcpc.apl).every( ()
   });
 
   test('should show an override total of 12276', () => {
