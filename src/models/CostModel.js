@@ -225,13 +225,28 @@ class CostModel {
       };
       const tcpc = totalCostPerCancer[cancer];
 
+    /**
+     * Initialize a special medAndUser hybrid total to keep track
+     * of costs that include drugs with user overridden prices. This
+     * total will be used specifically for viewing costs by cancer.
+     */
+      tcpc.totals.medAndUser = 0;
+
   // Risk strats loop
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
         const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
-        let currMedTotal = 0;
+
 
   // Drugs loop
         Object.keys(sourceDrugDosage).forEach( (drug) => {
+
+        /**
+         * Initialize a currHybridCost variable that will store the current
+         * drug's cost total using the median and overriden drug prices 
+         * (if there is a user overridden drug price). Eventually this variable's
+         * total will be added to the medAndUser total once the price tier loop ends
+         */
+          let currHybridCost = 0;
           if (!tcpc.drugs.hasOwnProperty(drug)) {
             tcpc.drugs[drug] = { 
               name: sourceDrugDosage[drug].name,
@@ -243,10 +258,6 @@ class CostModel {
           const currCancerDrugPrices = this.#prices[drug].prices;
           const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
           tcpc.drugs[drug].total_dosage += dosageTotal;
-          if (hasOverride) {
-            tcpc.totals["medAndUser"] = 0;
-            //console.log("override identified", tcpc.totals["medAndUser"]);
-          }
           
   // Price tiers loop where costs are computed
           Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
@@ -260,36 +271,40 @@ class CostModel {
             if (!isNaN(price)) {
               const dosagePrice = dosageTotal * price;
               tcpc.drugs[drug].costs[tier] += dosagePrice;
-              if (hasOverride) {
-                if (tier === "override") {
-                  currMedTotal += dosagePrice;
+
+        /**
+         * To get the right hybrid median/user override cost, the default
+         * will be to add the median tier cost to the currHybridCost var.
+         * However, if the current drug /does/ have a user override drug price,
+         * we want to add the overridden drug price cost to the currHybridCost var
+         * instead of the median cost. 
+         *
+         * Thus the hybrid total cost will be the sum of
+         * any overriden drug price cost plus the median of all other drug price costs, 
+         * minus the median price cost of the drug price that is overriden
+         */
+              if (tier === "med") {
+                if (hasOverride) {
+                  currHybridCost += 0;
                 }
-                if (tier === "med") {
-                  currMedTotal += 0;
+                else {
+                  currHybridCost += dosagePrice;
                 }
+              }
+              if (tier === "override") {
+                currHybridCost += dosagePrice;
               }
               tcpc.totals[tier] += dosagePrice;
             } // if price is a number (!isNaN)
           }); 
   // End price tiers loop
 
-          if (tcpc.drugs[drug].costs.hasOwnProperty("override") ) {
-            currMedTotal += tcpc.drugs[drug].costs["override"];
-            currMedTotal -= tcpc.drugs[drug].costs["med"];
-            tcpc.totals["medAndUser"] += currMedTotal;
-            //console.log("Curr med total", currMedTotal);
-            //console.log("Override", tcpc.drugs[drug].costs["override"]);
-            //console.log("Med", tcpc.drugs[drug].costs["med"]);
-            //console.log("Med and User", tcpc.totals["medAndUser"]);
-          }
-          //console.log("Drug totals", tcpc.totals);
-
-      // Update special medAndUser prop with hybrid med/user override cost
-      // total
-          //console.log(tcpc.totals["medAndUser"]);
-
-      // Reset temp hybrid total variable for next drug loop iteration
-          currMedTotal = 0;
+        /**
+         * Update the special medAndUser total with hybrid user/med current drug total,
+         * then reset for next drug loop iteration.
+         */
+          tcpc.totals.medAndUser += currHybridCost;
+          currHybridCost = 0;
 
       // Make sure to update the generic drug dosage totals before leaving loop
           tcpc.totals.dosage += dosageTotal;
@@ -297,7 +312,6 @@ class CostModel {
   // End drugs loop
 
       }); // Risk strats forEach
-      //console.log(totalCostPerCancer[cancer].drugs);
       const costArr = this.objToArray(totalCostPerCancer[cancer].drugs);
       totalCostPerCancer[cancer].drugs = sortObjects(costArr);
     }); // Cancers forEach
