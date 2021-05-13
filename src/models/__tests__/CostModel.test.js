@@ -3,7 +3,7 @@ import {
   regimens,
   prices,
   user
-} from '../fixtures/cost';
+} from '../../fixtures/cost';
 
 /**
  * Fixtures data:

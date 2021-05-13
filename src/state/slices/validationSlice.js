@@ -5,7 +5,7 @@ import ValidationHelper from '../../helpers/ValidationHelper';
 const initialState = {
   hasErrors: false,
   incidence: false,
-  risk_strats: {},
+  risks: {},
   regimens: {}
 };
 
@@ -36,7 +36,7 @@ const validationSlice = createSlice({
       //console.log(errors);
       state.hasErrors = errors.hasErrors;
       state.incidence = errors.incidence;
-      //state.risk_strats = { ...errors.risk_strats };
+      //state.risks = { ...errors.risks };
       state.regimens = { ...errors.regimens };
     },
     checkSelect(state, action) {

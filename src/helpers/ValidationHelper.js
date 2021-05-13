@@ -1,7 +1,20 @@
 import { makeHashKey } from '../helpers/utilities';
 
 class ValidationHelper {
+
+  /**
+   * Errors object
+   *
+   * prop hasErrors: bool
+   * prop incidence: bool
+   * prop risks: obj {
+   *   riskHash: bool
+   * prop regimens: obj {
+   *   riskHash: bool
+   */
   #errors = {};
+
+
   #data = {};
 
   constructor(defaults) {
@@ -27,9 +40,11 @@ class ValidationHelper {
         //console.log(emptyRegs);
         const errorRisks = objWithError.risks;
         //const emptyRegs = this.checkForEmptyRegimens(risks);
-        let emptyRegKeys;
         const filledRegimens = this.numberOf('regimen', errorRisks);
+        const filledRisks = this.numberOf('percentage', errorRisks);
         Object.keys(errorRisks).forEach( (risk) => {
+          this.setError('risks', risk, filledRisks);
+          /*
           if (filledRegimens.length > 0) {
             if (filledRegimens.includes(risk)) {
               this.#errors.regimens[risk] = false;
@@ -38,6 +53,15 @@ class ValidationHelper {
           else {
             this.#errors.regimens[risk] = true;
           }
+          if (filledRisks.length > 0) {
+            if (filledRisks.includes(risk)) {
+              this.#errors.risks[risk] = false;
+            }
+          }
+          else {
+            this.#errors.risks[risk] = true;
+          }
+          */
         });
       } // if objWithErrors
       else {
@@ -51,6 +75,14 @@ class ValidationHelper {
     return this.#errors;
   }
 
+  setError(type, errorKey, errorArr) {
+    if (errorArr.length === 0) {
+      return;
+    }
+    const result = errorArr.includes(errorKey);
+    this.#errors[type][errorKey] = result;
+  }
+
   checkForEmptyRegimens(risks) {
     return Object.keys(risks).filter( (risk) => {
       return (risks[risk].regimen === 0) || (risks[risk].regimen.length === 0);
@@ -62,7 +94,7 @@ class ValidationHelper {
     this.#errors.incidence = false;
     Object.keys(this.#errors.regimens).forEach( (key) => {
       this.#errors.regimens[key] = false;
-      this.#errors.risk_strats[key] = false;
+      this.#errors.risks[key] = false;
     });
   }
 
