@@ -15,6 +15,20 @@ class ValidationHelper {
   #errors = {};
 
 
+  /**
+   * Data object
+   *
+   * prop cancers: obj {
+   *   name: string,
+   *   incidence: number
+   *   showCustomRisk: bool,
+   *   hasCustomRisk: bool,
+   *   risks: obj
+   *     riskHash: obj
+   *       hasMultipleRegimens: bool,
+   *       percentage: number,
+   *       regimen: string
+   */
   #data = {};
 
   constructor(defaults) {
@@ -103,7 +117,7 @@ class ValidationHelper {
   }
 
   hasIncidence(obj) {
-    return obj.hasOwnProperty("incidence") && obj.incidence.length > 1;
+    return obj.hasOwnProperty("incidence") && String(obj.incidence).length > 1;
   }
 
   getLastArrItem(items) {
