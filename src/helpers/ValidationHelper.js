@@ -36,22 +36,18 @@ class ValidationHelper {
   }
 
   validateCancerInputs(toValidate) {
-    this.#data = toValidate;
-    //console.log(this.#data);
-    //console.log(this.hasIncidence(), this.#data);
+    this.#data = { ...toValidate };
     const keys = this.hasValues();
     if (keys.length > 0) {
       const objWithError = this.findObjWithErrors(keys);
-      //console.log(objWithError);
       if (objWithError) {
-        //console.log(objWithError);
+        console.log(objWithError);
         this.#errors.hasErrors = true;
 
   // Check if there is an incidence number
         if (!this.hasIncidence(objWithError)) {
           this.#errors.incidence = true;
         }
-        //console.log(emptyRegs);
         const errorRisks = objWithError.risks;
         //const emptyRegs = this.checkForEmptyRegimens(risks);
         const filledRegimens = this.numberOf('regimen', errorRisks);
@@ -156,14 +152,16 @@ class ValidationHelper {
   }
 
   numberOf(key, values) {
-    let regimenFlag = true;
     const filled = Object.keys(values).filter( (value) => {
-      if (key === 'regimen') {
-        regimenFlag = values[value].hasMultipleRegimens;
-      }
+      let evaluation;
       const toEvaluate = values[value][key];
-      const evaluation = isNaN(toEvaluate) ? toEvaluate.length > 0 : toEvaluate > 0;
-      return regimenFlag && evaluation;
+      if (key === 'regimen' && !values[value].hasMultipleRegimens) {
+        evaluation = true;
+      }
+      else {
+        evaluation = isNaN(toEvaluate) ? toEvaluate.length > 0 : toEvaluate > 0;
+      }
+      return evaluation;
     });
     //console.log(filled.length > 0);
     return filled;
