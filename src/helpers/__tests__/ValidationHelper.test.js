@@ -34,6 +34,14 @@ test('Should not have errors if there are no user inputs', () => {
   expect(errors.hasErrors).toBeFalsy();
 });
 
+test('Should not have errors if all user inputs filled out', () => {
+  const errors = vh.validateCancerInputs(cancersFullTest);
+
+  // Confirm there are no errors
+  expect(errors.hasErrors).toBeFalsy();
+});
+
+// Cancer incidence
 test('Should create an error if not all incidence fields filled out', () => {
   cancersFullTest.all.incidence = "";
   const errors = vh.validateCancerInputs(cancersFullTest);
@@ -41,20 +49,41 @@ test('Should create an error if not all incidence fields filled out', () => {
   expect(errors.incidence).toBeTruthy();
 });
 
-describe('Risk strat user override', () => {
 
+// Cancer regimens
+describe('Regimens', () => {
 /*
   */
-  test('Should have no errors if all risk percentage fields filled out', () => {
-    // First, fill every cancersTest field with a valid value
-
+  test('Should show no errors if cancer like APL does NOT have multiple regimens and regimen fields left blank', () => {
+    const risks = cancersFullTest.apl.risks;
+    Object.keys(risks).forEach( (risk) => {
+      risks[risk].hasMultipleRegimens = false;
+      risks[risk].regimen = "";
+    });
     const errors = vh.validateCancerInputs(cancersFullTest);
-    //console.log(cancersFullTest.all.risks);
-
-    // Confirm there are no errors
     expect(errors.hasErrors).toBeFalsy();
+
+    // There should be one error if only 1 out of 2 risk percentages was completed
   });
 
+  test('Should show 2 errors if cancer like ALL DOES have multiple regimens and 2 regimen fields left blank', () => {
+    const risks = cancersFullTest.all.risks;
+    const regimens = ["ALL Low Risk Regimen", "", ""];
+    Object.keys(risks).forEach( (risk, i) => {
+      risks[risk].hasMultipleRegimens = true;
+      risks[risk].regimen = regimens[i];
+    });
+    //console.log(cancersFullTest.all.risks);
+    const errors = vh.validateCancerInputs(cancersFullTest);
+    const numErrors = Object.values(errors.regimens).filter( val => val === true );
+    expect(numErrors.length).toBe(2);
+
+  });
+});
+
+describe('Risk percentage user override', () => {
+/*
+*/
   test('Should create error if ALL risk percentages filled but APL risk percentages left blank', () => {
     cancersFullTest.apl.risks.aplstandardrisk.percentage = "";
     cancersFullTest.apl.risks.aplhighrisk.percentage = "";
@@ -75,6 +104,4 @@ describe('Risk strat user override', () => {
     const errors = vh.validateCancerInputs(cancersFullTest);
     expect(errors.riskSumError).toBeTruthy();
   });
-/*
-*/
 });

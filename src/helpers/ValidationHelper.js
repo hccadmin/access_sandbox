@@ -55,10 +55,11 @@ class ValidationHelper {
         
         if (!this.hasFilledRisksRegimens(objWithError) ) {
           const errorRisks = objWithError.risks;
-          //console.log(errorRisks);
           const filledRisks = this.numberOf('percentage', errorRisks, false, true);
+          const filledRegimens = this.numberOf('regimen', errorRisks, false, true);
           Object.keys(errorRisks).forEach( (risk) => {
             this.setError('risks', risk, filledRisks);
+            this.setError('regimens', risk, filledRegimens);
           });
         }
         else {
