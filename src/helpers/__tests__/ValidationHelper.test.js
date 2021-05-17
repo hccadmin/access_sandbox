@@ -9,6 +9,7 @@ import { cancersEmpty, cancersFull } from '../../fixtures/validation/cancers';
 const initialState = {
   hasErrors: false,
   incidence: false,
+  riskSumError: false,
   risks: {},
   regimens: {}
 }
@@ -20,6 +21,9 @@ const vh = new ValidationHelper(initialState);
 beforeEach( () => {
   cancersEmptyTest = JSON.parse( JSON.stringify(cancersEmpty));
   cancersFullTest = JSON.parse( JSON.stringify(cancersFull));
+});
+
+afterEach( () => {
   vh.resetAllErrors();
 });
 
@@ -63,10 +67,14 @@ describe('Risk strat user override', () => {
     const numErrors = Object.values(errors.risks).filter( val => val === true );
     expect(numErrors.length).toBe(2);
   });
-/*
 
-  test('Should create an error if risk percentages to not add up to 100%', () => {
-    //Implementation goes here
+  test('Should create an error if user input risk percentages do not add up to 100%', () => {
+    //console.log(cancersFullTest.all);
+    cancersFullTest.apl.hasCustomRisk = true;
+    cancersFullTest.apl.risks.aplhighrisk.percentage = 20;
+    const errors = vh.validateCancerInputs(cancersFullTest);
+    expect(errors.riskSumError).toBeTruthy();
   });
+/*
 */
 });

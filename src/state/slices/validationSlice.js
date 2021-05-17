@@ -5,6 +5,7 @@ import ValidationHelper from '../../helpers/ValidationHelper';
 const initialState = {
   hasErrors: false,
   incidence: false,
+  riskSumError: false,
   risks: {},
   regimens: {}
 };

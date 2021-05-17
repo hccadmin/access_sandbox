@@ -7,6 +7,7 @@ class ValidationHelper {
    *
    * prop hasErrors: bool
    * prop incidence: bool
+   * prop riskSumError: bool
    * prop risks: obj {
    *   riskHash: bool
    * prop regimens: obj {
@@ -40,43 +41,34 @@ class ValidationHelper {
     const keys = this.hasValues();
     if (keys.length > 0) {
       const objWithError = this.findObjWithErrors(keys);
-      if (objWithError) {
+      //console.log(objWithError);
+      if (!objWithError) {
+        this.resetAllErrors();
+      }
+      else {
         this.#errors.hasErrors = true;
 
   // Check if there is an incidence number
-        if (!this.hasIncidence(objWithError)) {
+        if (!this.hasIncidence(objWithError) ) {
           this.#errors.incidence = true;
         }
-        const errorRisks = objWithError.risks;
-        //const emptyRegs = this.checkForEmptyRegimens(risks);
-        //console.log(errorRisks);
-        //const filledRegimens = this.numberOf('regimen', errorRisks);
-        const filledRisks = this.numberOf('percentage', errorRisks, false, true);
-        Object.keys(errorRisks).forEach( (risk) => {
-          this.setError('risks', risk, filledRisks);
-          /*
-          if (filledRegimens.length > 0) {
-            if (filledRegimens.includes(risk)) {
-              this.#errors.regimens[risk] = false;
-            }
+        
+        if (!this.hasFilledRisksRegimens(objWithError) ) {
+          const errorRisks = objWithError.risks;
+          //console.log(errorRisks);
+          const filledRisks = this.numberOf('percentage', errorRisks, false, true);
+          Object.keys(errorRisks).forEach( (risk) => {
+            this.setError('risks', risk, filledRisks);
+          });
+        }
+        else {
+          //console.log(objWithError);
+          if (objWithError.hasCustomRisk) {
+            const is100 = this.sumTo100(objWithError);
+            this.#errors.riskSumError = !is100;
           }
-          else {
-            this.#errors.regimens[risk] = true;
-          }
-          if (filledRisks.length > 0) {
-            if (filledRisks.includes(risk)) {
-              this.#errors.risks[risk] = false;
-            }
-          }
-          else {
-            this.#errors.risks[risk] = true;
-          }
-          */
-        });
+        } // if !hasFilledRisksAndRegimens
       } // if objWithErrors
-      else {
-        this.resetAllErrors();
-      }
     } // if hasValues
     else {
       this.resetAllErrors();
@@ -122,21 +114,16 @@ class ValidationHelper {
 
   findObjWithErrors(keys) {
     const data = JSON.parse( JSON.stringify(this.#data) );
-    const key = keys.filter( (key) => {
-      //console.log(data[key].hasOwnProperty("incidence"));
-      //console.log(this.numberOf('percentage', data[key].risks).length);
-      //console.log(Object.keys(data[key].risks).length);
-      //console.log(this.numberOf('regimen', data[key].risks), Object.keys(data[key].risks));
-      const hasNoErrors = this.hasIncidence(data[key]) &&
-        this.numberOf('percentage', data[key].risks).length === Object.keys(data[key].risks).length &&
-        this.numberOf('regimen', data[key].risks).length === Object.keys(data[key].risks).length;
-  // Need to flip the return value to get objs that do NOT all values filled
+    const errProps = [];
+    const filtered = keys.filter( (key) => {
+      const hasNoErrors = this.hasIncidence(data[key]) && this.hasFilledRisksRegimens(data[key]) && this.sumTo100(data[key]);
+         // && this.sumTo100(data[key])
       return !hasNoErrors;
     });
     /*
     */
     //console.log(key);
-    return key.length > 0 && data[key];
+    return filtered.length > 0 && data[filtered];
   }
 
 
@@ -157,6 +144,21 @@ class ValidationHelper {
     return key === 'regimen' && !value.hasMultipleRegimens;
   }
 
+  sumTo100(cancer) {
+    let sum = 0;
+    Object.keys(cancer.risks).forEach( (risk) => {
+      //console.log(cancer.risks[risk].percentage);
+      sum += cancer.risks[risk].percentage;
+    });
+    return sum === 100;
+  }
+
+  hasFilledRisksRegimens(cancer) {
+    return ( this.numberOf('percentage', cancer.risks).length === Object.keys(cancer.risks).length ) &&
+        ( this.numberOf('regimen', cancer.risks).length === Object.keys(cancer.risks).length );
+  }
+
+  // Need to flip the return value to get objs that do NOT all values filled
   numberOf(key, values, checkIfAllFieldsEmpty=false, reverseFilter=false) {
     const filled = Object.keys(values).filter( (value) => {
       let evaluation;
