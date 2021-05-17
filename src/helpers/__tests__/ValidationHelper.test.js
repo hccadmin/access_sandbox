@@ -20,23 +20,27 @@ const vh = new ValidationHelper(initialState);
 beforeEach( () => {
   cancersEmptyTest = JSON.parse( JSON.stringify(cancersEmpty));
   cancersFullTest = JSON.parse( JSON.stringify(cancersFull));
+  vh.resetAllErrors();
 });
 
+/*
+*/
 test('Should not have errors if there are no user inputs', () => {
   const errors = vh.validateCancerInputs(cancersEmptyTest);
   expect(errors.hasErrors).toBeFalsy();
 });
 
-/*
 test('Should create an error if not all incidence fields filled out', () => {
-  cancersEmptyTest.all.incidence = 12;
-  const errors = vh.validateCancerInputs(cancersEmptyTest);
-  expect(errors.hasErrors).toBeTruthy();
+  cancersFullTest.all.incidence = "";
+  const errors = vh.validateCancerInputs(cancersFullTest);
+  //console.log(errors);
+  expect(errors.incidence).toBeTruthy();
 });
-*/
 
 describe('Risk strat user override', () => {
 
+/*
+  */
   test('Should have no errors if all risk percentage fields filled out', () => {
     // First, fill every cancersTest field with a valid value
 
@@ -47,8 +51,9 @@ describe('Risk strat user override', () => {
     expect(errors.hasErrors).toBeFalsy();
   });
 
-  test('Should create error if not all risk percentage fields filled out', () => {
+  test('Should create error if ALL risk percentages filled but APL risk percentages left blank', () => {
     cancersFullTest.apl.risks.aplstandardrisk.percentage = "";
+    cancersFullTest.apl.risks.aplhighrisk.percentage = "";
     const errors = vh.validateCancerInputs(cancersFullTest);
 
     // Confirm there are errors
@@ -56,11 +61,10 @@ describe('Risk strat user override', () => {
 
     // There should be one error if only 1 out of 2 risk percentages was completed
     const numErrors = Object.values(errors.risks).filter( val => val === true );
-    expect(numErrors.length).toBe(1);
+    expect(numErrors.length).toBe(2);
   });
-
-
 /*
+
   test('Should create an error if risk percentages to not add up to 100%', () => {
     //Implementation goes here
   });

@@ -41,7 +41,6 @@ class ValidationHelper {
     if (keys.length > 0) {
       const objWithError = this.findObjWithErrors(keys);
       if (objWithError) {
-        console.log(objWithError);
         this.#errors.hasErrors = true;
 
   // Check if there is an incidence number
@@ -50,8 +49,9 @@ class ValidationHelper {
         }
         const errorRisks = objWithError.risks;
         //const emptyRegs = this.checkForEmptyRegimens(risks);
-        const filledRegimens = this.numberOf('regimen', errorRisks);
-        const filledRisks = this.numberOf('percentage', errorRisks);
+        //console.log(errorRisks);
+        //const filledRegimens = this.numberOf('regimen', errorRisks);
+        const filledRisks = this.numberOf('percentage', errorRisks, false, true);
         Object.keys(errorRisks).forEach( (risk) => {
           this.setError('risks', risk, filledRisks);
           /*
@@ -126,6 +126,7 @@ class ValidationHelper {
       //console.log(data[key].hasOwnProperty("incidence"));
       //console.log(this.numberOf('percentage', data[key].risks).length);
       //console.log(Object.keys(data[key].risks).length);
+      //console.log(this.numberOf('regimen', data[key].risks), Object.keys(data[key].risks));
       const hasNoErrors = this.hasIncidence(data[key]) &&
         this.numberOf('percentage', data[key].risks).length === Object.keys(data[key].risks).length &&
         this.numberOf('regimen', data[key].risks).length === Object.keys(data[key].risks).length;
@@ -142,24 +143,31 @@ class ValidationHelper {
   hasValues() {
     const data = this.#data;
     const arrKey = Object.keys(data).filter( (key) => {
+      //console.log(key, this.hasIncidence(data[key]));
       return (this.hasIncidence(data[key])) || (this.hasCustomRiskOrRegimens(data[key]) );
     });
     return arrKey;
   }
 
   hasCustomRiskOrRegimens(obj) {
-    return obj.hasCustomRisk || this.numberOf('regimen', obj.risks).length > 0;
+    return obj.hasCustomRisk || this.numberOf('regimen', obj.risks, true).length > 0;
   }
 
-  numberOf(key, values) {
+  isFixedRegimen(key, value) {
+    return key === 'regimen' && !value.hasMultipleRegimens;
+  }
+
+  numberOf(key, values, checkIfAllFieldsEmpty=false, reverseFilter=false) {
     const filled = Object.keys(values).filter( (value) => {
       let evaluation;
+      //console.log(key, checkIfAllFieldsEmpty);
       const toEvaluate = values[value][key];
-      if (key === 'regimen' && !values[value].hasMultipleRegimens) {
-        evaluation = true;
+      if ( this.isFixedRegimen(key, values[value]) ) {
+        evaluation = !checkIfAllFieldsEmpty;
       }
       else {
         evaluation = isNaN(toEvaluate) ? toEvaluate.length > 0 : toEvaluate > 0;
+        evaluation = reverseFilter ? !evaluation : evaluation;
       }
       return evaluation;
     });
