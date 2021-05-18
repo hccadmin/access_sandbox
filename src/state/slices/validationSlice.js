@@ -26,6 +26,7 @@ const validationSlice = createSlice({
   initialState: initialState,
   reducers: {
     validateCancerInputs(state, action) {
+      //state = JSON.parse( JSON.stringify(initialState));
       const { 
         cancerHash, 
         initialized, 
@@ -33,11 +34,12 @@ const validationSlice = createSlice({
         cancerButtonClicks,
         ...cancers 
       } = action.payload;
+      //console.log(cancers);
       const errors = vh.validateCancerInputs(cancers);
       //console.log(errors);
       state.hasErrors = errors.hasErrors;
       state.incidence = errors.incidence;
-      //state.risks = { ...errors.risks };
+      state.risks = { ...errors.risks };
       state.regimens = { ...errors.regimens };
     },
     checkSelect(state, action) {
@@ -49,7 +51,15 @@ const validationSlice = createSlice({
     disableError(state, action) {
       const errorType = action.payload;
       state.hasErrors = false;
-      state[errorType] = false;
+      if (errorType === "risks" || errorType === "regimens" ) {
+        if (Object.keys(state[errorType]).length > 0) {
+        const keys = Object.keys(state[errorType]);
+          keys.forEach( key => state[errorType][key] = false );
+        }
+      }
+      else {
+        state[errorType] = false;
+      }
       const newState = JSON.parse( JSON.stringify(state));
       vh.resetStateErrors(newState);
     },

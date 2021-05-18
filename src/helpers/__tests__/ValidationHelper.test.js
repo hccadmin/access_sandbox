@@ -85,8 +85,8 @@ describe('Risk percentage user override', () => {
 /*
 */
   test('Should create error if ALL risk percentages filled but APL risk percentages left blank', () => {
+    cancersFullTest.apl.hasCustomRisk = true;
     cancersFullTest.apl.risks.aplstandardrisk.percentage = "";
-    cancersFullTest.apl.risks.aplhighrisk.percentage = "";
     const errors = vh.validateCancerInputs(cancersFullTest);
 
     // Confirm there are errors
@@ -94,7 +94,7 @@ describe('Risk percentage user override', () => {
 
     // There should be one error if only 1 out of 2 risk percentages was completed
     const numErrors = Object.values(errors.risks).filter( val => val === true );
-    expect(numErrors.length).toBe(2);
+    expect(numErrors.length).toBe(1);
   });
 
   test('Should create an error if user input risk percentages do not add up to 100%', () => {

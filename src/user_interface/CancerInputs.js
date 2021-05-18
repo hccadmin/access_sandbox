@@ -51,6 +51,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
         const choice = e.target.value;
         const results = { cancer: cancerHash, choice };
         dispatch( showCustomRisk(results) );
+        dispatch( disableError("risks") );
         break;
       case "customRisk":
         const risk = e.target.dataset.risk;
@@ -179,6 +180,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                           <td>
                             <RiskStratToggle 
                               num={ i }
+                              isInvalid={ validation.risks[rsHash] }
                               custom={ user[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 

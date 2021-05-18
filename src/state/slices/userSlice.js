@@ -84,9 +84,15 @@ const userSlice = createSlice({
     setPercentage(state, action) {
       const { cancer, riskName, value } = action.payload;
       state[cancer].risks[riskName].percentage = value;
+      //state[cancer].hasCustomRisk = value.length > 0;
+      const risks = Object.keys(state[cancer].risks);
+      const empty = risks.every( risk => state[cancer].risks[risk].percentage.length === 0 );
+      state[cancer].hasCustomRisk = empty ? false : true;
+      /*
       if (!state[cancer].hasCustomRisk) {
         state[cancer].hasCustomRisk = true;
       }
+      */
     },
     setIncidence(state, action) {
       const { cancer, incidence } = action.payload;
