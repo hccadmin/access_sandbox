@@ -178,6 +178,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                         {/* Risk strat override goes here */}
                           <td>
                             <RiskStratToggle 
+                              num={ i }
                               custom={ user[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 
