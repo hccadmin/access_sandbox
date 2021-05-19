@@ -55,7 +55,7 @@ class ValidationHelper {
           this.#errors.incidence = true;
         }
         if ( (!this.hasEmptyRisks(objWithError) && !this.hasFilledRisks(objWithError) ) || !this.hasFilledRegimens(objWithError) ) {
-          console.log(objWithError, this.#errors);
+          //console.log(objWithError, this.#errors);
           const errorRisks = objWithError.risks;
           const filledRisks = this.numberOf('percentage', errorRisks, false, true);
           const filledRegimens = this.numberOf('regimen', errorRisks, false, true);

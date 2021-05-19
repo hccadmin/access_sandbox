@@ -50,6 +50,11 @@ const toPlural = (str) => {
   return plural;
 }
 
+const hasHTML = (text) => {
+  const regex = /\<[\/A-Za-z]*\>/g;
+  return text.search(regex) !== -1;
+}
+
 // Filter out anything that's not a number except for 
 // a '.'
 const toCurrency = (str) => {
@@ -109,6 +114,7 @@ export {
   to4decimals,
   sentenceCase,
   toSingular,
+  hasHTML,
   toCurrency,
   getObjKey,
   copyObjProps,

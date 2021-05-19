@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import PriceTable from './PriceTable';
+import HelpTextModal from '../shared_components/HelpTextModal';
+import priceText from './text/price_data_definitions';
 import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
 
 const Step3Prices = ({ drugNames }) => {
+  const [modalVis, changeModalVis] = useState(false);
 
   const dispatch = useDispatch();
 
