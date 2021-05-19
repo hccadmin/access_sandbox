@@ -13,6 +13,7 @@ import ForecastSelect from './ForecastSelect';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
+import './styles/styles.css';
 
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
