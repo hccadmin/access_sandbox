@@ -1,0 +1,30 @@
+{
+  "step1" : {
+    "helpText" : {
+      "incidence" : "Enter the estimated number of cases per year"
+    },
+    "titles" : {
+    },
+    "errors" : {
+      "incidence" : "You must enter an incidence number"
+    }
+  },
+  "step2" : {
+    "helpText" : {
+    },
+    "titles" : {
+    }
+  },
+  "step3" : {
+    "helpText" : {
+    },
+    "titles" : {
+    }
+  },
+  "results" : {
+    "helpText" : {
+    },
+    "titles" : {
+    }
+  }
+}

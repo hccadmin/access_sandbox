@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { makeHashKey, sentenceCase } from '../../helpers/utilities';
-import terms from '../../helpers/ui_terms';
+import terms from '../../text/global';
 
 const UserOverrideButtons = ({ name, visibility, handleEvent }) => {
 
   return (
     <ButtonGroup toggle> 
-    { Object.values(terms.general.valueOverride).map( (value, i) => {
+    { Object.values(terms.valueOverride).map( (value, i) => {
       return (
         <ToggleButton 
           key={ i }

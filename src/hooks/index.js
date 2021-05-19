@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import terms from '../helpers/ui_terms';
+import terms from '../text/global';
 
 const useUserOverride = (saved) => {
   const [visibility, setVisibility] = useState({ modeled: true, custom: false });
@@ -18,7 +18,7 @@ const useUserOverride = (saved) => {
 }
 
 const useTotalCostAssembler = (cost, type) => {
-  const costTerms = terms.general.valueOverride;
+  const costTerms = terms.valueOverride;
   const listType = type === "By drug" ? "drug" : "cancer";
   /*
   */
