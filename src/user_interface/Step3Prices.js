@@ -35,8 +35,26 @@ const Step3Prices = ({ drugNames }) => {
     dispatch( setPriceSource(e.target.value) );
   }
 
+  const closeModal = () => {
+    console.log("IS THIS EVER FUCKING CALLED");
+    changeModalVis(false);
+  }
+
   return (
     <>
+    {/*
+    */}
+      <p>
+        <a href="#" onClick={ () => changeModalVis(true) }>
+          Learn more about price sources and which one to choose.
+        </a>
+      </p>
+      <HelpTextModal
+       title="Price sources" 
+       content={ priceText }
+       visible={ modalVis }
+       closeModal={ closeModal }
+      />
       <Row>
         <Col md="4">
           <ForecastSelect
