@@ -80,6 +80,7 @@ class ValidationHelper {
     //console.log(this.#data, this.#errors);
     const allErrors = JSON.parse( JSON.stringify(this.#errors) );
     this.#errors = JSON.parse( JSON.stringify(this.#defaults) );
+    //console.log(allErrors);
     return allErrors;
   }
 

@@ -39,6 +39,7 @@ const validationSlice = createSlice({
       //console.log(errors);
       state.hasErrors = errors.hasErrors;
       state.incidence = errors.incidence;
+      state.riskSumError = errors.riskSumError;;
       state.risks = { ...errors.risks };
       state.regimens = { ...errors.regimens };
     },
