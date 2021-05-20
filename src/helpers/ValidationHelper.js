@@ -131,6 +131,7 @@ class ValidationHelper {
       const hasNoErrors = this.hasIncidence(data[key]) && this.hasFilledRegimens(data[key]) && riskStatus;
       /*
       */
+  // Need to flip the return value to get objs that do NOT all values filled
       return !hasNoErrors;
     });
     /*
@@ -177,7 +178,6 @@ class ValidationHelper {
     return this.numberOf('regimen', cancer.risks).length === Object.keys(cancer.risks).length;
   }
 
-  // Need to flip the return value to get objs that do NOT all values filled
   numberOf(key, values, checkIfAllFieldsEmpty=false, reverseFilter=false) {
     const filled = Object.keys(values).filter( (value) => {
       let evaluation;

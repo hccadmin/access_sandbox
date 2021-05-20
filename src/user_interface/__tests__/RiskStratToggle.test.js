@@ -4,7 +4,7 @@ import RiskStratToggle from '../RiskStratToggle';
 
 let 
   riskStrat = { name: "", percent_total: "" }, 
-  validation = { risks: {} },
+  validation = { sum: false, risk: false },
   saved = "", 
   custom ="";
 
@@ -18,6 +18,7 @@ test('Should render the "percent_total" prop value if custom flag set to "false"
       num={ 0 }
       custom={ custom }
       riskStrat={ riskStrat }
+      validation={ validation }
       setRiskPercentage={ jest.fn() }
       saved={ saved }
     />
@@ -33,6 +34,7 @@ test('Should render an empty input area if custom flag set to "true"', () => {
       num={ 0 }
       custom={ custom }
       riskStrat={ riskStrat }
+      validation={ validation }
       setRiskPercentage={ jest.fn() }
       saved={ saved }
     />

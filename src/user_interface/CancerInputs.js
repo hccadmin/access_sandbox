@@ -22,6 +22,7 @@ import {
 
 const CancerInputs = ({ selected, predictedIncs }) => {
 
+  const test = { first: "first", second: "second" };
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -140,11 +141,14 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                 </Form.Group>
               </Col>
             </Row>
+
             <Row>
               <Col>
                 <Form.Group>
                   <Form.Label>Risks and regimens</Form.Label>
                   <Form.Text>Enter risk percentages and corresponding regimens(disabled for now)</Form.Text>
+
+        {/* RISK AND REGIMENS */}
                   <ButtonGroup toggle> 
                   { Object.values(globalTerms.valueOverride).map( (value, i) => {
                     return (
@@ -181,7 +185,13 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                           <td>
                             <RiskStratToggle 
                               num={ i }
-                              isInvalid={ validation.risks[rsHash] }
+                              validation={ 
+                                { 
+                                  sum: validation.riskSumError, 
+                                  risk: validation.risks[rsHash] || false 
+                                } 
+                              }
+                              test={ test }
                               custom={ user[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 

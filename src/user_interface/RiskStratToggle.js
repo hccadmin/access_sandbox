@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 
-const RiskStratToggle = ({ num, custom, isInvalid, riskStrat, setRiskPercentage, saved }) => {
+const RiskStratToggle = ({ num, custom, validation, riskStrat, setRiskPercentage, saved }) => {
   if (!custom) {
     return `${ riskStrat.percent_total }%`;
   }
@@ -12,7 +12,7 @@ const RiskStratToggle = ({ num, custom, isInvalid, riskStrat, setRiskPercentage,
       </Form.Label>
       <Form.Control 
         data-risk={ riskStrat.name }
-        isInvalid={ isInvalid }
+        isInvalid={ validation.sum || validation.risk }
         id={ `customRisk-${ num }` }
         name="customRisk" 
         type="number" 
@@ -21,7 +21,7 @@ const RiskStratToggle = ({ num, custom, isInvalid, riskStrat, setRiskPercentage,
         onChange={ setRiskPercentage } 
       />
       <Form.Control.Feedback type="invalid">
-        Please enter a risk percentage
+        { validation.sum ? "Numbers must add up to 100" : "Please enter a risk percentage" }
       </Form.Control.Feedback>
     </Form.Group>
   );
