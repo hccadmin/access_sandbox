@@ -8,12 +8,12 @@ const CostResultHeader = ({ cost, type }) => {
 
   return (
     <div className="d-flex justify-content-between">
-      <div className="w-50">{ cost.name }</div>
+      <div className="w-40">{ cost.name }</div>
       { isByDrug &&
-        <div className="w-25">Total volume: { cost.totals.dosage.toFixed(2) }</div>
+        <div className="w-40">Total volume: { cost.totals.dosage.toFixed(2) } <small><em>(mg or IU)</em></small></div>
       }
-      <div className="w-25">Total cost: { setCurrency(textAndCost.cost) }<br />
-        <span><em>{ `(${ sentenceCase(textAndCost.helpText) })` }</em></span>
+      <div className="w-30 text-right">Total cost: { setCurrency(textAndCost.cost) }<br />
+        <small><em>{ `(${ sentenceCase(textAndCost.helpText) })` }</em></small>
       </div>
     </div>
   );

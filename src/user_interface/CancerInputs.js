@@ -12,6 +12,7 @@ import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import stepTerms from './text/steps';
 import globalTerms from '../text/global';
 import { disableError, checkSelect } from '../state/slices/validationSlice';
+import text from './text/steps';
 import {
   setIncidence, 
   setRiskStrat, 
@@ -127,8 +128,8 @@ const CancerInputs = ({ selected, predictedIncs }) => {
             <Row>
               <Col md="6">
                 <Form.Group>
-                  <Form.Label>Incidence</Form.Label>
-                  <Form.Text>{ stepTerms.step1.helpText.incidence }</Form.Text>
+                  <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
+                  <Form.Text>{ stepTerms.step2.instructions.incidence }</Form.Text>
                   <Form.Control 
                     name="incidence" 
                     isInvalid={ validation.incidence }
@@ -145,8 +146,14 @@ const CancerInputs = ({ selected, predictedIncs }) => {
             <Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>Risks and regimens</Form.Label>
-                  <Form.Text>Enter risk percentages and corresponding regimens(disabled for now)</Form.Text>
+                  <Form.Label bsPrefix="form-label h5">Risks and regimens</Form.Label>
+                  <Form.Text>
+                    { text.step2.instructions.risksRegimens.map( (paragraph, i) => {
+                      return (
+                        <p key={ i } dangerouslySetInnerHTML={ { __html: paragraph } } />
+                      );
+                    })}
+                  </Form.Text>
 
         {/* RISK AND REGIMENS */}
                   <ButtonGroup toggle> 

@@ -1,30 +1,54 @@
 {
   "step1" : {
-    "helpText" : {
-      "incidence" : "Enter the estimated number of cases per year"
+    "title": "Step 1: Setting",
+    "description": "Select 'Single institution' to begin (Health system currently unavailable).",
+    "instructions" : {
+      "single" : "Select a country and a year from the drop down menus"
     },
-    "titles" : {
+    "headings" : {
     },
     "errors" : {
       "incidence" : "You must enter an incidence number"
     }
   },
   "step2" : {
-    "helpText" : {
+    "title": "Step 2: Cancers",
+    "description": "Please select a cancer from the menu below, then enter incidence, risk stratification, and regimen data.",
+    "instructions" : {
+      "incidence": "Input the number of patients your institution has/expects to have",
+      "risksRegimens": [
+        "The table below shows the risk stratification for the selected cancer and its corresponding regimen. This is based on (1) stage, (2) risk-status, or (3) presence of metastases.",
+        "Modeled risk stratification percentages are shown by default. To adjust the percentage, click the \"Custom\" button below and fill in the percentage for each risk stratification level in the \"Percentage\" column (numbers must sum to 100).",
+        "In the column labeled \"Regimens\" some, but not all tumors will have multiple treatment options to select from; where possible. Select the regimen most frequently used at your institution from the drop down menu."
+        ]
     },
-    "titles" : {
+    "headings" : {
     }
   },
   "step3" : {
-    "helpText" : {
+    "title": "Step 3: Drug pricing",
+    "description": [
+      "Choose a price range calculation source to view drug pricing.",
+      "Most users should select \"Consolidated\" which defaults to Supplier prices (due to expert consensus that supply-side prices are not reflective of on-the-ground price in LMICs), but calculates any drug without Supplier price data with Buyer price data. Users who prefer to calculate with Buyer or Supplier data only should select accordingly (note that each of these options is NOT RECOMMENDED because each has drugs without price data, so cost will not be comprehensive of all drugs.",
+      "Prices can be overridden by clicking the \"Custom\" button for the corresponding drug in the \"Price override\" column."
+      ],
+    "instructions" : {
     },
-    "titles" : {
+    "headings" : {
+    }
+  },
+  "step4" : {
+    "title": "Calculate results",
+    "description": "",
+    "instructions" : {
+    },
+    "headings" : {
     }
   },
   "results" : {
-    "helpText" : {
+    "instructions" : {
     },
-    "titles" : {
+    "headings" : {
     }
   }
 }

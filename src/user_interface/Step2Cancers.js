@@ -25,7 +25,7 @@ const Step2Cancers = ({ uiCancers, selected, predictedIncs }) => {
       </Col>
       <Col md="9">
         { 
-          !selected.hasOwnProperty("name") ? <p>Please select cancer</p> :
+          !selected.hasOwnProperty("name") ? <p></p> :
             <CancerInputs selected={ selected } predictedIncs={ predictedIncs }/>
         }
       </Col>

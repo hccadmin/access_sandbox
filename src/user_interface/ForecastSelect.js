@@ -6,7 +6,7 @@ const ForecastSelect = ({ name, id, value, options, label, sendSelection }) => {
   return (
     <Form.Group>
     {/*<h3>{ sentenceCase(name) }</h3>*/}
-      <Form.Label>{ sentenceCase(toPlural(label)) }</Form.Label>
+      <Form.Label bsPrefix="form-label h5">{ sentenceCase(toPlural(label)) }</Form.Label>
       <Form.Control
         id={ id }
         as="select"

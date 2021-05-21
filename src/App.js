@@ -5,6 +5,7 @@ import { loadUI } from './state/slices/uiSlice';
 import Container from 'react-bootstrap/Container';
 import UserInterface from './user_interface/UserInterface';
 import ResultsInterface from './results_interface/ResultsInterface';
+import text from './text/global';
 
 const App = () => {
   const [visibility, setVisibility] = useState({ inputs: true, results: false });
@@ -48,26 +49,29 @@ const App = () => {
   }
 
   return (
-    <Container>
-      <h1>Access Forecast</h1>
-    { visibility.inputs ? 
-      <>
-        <UserInterface 
-          setVisible={ setVisibility } 
-          loadAllCosts={ loadAllCosts }
-          uiLabels={ uiLabels }
-        />
-      </>
-      :
-      <>
-        <ResultsInterface 
-          setVisible={ setVisibility } 
-          costs={ costs }
-          loadCostsByType={ loadCostsByType }
-        />
-      </>
-    }
-    </Container>
+    <div className="mt-3">
+      <Container>
+        <h1>Access Forecast</h1>
+        <p className="lead">{ text.siteDescription }</p>
+      { visibility.inputs ? 
+        <>
+          <UserInterface 
+            setVisible={ setVisibility } 
+            loadAllCosts={ loadAllCosts }
+            uiLabels={ uiLabels }
+          />
+        </>
+        :
+        <>
+          <ResultsInterface 
+            setVisible={ setVisibility } 
+            costs={ costs }
+            loadCostsByType={ loadCostsByType }
+          />
+        </>
+      }
+      </Container>
+    </div>
   );
 }
 

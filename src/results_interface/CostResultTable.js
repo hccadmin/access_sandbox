@@ -17,11 +17,11 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
         <thead>
           <tr>
             <th>{ sentenceCase(tableLabel) }</th> 
-            { type === "By cancer" && <th>Volume</th> }
+            { type === "By cancer" && <th>Volume <small><em>(mg or IU)</em></small></th> }
             <th>Low price</th>
             <th>Med price</th>
             <th>High price</th>
-            <th>User price</th>
+            <th>Custom price</th>
           </tr>
         </thead>
         <tbody>

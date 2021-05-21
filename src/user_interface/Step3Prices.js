@@ -7,6 +7,7 @@ import PriceTable from './PriceTable';
 import HelpTextModal from '../shared_components/HelpTextModal';
 import priceText from './text/price_data_definitions';
 import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
+import text from './text/steps';
 
 const Step3Prices = ({ drugNames }) => {
   const [modalVis, changeModalVis] = useState(false);

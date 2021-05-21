@@ -5,12 +5,12 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { sentenceCase } from '../helpers/utilities';
 
-const ForecastToggle = ({ name, labels, saved, handleChange }) => {
+const ForecastToggle = ({ name, extraClass, labels, saved, handleChange }) => {
   const [show, setShow] = useState(false);
   const target = useRef(null);
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className={ `d-flex justify-content-center ${ extraClass }` }>
       <ButtonGroup toggle size="lg"> 
         { labels.map( (label, i) => {
           return (

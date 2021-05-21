@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import ForecastSelect from './ForecastSelect';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
+import text from './text/steps';
 
 const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
 
@@ -25,6 +26,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
     <Fade in={ selected ? true : false }>
       <Card>
         <Card.Body>
+          <p>{ text.step1.instructions.single }</p>
           { selected &&
             <>
               <div className="d-flex flex-wrap">

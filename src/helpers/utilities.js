@@ -109,6 +109,23 @@ const sortObjects = (objs) => {
   return objs;
 }
 
+/*
+const setHTMLText = (text, tag) => {
+  if (Array.isArray(text) ) {
+    text.map( (paragraph, i) => {
+      return (
+        `<${ tag }` key={ i } dangerouslySetInnerHTML={ { __html: paragraph } } />
+      );
+    });
+  }
+  else {
+    return `<${ tag }>${ text }</${ tag }>`;
+  }
+}
+*/
+  
+
+
 export {
   makeHashKey,
   to4decimals,
