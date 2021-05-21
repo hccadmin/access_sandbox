@@ -15,7 +15,7 @@
     "title": "Step 2: Cancers",
     "description": "Please select a cancer from the menu below, then enter incidence, risk stratification, and regimen data.",
     "instructions" : {
-      "incidence": "Input the number of patients your institution has/expects to have",
+      "incidence": "Enter the estimated number of cases per year your institution expects to have",
       "risksRegimens": [
         "The table below shows the risk stratification for the selected cancer and its corresponding regimen. This is based on (1) stage, (2) risk-status, or (3) presence of metastases.",
         "Modeled risk stratification percentages are shown by default. To adjust the percentage, click the \"Custom\" button below and fill in the percentage for each risk stratification level in the \"Percentage\" column (numbers must sum to 100).",
