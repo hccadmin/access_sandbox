@@ -8,6 +8,7 @@ import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
+import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import stepTerms from './text/steps';
 import globalTerms from '../text/global';
@@ -23,7 +24,6 @@ import {
 
 const CancerInputs = ({ selected, predictedIncs }) => {
 
-  const test = { first: "first", second: "second" };
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -130,6 +130,13 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                 <Form.Group>
                   <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
                   <Form.Text>{ stepTerms.step2.instructions.incidence }</Form.Text>
+                  <UserOverrideToggle
+                   name="incidence"
+                   setOverride={ handleEvent }
+                   saved={ user[cancerHash].incidence }
+                  />
+                  { predictedIncs[cancerHash].total.toFixed() }
+                  {/*
                   <Form.Control 
                     name="incidence" 
                     isInvalid={ validation.incidence }
@@ -139,6 +146,7 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                   <Form.Control.Feedback type="invalid">
                     { stepTerms.step1.errors.incidence }
                   </Form.Control.Feedback>
+                  */}
                 </Form.Group>
               </Col>
             </Row>
@@ -198,7 +206,6 @@ const CancerInputs = ({ selected, predictedIncs }) => {
                                   risk: validation.risks[rsHash] || false 
                                 } 
                               }
-                              test={ test }
                               custom={ user[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 

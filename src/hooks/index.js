@@ -10,7 +10,6 @@ const useUserOverride = (saved) => {
         modeled: false,
         custom: true
       });
-      //console.log("This should have been called");
     }
   }, [saved]);
 
