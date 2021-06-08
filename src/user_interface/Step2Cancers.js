@@ -5,10 +5,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CancerButtons from './CancerButtons';
 import CancerInputs from './CancerInputs';
+import { makeHashKey } from '../helpers/utilities';
 
 
-const Step2Cancers = ({ uiCancers, selected, predictedIncs }) => {
+const Step2Cancers = ({ uiCancers, selected, setting }) => {
   const dispatch = useDispatch();
+
+  const { type, incidences } = setting;
+  const cancerHash = makeHashKey(selected.name);
+  const predictedIncs = incidences[cancerHash];
 
   const cancers = useSelector( (state) => {
     return state.cancers.full;
@@ -26,7 +31,11 @@ const Step2Cancers = ({ uiCancers, selected, predictedIncs }) => {
       <Col md="9">
         { 
           !selected.hasOwnProperty("name") ? <p></p> :
-            <CancerInputs selected={ selected } predictedIncs={ predictedIncs }/>
+            <CancerInputs 
+              selected={ selected } 
+              settingType={ type }
+              predictedIncs={ predictedIncs }
+            />
         }
       </Col>
     </Row>

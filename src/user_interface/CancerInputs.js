@@ -8,7 +8,7 @@ import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
-import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
+import CancerIncidence from './CancerIncidence';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import stepTerms from './text/steps';
 import globalTerms from '../text/global';
@@ -22,7 +22,7 @@ import {
   setRegimen 
 } from '../state/slices/userSlice';
 
-const CancerInputs = ({ selected, predictedIncs }) => {
+const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
@@ -126,28 +126,14 @@ const CancerInputs = ({ selected, predictedIncs }) => {
           <Form>
             <h3>Cancer: <span className="display-4">{ selected.name }</span></h3>
             <Row>
-              <Col md="6">
-                <Form.Group>
-                  <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
-                  <Form.Text>{ stepTerms.step2.instructions.incidence }</Form.Text>
-                  <UserOverrideToggle
-                   name="incidence"
-                   setOverride={ handleEvent }
-                   saved={ user[cancerHash].incidence }
-                  />
-                  { predictedIncs[cancerHash].total.toFixed() }
-                  {/*
-                  <Form.Control 
-                    name="incidence" 
-                    isInvalid={ validation.incidence }
-                    value={ getIncidenceValue(user[cancerHash].incidence, predictedIncs) } 
-                    type="number" 
-                    onChange={ handleEvent } />
-                  <Form.Control.Feedback type="invalid">
-                    { stepTerms.step1.errors.incidence }
-                  </Form.Control.Feedback>
-                  */}
-                </Form.Group>
+              <Col md="8">
+                <CancerIncidence
+                  type={ settingType }
+                  predictedIncs={ predictedIncs }
+                  handleIncidence={ handleEvent }
+                  saved={ user[cancerHash].incidence }
+                  cancer={ cancerHash }
+                />
               </Col>
             </Row>
 

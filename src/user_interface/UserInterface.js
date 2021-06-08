@@ -52,7 +52,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               selected={ user.selected }
               executeCosts={ loadAllCosts }
               uiCancers={ uiLabels.cancers }
-              predictedIncs={ setting.type === "Health system" && setting.incidences }
+              //setting={ setting.type === "Health system" && setting.incidences }
+              setting={ setting }
             />
           </Step>
         <Step title={ text.step3.title } fade={ setting.type === "Single institution" ? user.initialized : stepVisible }>

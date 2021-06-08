@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Table from 'react-bootstrap/Table';
 import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
-import { overridePrice } from '../state/slices/pricesSlice';
+import { overridePrice, removePriceOverride } from '../state/slices/pricesSlice';
 import { makeHashKey, toCurrency } from '../helpers/utilities';
 
 const PriceTable = ({ drugs, list }) => {
@@ -12,6 +12,13 @@ const PriceTable = ({ drugs, list }) => {
   const overrides = useSelector( (state) => {
     return state.prices.overrides;
   });
+  
+  const removeOverride = (e) => {
+    const drug = e.target.name.split("-").shift();
+    if (e.target.value === "modeled") {
+      dispatch( removePriceOverride(drug) );
+    }
+  }
 
   const initOverride = (e) => {
     const drug = e.target.name;
@@ -41,6 +48,7 @@ const PriceTable = ({ drugs, list }) => {
                 <UserOverrideToggle 
                   name={ drugHash } 
                   setOverride={ initOverride }
+                  handleRemoval={ removeOverride }
                   saved={ overrides.hasOwnProperty(drugHash) && overrides[drugHash] }
                 />
               </td>
