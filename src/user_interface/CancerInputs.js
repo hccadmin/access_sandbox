@@ -35,11 +35,6 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
     return state.validation;
   });
 
-  const getIncidenceValue = (userInc, predictedIncs) => {
-    const predictedInc = predictedIncs.hasOwnProperty(cancerHash) && predictedIncs[cancerHash].total.toFixed();
-    return userInc || (predictedInc || "");
-  }
-
 
   const handleEvent = (e) => {
     const name = e.target.name;
@@ -127,13 +122,18 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
             <h3>Cancer: <span className="display-4">{ selected.name }</span></h3>
             <Row>
               <Col md="8">
-                <CancerIncidence
-                  type={ settingType }
-                  predictedIncs={ predictedIncs }
-                  handleIncidence={ handleEvent }
-                  saved={ user[cancerHash].incidence }
-                  cancer={ cancerHash }
-                />
+        {/* INCIDENCE */}
+                <Form.Group>
+                  <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
+                  <Form.Text><p>{ stepTerms.step2.instructions.incidence }</p></Form.Text>
+                    <CancerIncidence
+                      type={ settingType }
+                      predictedIncs={ predictedIncs }
+                      handleIncidence={ handleEvent }
+                      saved={ user[cancerHash].incidence }
+                      cancer={ cancerHash }
+                    />
+                </Form.Group>
               </Col>
             </Row>
 

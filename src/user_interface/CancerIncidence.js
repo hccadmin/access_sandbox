@@ -1,10 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { useSelector, useDispatch } from 'react-redux';
 import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
-import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import stepTerms from './text/steps';
 import { setIncidence } from '../state/slices/userSlice';
 
@@ -18,44 +15,40 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer }
   
   const setModeledIncidence = (e) => {
     if (e.target.value === "modeled") {
-      const payload = { cancer, incidence: predictedIncs.total };
+      const payload = { cancer, incidence: predictedIncs.total.toFixed() };
       dispatch( setIncidence(payload) );
     }
   }
 
-  return (
-    <Form.Group>
-      <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
-      <Form.Text><p>{ stepTerms.step2.instructions.incidence }</p></Form.Text>
-      { 
-        type === "Health system" ?
-          <>
-            <h6 className="mt-3">Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }</h6>
-            <UserOverrideToggle
-             name="incidence"
-             setOverride={ handleIncidence }
-             handleRemoval={ setModeledIncidence }
-             saved={ saved }
-            />
-          </>
-        :
-        <>
-          <Form.Label srOnly htmlFor="incidence">Single instition incidence</Form.Label>
-          <Form.Control 
-            id="incidence"
-            name="incidence" 
-            isInvalid={ validation.incidence }
-            value={ saved } 
-            type="number" 
-            onChange={ handleIncidence } 
-          />
-          <Form.Control.Feedback type="invalid">
-            { stepTerms.step1.errors.incidence }
-          </Form.Control.Feedback>
-        </>
-      }
-    </Form.Group>
-  );
+  return type === "Health system" ?
+    (
+      <>
+        <h6 className="mt-3">Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }</h6>
+        <UserOverrideToggle
+         name="incidence"
+         setOverride={ handleIncidence }
+         handleRemoval={ setModeledIncidence }
+         saved={ saved }
+        />
+      </>
+    )
+    :
+    (
+      <>
+        <Form.Label srOnly htmlFor="incidence">Single instition incidence</Form.Label>
+        <Form.Control 
+          id="incidence"
+          name="incidence" 
+          isInvalid={ validation.incidence }
+          value={ saved } 
+          type="number" 
+          onChange={ handleIncidence } 
+        />
+        <Form.Control.Feedback type="invalid">
+          { stepTerms.step1.errors.incidence }
+        </Form.Control.Feedback>
+      </>
+    );
 }
 
 export default CancerIncidence;
