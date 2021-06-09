@@ -30,7 +30,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer }
       { 
         type === "Health system" ?
           <>
-            <p className="mt-3">Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }</p>
+            <h6 className="mt-3">Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }</h6>
             <UserOverrideToggle
              name="incidence"
              setOverride={ handleIncidence }
@@ -40,7 +40,9 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer }
           </>
         :
         <>
+          <Form.Label srOnly htmlFor="incidence">Single instition incidence</Form.Label>
           <Form.Control 
+            id="incidence"
             name="incidence" 
             isInvalid={ validation.incidence }
             value={ saved } 

@@ -7,7 +7,7 @@ import terms from '../../text/global';
 const UserOverrideButtons = ({ name, visibility, handleEvent }) => {
 
   return (
-    <ButtonGroup toggle> 
+    <ButtonGroup toggle aria-label="User override buttons"> 
     { Object.values(terms.valueOverride).map( (value, i) => {
       return (
         <ToggleButton 
