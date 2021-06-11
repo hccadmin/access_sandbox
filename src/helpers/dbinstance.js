@@ -5,7 +5,7 @@ const dbInstance = ( () => {
   let db;
 
   const connect = () => {
-    firebase.initializeApp(firebaseConfig.sandbox);
+    firebase.initializeApp(firebaseConfig.dev);
     return firebase.firestore();
   }
 

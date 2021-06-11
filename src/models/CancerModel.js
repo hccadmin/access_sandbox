@@ -8,6 +8,7 @@ class CancerModel {
    *     cancer,
    *     risk_strat,
    *     regimen,
+   *     levels,
    *     drug hash: [
    *       {
    *         drug,
@@ -65,6 +66,7 @@ class CancerModel {
           name: rs.strat_name,
           percent_total: rs.percent_total,
           regimens: rs.regimens,
+          inst_levels: rs.inst_levels,
           hasMultipleRegimens: rs.regimens.length > 1
         }
       });

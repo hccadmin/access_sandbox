@@ -52,7 +52,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               selected={ user.selected }
               executeCosts={ loadAllCosts }
               uiCancers={ uiLabels.cancers }
-              //setting={ setting.type === "Health system" && setting.incidences }
               setting={ setting }
             />
           </Step>

@@ -116,31 +116,35 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
   return (
     <div role="user-inputs">
-      <Card>
-        <Card.Body>
           <Form>
             <h3>Cancer: <span className="display-4">{ selected.name }</span></h3>
             <Row>
-              <Col md="8">
+              <Col>
         {/* INCIDENCE */}
-                <Form.Group>
-                  <Form.Label bsPrefix="form-label h5">Incidence</Form.Label>
-                  <Form.Text><p>{ stepTerms.step2.instructions.incidence }</p></Form.Text>
-                    <CancerIncidence
-                      type={ settingType }
-                      predictedIncs={ predictedIncs }
-                      handleIncidence={ handleEvent }
-                      saved={ user[cancerHash].incidence }
-                      cancer={ cancerHash }
-                    />
-                </Form.Group>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>Incidence</Card.Title>
+                    <Form.Group>
+                      <Form.Text><p>{ stepTerms.step2.instructions.incidence }</p></Form.Text>
+                        <CancerIncidence
+                          type={ settingType }
+                          predictedIncs={ predictedIncs }
+                          handleIncidence={ handleEvent }
+                          saved={ user[cancerHash].incidence }
+                          cancer={ cancerHash }
+                        />
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
 
             <Row>
               <Col>
+                <Card>
+                <Card.Body>
+                <Card.Title>Risks and regimens</Card.Title>
                 <Form.Group>
-                  <Form.Label bsPrefix="form-label h5">Risks and regimens</Form.Label>
                   <Form.Text>
                     { text.step2.instructions.risksRegimens.map( (paragraph, i) => {
                       return (
@@ -171,7 +175,16 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                       <tr>
                         <th>Risk stratification</th>
                         <th>Percentage</th>
-                        <th>Regimens</th>
+                        { 
+                          settingType === "Single institution" ?
+                            <th>Regimens</th>
+                          :
+                          <>
+                            <th>Level 1 regimen</th>
+                            <th>Level 2 regimen</th>
+                            <th>Level 3 regimen</th>
+                          </>
+                        }
                       </tr>
                     </thead>
                     <tbody>
@@ -200,49 +213,58 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                           </td>
 
                         {/* Regimens selection */}
-                          <td>
-                            { rs.regimens.length === 1 ? rs.regimens[0] :
-                            <Form.Group> 
-                              <Form.Control 
-                                as="select" 
-                                name={ rsHash }
-                                onChange={ (e) => { captureRegimen(e) } }
-                                isInvalid={ validation.regimens[rsHash] || false }
-                                value={ 
-                                  (currCancer.risks[rsHash] && 
-                                    currCancer.risks[rsHash].regimen.length > 0 ) ?
-                                    currCancer.risks[rsHash].regimen : "0"
-                                }
-                              >
-                                <option value="0" name="select">--Select a regimen--</option>
-                              { rs.regimens.map( (reg, j) => {
-                                return (
-                                  <option 
+                          { 
+                            settingType === "Single institution" ?
+                              <td>
+                                { rs.regimens.length === 1 ? rs.regimens[0] :
+                                <Form.Group> 
+                                  <Form.Control 
+                                    as="select" 
+                                    name={ rsHash }
+                                    onChange={ (e) => { captureRegimen(e) } }
+                                    isInvalid={ validation.regimens[rsHash] || false }
+                                    value={ 
+                                      (currCancer.risks[rsHash] && 
+                                        currCancer.risks[rsHash].regimen.length > 0 ) ?
+                                        currCancer.risks[rsHash].regimen : "0"
+                                    }
+                                  >
+                                    <option value="0" name="select">--Select a regimen--</option>
+                                  { rs.regimens.map( (reg, j) => {
+                                    return (
+                                      <option 
                                     key={ j } 
                                     name={ reg } 
                                     value={ reg }>
                                     { reg }
-                                  </option>
-                                );
+                                      </option>
+                                    );
+                                  })}
+                                  </Form.Control>
+                                  <Form.Control.Feedback type="invalid">
+                                    You must select a regimen
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                                }
+                              </td>
+                            :
+                            <>
+                              { rs.inst_levels.map( (level, k) => {
+                                return <td key={ k }>{ level }</td>;
                               })}
-                              </Form.Control>
-                              <Form.Control.Feedback type="invalid">
-                                You must select a regimen
-                              </Form.Control.Feedback>
-                            </Form.Group>
+                            </>
                             }
-                          </td>
                         </tr>
                       );
                     })}{/* End Risks map */}
                     </tbody>
                   </Table>
                 </Form.Group>
+                </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Form>
-        </Card.Body>
-      </Card>
     </div>
   );
 }
