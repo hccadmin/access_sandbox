@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Fade from 'react-bootstrap/Fade';
 import Form from 'react-bootstrap/Form';
 import ForecastSelect from './ForecastSelect';
+import LevelsInputs from './LevelsInputs';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
 import text from './text/steps';
@@ -73,6 +74,13 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     })}
                   </Form.Group>
                 }
+                <Form.Group>
+                  <Form.Label>Institution level types</Form.Label>
+                  <Form.Text>
+                    Descriptions of level types
+                  </Form.Text>
+                  <LevelsInputs />
+                </Form.Group>
             </>
         }
         </Card.Body>

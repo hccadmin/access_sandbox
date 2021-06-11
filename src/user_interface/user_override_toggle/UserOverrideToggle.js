@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
+import { arrayFrom } from '../../helpers/utilities';
 import { useUserOverride } from '../../hooks';
 
-const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved }) => {
+const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs, className }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
   const dispatch = useDispatch();
+  const numArr = numInputs && arrayFrom(numInputs);
 
   const handleButtonClick = (e) => {
     handleRemoval(e);
@@ -23,13 +25,28 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved }) => {
         visibility={ visibility }
         handleEvent={ handleButtonClick }
       />
-      <div className={ visibility.custom ? "visibile position-relative" : "invisible position-absolute" }>
-        <Form.Control 
-          name={ name } 
-          type="text" 
-          value={ saved || "" }
-          onChange={ setOverride } 
-        />
+      <div className={ visibility.custom ? `visibile position-relative ${ className }` : "invisible position-absolute" }>
+        { 
+          numArr ?
+            numArr.map( (num, i) => {
+              return (
+                <Form.Control 
+                  key={ i }
+                  name={ name + num } 
+                  type="text" 
+                  value={ saved || "" }
+                  onChange={ setOverride } 
+                />
+              );
+            })
+          :
+            <Form.Control 
+              name={ name } 
+              type="text" 
+              value={ saved || "" }
+              onChange={ setOverride } 
+            />
+        }
       </div>
     </>
   );

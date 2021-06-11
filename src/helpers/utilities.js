@@ -109,6 +109,15 @@ const sortObjects = (objs) => {
   return objs;
 }
 
+const arrayFrom = (num) => {
+  const returnArr = [];
+  const arr = Array(+num);
+  for (let i = 0; i < arr.length; i++) {
+    returnArr.push(i + 1);
+  }
+  return returnArr;
+}
+
 /*
 const setHTMLText = (text, tag) => {
   if (Array.isArray(text) ) {
@@ -137,5 +146,6 @@ export {
   copyObjProps,
   setCurrency,
   toPlural,
-  sortObjects
+  sortObjects,
+  arrayFrom
 }
