@@ -79,7 +79,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   <Form.Text>
                     Descriptions of level types
                   </Form.Text>
-                  <LevelsInputs />
+                  <LevelsInputs 
+                    defaults={ setting.defaultLevels }
+                  />
                 </Form.Group>
             </>
         }

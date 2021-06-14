@@ -9,7 +9,8 @@ const initialState = {
   year: "",
   diagType: "",
   incidences: {},
-  bodyStats: {}
+  bodyStats: {},
+  defaultLevels: [24, 55, 21]
 };
 
 const sm = new SettingModel();
@@ -80,7 +81,7 @@ const settingSlice = createSlice({
       });
     },
 
-    getSetting(state, action) {}
+    getLevels(state, action) {}
   },
 
   extraReducers: (builder) => {
