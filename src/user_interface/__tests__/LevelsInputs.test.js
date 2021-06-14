@@ -7,9 +7,19 @@ import LevelsInputs from '../LevelsInputs';
 const mockStore = configureStore();
 const store = mockStore({ setting: { defaultLevels: [] } });
 
+test('Should render the LevelsInputs component with heading', () => {
+  render(
+    <Provider store={ store }>
+      <LevelsInputs defaults={ [] }>
+        This is the LevelsInputs heading
+      </LevelsInputs>
+    </Provider>
+  );
+  expect( screen.getByRole('heading', { name: /this is the levelsinputs heading/i }) ).toBeInTheDocument();
+});
+
 test('Should render the LevelsInputs component with 3 levels and percentages', () => {
   const percentages = [20, 30, 50];
-
   render(
     <Provider store={ store }>
       <LevelsInputs

@@ -2,6 +2,8 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Fade from 'react-bootstrap/Fade';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import LevelsInputs from './LevelsInputs';
 import { useSelector } from 'react-redux';
@@ -57,6 +59,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   /> 
                 }
                 { setting.subtype &&
+                  <>
                   <Form.Group>
                     <Form.Label>Diagnosis type</Form.Label>
                     {["diagnosed", "total"].map( (type, i) => {
@@ -73,16 +76,21 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                       );
                     })}
                   </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Institution level types</Form.Label>
+                    <Form.Text>
+                      Descriptions of level types
+                    </Form.Text>
+                    <Col md="4">
+                      <LevelsInputs 
+                        defaults={ setting.defaultLevels }
+                      >
+                        Modeled institution level percentages
+                      </LevelsInputs>
+                    </Col>
+                  </Form.Group>
+                </>
                 }
-                <Form.Group>
-                  <Form.Label>Institution level types</Form.Label>
-                  <Form.Text>
-                    Descriptions of level types
-                  </Form.Text>
-                  <LevelsInputs 
-                    defaults={ setting.defaultLevels }
-                  />
-                </Form.Group>
             </>
         }
         </Card.Body>

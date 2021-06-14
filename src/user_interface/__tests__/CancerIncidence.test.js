@@ -53,9 +53,11 @@ test('Should show button toggle (modeled/custom) for Health System setting', () 
       handleIncidence={ handleIncidence }
       saved={ saved }
       cancer={ cancer }
-    />
+    >
+      Modeled incidence: { predictedIncs.total }
+    </CancerIncidence>
     </Provider>);
   expect( screen.queryByRole('spinbutton', { name: /incidence/i }) ).toBeNull();
   expect( screen.getByRole('group', { name: /user override buttons/i }) ).toBeInTheDocument();
-  expect( screen.getByText(/modeled incidence: 50/i) ).toBeInTheDocument();
+  expect( screen.getByRole('heading', { name: /modeled incidence: 50/i }) ).toBeInTheDocument();
 });

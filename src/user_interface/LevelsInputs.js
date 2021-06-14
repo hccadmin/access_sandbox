@@ -14,9 +14,10 @@ const fakeFunction1 = (e) => {
 const fakeFunction2 = (e) => {
 }
 
-const LevelsInputs = ({ defaults }) => {
+const LevelsInputs = ({ defaults, children }) => {
   return (
     <>
+      <h6>{ children }</h6>
       <Row>
         { defaults.map( (level, i) => {
           return (

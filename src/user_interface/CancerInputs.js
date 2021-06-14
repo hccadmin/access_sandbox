@@ -132,7 +132,9 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                           handleIncidence={ handleEvent }
                           saved={ user[cancerHash].incidence }
                           cancer={ cancerHash }
-                        />
+                        >
+                          Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }
+                        </CancerIncidence>
                     </Form.Group>
                   </Card.Body>
                 </Card>

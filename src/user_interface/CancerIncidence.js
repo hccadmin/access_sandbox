@@ -5,7 +5,7 @@ import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import stepTerms from './text/steps';
 import { setIncidence } from '../state/slices/userSlice';
 
-const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer }) => {
+const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, children }) => {
 
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer }
   return type === "Health system" ?
     (
       <>
-        <h6 className="mt-3">Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }</h6>
+        <h6 className="mt-3">{ children }</h6>
         <UserOverrideToggle
          name="incidence"
          setOverride={ handleIncidence }
