@@ -10,7 +10,7 @@ const initialState = {
   diagType: "",
   incidences: {},
   bodyStats: {},
-  defaultLevels: [24, 55, 21]
+  levels: { modeled: [24, 55, 21], custom: [] }
 };
 
 const sm = new SettingModel();
@@ -81,6 +81,15 @@ const settingSlice = createSlice({
       });
     },
 
+    setLevel(state, action) {
+      const { index, level } = action.payload;
+      state.levels.custom[index] = level;
+    },
+
+    removeLevels(state, action) {
+      state.levels.custom = [];
+    },
+
     getLevels(state, action) {}
   },
 
@@ -97,6 +106,6 @@ const settingSlice = createSlice({
 
 const { actions, reducer } = settingSlice;
 
-export const { setSettingInput, allFieldsFilled } = actions;
+export const { setSettingInput, allFieldsFilled, setLevel, removeLevels } = actions;
 
 export default reducer;

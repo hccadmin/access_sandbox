@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import LevelsInputs from '../LevelsInputs';
 
 const mockStore = configureStore();
-const store = mockStore({ setting: { defaultLevels: [] } });
+const store = mockStore({ setting: { levels: { modeled: [], custom: [] } } });
 
 test('Should render the LevelsInputs component with heading', () => {
   render(
@@ -32,4 +32,7 @@ test('Should render the LevelsInputs component with 3 levels and percentages', (
   percentages.forEach( (perc) => {
     expect( screen.getByText(new RegExp(`${ perc }%`))).toBeInTheDocument();
   });
+});
+
+test('Should capture input values', () => {
 });

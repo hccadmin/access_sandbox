@@ -34,7 +34,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
                   key={ i }
                   name={ name + num } 
                   type="text" 
-                  value={ saved || "" }
+                  value={ saved[i] || "" }
                   onChange={ setOverride } 
                 />
               );

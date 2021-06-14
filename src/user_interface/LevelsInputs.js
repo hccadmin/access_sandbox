@@ -4,17 +4,31 @@ import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
+import { setLevel, removeLevels } from '../state/slices/settingSlice';
 import text from './text/steps';
 
 //const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved }) => {
 
-const fakeFunction1 = (e) => {
-}
-
-const fakeFunction2 = (e) => {
-}
 
 const LevelsInputs = ({ defaults, children }) => {
+
+  const levels = useSelector( (state) => {
+    return state.setting.levels;
+  });
+
+  const dispatch = useDispatch();
+
+  const handleLevelInput = (e) => {
+    let index = e.target.name.slice(-1);
+    index = +index -1;
+    const level = +e.target.value;
+    dispatch( setLevel({ index, level }) );
+  }
+
+  const handleLevelRemoval = (e) => {
+    dispatch( removeLevels() );
+  }
+
   return (
     <>
       <h6>{ children }</h6>
@@ -31,10 +45,11 @@ const LevelsInputs = ({ defaults, children }) => {
       </Row>
       <UserOverrideToggle
         name="levels"
-        setOverride={ fakeFunction1 }
-        handleRemoval={ fakeFunction2 }
+        setOverride={ handleLevelInput }
+        handleRemoval={ handleLevelRemoval }
         numInputs="3"
         className="d-flex"
+        saved={ levels.custom }
       />
     </>
   );
