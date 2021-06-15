@@ -85,11 +85,11 @@ class CostModel {
   #totalCostPerCancer = {};
 
   /**
-   * Final step 2: Total dosages/costs per cancer
+   * Final step 2: Total dosages/costs per drug
    *
    * Calculate total dosage/costs per drug 
    *
-   * drugs {
+   * costs {
    *   drug: { 
    *     name
    *     totals: { dosage, low, med, high }
@@ -169,6 +169,10 @@ class CostModel {
   }
 
 // Stores raw setting incidence * user input incidence * risk strat percentage
+  /**
+   * START HERE TO INCORPORATE LEVEL PERCENTAGES INTO COST
+   * FOR HEALTH SYSTEMS
+   */
   calcAgeRangeIncidences(user, incidences) {
     let ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
@@ -482,6 +486,30 @@ class CostModel {
     return drugDosagesCopy
   }
 
+/**
+ * Takes in a user obj with user-selected cancer data along with regimen obj.
+ * Combines the two into an obj with cancer hash props. Each cancer has name
+ * and risk strat props. Risk strats is obj with regimen objects that have all
+ * drugs in each regimen.
+ *
+ * Final structure is 
+ * cancers: {
+     cancerHash: {
+       name:
+       risk_strats: {
+         risk: {
+           percentage:
+           drugs: {
+            drug: {
+              name:
+              dosages: []
+            }
+          }
+        }
+      }
+    }
+  }
+ */
   setupCostObj(user, regimens) {
     let costObj = {};
     for( const cancer in user ) {

@@ -23,6 +23,7 @@ const assembleRisks = (cancer, risks) => {
     riskObj[riskHash] = { 
       hasMultipleRegimens: risk.hasMultipleRegimens,
       percentage: risk.percent_total,
+      levels: risk.inst_levels,
       regimen: ""
     };
   });
