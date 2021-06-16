@@ -33,7 +33,7 @@ test('Should load all parameters correctly', () => {
 
 test('Should return false if no incidence is present in user object', () => {
   const userCopy = JSON.parse( JSON.stringify(user));
-  delete userCopy.apl.incidence;
+  delete userCopy.apl.incidence.custom;
   const result = cm.loadAllCostData(setting, userCopy, regimens, prices);
   expect(result).toBeFalsy();
 });

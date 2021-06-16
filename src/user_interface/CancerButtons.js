@@ -8,7 +8,7 @@ import { makeHashKey } from '../helpers/utilities';
 import { initializeCancer, setClicks } from '../state/slices/userSlice';
 import { validateCancerInputs } from '../state/slices/validationSlice';
 
-const CancerButtons = ({ cancers }) => {
+const CancerButtons = ({ cancers, settingType }) => {
 
   const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", risks: {} });
 
@@ -48,7 +48,7 @@ const CancerButtons = ({ cancers }) => {
       name: selected.name,
       risks: selected.risk_strats
     };
-    if (user.initialized) {
+    if (user.initialized && settingType !== "Health system") {
       dispatch( validateCancerInputs({ ...user }));
     }
     else {

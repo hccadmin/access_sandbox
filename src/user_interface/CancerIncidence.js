@@ -15,7 +15,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, 
   
   const setModeledIncidence = (e) => {
     if (e.target.value === "modeled") {
-      const payload = { cancer, incidence: predictedIncs.total.toFixed() };
+      const payload = { type: e.target.value, cancer, incidence: predictedIncs.total.toFixed() };
       dispatch( setIncidence(payload) );
     }
   }
@@ -40,7 +40,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, 
           id="incidence"
           name="incidence" 
           isInvalid={ validation.incidence }
-          value={ saved } 
+          value={ saved || "" } 
           type="number" 
           onChange={ handleIncidence } 
         />

@@ -57,6 +57,7 @@ const userSlice = createSlice({
         const riskObj = assembleRisks(cancer, risks);
         state[cancer] = { 
           name, 
+          incidence: {},
           risks: riskObj, 
           showCustomRisk: false, 
           hasCustomRisk: false 
@@ -96,8 +97,8 @@ const userSlice = createSlice({
       */
     },
     setIncidence(state, action) {
-      const { cancer, incidence } = action.payload;
-      state[cancer].incidence = incidence;
+      const { type, cancer, incidence } = action.payload;
+      state[cancer].incidence[type] = incidence;
     },
     setRiskStrat(state, action) {},
     setRegimen(state, action) {

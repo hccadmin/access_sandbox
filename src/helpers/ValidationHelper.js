@@ -113,7 +113,7 @@ class ValidationHelper {
   }
 
   hasIncidence(obj) {
-    return obj.hasOwnProperty("incidence") && String(obj.incidence).length > 1;
+    return obj.incidence.hasOwnProperty("custom") && String(obj.incidence.custom).length > 1;
   }
 
   getLastArrItem(items) {

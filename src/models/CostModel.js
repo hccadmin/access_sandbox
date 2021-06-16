@@ -145,11 +145,18 @@ class CostModel {
     return type === "cancer" ? this.#totalCostPerCancer : this.#totalCostPerDrug;
   }
 
+/**
+ * This is will need to be modified to account for Health system
+ * may not have custom incidence. We do not want this inadvertently
+ * removed
+ */
   removeEmptyInputs(source) {
     let inputs = JSON.parse( JSON.stringify(source));
     Object.keys(inputs).forEach( (input) => {
-      if (!inputs[input].hasOwnProperty('incidence')) {
-        delete inputs[input];
+      if (inputs[input].hasOwnProperty('incidence') ) {
+        if (!inputs[input].incidence.hasOwnProperty('custom')) {
+          delete inputs[input];
+        }
       }
     });
     return Object.keys(inputs).length >= 1 && inputs;
@@ -188,7 +195,7 @@ class CostModel {
         currRisk.age_ranges = {};
         this.#ageRanges.forEach( (ar) => {
           currRisk.age_ranges[ar] = age_ranges[ar] * 
-            parseFloat(user[cancer].incidence) * 
+            parseFloat(user[cancer].incidence.custom) * 
             ( parseFloat(percentage).toFixed(1) / 100 );
         });
       });
@@ -512,7 +519,8 @@ class CostModel {
  */
   setupCostObj(user, regimens) {
     let costObj = {};
-    for( const cancer in user ) {
+    // for( const cancer in user ) {
+    Object.keys(user).forEach( (cancer, i) => {
       let drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
         costObj[cancer] = { name: user[cancer].name, risk_strats: {} };
@@ -529,7 +537,7 @@ class CostModel {
           };
         });
       }
-    }
+    });
     return costObj;
   }
 

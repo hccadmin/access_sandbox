@@ -26,7 +26,10 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
   return (
     <Row>
       <Col md="3">
-        <CancerButtons cancers={ uiCancers } />
+        <CancerButtons 
+          cancers={ uiCancers }
+          settingType={ type }
+        />
       </Col>
       <Col md="9">
         { 

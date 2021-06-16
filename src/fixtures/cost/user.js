@@ -1,7 +1,10 @@
 const user = {
   "apl": {
     "name": "APL",
-    "incidence": 11,
+    "incidence": {
+      "custom" : 11,
+      "modeled" : ""
+    },
     "risks": {
       "aplstandardrisk": {
         "hasMultipleRegimens": false,

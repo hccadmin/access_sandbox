@@ -20,7 +20,10 @@ const cancersEmpty = {
     },
     showCustomRisk: false,
     hasCustomRisk: false,
-    incidence: ""
+    incidence: {
+      modeled: "",
+      custom: ""
+    }
   },
   apl: {
     name: "APL",
@@ -38,7 +41,10 @@ const cancersEmpty = {
     },
     showCustomRisk: false,
     hasCustomRisk: false,
-    incidence: ""
+    incidence: {
+      modeled: "",
+      custom: ""
+    }
   }
 }
 
@@ -64,7 +70,10 @@ const cancersFull = {
     },
     showCustomRisk: false,
     hasCustomRisk: false,
-    incidence: 40
+    incidence: {
+      modeled: "",
+      custom: 40
+    }
   },
   apl: {
     name: "APL",
@@ -82,7 +91,10 @@ const cancersFull = {
     },
     showCustomRisk: false,
     hasCustomRisk: false,
-    incidence: 20
+    incidence: {
+      modeled: "",
+      custom: 20
+    }
   }
 }
 

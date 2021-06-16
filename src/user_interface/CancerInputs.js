@@ -41,7 +41,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
     switch (name) {
       case "incidence":
         const input = e.target.value;
-        const captured = { cancer: cancerHash, incidence: input }
+        const captured = { type: "custom", cancer: cancerHash, incidence: input }
         dispatch( setIncidence(captured) );
         dispatch( disableError("incidence") );
         break;
@@ -130,7 +130,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                           type={ settingType }
                           predictedIncs={ predictedIncs }
                           handleIncidence={ handleEvent }
-                          saved={ user[cancerHash].incidence }
+                          saved={ user[cancerHash].incidence.custom }
                           cancer={ cancerHash }
                         >
                           Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }
