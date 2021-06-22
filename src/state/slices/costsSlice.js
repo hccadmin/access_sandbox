@@ -12,8 +12,9 @@ export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
     const { user, setting, regimens, prices } = criteria;
-    const { incidences, bodyStats } = setting;
-    const settingData = { incidences, bodyStats };
+    const { type, incidences, bodyStats, levels } = setting;
+    const hasLevels = ( type === "Health system" && levels );
+    const settingData = { type, incidences, bodyStats, hasLevels };
     const { selected, cancerButtonClicks, initialized, ...cancers } = user;
     const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
     return hasValidInputs && cm.getTotalCostPerCancer();

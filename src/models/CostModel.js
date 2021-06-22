@@ -110,7 +110,7 @@ class CostModel {
     if (!filteredInput) {
       return filteredInput;
     }
-    const { incidences, bodyStats } = setting;
+    const { type, incidences, bodyStats, hasLevels } = setting;
     this.#bodyStats = bodyStats;
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     this.#userCancers = Object.keys(filteredInput);

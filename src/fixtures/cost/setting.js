@@ -1,7 +1,6 @@
 const setting = {
-  "type": "Single institution",
+  "type": "",
   "name": "Afghanistan",
-  "type": "Single institution",
   "year": "2015",
   "diagType": "diagnosed",
   "bodyStats": {

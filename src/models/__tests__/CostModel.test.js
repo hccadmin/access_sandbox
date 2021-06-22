@@ -4,12 +4,12 @@ import {
   prices,
   user
 } from '../../fixtures/cost';
+import { makeHashKey } from '../../helpers/utilities';
 
 /**
  * Fixtures data:
  *
  * SETTING
- * Single inst
  * Afganistan
  * 2015
  *
@@ -26,13 +26,25 @@ import CostModel from '../CostModel';
 
 const cm = new CostModel();
 
-test('Should load all parameters correctly', () => {
-  const result = cm.loadAllCostData(setting, user, regimens, prices);
+test('Should load all parameters correctly for Single Institution', () => {
+  user.setting = "Single institution";
+  const settingHash = makeHashKey(user.setting);
+  const result = cm.loadAllCostData(setting, user[settingHash], regimens, prices);
   expect(result).toBeTruthy();
 });
 
+test('Should load all parameters correctly for Health System', () => {
+  user.setting = "Health system";
+  const settingHash = makeHashKey(user.setting);
+  expect( Object.keys(user[settingHash]).length ).toEqual(18);
+  //const result = cm.loadAllCostData(setting, user[settingHash], regimens, prices);
+  //expect(result).toBeTruthy();
+});
+
 test('Should return false if no incidence is present in user object', () => {
-  const userCopy = JSON.parse( JSON.stringify(user));
+  user.setting = "Single institution";
+  const settingHash = makeHashKey(user.setting);
+  const userCopy = JSON.parse( JSON.stringify(user[settingHash]));
   delete userCopy.apl.incidence.custom;
   const result = cm.loadAllCostData(setting, userCopy, regimens, prices);
   expect(result).toBeFalsy();
