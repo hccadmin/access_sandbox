@@ -64,6 +64,8 @@ const userSlice = createSlice({
         };
       }
     },
+    initializeAllCancers(state, action) {
+    },
     setSelection(state, action) {
       const { name, value } = action.payload;
       state[name] = value;
@@ -114,6 +116,7 @@ export const {
   setClicks,
   resetClicks,
   initializeCancer,
+  initializeAllCancers,
   setSelection,
   setIncidence,
   setPercentage,

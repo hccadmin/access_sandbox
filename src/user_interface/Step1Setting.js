@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSettingInput, loadIncidencesAndBsa } from '../state/slices/settingSlice';
+import { initializeAllCancers } from '../state/slices/userSlice';
+import { allFieldsFilled } from '../helpers/utilities';
 import ForecastToggle from './ForecastToggle';
 import SettingInputs from './SettingInputs';
 
 const Step1Setting = ({ uiLabels, setComplete }) => {
   const dispatch = useDispatch();
+
+  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
 
   const setting = useSelector( (state) => {
     return state.setting;
@@ -13,16 +17,12 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
 
   const { name, year, type, diagType } = setting;
 
-
-  const allFieldsFilled = (...arr) => {
-    return arr.every( (val) => {
-      return val.length > 0;
-    });
-  }
-
   useEffect( () => {
     if (allFieldsFilled(name, type, year, diagType)) {
       setComplete(true);
+      if (type === REACT_APP_SETTING_COMPLEX) {
+        console.log("HEALTH SYSTEM");
+      }
       dispatch(loadIncidencesAndBsa({
         name, type, year, diagType
       }));

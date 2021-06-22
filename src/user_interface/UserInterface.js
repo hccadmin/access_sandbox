@@ -20,6 +20,8 @@ import './styles/styles.css';
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const [stepVisible, setStepVisible] = useState(false);
 
+  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
+
   const dispatch = useDispatch();
 
   const setting = useSelector( (state) => {
@@ -55,7 +57,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
               setting={ setting }
             />
           </Step>
-        <Step title={ text.step3.title } fade={ setting.type === "Single institution" ? user.initialized : stepVisible }>
+        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? user.initialized : stepVisible }>
           { text.step3.description.map( (desc, i) => {
             return (
               <p key={ i } dangerouslySetInnerHTML={ { __html: desc } } />
@@ -65,7 +67,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             drugNames={ uiLabels.drugs }
           />
         </Step>
-        <Step title={ text.step4.title } fade={ setting.type === "Single institution" ? user.initialized : stepVisible }>
+        <Step title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? user.initialized : stepVisible }>
           <Button onClick={ initCostCalc } size="lg">Calculate</Button>
         </Step>
       </Container>

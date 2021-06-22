@@ -19,7 +19,6 @@ export const loadIncidencesAndBsa = createAsyncThunk(
   'setting/loadIncidencesAndBsaStatus',
   async(data, thunkAPI) => {
     const { name, type, year, diagType } = data;
-    let cleanSetting;
     const result = await Promise.all([
       DBQueryer.getSetting(name, year, `${diagType}_standard`),
       DBQueryer.getBsa(name)

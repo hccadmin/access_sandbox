@@ -37,7 +37,6 @@ const Step3Prices = ({ drugNames }) => {
   }
 
   const closeModal = () => {
-    console.log("IS THIS EVER FUCKING CALLED");
     changeModalVis(false);
   }
 

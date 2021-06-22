@@ -7,6 +7,8 @@ import { setIncidence } from '../state/slices/userSlice';
 
 const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, children }) => {
 
+  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
+
   const dispatch = useDispatch();
 
   const validation = useSelector( (state) => {
@@ -20,7 +22,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, 
     }
   }
 
-  return type === "Health system" ?
+  return type === REACT_APP_SETTING_COMPLEX ?
     (
       <>
         <h6 className="mt-3">{ children }</h6>

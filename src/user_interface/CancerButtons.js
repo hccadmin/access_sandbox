@@ -10,6 +10,8 @@ import { validateCancerInputs } from '../state/slices/validationSlice';
 
 const CancerButtons = ({ cancers, settingType }) => {
 
+  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
+
   const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", risks: {} });
 
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const CancerButtons = ({ cancers, settingType }) => {
       name: selected.name,
       risks: selected.risk_strats
     };
-    if (user.initialized && settingType !== "Health system") {
+    if (user.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {
       dispatch( validateCancerInputs({ ...user }));
     }
     else {

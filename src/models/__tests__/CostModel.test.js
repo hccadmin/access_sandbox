@@ -33,7 +33,7 @@ test('Should load all parameters correctly for Single Institution', () => {
   expect(result).toBeTruthy();
 });
 
-test('Should load all parameters correctly for Health System', () => {
+test('Should load all 18 cancers for Health System', () => {
   user.setting = "Health system";
   const settingHash = makeHashKey(user.setting);
   expect( Object.keys(user[settingHash]).length ).toEqual(18);
