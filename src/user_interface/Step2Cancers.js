@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useInitializeAllCancers } from '../hooks';
 import { loadCancers } from '../state/slices/cancersSlice';
 import { initializeAllCancers } from '../state/slices/userSlice';
 import Row from 'react-bootstrap/Row';
@@ -12,7 +13,6 @@ import { makeHashKey } from '../helpers/utilities';
 const Step2Cancers = ({ uiCancers, selected, setting }) => {
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
   const dispatch = useDispatch();
-
   const { type, incidences } = setting;
   const cancerHash = makeHashKey(selected.name);
   const predictedIncs = incidences[cancerHash];
@@ -21,12 +21,18 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
     return state.cancers.full;
   });
 
+  const shouldInitializeAll = useInitializeAllCancers();
+
   useEffect( () => {
     if (Object.keys(cancers).length === 0) {
       dispatch( loadCancers() ).then( (result) => {
-        if (type === REACT_APP_SETTING_COMPLEX && Object.keys(incidences).length > 0) {
-          dispatch( initializeAllCancers({ cancers: result.payload.full, incidences }) );
+        const loaded = result.payload.full;
+        if ( shouldInitializeAll(type, loaded, incidences) ) {
+          console.log("This should not be called");
+          dispatch( initializeAllCancers({ cancers: loaded, incidences }) );
         }
+        /*
+        */
       });
     }
   }, [cancers, incidences, dispatch]);

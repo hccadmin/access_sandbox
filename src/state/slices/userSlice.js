@@ -66,6 +66,8 @@ const userSlice = createSlice({
     },
     initializeAllCancers(state, action) {
       const { cancers, incidences } = action.payload;
+    /*
+    */
       state.initialized = true;
       cancers.forEach( (cancer) => {
         const hash = makeHashKey(cancer.name);
@@ -77,8 +79,6 @@ const userSlice = createSlice({
           showCustomRisk: false, 
           hasCustomRisk: false 
         };
-    /*
-    */
       });
     },
     setSelection(state, action) {
