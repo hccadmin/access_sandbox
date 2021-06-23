@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import cancerDataReducer from './cancerDataSlice';
 import settingReducer from './settingSlice';
-import userReducer from './userSlice';
+import cancerSelectionsReducer from './cancerSelectionsSlice';
 import costsReducer from './costsSlice';
 import validationReducer from './validationSlice';
 import uiReducer from './uiSlice';
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   costs: costsReducer,
   ui: uiReducer,
   prices: pricesReducer,
-  user: userReducer
+  cancerSelections: cancerSelectionsReducer
 });
 
 export default rootReducer;

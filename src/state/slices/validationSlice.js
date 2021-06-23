@@ -27,14 +27,7 @@ const validationSlice = createSlice({
   reducers: {
     validateCancerInputs(state, action) {
       //state = JSON.parse( JSON.stringify(initialState));
-      const { 
-        cancerHash, 
-        initialized, 
-        allCancersInitialized,
-        selected, 
-        cancerButtonClicks,
-        ...cancers 
-      } = action.payload;
+      const { cancers, ...rest } = action.payload;
       const errors = vh.validateCancerInputs(cancers);
       //console.log(errors);
       state.hasErrors = errors.hasErrors;

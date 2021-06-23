@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
-import { resetClicks } from '../state/slices/userSlice';
+import { resetClicks } from '../state/slices/cancerSelectionsSlice';
 import { sentenceCase } from '../helpers/utilities';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -28,8 +28,8 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     return state.setting;
   });
 
-  const user = useSelector( (state) => {
-    return state.user;
+  const cancerSelections = useSelector( (state) => {
+    return state.cancerSelections;
   });
 
   const initCostCalc = () => {
@@ -51,13 +51,13 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           <Step title={ text.step2.title } fade={ stepVisible }>
             <p>{ text.step2.description }</p>
             <Step2Cancers
-              selected={ user.selected }
+              selected={ cancerSelections.selected }
               executeCosts={ loadAllCosts }
               uiCancers={ uiLabels.cancers }
               setting={ setting }
             />
           </Step>
-        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? user.initialized : stepVisible }>
+        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
           { text.step3.description.map( (desc, i) => {
             return (
               <p key={ i } dangerouslySetInnerHTML={ { __html: desc } } />
@@ -67,7 +67,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             drugNames={ uiLabels.drugs }
           />
         </Step>
-        <Step title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? user.initialized : stepVisible }>
+        <Step title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
           <Button onClick={ initCostCalc } size="lg">Calculate</Button>
         </Step>
       </Container>

@@ -16,8 +16,8 @@ const App = () => {
     return state.ui;
   });
 
-  const user = useSelector( (state) => {
-    return state.user;
+  const cancerSelections = useSelector( (state) => {
+    return state.cancerSelections;
   });
 
   const setting = useSelector( (state) => {
@@ -37,7 +37,7 @@ const App = () => {
   });
 
   const loadAllCosts = () => {
-    dispatch( initCostCalc({ setting, user, regimens, prices }));
+    dispatch( initCostCalc({ setting, cancerSelections, regimens, prices }));
   }
 
   const loadCostsByType = (type) => {

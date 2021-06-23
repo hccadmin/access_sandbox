@@ -20,15 +20,15 @@ import {
   setPercentage, 
   showCustomRisk, 
   setRegimen 
-} from '../state/slices/userSlice';
+} from '../state/slices/cancerSelectionsSlice';
 
 const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
-  const user = useSelector( (state) => {
-    return state.user;
+  const cancerSelections = useSelector( (state) => {
+    return state.cancerSelections;
   });
 
   const validation = useSelector( (state) => {
@@ -61,10 +61,10 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
         }));
         break;
     }
-    // When the user starts typing, check if this cancer has only 1 reg per
-    // risk strat. If so, assign reg to risks in user state
+    // When the cancerSelections starts typing, check if this cancer has only 1 reg per
+    // risk strat. If so, assign reg to risks in cancerSelections state
     const singleRegArr = loadSingleRegs(selected.risks);
-    if (singleRegArr && user[cancerHash] ) {
+    if (singleRegArr && cancerSelections.cancers[cancerHash] ) {
       singleRegArr.forEach( (sra) => {
         saveRegimen(sra);
       });
@@ -104,7 +104,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
   }
 
 /*
-  if ( !user.hasOwnProperty(cancerHash) ) {
+  if ( !cancerSelections.hasOwnProperty(cancerHash) ) {
     dispatch( initializeCancer({ 
       cancer: cancerHash, 
       risks: selected.risk_strats,
@@ -115,7 +115,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
 
   return (
-    <div role="user-inputs">
+    <div role="cancerSelections-inputs">
           <Form>
             <h3>Cancer: <span className="display-4">{ selected.name }</span></h3>
             <Row>
@@ -130,7 +130,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                           type={ settingType }
                           predictedIncs={ predictedIncs }
                           handleIncidence={ handleEvent }
-                          saved={ user[cancerHash].incidence.custom }
+                          saved={ cancerSelections.cancers[cancerHash].incidence.custom }
                           cancer={ cancerHash }
                         >
                           Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }
@@ -162,7 +162,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                       <ToggleButton 
                         key={ i }
                         disabled={ selected.risks.length === 1 }
-                        checked={ value === 'custom' ? user[cancerHash].showCustomRisk : !user[cancerHash].showCustomRisk }
+                        checked={ value === 'custom' ? cancerSelections.cancers[cancerHash].showCustomRisk : !cancerSelections.cancers[cancerHash].showCustomRisk }
                         type="radio" 
                         value={ value }
                         name="riskToggle"
@@ -191,7 +191,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                     </thead>
                     <tbody>
                     { selected.risks.map( (rs, i) => {
-                      const currCancer = user[cancerHash];
+                      const currCancer = cancerSelections.cancers[cancerHash];
                       const rsHash = makeHashKey(cancerHash, rs.name);
                       return (
                         <tr key={ i }>
@@ -207,10 +207,10 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                                   risk: validation.risks[rsHash] || false 
                                 } 
                               }
-                              custom={ user[cancerHash].showCustomRisk } 
+                              custom={ cancerSelections.cancers[cancerHash].showCustomRisk } 
                               riskStrat={ rs } 
                               setRiskPercentage={ handleEvent } 
-                              saved={ user[cancerHash].hasCustomRisk && user[cancerHash].risks[rsHash].percentage }
+                              saved={ cancerSelections.cancers[cancerHash].hasCustomRisk && cancerSelections.cancers[cancerHash].risks[rsHash].percentage }
                             />
                           </td>
 

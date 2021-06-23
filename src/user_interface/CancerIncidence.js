@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import stepTerms from './text/steps';
-import { setIncidence } from '../state/slices/userSlice';
+import { setIncidence } from '../state/slices/cancerSelectionsSlice';
 
 const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, children }) => {
 

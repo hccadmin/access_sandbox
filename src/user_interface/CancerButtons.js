@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { getRisksAndRegs } from '../state/slices/cancerDataSlice';
 import { makeHashKey } from '../helpers/utilities';
-import { initializeCancer, setClicks } from '../state/slices/userSlice';
+import { initializeCancer, setClicks } from '../state/slices/cancerSelectionsSlice';
 import { validateCancerInputs } from '../state/slices/validationSlice';
 
 const CancerButtons = ({ cancers, settingType }) => {
@@ -20,8 +20,8 @@ const CancerButtons = ({ cancers, settingType }) => {
     return state.cancerData.full;
   });
 
-  const user = useSelector( (state) => {
-    return state.user;
+  const cancerSelections = useSelector( (state) => {
+    return state.cancerSelections;
   });
 
   const hasErrors = useSelector( (state) => {
@@ -37,10 +37,10 @@ const CancerButtons = ({ cancers, settingType }) => {
   /*
   */
   useEffect( () => {
-    if (!hasErrors && user.cancerButtonClicks > 0) {
+    if (!hasErrors && cancerSelections.cancerButtonClicks > 0) {
       dispatch( initializeCancer({ ...cancerDisplay }) );
     }
-  }, [user.cancerButtonClicks]);
+  }, [cancerSelections.cancerButtonClicks]);
 
   const loadCancer = (e) => {
     const selected = getSelection(cancersFull, e.target.innerText);
@@ -50,8 +50,8 @@ const CancerButtons = ({ cancers, settingType }) => {
       name: selected.name,
       risks: selected.risk_strats
     };
-    if (user.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {
-      dispatch( validateCancerInputs({ ...user }));
+    if (cancerSelections.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {
+      dispatch( validateCancerInputs({ ...cancerSelections }));
     }
     else {
       dispatch( initializeCancer({ ...cancerObj }));

@@ -14,6 +14,7 @@ const initialState = {
   cancerButtonClicks: 0,
   allCancersInitialized: false,
   selected: {},
+  cancers: {},
   initialized: false
 }
 
@@ -40,8 +41,8 @@ const revertRisks = (selected, risks) => {
   return risksRevert;
 }
 
-const userSlice = createSlice({
-  name: 'user',
+const cancerSelectionsSlice = createSlice({
+  name: 'cancerSelections',
   initialState: initialState,
   reducers: {
     setClicks(state, action) {
@@ -53,10 +54,10 @@ const userSlice = createSlice({
     initializeCancer(state, action) {
       const { risks, cancer, name } = action.payload; 
       state.selected = { name, risks }
-      if (!state.hasOwnProperty(cancer)) {
+      if (!state.cancers.hasOwnProperty(cancer)) {
         state.initialized = true;
         const riskObj = assembleRisks(cancer, risks);
-        state[cancer] = { 
+        state.cancers[cancer] = { 
           name, 
           incidence: { custom: "" },
           risks: riskObj, 
@@ -66,7 +67,6 @@ const userSlice = createSlice({
       }
     },
     initializeAllCancers(state, action) {
-      const { cancerButtonClicks, selected, initialized, ...rest } = state;
       const { cancers, incidences } = action.payload;
       state.allCancersInitialized = true;
       state.selected = {};
@@ -74,7 +74,7 @@ const userSlice = createSlice({
       cancers.forEach( (cancer) => {
         const hash = makeHashKey(cancer.name);
         const riskObj = assembleRisks(cancer.name, cancer.risk_strats);
-        state[hash] = { 
+        state.cancers[hash] = { 
           name: cancer.name,
           incidence: { modeled: incidences[hash].total },
           risks: riskObj, 
@@ -86,48 +86,41 @@ const userSlice = createSlice({
     resetAllInitializedCancers(state, action) {
       /*
       */
-      const { 
-        cancerButtonClicks, 
-        selected, 
-        initialized, 
-        allCancersInitialized,
-        ...rest 
-      } = state;
-      const cancerKeys = Object.keys(rest);
+      const cancerKeys = Object.keys(state.cancers);
       if (cancerKeys.length > 0) {
         state.selected = {};
         state.allCancersInitialized = false;
         cancerKeys.forEach( (key) => {
-          delete state[key];
+          delete state.cancers[key];
         });
       }
     },
     setSelection(state, action) {
       const { name, value } = action.payload;
-      state[name] = value;
+      state.cancers[name] = value;
     },
     showCustomRisk(state, action) {
       const options = { fixed: false, custom: true };
       const { cancer, choice } = action.payload;
-      state[cancer].showCustomRisk = options[choice];
+      state.cancers[cancer].showCustomRisk = options[choice];
       if (choice === "fixed") {
-        const reverted = revertRisks(state.selected, state[cancer].risks);
-        state[cancer].risks = reverted;
-        state[cancer].hasCustomRisk = false;
+        const reverted = revertRisks(state.selected, state.cancers[cancer].risks);
+        state.cancers[cancer].risks = reverted;
+        state.cancers[cancer].hasCustomRisk = false;
       }
       else {
-        Object.keys(state[cancer].risks).forEach( (risk) => {
-          state[cancer].risks[risk].percentage = "";
+        Object.keys(state.cancers[cancer].risks).forEach( (risk) => {
+          state.cancers[cancer].risks[risk].percentage = "";
         });
       }
     },
     setPercentage(state, action) {
       const { cancer, riskName, value } = action.payload;
-      state[cancer].risks[riskName].percentage = value;
+      state.cancers[cancer].risks[riskName].percentage = value;
       //state[cancer].hasCustomRisk = value.length > 0;
-      const risks = Object.keys(state[cancer].risks);
-      const empty = risks.every( risk => state[cancer].risks[risk].percentage.length === 0 );
-      state[cancer].hasCustomRisk = empty ? false : true;
+      const risks = Object.keys(state.cancers[cancer].risks);
+      const empty = risks.every( risk => state.cancers[cancer].risks[risk].percentage.length === 0 );
+      state.cancers[cancer].hasCustomRisk = empty ? false : true;
       /*
       if (!state[cancer].hasCustomRisk) {
         state[cancer].hasCustomRisk = true;
@@ -136,16 +129,16 @@ const userSlice = createSlice({
     },
     setIncidence(state, action) {
       const { type, cancer, incidence } = action.payload;
-      state[cancer].incidence[type] = incidence;
+      state.cancers[cancer].incidence[type] = incidence;
     },
     setRegimen(state, action) {
       const { cancer, riskStrat, regimen } = action.payload;
-      state[cancer].risks[riskStrat].regimen = regimen;
+      state.cancers[cancer].risks[riskStrat].regimen = regimen;
     }
   }
 });
 
-const { actions, reducer } = userSlice;
+const { actions, reducer } = cancerSelectionsSlice;
 
 export const {
   setClicks,
