@@ -30,11 +30,11 @@ const validationSlice = createSlice({
       const { 
         cancerHash, 
         initialized, 
+        allCancersInitialized,
         selected, 
         cancerButtonClicks,
         ...cancers 
       } = action.payload;
-      //console.log(cancers);
       const errors = vh.validateCancerInputs(cancers);
       //console.log(errors);
       state.hasErrors = errors.hasErrors;

@@ -46,6 +46,7 @@ const settingSlice = createSlice({
       if (reset) {
         state.subtype = "";
         state.name = "";
+        state.year = "";
         state.incidences = {};
         state.bodyStats = {};
       }

@@ -2,23 +2,10 @@ import { useEffect, useState } from 'react';
 import terms from '../text/global';
 
 const useInitializeAllCancers = () => {
-  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
-  //const [shouldInitialize, setInitialize] = useState(false);
+  const { REACT_APP_SETTING_COMPLEX } = process.env;
   let shouldInitialize = false;
 
-/*
-  useEffect( () => {
-    if (
-      type === REACT_APP_SETTING_COMPLEX &&
-      cancers.length > 0 &&
-      Object.keys(incidences).length > 0
-    ) {
-      initializeAllCancers = true;
-    }
-  }, [type, cancers, incidences]);
-  */
   return (type, cancers, incidences) => {
-    console.log(type, cancers, incidences);
     if (
       type === REACT_APP_SETTING_COMPLEX &&
       cancers.length > 0 &&

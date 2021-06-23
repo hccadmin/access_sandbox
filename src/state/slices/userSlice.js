@@ -12,6 +12,7 @@ import { makeHashKey } from '../../helpers/utilities';
  */
 const initialState = {
   cancerButtonClicks: 0,
+  allCancersInitialized: false,
   selected: {},
   initialized: false
 }
@@ -57,7 +58,7 @@ const userSlice = createSlice({
         const riskObj = assembleRisks(cancer, risks);
         state[cancer] = { 
           name, 
-          incidence: {},
+          incidence: { custom: "" },
           risks: riskObj, 
           showCustomRisk: false, 
           hasCustomRisk: false 
@@ -65,9 +66,10 @@ const userSlice = createSlice({
       }
     },
     initializeAllCancers(state, action) {
+      const { cancerButtonClicks, selected, initialized, ...rest } = state;
       const { cancers, incidences } = action.payload;
-    /*
-    */
+      state.allCancersInitialized = true;
+      state.selected = {};
       state.initialized = true;
       cancers.forEach( (cancer) => {
         const hash = makeHashKey(cancer.name);
@@ -80,6 +82,25 @@ const userSlice = createSlice({
           hasCustomRisk: false 
         };
       });
+    },
+    resetAllInitializedCancers(state, action) {
+      /*
+      */
+      const { 
+        cancerButtonClicks, 
+        selected, 
+        initialized, 
+        allCancersInitialized,
+        ...rest 
+      } = state;
+      const cancerKeys = Object.keys(rest);
+      if (cancerKeys.length > 0) {
+        state.selected = {};
+        state.allCancersInitialized = false;
+        cancerKeys.forEach( (key) => {
+          delete state[key];
+        });
+      }
     },
     setSelection(state, action) {
       const { name, value } = action.payload;
@@ -117,7 +138,6 @@ const userSlice = createSlice({
       const { type, cancer, incidence } = action.payload;
       state[cancer].incidence[type] = incidence;
     },
-    setRiskStrat(state, action) {},
     setRegimen(state, action) {
       const { cancer, riskStrat, regimen } = action.payload;
       state[cancer].risks[riskStrat].regimen = regimen;
@@ -132,6 +152,7 @@ export const {
   resetClicks,
   initializeCancer,
   initializeAllCancers,
+  resetAllInitializedCancers,
   setSelection,
   setIncidence,
   setPercentage,

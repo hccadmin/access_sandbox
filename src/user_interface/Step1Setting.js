@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useInitializeAllCancers } from '../hooks';
 import { setSettingInput, loadIncidencesAndBsa } from '../state/slices/settingSlice';
-import { initializeAllCancers } from '../state/slices/userSlice';
+import { initializeAllCancers, resetAllInitializedCancers } from '../state/slices/userSlice';
 import { allFieldsFilled } from '../helpers/utilities';
 import ForecastToggle from './ForecastToggle';
 import SettingInputs from './SettingInputs';
@@ -18,6 +18,10 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
 
   const cancers = useSelector( (state) => {
     return state.cancers.full;
+  });
+
+  const user = useSelector( (state) => {
+    return state.user;
   });
 
   const { name, year, type, diagType, incidences } = setting;
@@ -57,6 +61,9 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
     const input = { name, value, reset: false };
     if (name === "type") {
       input.reset = true;
+      if (user.allCancersInitialized) {
+        dispatch( resetAllInitializedCancers() );
+      }
     }
     dispatch( setSettingInput(input) );
     /*
