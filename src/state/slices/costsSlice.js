@@ -6,17 +6,18 @@ const initialState = {
   costs: {}
 };
 
+const { REACT_APP_SETTING_COMPLEX } = process.env;
+
 const cm = new CostModel();
 
 export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
-    const { user, setting, regimens, prices } = criteria;
+    const { cancers, setting, regimens, prices } = criteria;
     const { type, incidences, bodyStats, levels } = setting;
-    const hasLevels = ( type === "Health system" && levels );
+    const hasLevels = ( type === REACT_APP_SETTING_COMPLEX && levels );
     const settingData = { type, incidences, bodyStats, hasLevels };
-    const { selected, cancerButtonClicks, initialized, ...cancers } = user;
-    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
+    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices, hasLevels);
     return hasValidInputs && cm.getTotalCostPerCancer();
     //return true;
   }

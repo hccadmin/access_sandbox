@@ -37,7 +37,7 @@ const App = () => {
   });
 
   const loadAllCosts = () => {
-    dispatch( initCostCalc({ setting, cancerSelections, regimens, prices }));
+    dispatch( initCostCalc({ setting, cancers: cancerSelections.cancers, regimens, prices }));
   }
 
   const loadCostsByType = (type) => {
