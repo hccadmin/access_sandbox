@@ -50,7 +50,7 @@ const userSlice = createSlice({
       state.cancerButtonClicks = 0;
     },
     initializeCancer(state, action) {
-      const { risks, cancer, name } = action.payload;
+      const { risks, cancer, name } = action.payload; 
       state.selected = { name, risks }
       if (!state.hasOwnProperty(cancer)) {
         state.initialized = true;
@@ -65,6 +65,21 @@ const userSlice = createSlice({
       }
     },
     initializeAllCancers(state, action) {
+      const { cancers, incidences } = action.payload;
+      state.initialized = true;
+      cancers.forEach( (cancer) => {
+        const hash = makeHashKey(cancer.name);
+        const riskObj = assembleRisks(cancer.name, cancer.risk_strats);
+        state[hash] = { 
+          name: cancer.name,
+          incidence: { modeled: incidences[hash].total },
+          risks: riskObj, 
+          showCustomRisk: false, 
+          hasCustomRisk: false 
+        };
+    /*
+    */
+      });
     },
     setSelection(state, action) {
       const { name, value } = action.payload;

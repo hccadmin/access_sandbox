@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadCancers } from '../state/slices/cancersSlice';
+import { initializeAllCancers } from '../state/slices/userSlice';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CancerButtons from './CancerButtons';
@@ -9,6 +10,7 @@ import { makeHashKey } from '../helpers/utilities';
 
 
 const Step2Cancers = ({ uiCancers, selected, setting }) => {
+  const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
   const dispatch = useDispatch();
 
   const { type, incidences } = setting;
@@ -19,9 +21,15 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
     return state.cancers.full;
   });
 
-  if (Object.keys(cancers).length === 0) {
-    dispatch( loadCancers() );
-  }
+  useEffect( () => {
+    if (Object.keys(cancers).length === 0) {
+      dispatch( loadCancers() ).then( (result) => {
+        if (type === REACT_APP_SETTING_COMPLEX && Object.keys(incidences).length > 0) {
+          dispatch( initializeAllCancers({ cancers: result.payload.full, incidences }) );
+        }
+      });
+    }
+  }, [cancers, incidences, dispatch]);
 
   return (
     <Row>
