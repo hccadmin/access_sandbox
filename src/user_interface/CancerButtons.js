@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { getRisksAndRegs } from '../state/slices/cancersSlice';
+import { getRisksAndRegs } from '../state/slices/cancerDataSlice';
 import { makeHashKey } from '../helpers/utilities';
 import { initializeCancer, setClicks } from '../state/slices/userSlice';
 import { validateCancerInputs } from '../state/slices/validationSlice';
@@ -17,7 +17,7 @@ const CancerButtons = ({ cancers, settingType }) => {
   const dispatch = useDispatch();
 
   const cancersFull = useSelector( (state) => {
-    return state.cancers.full;
+    return state.cancerData.full;
   });
 
   const user = useSelector( (state) => {

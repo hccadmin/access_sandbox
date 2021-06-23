@@ -25,7 +25,7 @@ const App = () => {
   });
 
   const regimens = useSelector( (state) => {
-    return state.cancers.regimens;
+    return state.cancerData.regimens;
   });
 
   const costs = useSelector( (state) => {

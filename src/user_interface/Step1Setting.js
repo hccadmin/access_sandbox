@@ -17,7 +17,7 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
   });
 
   const cancers = useSelector( (state) => {
-    return state.cancers.full;
+    return state.cancerData.full;
   });
 
   const user = useSelector( (state) => {

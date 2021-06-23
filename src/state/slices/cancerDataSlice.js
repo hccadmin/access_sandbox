@@ -10,7 +10,7 @@ const initialState = {
 const cm = new CancerModel();
 
 export const loadCancers = createAsyncThunk(
-  'cancers/loadCancersStatus',
+  'cancerData/loadCancersStatus',
   async(thunkAPI) => {
     let cancers = { names: [], full: [], regimens: {} };
     try {
@@ -27,8 +27,8 @@ export const loadCancers = createAsyncThunk(
   }
 );
 
-const cancersSlice = createSlice({
-  name: 'cancers',
+const cancerDataSlice = createSlice({
+  name: 'cancerData',
   initialState: initialState,
   reducers: {
     getRisksAndRegs(state, action) {
@@ -43,6 +43,6 @@ const cancersSlice = createSlice({
   }
 });
 
-const { actions, reducer } = cancersSlice;
+const { actions, reducer } = cancerDataSlice;
 
 export default reducer;

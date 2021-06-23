@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useInitializeAllCancers } from '../hooks';
-import { loadCancers } from '../state/slices/cancersSlice';
+import { loadCancers } from '../state/slices/cancerDataSlice';
 import { initializeAllCancers } from '../state/slices/userSlice';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -18,7 +18,7 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
   const predictedIncs = incidences[cancerHash];
 
   const cancers = useSelector( (state) => {
-    return state.cancers.full;
+    return state.cancerData.full;
   });
 
   const shouldInitializeAll = useInitializeAllCancers();
@@ -28,7 +28,6 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
       dispatch( loadCancers() ).then( (result) => {
         const loaded = result.payload.full;
         if ( shouldInitializeAll(type, loaded, incidences) ) {
-          console.log("This should not be called");
           dispatch( initializeAllCancers({ cancers: loaded, incidences }) );
         }
         /*
