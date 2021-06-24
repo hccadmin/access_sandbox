@@ -4,6 +4,7 @@ class CostModel {
   // Cost per drug
   #drugs = {};
   #bodyStats;
+  #hasLevels;
   #prices = {};
   #userCancers = [];
   #ageRanges = [];
@@ -14,23 +15,36 @@ class CostModel {
     "mg/kg": "wt",
     "mg" : "generic"
   }
+
+  // Regimens that have no associated drugs, hence
+  // need to be omitted from cost calculation
+  #noCostRegimens = [
+    "Surgery only",
+    "Antiretrovirals, only"
+  ];
  
   /**
+   * Drug dosages
    * Step 1: Total dosages per drug per drug unit type
    *
    * cancer {
    *   name:
-   *   drugs {
-   *     drug {
-   *       name:
-   *       drugType {
-   *         units:
-   *         dosages: []
+   *   levels: [] (arr of regHashes)
+   *   risk_strats: {
+   *     risk: {
+   *       percentage:
+   *       drugs {
+   *         drug {
+   *           name:
+   *           drugType {
+   *             units:
+   *             dosages: []
    */
   #drugDosages = {};
 
   // 
   /**
+   * Age range incidences
    * Step 2: Drug costs per m/f age ranges
    *
    * cancer { name, risk_strats }
@@ -107,16 +121,18 @@ class CostModel {
 
   loadAllCostData(setting, cancers, regimens, prices) {
     const { type, incidences, bodyStats, hasLevels } = setting;
-    const filteredInput = hasLevels ? cancers : this.removeEmptyInputs(cancers);
+    this.#hasLevels = hasLevels ? true : false;
+    const filteredInput = this.#hasLevels ? cancers : this.removeEmptyInputs(cancers);
+    //console.log(filteredInput);
     if (!filteredInput) {
       return filteredInput;
     }
     this.#bodyStats = bodyStats;
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     this.#userCancers = Object.keys(filteredInput);
+    this.#drugDosages = this.setupCostObj(filteredInput, regimens);
     /*
     this.#ageRanges = Object.keys(bodyStats.bsa);
-    this.#drugDosages = this.setupCostObj(filteredInput, regimens);
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredInput, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
@@ -125,8 +141,8 @@ class CostModel {
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
     //console.log(this.#userCancers);
-    //console.log(this.#totalCostPerDrug);
     //console.log(this.#drugDosages);
+    //console.log(this.#totalCostPerDrug);
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
     //console.log(totalDosageByType);
@@ -516,29 +532,61 @@ class CostModel {
     }
   }
  */
-  setupCostObj(user, regimens) {
+  setupCostObj(cancerSelections, regimens) {
     let costObj = {};
     // for( const cancer in user ) {
-    Object.keys(user).forEach( (cancer, i) => {
+    Object.keys(cancerSelections).forEach( (cancer, i) => {
       let drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
-        costObj[cancer] = { name: user[cancer].name, risk_strats: {} };
+        costObj[cancer] = { name: cancerSelections[cancer].name, risk_strats: {} };
         //costObj[cancer] = { name: user[cancer].name, drugs: {} };
       }
-      const currCancer = user[cancer];
+      const currCancer = cancerSelections[cancer];
       const risks = Object.keys(currCancer.risks);
       if (risks.length >= 1) {
         risks.forEach( (risk) => {
+          //console.log(currCancer.name, risk);
+          costObj[cancer].risk_strats[risk] = this.setupRiskCostObj(risk, currCancer, regimens);
+        });
+    /*
           const regHash = makeHashKey(risk, currCancer.risks[risk].regimen);
           costObj[cancer].risk_strats[risk] = {
             percentage: currCancer.risks[risk].percentage,
             drugs: this.loadDrugArray(regHash, regimens)
           };
         });
+    */
       }
     });
     return costObj;
   }
+
+  setupRiskCostObj(risk, currCancer, regimens) {
+    const currRisk = currCancer.risks[risk];
+    let riskCostObj = {};
+    riskCostObj.percentage = currRisk.percentage;
+
+    if (!this.#hasLevels) {
+      if ( this.#noCostRegimens.includes(currRisk.regimen) ) {
+        riskCostObj = false;
+      }
+      const regHash = makeHashKey(risk, currRisk.regimen);
+      riskCostObj.drugs = this.loadDrugArray(regHash, regimens)
+    }
+    else {
+      riskCostObj.regimens = {}
+      currRisk.levels.forEach( (level) => {
+        if ( !this.#noCostRegimens.includes(level) ) {
+          const regHash = makeHashKey(risk, level);
+          riskCostObj.regimens[regHash] = { 
+            drugs: this.loadDrugArray(regHash, regimens)
+          }
+        }
+      });
+    }
+    return riskCostObj;
+  }
+
 
   loadDrugArray(regHash, regimens) {
     let drugsArr= {};

@@ -17,7 +17,7 @@ export const initCostCalc = createAsyncThunk(
     const { type, incidences, bodyStats, levels } = setting;
     const hasLevels = ( type === REACT_APP_SETTING_COMPLEX && levels );
     const settingData = { type, incidences, bodyStats, hasLevels };
-    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices, hasLevels);
+    const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
     return hasValidInputs && cm.getTotalCostPerCancer();
     //return true;
   }
