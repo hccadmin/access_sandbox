@@ -149,7 +149,7 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
   
   /* Marker G */
-    //this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType);
+    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput);
     /*
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
@@ -158,7 +158,7 @@ class CostModel {
     //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
-    console.log("Total dosage by type", totalDosageByType);
+    //console.log("Total dosage by type", totalDosageByType);
     //console.log("Total cost per drug", this.#totalCostPerDrug);
     //console.log(totalDosageByType);
     //console.log(this.#totalCostPerCancer);
@@ -258,10 +258,6 @@ class CostModel {
     return incidence.custom;
   }
 
-  /**
-   * START HERE TO INCORPORATE LEVEL PERCENTAGES INTO COST
-   * FOR HEALTH SYSTEMS
-   */
   getAgeRangeGenderIncidence() {
     let ageRangeGenderIncObj = JSON.parse( JSON.stringify(this.#ageRangeIncidences) );
   // Get male/female percentages from ageRangeIncidences
@@ -284,22 +280,42 @@ class CostModel {
     return ageRangeGenderIncObj;
   }
 
-  calcTotalCostPerCancer(totalDosageByType) {
-    let totalCostPerCancer = {};
+// Need to add selectedCancers to get regimens per level
+// for Health sys mode
+  calcTotalCostPerCancer(totalDosageByType, selectedCancers) {
+    const totalCostPerCancer = {};
     this.#userCancers.forEach( (cancer) => {
       totalCostPerCancer[cancer] = { 
         name: totalDosageByType[cancer].name,
-        totals: { dosage: 0 }, 
-        drugs: {} 
       };
       const tcpc = totalCostPerCancer[cancer];
+      if (this.#hasLevels) {
+        tcpc.levels = [];
+        // Iterate through levels, calling executeCostCalculation to load levels arr
+      }
+      else {
+        const costObj = this.executeCostCalculation(cancer, totalDosageByType);
+        Object.assign(tcpc, JSON.parse( JSON.stringify(costObj) ) );
+      }
+      console.log(tcpc);
+    });
+    return totalCostPerCancer;
+  }
+
+  executeCostCalculation(cancer, totalDosageByType) {
+    const costOutput = { 
+      totals: { 
+        dosage: 0 
+      }, 
+      drugs: {} 
+    };
 
     /**
      * Initialize a special medAndUser hybrid total to keep track
      * of costs that include drugs with user overridden prices. This
      * total will be used specifically for viewing costs by cancer.
      */
-      tcpc.totals.medAndUser = 0;
+      costOutput.totals.medAndUser = 0;
 
   // Risk strats loop
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
@@ -316,8 +332,8 @@ class CostModel {
          * total will be added to the medAndUser total once the price tier loop ends
          */
           let currHybridCost = 0;
-          if (!tcpc.drugs.hasOwnProperty(drug)) {
-            tcpc.drugs[drug] = { 
+          if (!costOutput.drugs.hasOwnProperty(drug)) {
+            costOutput.drugs[drug] = { 
               name: sourceDrugDosage[drug].name,
               total_dosage: 0, 
               costs: {} 
@@ -326,20 +342,20 @@ class CostModel {
           const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
           const currCancerDrugPrices = this.#prices[drug].prices;
           const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
-          tcpc.drugs[drug].total_dosage += dosageTotal;
+          costOutput.drugs[drug].total_dosage += dosageTotal;
           
   // Price tiers loop where costs are computed
           Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
-            if (!tcpc.drugs[drug].costs.hasOwnProperty(tier)) {
-              tcpc.drugs[drug].costs[tier] = 0;
+            if (!costOutput.drugs[drug].costs.hasOwnProperty(tier)) {
+              costOutput.drugs[drug].costs[tier] = 0;
             }
-            if (!tcpc.totals.hasOwnProperty(tier)) {
-              tcpc.totals[tier] = 0;
+            if (!costOutput.totals.hasOwnProperty(tier)) {
+              costOutput.totals[tier] = 0;
             }
             const price = this.#prices[drug].prices[tier];
             if (!isNaN(price)) {
               const dosagePrice = dosageTotal * price;
-              tcpc.drugs[drug].costs[tier] += dosagePrice;
+              costOutput.drugs[drug].costs[tier] += dosagePrice;
 
         /**
          * To get the right hybrid median/user override cost, the default
@@ -363,7 +379,7 @@ class CostModel {
               if (tier === "override") {
                 currHybridCost += dosagePrice;
               }
-              tcpc.totals[tier] += dosagePrice;
+              costOutput.totals[tier] += dosagePrice;
             } // if price is a number (!isNaN)
           }); 
   // End price tiers loop
@@ -372,19 +388,18 @@ class CostModel {
          * Update the special medAndUser total with hybrid user/med current drug total,
          * then reset for next drug loop iteration.
          */
-          tcpc.totals.medAndUser += currHybridCost;
+          costOutput.totals.medAndUser += currHybridCost;
           currHybridCost = 0;
 
       // Make sure to update the generic drug dosage totals before leaving loop
-          tcpc.totals.dosage += dosageTotal;
+          costOutput.totals.dosage += dosageTotal;
         }); 
   // End drugs loop
 
       }); // Risk strats forEach
-      const costArr = this.objToArray(totalCostPerCancer[cancer].drugs);
-      totalCostPerCancer[cancer].drugs = sortObjects(costArr);
-    }); // Cancers forEach
-    return totalCostPerCancer;
+    const costArr = this.objToArray(costOutput.drugs);
+    costOutput.drugs = sortObjects(costArr);
+    return costOutput;
   }
 
   calcTotalCostPerDrug() {
