@@ -32,7 +32,7 @@ const getObjKey = (obj, val) => {
 }
 
 const hasHTML = (text) => {
-  const regex = /\<[\/A-Za-z]*\>/g;
+  const regex = /<[/A-Za-z]*>/g;
   return text.search(regex) !== -1;
 }
 

@@ -141,7 +141,7 @@ class CostModel {
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
     //console.log(this.#userCancers);
-    //console.log(this.#drugDosages);
+    console.log(this.#drugDosages);
     //console.log(this.#totalCostPerDrug);
     //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
@@ -533,7 +533,7 @@ class CostModel {
   }
  */
   setupCostObj(cancerSelections, regimens) {
-    let costObj = {};
+    const costObj = {};
     // for( const cancer in user ) {
     Object.keys(cancerSelections).forEach( (cancer, i) => {
       let drugArr = {};
@@ -563,7 +563,7 @@ class CostModel {
 
   setupRiskCostObj(risk, currCancer, regimens) {
     const currRisk = currCancer.risks[risk];
-    let riskCostObj = {};
+    let riskCostObj = { regimens: {} };
     riskCostObj.percentage = currRisk.percentage;
 
     if (!this.#hasLevels) {
@@ -571,7 +571,9 @@ class CostModel {
         riskCostObj = false;
       }
       const regHash = makeHashKey(risk, currRisk.regimen);
-      riskCostObj.drugs = this.loadDrugArray(regHash, regimens)
+      riskCostObj.regimens[regHash] = { 
+        drugs: this.loadDrugArray(regHash, regimens) 
+      };
     }
     else {
       riskCostObj.regimens = {}
