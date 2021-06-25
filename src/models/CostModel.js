@@ -119,6 +119,7 @@ class CostModel {
    */
   #totalCostPerDrug = {};
 
+  /* Marker A */
   loadAllCostData(setting, cancers, regimens, prices) {
     const { type, incidences, bodyStats, hasLevels } = setting;
     this.#hasLevels = hasLevels ? true : false;
@@ -131,24 +132,29 @@ class CostModel {
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     this.#userCancers = Object.keys(filteredInput);
 
-    /* B */
+  /* Marker B */
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
     this.#ageRanges = Object.keys(bodyStats.bsa);
 
-    /* C */
+  /* Marker C */
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
-    /*
+
+  /* Marker D */
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredInput, incidences);
+
+  /* Marker E */
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
+    /*
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
     this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType);
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
     //console.log(this.#userCancers);
     //console.log(this.#drugDosages);
-    console.log(this.#ageRangeGenderDrugs);
+    //console.log(this.#ageRangeGenderDrugs);
+    console.log("Age range incidences", this.#ageRangeIncidences);
+    //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log(this.#totalCostPerDrug);
-    //console.log(ageRangeGenderIncidence);
     //console.log(totalDosageByType);
     //console.log(this.#totalCostPerCancer);
     return true;
@@ -195,27 +201,30 @@ class CostModel {
   }
 
 // Stores raw setting incidence * user input incidence * risk strat percentage
-  /**
-   * START HERE TO INCORPORATE LEVEL PERCENTAGES INTO COST
-   * FOR HEALTH SYSTEMS
-   */
-  calcAgeRangeIncidences(user, incidences) {
-    let ageRangeIncObj = {};
+  calcAgeRangeIncidences(cancerSelections, incidences) {
+    console.log("Cancer selections", cancerSelections);
+    const ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
       const { cancer: name, age_ranges, ...incidence } = incidences[cancer];
-      const risks = user[cancer].risks;
+      const risks = cancerSelections[cancer].risks;
       ageRangeIncObj[cancer] = incidence;
       ageRangeIncObj[cancer].name = name;
       ageRangeIncObj[cancer].risk_strats = {}
       Object.keys(risks).forEach( (risk) => {
         ageRangeIncObj[cancer].risk_strats[risk] = {};
         const currRisk = ageRangeIncObj[cancer].risk_strats[risk];
-        const percentage = user[cancer].risks[risk].percentage;
+        const percentage = cancerSelections[cancer].risks[risk].percentage;
+
+    // Check whether the modeled prop has a value (for Health sys only) and return
+    // that. Otherwise return custom prop. If both are empty, return false
+        const selectedIncidence = this.getSelectedIncidence(cancerSelections[cancer].incidence);
         currRisk.age_ranges = {};
         this.#ageRanges.forEach( (ar) => {
-          currRisk.age_ranges[ar] = age_ranges[ar] * 
-            parseFloat(user[cancer].incidence.custom) * 
-            ( parseFloat(percentage).toFixed(1) / 100 );
+          if (selectedIncidence) {
+            currRisk.age_ranges[ar] = age_ranges[ar] * 
+              parseFloat(selectedIncidence) * 
+              ( parseFloat(percentage).toFixed(1) / 100 );
+          }
         });
       });
     });
@@ -223,6 +232,32 @@ class CostModel {
     return ageRangeIncObj;
   }
 
+  /**
+   * Helper method to examine custom and modeled props
+   * of incidence object. If in health sys mode, check for
+   * value in custom prop and return it. Otherwise, return modeled
+   * which will always be there in health sys mode. If in single
+   * inst mode, there is no modeled prop and custom must be present
+   * wich should be returned. Catch all is return false if both empty.
+   */
+  getSelectedIncidence(incidence) {
+  // First make sure there are custom/modeled props
+    if ( Object.keys(incidence).length === 0) {
+      return false;
+    }
+  // Check if we're in Health sys mode
+    if (this.#hasLevels) {
+      if ( !incidence.hasOwnProperty('custom') || incidence.custom.length === 0 ) {
+        return incidence.modeled;
+      }
+    }
+    return incidence.custom;
+  }
+
+  /**
+   * START HERE TO INCORPORATE LEVEL PERCENTAGES INTO COST
+   * FOR HEALTH SYSTEMS
+   */
   getAgeRangeGenderIncidence() {
     let ageRangeGenderIncObj = JSON.parse( JSON.stringify(this.#ageRangeIncidences) );
   // Get male/female percentages from ageRangeIncidences
