@@ -130,10 +130,14 @@ class CostModel {
     this.#bodyStats = bodyStats;
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     this.#userCancers = Object.keys(filteredInput);
+
+    /* B */
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
-    /*
     this.#ageRanges = Object.keys(bodyStats.bsa);
+
+    /* C */
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
+    /*
     this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredInput, incidences);
     const ageRangeGenderIncidence = this.getAgeRangeGenderIncidence();
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
@@ -141,9 +145,9 @@ class CostModel {
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
     //console.log(this.#userCancers);
-    console.log(this.#drugDosages);
+    //console.log(this.#drugDosages);
+    console.log(this.#ageRangeGenderDrugs);
     //console.log(this.#totalCostPerDrug);
-    //console.log(this.#ageRangeGenderDrugs);
     //console.log(ageRangeGenderIncidence);
     //console.log(totalDosageByType);
     //console.log(this.#totalCostPerCancer);
@@ -469,40 +473,43 @@ class CostModel {
       const currCancer = drugDosagesCopy[cancer];
       const risk_strats = Object.keys(currCancer.risk_strats);
       risk_strats.forEach( (rs) => {
-        const drugs = Object.keys(currCancer.risk_strats[rs].drugs);
-        drugs.forEach( (drug) => {
-          const currDrug = currCancer.risk_strats[rs].drugs[drug];
-          const drugTypeKeys = Object.keys(currDrug);
-          const [name, ...drugTypes] = drugTypeKeys;
-          drugTypes.forEach( (type) => {
-            let genderAgeDosageArr = [];
-            currDrug[type].dosages.forEach( (dosage) => {
-              let genderAgeDosageObj = {};
-              this.#ageRanges.forEach( (ar) => {
-                let unit = currDrug[type].units;
-                genderAgeDosageObj[ar] = { male: "", female: "" };
-                unit = (unit === "wt" ? "weight" : unit);
-                ['male', 'female'].forEach( (gender) => {
-                  if (unit === "generic") {
-                    genderAgeDosageObj[ar][gender] = dosage; 
-                  }
-                  else {
-                    const bodyStat = parseFloat(this.#bodyStats[unit][ar][gender]);
-                    const ageGenderDosage = bodyStat * dosage; 
-                    if ( currDrug[type].hasOwnProperty('max_dose') && ageGenderDosage > currDrug[type].max_dose ) {
-                      genderAgeDosageObj[ar][gender] = currDrug[type].max_dose;
+        const regs = Object.keys(currCancer.risk_strats[rs].regimens);
+        regs.forEach( (reg) => {
+          const drugs = Object.keys(currCancer.risk_strats[rs].regimens[reg].drugs);
+          drugs.forEach( (drug) => {
+            const currDrug = currCancer.risk_strats[rs].regimens[reg].drugs[drug];
+            const drugTypeKeys = Object.keys(currDrug);
+            const [name, ...drugTypes] = drugTypeKeys;
+            drugTypes.forEach( (type) => {
+              let genderAgeDosageArr = [];
+              currDrug[type].dosages.forEach( (dosage) => {
+                let genderAgeDosageObj = {};
+                this.#ageRanges.forEach( (ar) => {
+                  let unit = currDrug[type].units;
+                  genderAgeDosageObj[ar] = { male: "", female: "" };
+                  unit = (unit === "wt" ? "weight" : unit);
+                  ['male', 'female'].forEach( (gender) => {
+                    if (unit === "generic") {
+                      genderAgeDosageObj[ar][gender] = dosage; 
                     }
                     else {
-                      genderAgeDosageObj[ar][gender] = ageGenderDosage;
+                      const bodyStat = parseFloat(this.#bodyStats[unit][ar][gender]);
+                      const ageGenderDosage = bodyStat * dosage; 
+                      if ( currDrug[type].hasOwnProperty('max_dose') && ageGenderDosage > currDrug[type].max_dose ) {
+                        genderAgeDosageObj[ar][gender] = currDrug[type].max_dose;
+                      }
+                      else {
+                        genderAgeDosageObj[ar][gender] = ageGenderDosage;
+                      }
                     }
-                  }
-                }); // gender forEach
-              }); // age ranges forEach
-              genderAgeDosageArr.push(genderAgeDosageObj)
-            }); // dosages forEach
-            currDrug[type].dosages = genderAgeDosageArr;
-          });// drugTypes forEach
-        });// currCancer drugs forEach
+                  }); // gender forEach
+                }); // age ranges forEach
+                genderAgeDosageArr.push(genderAgeDosageObj)
+              }); // dosages forEach
+              currDrug[type].dosages = genderAgeDosageArr;
+            });// drugTypes forEach
+          });// currCancer drugs forEach
+        });// currCancer regs forEach
       });// risk_strats forEach
     });// cancers forEach
     return drugDosagesCopy
