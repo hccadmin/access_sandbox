@@ -294,15 +294,15 @@ class CostModel {
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], { iteration: i, extractLevels: selectedCancers[cancer] });
           totalCurrCancerCost.levelsByRisk.push(levelByRiskCost);
         });
-        console.log(totalCurrCancerCost)
         
         // Iterate through levels, calling executeCostCalculation to load levels arr
       }
       else {
-        const costObj = this.executeCostCalculation(cancer, totalDosageByType);
+        const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
       }
       //console.log(tcpc);
+      console.log(totalCurrCancerCost)
     });
     return totalCostPerCancer;
   }
