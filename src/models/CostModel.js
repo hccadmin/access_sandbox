@@ -149,7 +149,7 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
   
   /* Marker G */
-    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput);
+    //this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput);
     /*
     this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     */
@@ -158,9 +158,8 @@ class CostModel {
     //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
-    //console.log("Total dosage by type", totalDosageByType);
+    console.log("Total dosage by type", totalDosageByType);
     //console.log("Total cost per drug", this.#totalCostPerDrug);
-    //console.log(totalDosageByType);
     //console.log(this.#totalCostPerCancer);
     return true;
   }
@@ -297,7 +296,7 @@ class CostModel {
         const costObj = this.executeCostCalculation(cancer, totalDosageByType);
         Object.assign(tcpc, JSON.parse( JSON.stringify(costObj) ) );
       }
-      console.log(tcpc);
+      //console.log(tcpc);
     });
     return totalCostPerCancer;
   }
@@ -319,11 +318,14 @@ class CostModel {
 
   // Risk strats loop
       Object.keys(totalDosageByType[cancer].risk_strats).forEach( (rs) => {
-        const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].drugs;
 
+  // Regimens loop
+        Object.keys(totalDosageByType[cancer].risk_strats[rs].regimens).forEach( (reg) => {
+          const sourceDrugDosage = totalDosageByType[cancer].risk_strats[rs].regimens[reg].drugs;
+          //console.log(sourceDrugDosage);
 
   // Drugs loop
-        Object.keys(sourceDrugDosage).forEach( (drug) => {
+          Object.keys(sourceDrugDosage).forEach( (drug) => {
 
         /**
          * Initialize a currHybridCost variable that will store the current
@@ -331,31 +333,31 @@ class CostModel {
          * (if there is a user overridden drug price). Eventually this variable's
          * total will be added to the medAndUser total once the price tier loop ends
          */
-          let currHybridCost = 0;
-          if (!costOutput.drugs.hasOwnProperty(drug)) {
-            costOutput.drugs[drug] = { 
-              name: sourceDrugDosage[drug].name,
-              total_dosage: 0, 
-              costs: {} 
-            };
-          }
-          const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
-          const currCancerDrugPrices = this.#prices[drug].prices;
-          const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
-          costOutput.drugs[drug].total_dosage += dosageTotal;
+            let currHybridCost = 0;
+            if (!costOutput.drugs.hasOwnProperty(drug)) {
+              costOutput.drugs[drug] = { 
+                name: sourceDrugDosage[drug].name,
+                total_dosage: 0, 
+                costs: {} 
+              };
+            }
+            const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+            const currCancerDrugPrices = this.#prices[drug].prices;
+            const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
+            costOutput.drugs[drug].total_dosage += dosageTotal;
           
   // Price tiers loop where costs are computed
-          Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
-            if (!costOutput.drugs[drug].costs.hasOwnProperty(tier)) {
-              costOutput.drugs[drug].costs[tier] = 0;
-            }
-            if (!costOutput.totals.hasOwnProperty(tier)) {
-              costOutput.totals[tier] = 0;
-            }
-            const price = this.#prices[drug].prices[tier];
-            if (!isNaN(price)) {
-              const dosagePrice = dosageTotal * price;
-              costOutput.drugs[drug].costs[tier] += dosagePrice;
+            Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
+              if (!costOutput.drugs[drug].costs.hasOwnProperty(tier)) {
+                costOutput.drugs[drug].costs[tier] = 0;
+              }
+              if (!costOutput.totals.hasOwnProperty(tier)) {
+                costOutput.totals[tier] = 0;
+              }
+              const price = this.#prices[drug].prices[tier];
+              if (!isNaN(price)) {
+                const dosagePrice = dosageTotal * price;
+                costOutput.drugs[drug].costs[tier] += dosagePrice;
 
         /**
          * To get the right hybrid median/user override cost, the default
@@ -368,34 +370,35 @@ class CostModel {
          * any overriden drug price cost plus the median of all other drug price costs, 
          * minus the median price cost of the drug price that is overriden
          */
-              if (tier === "med") {
-                if (hasOverride) {
-                  currHybridCost += 0;
+                if (tier === "med") {
+                  if (hasOverride) {
+                    currHybridCost += 0;
+                  }
+                  else {
+                    currHybridCost += dosagePrice;
+                  }
                 }
-                else {
+                if (tier === "override") {
                   currHybridCost += dosagePrice;
                 }
-              }
-              if (tier === "override") {
-                currHybridCost += dosagePrice;
-              }
-              costOutput.totals[tier] += dosagePrice;
-            } // if price is a number (!isNaN)
-          }); 
+                costOutput.totals[tier] += dosagePrice;
+              } // if price is a number (!isNaN)
+            }); 
   // End price tiers loop
 
         /**
          * Update the special medAndUser total with hybrid user/med current drug total,
          * then reset for next drug loop iteration.
          */
-          costOutput.totals.medAndUser += currHybridCost;
-          currHybridCost = 0;
+            costOutput.totals.medAndUser += currHybridCost;
+            currHybridCost = 0;
 
       // Make sure to update the generic drug dosage totals before leaving loop
-          costOutput.totals.dosage += dosageTotal;
-        }); 
+            costOutput.totals.dosage += dosageTotal;
+          }); 
   // End drugs loop
 
+        }); // Regimens forEach
       }); // Risk strats forEach
     const costArr = this.objToArray(costOutput.drugs);
     costOutput.drugs = sortObjects(costArr);
@@ -480,6 +483,9 @@ class CostModel {
  * WITH REG HASHES FOR EACH DRUG OBJ IN PREP
  * FOR HEALTH SYS COST CALC
  */
+
+ // Uses ageRangeGenderInc and ageRangeGenderDrugs
+ // Outputs totalDosageByType
   calcTotalDosageByType(ageRangeGenderInc) {
     //console.log(ageRangeGenderInc);
     const totalDosage = {};
@@ -492,14 +498,13 @@ class CostModel {
         // Gives us age_ranges obj
         const incsByAgeRange = ageRangeGenderInc[cancer].risk_strats[rs];
         const regimens = this.#ageRangeGenderDrugs[cancer].risk_strats[rs].regimens;
+        totalDosage[cancer].risk_strats[rs] = { regimens: {} };
         Object.keys(regimens).forEach( (reg) => {
         // Gives us drugs obj
-          totalDosage[cancer].risk_strats[rs] = { regimens: {} };
           const drugsByGender = regimens[reg].drugs;
           //console.log(drugsByGender);
           totalDosage[cancer].risk_strats[rs].regimens[reg] = { drugs: {} };
           //totalDosage[cancer].risk_strats[rs].regimens = {};
-          totalDosage[cancer].risk_strats[rs].regimens[reg] = { drugs: {} };
           const totalRegDrugDosage = totalDosage[cancer].risk_strats[rs].regimens[reg];
           //console.log(totalRegDrugDosage);
           Object.keys(drugsByGender).forEach( (drug) => {
