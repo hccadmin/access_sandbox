@@ -159,8 +159,8 @@ class CostModel {
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
+    //console.log("Total cost per cancer", this.#totalCostPerCancer);
     //console.log("Total cost per drug", this.#totalCostPerDrug);
-    //console.log(this.#totalCostPerCancer);
     return true;
   }
 
@@ -294,14 +294,12 @@ class CostModel {
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], { iteration: i, extractLevels: selectedCancers[cancer] });
           totalCurrCancerCost.levelsByRisk.push(levelByRiskCost);
         });
-        
         // Iterate through levels, calling executeCostCalculation to load levels arr
       }
       else {
         const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
       }
-      //console.log(tcpc);
       console.log(totalCurrCancerCost)
     });
     return totalCostPerCancer;
@@ -337,89 +335,83 @@ class CostModel {
           //console.log(rs, levelRegHash);
           sourceDrugDosage = totalDosageByCancer.risk_strats[rs].regimens[levelRegHash].drugs;
         }
-
-  // Regimens loop
-        Object.keys(totalDosageByCancer.risk_strats[rs].regimens).forEach( (reg) => {
-          if (!sourceDrugDosage) {
-            sourceDrugDosage = totalDosageByCancer.risk_strats[rs].regimens[reg].drugs;
-          }
-          //console.log(sourceDrugDosage);
+        else {
+          const vals = Object.values(totalDosageByCancer.risk_strats[rs].regimens);
+          sourceDrugDosage = vals[0].drugs;
+        }
 
   // Drugs loop
-          Object.keys(sourceDrugDosage).forEach( (drug) => {
+        Object.keys(sourceDrugDosage).forEach( (drug) => {
 
-        /**
-         * Initialize a currHybridCost variable that will store the current
-         * drug's cost total using the median and overriden drug prices 
-         * (if there is a user overridden drug price). Eventually this variable's
-         * total will be added to the medAndUser total once the price tier loop ends
-         */
-            let currHybridCost = 0;
-            if (!costOutput.drugs.hasOwnProperty(drug)) {
-              costOutput.drugs[drug] = { 
-                name: sourceDrugDosage[drug].name,
-                total_dosage: 0, 
-                costs: {} 
-              };
+      /**
+       * Initialize a currHybridCost variable that will store the current
+       * drug's cost total using the median and overriden drug prices 
+       * (if there is a user overridden drug price). Eventually this variable's
+       * total will be added to the medAndUser total once the price tier loop ends
+       */
+          let currHybridCost = 0;
+          if (!costOutput.drugs.hasOwnProperty(drug)) {
+            costOutput.drugs[drug] = { 
+              name: sourceDrugDosage[drug].name,
+              total_dosage: 0, 
+              costs: {} 
+            };
+          }
+          const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+          const currCancerDrugPrices = this.#prices[drug].prices;
+          const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
+          costOutput.drugs[drug].total_dosage += dosageTotal;
+        
+// Price tiers loop where costs are computed
+          Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
+            if (!costOutput.drugs[drug].costs.hasOwnProperty(tier)) {
+              costOutput.drugs[drug].costs[tier] = 0;
             }
-            const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
-            const currCancerDrugPrices = this.#prices[drug].prices;
-            const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
-            costOutput.drugs[drug].total_dosage += dosageTotal;
-          
-  // Price tiers loop where costs are computed
-            Object.keys(currCancerDrugPrices).forEach( (tier, num) => {
-              if (!costOutput.drugs[drug].costs.hasOwnProperty(tier)) {
-                costOutput.drugs[drug].costs[tier] = 0;
-              }
-              if (!costOutput.totals.hasOwnProperty(tier)) {
-                costOutput.totals[tier] = 0;
-              }
-              const price = this.#prices[drug].prices[tier];
-              if (!isNaN(price)) {
-                const dosagePrice = dosageTotal * price;
-                costOutput.drugs[drug].costs[tier] += dosagePrice;
+            if (!costOutput.totals.hasOwnProperty(tier)) {
+              costOutput.totals[tier] = 0;
+            }
+            const price = this.#prices[drug].prices[tier];
+            if (!isNaN(price)) {
+              const dosagePrice = dosageTotal * price;
+              costOutput.drugs[drug].costs[tier] += dosagePrice;
 
-        /**
-         * To get the right hybrid median/user override cost, the default
-         * will be to add the median tier cost to the currHybridCost var.
-         * However, if the current drug /does/ have a user override drug price,
-         * we want to add the overridden drug price cost to the currHybridCost var
-         * instead of the median cost. 
-         *
-         * Thus the hybrid total cost will be the sum of
-         * any overriden drug price cost plus the median of all other drug price costs, 
-         * minus the median price cost of the drug price that is overriden
-         */
-                if (tier === "med") {
-                  if (hasOverride) {
-                    currHybridCost += 0;
-                  }
-                  else {
-                    currHybridCost += dosagePrice;
-                  }
+      /**
+       * To get the right hybrid median/user override cost, the default
+       * will be to add the median tier cost to the currHybridCost var.
+       * However, if the current drug /does/ have a user override drug price,
+       * we want to add the overridden drug price cost to the currHybridCost var
+       * instead of the median cost. 
+       *
+       * Thus the hybrid total cost will be the sum of
+       * any overriden drug price cost plus the median of all other drug price costs, 
+       * minus the median price cost of the drug price that is overriden
+       */
+              if (tier === "med") {
+                if (hasOverride) {
+                  currHybridCost += 0;
                 }
-                if (tier === "override") {
+                else {
                   currHybridCost += dosagePrice;
                 }
-                costOutput.totals[tier] += dosagePrice;
-              } // if price is a number (!isNaN)
-            }); 
-  // End price tiers loop
-
-        /**
-         * Update the special medAndUser total with hybrid user/med current drug total,
-         * then reset for next drug loop iteration.
-         */
-            costOutput.totals.medAndUser += currHybridCost;
-            currHybridCost = 0;
-
-      // Make sure to update the generic drug dosage totals before leaving loop
-            costOutput.totals.dosage += dosageTotal;
+              }
+              if (tier === "override") {
+                currHybridCost += dosagePrice;
+              }
+              costOutput.totals[tier] += dosagePrice;
+            } // if price is a number (!isNaN)
           }); 
-  // End drugs loop
+// End price tiers loop
 
-        }); // Regimens forEach
+      /**
+       * Update the special medAndUser total with hybrid user/med current drug total,
+       * then reset for next drug loop iteration.
+       */
+          costOutput.totals.medAndUser += currHybridCost;
+          currHybridCost = 0;
+
+    // Make sure to update the generic drug dosage totals before leaving loop
+          costOutput.totals.dosage += dosageTotal;
+        });// Drugs forEach
       }); // Risk strats forEach
     const costArr = this.objToArray(costOutput.drugs);
     costOutput.drugs = sortObjects(costArr);
