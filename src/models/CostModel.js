@@ -153,7 +153,7 @@ class CostModel {
     /*
     */
   /* Marker I */
-    this.#totalCostPerDrug = this.calcTotalCostPerDrug();
+    //this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     //console.log(this.#userCancers);
     //console.log("Drug dosages", this.#drugDosages);
     //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
@@ -161,7 +161,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
-    console.log("Total cost per drug", this.#totalCostPerDrug);
+    //console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -283,27 +283,35 @@ class CostModel {
 // Need to add selectedCancers to get regimens per level
 // for Health sys mode
   calcTotalCostPerCancer(totalDosageByType, selectedCancers) {
-    const totalCostPerCancer = {};
-    this.#userCancers.forEach( (cancer) => {
-      totalCostPerCancer[cancer] = { 
-        name: totalDosageByType[cancer].name,
-      };
-      const totalCurrCancerCost = totalCostPerCancer[cancer];
-      if (this.#hasLevels) {
-        totalCurrCancerCost.levelsByRisk = [];
-        arrayFrom("3").forEach( (num, i) => {
+    let totalCostPerCancer = {};
+    const costsPerLevel = [];
+    if (this.#hasLevels) {
+      arrayFrom("3").forEach( (level, i) => {
+        totalCostPerCancer = {};
+        this.#userCancers.forEach( (cancer) => {
+          totalCostPerCancer[cancer] = { 
+            name: totalDosageByType[cancer].name,
+          };
+          const totalCurrCancerCost = totalCostPerCancer[cancer];
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], { iteration: i, extractLevels: selectedCancers[cancer] });
-          totalCurrCancerCost.levelsByRisk.push(levelByRiskCost);
-        });
-        // Iterate through levels, calling executeCostCalculation to load levels arr
-      }
-      else {
+          Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
+        });// cancers forEach
+        //console.log(`Iteration ${i}`, totalCostPerCancer);
+        costsPerLevel.push(totalCostPerCancer);
+      });// levels forEach
+    }
+    else {
+      this.#userCancers.forEach( (cancer) => {
+        totalCostPerCancer[cancer] = { 
+          name: totalDosageByType[cancer].name,
+        };
+        const totalCurrCancerCost = totalCostPerCancer[cancer];
         const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
-      }
+      });
       //console.log(totalCurrCancerCost)
-    });
-    return totalCostPerCancer;
+    }
+    return this.#hasLevels ? costsPerLevel : totalCostPerCancer;
   }
 
   executeCostCalculation(totalDosageByCancer, levelsObj = false) {
