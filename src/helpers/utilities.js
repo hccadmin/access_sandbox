@@ -55,6 +55,9 @@ const sentenceCase = (str) => {
 }
 
 const setCurrency = (toSet) => {
+  if (!toSet) {
+    toSet = 0;
+  }
   return toSet === 0 ? "No pricing available" : `$${ toSet.toFixed(2) }`;
 }
 

@@ -161,7 +161,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     //console.log("Total cost per cancer", this.#totalCostPerCancer);
-    console.log("Total cost per drug", this.#totalCostPerDrug);
+    //console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 

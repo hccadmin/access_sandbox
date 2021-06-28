@@ -37,6 +37,29 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     }, [costType]
   );
 
+  const getCostAccordion = (cost) => {
+    if (Object.keys(cost).length === 0) {
+      return false;
+    }
+    return (
+      <Accordion>
+        { Object.keys(cost).map( (costGroup, i) => {
+          return (
+            <CostResult 
+              key={ i } 
+              type={ costType } 
+              cost={ cost[costGroup] } 
+              eventKey={ i + 1 } 
+              tableLabel={ getObjKey(labels, costType) }
+            />
+          );
+        })}
+    {/*
+    */}
+      </Accordion>
+    );
+  }
+
   return (
     <div>
       <h2>Costs</h2>
@@ -52,21 +75,17 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             handleChange={ toggleCost }
             saved={ costType }
           />
-          <Accordion>
-            { Object.keys(costs).map( (cost, i) => {
+          { Array.isArray(costs) ? 
+            costs.map( (cost, i) => {
               return (
-                <CostResult 
-                  key={ i } 
-                  type={ costType } 
-                  cost={ costs[cost] } 
-                  eventKey={ i + 1 } 
-                  tableLabel={ getObjKey(labels, costType) }
-                />
+                <div key={ i }>
+                  <h3>{ `Level ${ i + 1 } costs` }</h3>
+                  { getCostAccordion(cost) }
+                </div>
               );
-            })}
-        {/*
-        */}
-          </Accordion>
+            })
+            : getCostAccordion(costs) 
+          } 
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
