@@ -293,11 +293,12 @@ class CostModel {
         totalCostPerCancer = {};
         this.#userCancers.forEach( (cancer) => {
           totalCostPerCancer[cancer] = { 
-            name: totalDosageByType[cancer].name,
+            name: totalDosageByType[cancer].name
           };
           const totalCurrCancerCost = totalCostPerCancer[cancer];
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], { iteration: i, extractLevels: selectedCancers[cancer] });
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
+          //console.log(level, cancer, totalCurrCancerCost);
         });// cancers forEach
         costsPerLevel.push(totalCostPerCancer);
       });// levels forEach
