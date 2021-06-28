@@ -1,7 +1,7 @@
 {
   "step1" : {
     "title": "Step 1: Setting",
-    "description": "Select 'Single institution' to begin (Health system currently unavailable).",
+    "description": "Select 'Single institution' or 'Health system' to begin",
     "instructions" : {
       "single" : "Select a country and a year from the drop down menus"
     },

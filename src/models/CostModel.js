@@ -161,7 +161,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     //console.log("Total cost per cancer", this.#totalCostPerCancer);
-    //console.log("Total cost per drug", this.#totalCostPerDrug);
+    console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -438,8 +438,9 @@ class CostModel {
       totalCostPerCancer.forEach( (cancerCostLevel) => {
         totalCostPerDrug = {};
         Object.keys(cancerCostLevel).forEach( (cancer) => {
-          const levelByDrugCost = this.executeTotalCostPerDrug(cancerCostLevel[cancer]);
-          Object.assign(totalCostPerDrug, JSON.parse( JSON.stringify(levelByDrugCost) ) );
+          this.executeTotalCostPerDrug(cancerCostLevel[cancer], totalCostPerDrug);
+          //console.log(levelByDrugCost);
+          //Object.assign(totalCostPerDrug, JSON.parse( JSON.stringify(levelByDrugCost) ) );
         }); // cancers forEach
         costsPerLevel.push(totalCostPerDrug);
       }); // cost levels forEach
@@ -447,15 +448,15 @@ class CostModel {
     else {
       Object.keys(totalCostPerCancer).forEach( (cancer) => {
         const currCancer = totalCostPerCancer[cancer];
-        const currCancerDrugCosts = this.executeTotalCostPerDrug(currCancer);
-        Object.assign(totalCostPerDrug, JSON.parse( JSON.stringify(currCancerDrugCosts) ) );
+       this.executeTotalCostPerDrug(currCancer, totalCostPerDrug);
       });// cancers forEach
+      //console.log(totalCostPerDrug);
     }
     return this.#hasLevels ? costsPerLevel : totalCostPerDrug;
   }
 
-  executeTotalCostPerDrug(currCancer) {
-    const totalCostPerDrug = {};
+  executeTotalCostPerDrug(currCancer, totalCostPerDrug) {
+    console.log(totalCostPerDrug);
     const { totals } = currCancer;
     currCancer.drugs.forEach( (cancerDrug) => {
       const drugHash = makeHashKey(cancerDrug.name);
@@ -485,7 +486,7 @@ class CostModel {
         costs
       });
     }); // Drugs forEach
-    return totalCostPerDrug;
+    //return totalCostPerDrug;
   }
 
 
