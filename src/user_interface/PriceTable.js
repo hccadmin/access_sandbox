@@ -31,7 +31,7 @@ const PriceTable = ({ drugs, list }) => {
       <thead>
         <tr>
           <th>Drug name</th>
-          <th>Price (in US dollars)</th>
+          <th>Price per mg or IU (in US dollars)</th>
           <th>Price override</th>
         </tr>
       </thead>
