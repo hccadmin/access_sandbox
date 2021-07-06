@@ -1,12 +1,12 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import { sentenceCase, setCurrency } from '../helpers/utilities';
+import { sentenceCase, setNumFormat } from '../helpers/utilities';
 
 const CostResultTable = ({ costs, type, tableLabel }) => {
   const costsArr = costs.drugs || costs.cancers;
 
   const getUserCost = (cost) => {
-    const result = cost.hasOwnProperty('override') ? `$${cost.override.toFixed(2)}` : "-";
+    const result = cost.hasOwnProperty('override') ? setNumFormat(cost.override, 'currency', { currency: 'USD' }) : "-";
     return result;
   }
 
@@ -29,10 +29,10 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
             return (
               <tr key={ i }>
                 <td>{ cost.name }</td>
-              { type === "By cancer" && <td>{ cost.total_dosage.toFixed(2) }</td> }
-                <td>{ setCurrency(cost.costs.low) }</td>
-                <td>{ setCurrency(cost.costs.med) }</td>
-                <td>{ setCurrency(cost.costs.high) }</td>
+              { type === "By cancer" && <td>{ setNumFormat(cost.total_dosage, 'decimal') }</td> }
+                <td>{ setNumFormat(cost.costs.low, 'currency', { currency: 'USD' }) }</td>
+                <td>{ setNumFormat(cost.costs.med, 'currency', { currency: 'USD' }) }</td>
+                <td>{ setNumFormat(cost.costs.high, 'currency', { currency: 'USD' }) }</td>
                 <td>{ getUserCost(cost.costs) }</td>
               </tr>
             );
@@ -40,11 +40,11 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
           <tr>
             <td><strong>Totals</strong></td>
             { type === "By cancer" && 
-              <td>{ costs.totals.dosage.toFixed(2) }</td> 
+              <td>{ setNumFormat(costs.totals.dosage, 'decimal') }</td> 
             }
-            <td>{ setCurrency(costs.totals.low) }</td>
-            <td>{ setCurrency(costs.totals.med) }</td>
-            <td>{ setCurrency(costs.totals.high) }</td>
+            <td>{ setNumFormat(costs.totals.low, 'currency', { currency: 'USD' }) }</td>
+            <td>{ setNumFormat(costs.totals.med, 'currency', { currency: 'USD' }) }</td>
+            <td>{ setNumFormat(costs.totals.high, 'currency', { currency: 'USD' }) }</td>
             <td>{ getUserCost(costs.totals) }</td>
           </tr>
         </tbody>

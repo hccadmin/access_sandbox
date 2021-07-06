@@ -294,7 +294,6 @@ class CostModel {
     const costsPerLevel = [];
     if (this.#hasLevels) {
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
-      console.log(levels);
   // 3 for now until segmented level included
       arrayFrom("3").forEach( (level, i) => {
   // Re-initialize totalCostPerCancer obj to accept new cost calcs in
@@ -349,9 +348,11 @@ class CostModel {
   // Risk strats loop
       Object.keys(totalDosageByCancer.risk_strats).forEach( (rs) => {
         let sourceDrugDosage;
+        let levelPercentage;
 
         if (levelsObj) {
           const { iteration, extractLevels } = levelsObj;
+          levelPercentage = levelsObj.percentage / 100;
           const levels = extractLevels.risks[rs].levels;
           const levelReg = levels[iteration];
           if (this.#noCostRegimens.includes(levelReg) ) {
@@ -383,7 +384,10 @@ class CostModel {
               costs: {} 
             };
           }
-          const dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+          let dosageTotal = this.getDrugTotals(sourceDrugDosage[drug]);
+          if (this.#hasLevels) {
+            dosageTotal *= levelPercentage;
+          }
           const currCancerDrugPrices = this.#prices[drug].prices;
           const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
           costOutput.drugs[drug].total_dosage += dosageTotal;

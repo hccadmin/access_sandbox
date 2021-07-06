@@ -20,6 +20,8 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     return state.setting;
   });
 
+  const levels = setting.levels.custom.length > 0 ? setting.levels.custom : setting.levels.modeled;
+
   const priceSource = useSelector( (state) => {
     return state.prices.priceSource;
   });
@@ -79,7 +81,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             costs.map( (cost, i) => {
               return (
                 <div key={ i }>
-                  <h3>{ `Level ${ i + 1 } costs` }</h3>
+                  <h3>{ `Level ${ i + 1 } costs (${ levels[i] }%)` }</h3>
                   { getCostAccordion(cost) }
                 </div>
               );

@@ -54,11 +54,18 @@ const sentenceCase = (str) => {
   return str[0].toUpperCase() + str.substring(1); 
 }
 
+const setNumFormat = (toSet, type, options) => {
+  if (!toSet) {
+    toSet = 0;
+  }
+  return toSet === 0 ? "Not available" : new Intl.NumberFormat('en-US', { style: type, ...options }).format(toSet);
+}
+
 const setCurrency = (toSet) => {
   if (!toSet) {
     toSet = 0;
   }
-  return toSet === 0 ? "No pricing available" : `$${ toSet.toFixed(2) }`;
+  return toSet === 0 ? "No pricing available" : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(toSet);
 }
 
 const setNumber = (num) => {
@@ -176,6 +183,7 @@ export {
   sentenceCase,
   setCurrency,
   setNumber,
+  setNumFormat,
   sortObjects,
   to4decimals,
   toCurrency,
