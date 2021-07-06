@@ -1,4 +1,11 @@
-import { makeHashKey, to4decimals, sortObjects, copyObjProps, arrayFrom } from '../helpers/utilities';
+import { 
+  makeHashKey, 
+  to4decimals, 
+  sortObjects, 
+  setNumber, 
+  copyObjProps, 
+  arrayFrom 
+} from '../helpers/utilities';
 
 class CostModel {
   // Cost per drug
@@ -149,7 +156,7 @@ class CostModel {
     const totalDosageByType = this.calcTotalDosageByType(ageRangeGenderIncidence);
   
   /* Marker G */
-    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput);
+    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput, hasLevels);
     /*
     */
   /* Marker I */
@@ -282,10 +289,12 @@ class CostModel {
 
 // Need to add selectedCancers to get regimens per level
 // for Health sys mode
-  calcTotalCostPerCancer(totalDosageByType, selectedCancers) {
+  calcTotalCostPerCancer(totalDosageByType, selectedCancers, hasLevels) {
     let totalCostPerCancer = {};
     const costsPerLevel = [];
     if (this.#hasLevels) {
+      const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
+      console.log(levels);
   // 3 for now until segmented level included
       arrayFrom("3").forEach( (level, i) => {
   // Re-initialize totalCostPerCancer obj to accept new cost calcs in
@@ -296,7 +305,12 @@ class CostModel {
             name: totalDosageByType[cancer].name
           };
           const totalCurrCancerCost = totalCostPerCancer[cancer];
-          const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], { iteration: i, extractLevels: selectedCancers[cancer] });
+          const levelsObj = { 
+            iteration: i,
+            extractLevels: selectedCancers[cancer],
+            percentage: levels[i]
+          };
+          const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], levelsObj);
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
           //console.log(level, cancer, totalCurrCancerCost);
         });// cancers forEach
@@ -456,7 +470,6 @@ class CostModel {
   }
 
   executeTotalCostPerDrug(currCancer, totalCostPerDrug) {
-    console.log(totalCostPerDrug);
     const { totals } = currCancer;
     currCancer.drugs.forEach( (cancerDrug) => {
       const drugHash = makeHashKey(cancerDrug.name);

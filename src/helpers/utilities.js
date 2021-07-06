@@ -61,6 +61,22 @@ const setCurrency = (toSet) => {
   return toSet === 0 ? "No pricing available" : `$${ toSet.toFixed(2) }`;
 }
 
+const setNumber = (num) => {
+  if (num === false || isNaN(num) || num.length === 0) {
+    return false;
+  }
+  if ( typeof(num) === "string" ) {
+    if ( num.split(".").length === 2 && num.split(".")[1].length > 0 ) {
+      return parseFloat(num);
+    }
+    else {
+      return parseInt(num);
+    }
+  }
+  return num;
+}
+
+
 const sortObjects = (objs) => {
   objs.sort( (obj1, obj2) => {
     if (obj1.name < obj2.name) {
@@ -159,6 +175,7 @@ export {
   makeHashKey,
   sentenceCase,
   setCurrency,
+  setNumber,
   sortObjects,
   to4decimals,
   toCurrency,

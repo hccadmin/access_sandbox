@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserOverrideToggle from './user_override_toggle/UserOverrideToggle';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
+import { sentenceCase, toSingular, toPlural, setNumber } from '../helpers/utilities';
 import { setLevel, removeLevels } from '../state/slices/settingSlice';
 import text from './text/steps';
 
@@ -20,8 +20,8 @@ const LevelsInputs = ({ defaults, children }) => {
 
   const handleLevelInput = (e) => {
     let index = e.target.name.slice(-1);
-    index = +index -1;
-    const level = +e.target.value;
+    index = index -1;
+    const level = e.target.value;
     dispatch( setLevel({ index, level }) );
   }
 

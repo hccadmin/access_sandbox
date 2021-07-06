@@ -34,7 +34,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
                   key={ i }
                   name={ name + num } 
                   type="text" 
-                  value={ saved[i] || "" }
+                  value={ saved[i] }
                   onChange={ setOverride } 
                 />
               );
@@ -43,7 +43,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
             <Form.Control 
               name={ name } 
               type="text" 
-              value={ saved || "" }
+              value={ saved }
               onChange={ setOverride } 
             />
         }
