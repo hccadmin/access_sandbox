@@ -167,8 +167,8 @@ class CostModel {
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
-    //console.log("Total cost per cancer", this.#totalCostPerCancer);
-    console.log("Total cost per drug", this.#totalCostPerDrug);
+    console.log("Total cost per cancer", this.#totalCostPerCancer);
+    //console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -287,10 +287,61 @@ class CostModel {
     return ageRangeGenderIncObj;
   }
 
+  addToLevelsTotal(levelCost, levelsTotal) {
+  // if this is the first level iteration, just copy the
+  // first level's data into levelsTotal
+    if ( Object.keys(levelsTotal).length === 0 ) {
+      levelsTotal = JSON.parse( JSON.stringify(levelCost) );
+      //console.log("Before", levelsTotal);
+      return levelsTotal;
+    }
+    this.#userCancers.forEach( (cancer) => {
+      const currCancer= levelCost[cancer];
+
+  // Cancer totals
+      Object.keys(currCancer.totals).forEach( (totalType) => {
+  // Make sure the value for each totals property is a number. If not,
+  // just make it 0.
+        if (isNaN(levelsTotal[cancer].totals[totalType])) {
+          levelsTotal[cancer].totals[totalType] = 0;
+        }
+        levelsTotal[cancer].totals[totalType] += currCancer.totals[totalType];
+      });
+
+  // Individual drugs
+      if (currCancer.drugs.length > 0) {
+        
+  // Initialize a special index for the drugs array in levelsTotal. This is used in case
+  // a new drug obj needs to be inserted into levelsTotal drugs array. It keeps track of the
+  // the last array index where the levelsTotal drug's name matches the currCancer level drug's name
+        let ltIndex = 0;
+        currCancer.drugs.forEach( (drug, i) => {
+
+  // First check if levelsTotal drugs array is empty (happens if a treatment regimen does NOT
+  // include drugs) and if the levelsTotal drug name and currCancer drug names match
+          if (levelsTotal[cancer].drugs.length > 0 && levelsTotal[cancer].drugs[ltIndex].name === currCancer.drugs[i].name) {
+            levelsTotal[cancer].drugs[ltIndex].total_dosage += currCancer.drugs[i].total_dosage;
+            Object.keys(currCancer.drugs[ltIndex].costs).forEach( (costType) => {
+              levelsTotal[cancer].drugs[ltIndex].costs[costType] += currCancer.drugs[i].costs[costType];
+            }); // drug costs loop
+            ltIndex ++;
+          } // if drugs arr > 0 and names match
+          else {
+            levelsTotal[cancer].drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
+          }
+        }); // drugs loop
+        levelsTotal[cancer].drugs = sortObjects(levelsTotal[cancer].drugs);
+      } // if more than 0 drugs
+      //console.log(levelsTotal[cancer]);
+    }); // cancers loop
+    return levelsTotal;
+  }
+
+
 // Need to add selectedCancers to get regimens per level
 // for Health sys mode
   calcTotalCostPerCancer(totalDosageByType, selectedCancers, hasLevels) {
-    let totalCostPerCancer = {};
+    let totalCostPerCancer, levelsTotal = {};
     const costsPerLevel = [];
     if (this.#hasLevels) {
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
@@ -314,7 +365,9 @@ class CostModel {
           //console.log(level, cancer, totalCurrCancerCost);
         });// cancers forEach
         costsPerLevel.push(totalCostPerCancer);
+        levelsTotal = this.addToLevelsTotal(totalCostPerCancer, levelsTotal);
       });// levels forEach
+      costsPerLevel.unshift(levelsTotal);
     }
     else {
       this.#userCancers.forEach( (cancer) => {
