@@ -341,7 +341,8 @@ class CostModel {
 // Need to add selectedCancers to get regimens per level
 // for Health sys mode
   calcTotalCostPerCancer(totalDosageByType, selectedCancers, hasLevels) {
-    let totalCostPerCancer, levelsTotal = {};
+    let totalCostPerCancer = {};
+    let levelsTotal = {};
     const costsPerLevel = [];
     if (this.#hasLevels) {
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
@@ -378,8 +379,8 @@ class CostModel {
         const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
       }); // cancers forEach
-      //console.log(totalCurrCancerCost)
     }
+    //console.log(totalCostPerCancer);
     return this.#hasLevels ? costsPerLevel : totalCostPerCancer;
   }
 

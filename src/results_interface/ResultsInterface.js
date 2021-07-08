@@ -79,9 +79,18 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
           />
           { Array.isArray(costs) ? 
             costs.map( (cost, i) => {
-              return (
+              return i === 0 ?
+                 (
+                  <div>
+                    <h2>Combined levels</h2>
+                    { getCostAccordion(cost) }
+                    <h2>Individual levels</h2>
+                  </div>
+                )
+              :
+              (
                 <div key={ i }>
-                  <h3>{ `Level ${ i + 1 } costs (${ levels[i] }%)` }</h3>
+                  <h4>{ `Level ${ i } costs (${ levels[i - 1] }%)` }</h4>
                   { getCostAccordion(cost) }
                 </div>
               );
