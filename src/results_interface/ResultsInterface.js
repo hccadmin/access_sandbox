@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
+import LevelsCostAccordion from './LevelsCostAccordion';
 import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsUserSelections from './ResultsUserSelections';
 import { getObjKey } from '../helpers/utilities';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
+  const { REACT_APP_SETTING_COMPLEX } = process.env;
 
   const labels = {
     drug: "By cancer",
@@ -63,7 +65,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     );
   }
 
-  return (
+  return costs && (
     <div>
       <h2>Costs</h2>
       { costs ? 
@@ -78,6 +80,22 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             handleChange={ toggleCost }
             saved={ costType }
           />
+          { setting.type === REACT_APP_SETTING_COMPLEX ?
+            <LevelsCostAccordion
+              combined={ Array.isArray(costs) && costs[0] }
+              individual={ Array.isArray(costs) && costs.slice(1) }
+              costType={ costType }
+              labels={ labels }
+              levels={ levels }
+            />
+            : 
+            <CostAccordion
+              costs={ costs }
+              costType={ costType }
+              labels={ labels }
+            />
+          }
+        {/*
           { Array.isArray(costs) ? 
             costs.map( (cost, i) => {
               return i === 0 ?
@@ -96,13 +114,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                 </div>
               );
             })
-            : 
-            <CostAccordion
-              costs={ costs }
-              costType={ costType }
-              labels={ labels }
-            />
-          } 
+        */}
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
