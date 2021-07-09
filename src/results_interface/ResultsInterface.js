@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
+import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsUserSelections from './ResultsUserSelections';
 import { getObjKey } from '../helpers/utilities';
@@ -95,7 +96,12 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                 </div>
               );
             })
-            : getCostAccordion(costs) 
+            : 
+            <CostAccordion
+              costs={ costs }
+              costType={ costType }
+              labels={ labels }
+            />
           } 
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
