@@ -6,7 +6,7 @@ const LevelsCostAccordion = ({ combined, individual, costType, labels, levels })
     <>
       <h2>Combined levels</h2>
       <CostAccordion
-        costs={ combined}
+        costs={ combined.individual }
         costType={ costType }
         labels={ labels }
       />
@@ -15,7 +15,7 @@ const LevelsCostAccordion = ({ combined, individual, costType, labels, levels })
         return (
           <div key={ i }>
             <CostAccordion
-              costs={ ind }
+              costs={ ind.individual }
               costType={ costType }
               labels={ labels }
             >{ `Level ${ i + 1 } costs (${ levels[i] }%)` }

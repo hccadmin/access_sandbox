@@ -7,7 +7,7 @@ import LevelsCostAccordion from './LevelsCostAccordion';
 import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsUserSelections from './ResultsUserSelections';
-import { getObjKey } from '../helpers/utilities';
+import { getObjKey, objNotEmpty } from '../helpers/utilities';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
@@ -90,7 +90,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             />
             : 
             <CostAccordion
-              costs={ costs }
+              costs={ objNotEmpty(costs) && costs.individual }
               costType={ costType }
               labels={ labels }
             />

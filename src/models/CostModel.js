@@ -160,7 +160,7 @@ class CostModel {
     /*
     */
   /* Marker I */
-    this.#totalCostPerDrug = this.calcTotalCostPerDrug();
+    //this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     //console.log(this.#userCancers);
     //console.log("Drug dosages", this.#drugDosages);
     //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
@@ -168,7 +168,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
-    console.log("Total cost per drug", this.#totalCostPerDrug);
+    //console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -295,21 +295,22 @@ class CostModel {
       //console.log("Before", levelsTotal);
       return levelsTotal;
     }
-    const { grandTotal, ...costs } = levelCost;
-    levelsTotal.grandTotal += grandTotal;
+    levelsTotal.grandTotal += levelCost.grandTotal;
     this.#userCancers.forEach( (cancer) => {
-      const currCancer= costs[cancer];
+      const currCancer= levelCost.individual[cancer];
+      const levelsTotalCancer = levelsTotal.individual[cancer];
+      //console.log("Curr cancer", currCancer);
 
   // Cancer totals
       Object.keys(currCancer.totals).forEach( (totalType) => {
+        //console.log("Total type", totalType);
   // Make sure the value for each totals property is a number. If not,
   // just make it 0.
-        if (isNaN(levelsTotal[cancer].totals[totalType])) {
-          levelsTotal[cancer].totals[totalType] = 0;
+        if (isNaN(levelsTotalCancer.totals[totalType])) {
+          levelsTotalCancer.totals[totalType] = 0;
         }
-        levelsTotal[cancer].totals[totalType] += currCancer.totals[totalType];
+        levelsTotalCancer.totals[totalType] += currCancer.totals[totalType];
       });
-
   // Individual drugs
       if (currCancer.drugs.length > 0) {
         
@@ -321,18 +322,18 @@ class CostModel {
 
   // First check if levelsTotal drugs array is empty (happens if a treatment regimen does NOT
   // include drugs) and if the levelsTotal drug name and currCancer drug names match
-          if (levelsTotal[cancer].drugs.length > 0 && levelsTotal[cancer].drugs[ltIndex].name === currCancer.drugs[i].name) {
-            levelsTotal[cancer].drugs[ltIndex].total_dosage += currCancer.drugs[i].total_dosage;
+          if (levelsTotalCancer.drugs.length > 0 && levelsTotalCancer.drugs[ltIndex].name === currCancer.drugs[i].name) {
+            levelsTotalCancer.drugs[ltIndex].total_dosage += currCancer.drugs[i].total_dosage;
             Object.keys(currCancer.drugs[ltIndex].costs).forEach( (costType) => {
-              levelsTotal[cancer].drugs[ltIndex].costs[costType] += currCancer.drugs[i].costs[costType];
+              levelsTotalCancer.drugs[ltIndex].costs[costType] += currCancer.drugs[i].costs[costType];
             }); // drug costs loop
             ltIndex ++;
           } // if drugs arr > 0 and names match
           else {
-            levelsTotal[cancer].drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
+            levelsTotalCancer.drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
           }
         }); // drugs loop
-        levelsTotal[cancer].drugs = sortObjects(levelsTotal[cancer].drugs);
+        levelsTotalCancer.drugs = sortObjects(levelsTotalCancer.drugs);
       } // if more than 0 drugs
       //console.log(levelsTotal[cancer]);
     }); // cancers loop
@@ -343,9 +344,8 @@ class CostModel {
 // Need to add selectedCancers to get regimens per level
 // for Health sys mode
   calcTotalCostPerCancer(totalDosageByType, selectedCancers, hasLevels) {
-    let totalCostPerCancer = {};
+    let totalCostPerCancer = { individual: {}, grandTotal: 0 };
     let levelsTotal = {};
-    let grandTotal = 0;
     const costsPerLevel = [];
     if (this.#hasLevels) {
 
@@ -353,16 +353,14 @@ class CostModel {
   // or default percentages array to levels
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
       arrayFrom("3").forEach( (level, i) => {
-
   // Re-initialize totalCostPerCancer obj to accept new cost calcs in
   // next inst level iteration
-        totalCostPerCancer = {};
-        grandTotal = 0;
+        totalCostPerCancer = { individual: {}, grandTotal: 0 };
         this.#userCancers.forEach( (cancer) => {
-          totalCostPerCancer[cancer] = { 
+          totalCostPerCancer.individual[cancer] = { 
             name: totalDosageByType[cancer].name
           };
-          const totalCurrCancerCost = totalCostPerCancer[cancer];
+          const totalCurrCancerCost = totalCostPerCancer.individual[cancer];
           const levelsObj = { 
             iteration: i,
             extractLevels: selectedCancers[cancer],
@@ -370,26 +368,25 @@ class CostModel {
           };
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], levelsObj);
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
-          grandTotal += levelByRiskCost.totals.medAndUser;
-          //console.log(level, cancer, totalCurrCancerCost);
+          totalCostPerCancer.grandTotal += levelByRiskCost.totals.medAndUser;
         });// cancers forEach
-        totalCostPerCancer.grandTotal = grandTotal;
         costsPerLevel.push(totalCostPerCancer);
         levelsTotal = this.addToLevelsTotal(totalCostPerCancer, levelsTotal);
+        //console.log(level);
       });// levels forEach
       costsPerLevel.unshift(levelsTotal);
+      //console.log(costsPerLevel);
     }
     else {
       this.#userCancers.forEach( (cancer) => {
-        totalCostPerCancer[cancer] = { 
+        totalCostPerCancer.individual[cancer] = { 
           name: totalDosageByType[cancer].name,
         };
-        const totalCurrCancerCost = totalCostPerCancer[cancer];
+        const totalCurrCancerCost = totalCostPerCancer.individual[cancer];
         const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
-        grandTotal += costObj.totals.medAndUser;
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
+        totalCostPerCancer.grandTotal += costObj.totals.medAndUser;
       }); // cancers forEach
-      totalCostPerCancer.grandTotal = grandTotal;
     }
     //console.log(totalCostPerCancer);
     return this.#hasLevels ? costsPerLevel : totalCostPerCancer;
@@ -519,24 +516,20 @@ class CostModel {
     const tcpcCopy = JSON.parse( JSON.stringify(this.#totalCostPerCancer) );
     if (this.#hasLevels) {
       tcpcCopy.forEach( (cancerCostLevel) => {
-        const { grandTotal, ...levelCosts } = cancerCostLevel;
-        totalCostPerDrug = {};
-        Object.keys(levelCosts).forEach( (cancer) => {
-          this.executeTotalCostPerDrug(levelCosts[cancer], totalCostPerDrug);
+        totalCostPerDrug = { individual: {}, grandTotal: cancerCostLevel.grandTotal };
+        Object.keys(cancerCostLevel.individual).forEach( (cancer) => {
+          this.executeTotalCostPerDrug(cancerCostLevel.individual[cancer], totalCostPerDrug);
           //console.log(levelByDrugCost);
           //Object.assign(totalCostPerDrug, JSON.parse( JSON.stringify(levelByDrugCost) ) );
         }); // cancers forEach
-        totalCostPerDrug.grandTotal = grandTotal;
         costsPerLevel.push(totalCostPerDrug);
       }); // cost levels forEach
     }
     else {
-      const { grandTotal, ...costsPerCancer } = tcpcCopy;
-      Object.keys(costsPerCancer).forEach( (cancer) => {
-        const currCancer = costsPerCancer[cancer];
+      Object.keys(tcpcCopy.individual).forEach( (cancer) => {
+        const currCancer = tcpcCopy.individual[cancer];
        this.executeTotalCostPerDrug(currCancer, totalCostPerDrug);
       });// cancers forEach
-      totalCostPerDrug.grandTotal = grandTotal;
       //console.log(totalCostPerDrug);
     }
     return this.#hasLevels ? costsPerLevel : totalCostPerDrug;

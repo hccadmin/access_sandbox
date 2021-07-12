@@ -44,6 +44,10 @@ const makeHashKey = (...elements) => {
   return arr.join('');
 }
 
+const objNotEmpty = (obj) => {
+  return Object.keys(obj).length > 0;
+}
+
 const sentenceCase = (str) => {
   if ( !isNaN(str) ) {
     return str;
@@ -180,6 +184,7 @@ export {
   getObjKey,
   hasHTML,
   makeHashKey,
+  objNotEmpty,
   sentenceCase,
   setCurrency,
   setNumber,

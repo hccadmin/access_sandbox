@@ -1,10 +1,11 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
-import { getObjKey } from '../helpers/utilities';
+import { getObjKey, objNotEmpty } from '../helpers/utilities';
 
 const CostAccordion = ({ costs, costType, labels, children }) => {
-  return (
+
+  return objNotEmpty(costs) && (
     <>
     { children && <h4>{ children }</h4> }
       <Accordion>
