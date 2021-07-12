@@ -168,7 +168,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
-    //console.log("Total cost per drug", this.#totalCostPerDrug);
+    console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -295,8 +295,10 @@ class CostModel {
       //console.log("Before", levelsTotal);
       return levelsTotal;
     }
+    const { grandTotal, ...costs } = levelCost;
+    levelsTotal.grandTotal += grandTotal;
     this.#userCancers.forEach( (cancer) => {
-      const currCancer= levelCost[cancer];
+      const currCancer= costs[cancer];
 
   // Cancer totals
       Object.keys(currCancer.totals).forEach( (totalType) => {
@@ -343,14 +345,19 @@ class CostModel {
   calcTotalCostPerCancer(totalDosageByType, selectedCancers, hasLevels) {
     let totalCostPerCancer = {};
     let levelsTotal = {};
+    let grandTotal = 0;
     const costsPerLevel = [];
     if (this.#hasLevels) {
+
+  // Check if user overrode default (modeled) level percentages, assign either the user 
+  // or default percentages array to levels
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
-  // 3 for now until segmented level included
       arrayFrom("3").forEach( (level, i) => {
+
   // Re-initialize totalCostPerCancer obj to accept new cost calcs in
   // next inst level iteration
         totalCostPerCancer = {};
+        grandTotal = 0;
         this.#userCancers.forEach( (cancer) => {
           totalCostPerCancer[cancer] = { 
             name: totalDosageByType[cancer].name
@@ -363,8 +370,10 @@ class CostModel {
           };
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], levelsObj);
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
+          grandTotal += levelByRiskCost.totals.medAndUser;
           //console.log(level, cancer, totalCurrCancerCost);
         });// cancers forEach
+        totalCostPerCancer.grandTotal = grandTotal;
         costsPerLevel.push(totalCostPerCancer);
         levelsTotal = this.addToLevelsTotal(totalCostPerCancer, levelsTotal);
       });// levels forEach
@@ -377,8 +386,10 @@ class CostModel {
         };
         const totalCurrCancerCost = totalCostPerCancer[cancer];
         const costObj = this.executeCostCalculation(totalDosageByType[cancer]);
+        grandTotal += costObj.totals.medAndUser;
         Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(costObj) ) );
       }); // cancers forEach
+      totalCostPerCancer.grandTotal = grandTotal;
     }
     //console.log(totalCostPerCancer);
     return this.#hasLevels ? costsPerLevel : totalCostPerCancer;
@@ -505,23 +516,27 @@ class CostModel {
   calcTotalCostPerDrug() {
     let totalCostPerDrug = {};
     const costsPerLevel = [];
-    const totalCostPerCancer = JSON.parse( JSON.stringify(this.#totalCostPerCancer) );
+    const tcpcCopy = JSON.parse( JSON.stringify(this.#totalCostPerCancer) );
     if (this.#hasLevels) {
-      totalCostPerCancer.forEach( (cancerCostLevel) => {
+      tcpcCopy.forEach( (cancerCostLevel) => {
+        const { grandTotal, ...levelCosts } = cancerCostLevel;
         totalCostPerDrug = {};
-        Object.keys(cancerCostLevel).forEach( (cancer) => {
-          this.executeTotalCostPerDrug(cancerCostLevel[cancer], totalCostPerDrug);
+        Object.keys(levelCosts).forEach( (cancer) => {
+          this.executeTotalCostPerDrug(levelCosts[cancer], totalCostPerDrug);
           //console.log(levelByDrugCost);
           //Object.assign(totalCostPerDrug, JSON.parse( JSON.stringify(levelByDrugCost) ) );
         }); // cancers forEach
+        totalCostPerDrug.grandTotal = grandTotal;
         costsPerLevel.push(totalCostPerDrug);
       }); // cost levels forEach
     }
     else {
-      Object.keys(totalCostPerCancer).forEach( (cancer) => {
-        const currCancer = totalCostPerCancer[cancer];
+      const { grandTotal, ...costsPerCancer } = tcpcCopy;
+      Object.keys(costsPerCancer).forEach( (cancer) => {
+        const currCancer = costsPerCancer[cancer];
        this.executeTotalCostPerDrug(currCancer, totalCostPerDrug);
       });// cancers forEach
+      totalCostPerDrug.grandTotal = grandTotal;
       //console.log(totalCostPerDrug);
     }
     return this.#hasLevels ? costsPerLevel : totalCostPerDrug;

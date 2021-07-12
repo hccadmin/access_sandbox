@@ -42,6 +42,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     }, [costType]
   );
 
+/*
   const getCostAccordion = (cost) => {
     if (Object.keys(cost).length === 0) {
       return false;
@@ -59,11 +60,10 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             />
           );
         })}
-    {/*
-    */}
       </Accordion>
     );
   }
+*/
 
   return costs && (
     <div>
@@ -95,26 +95,6 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
               labels={ labels }
             />
           }
-        {/*
-          { Array.isArray(costs) ? 
-            costs.map( (cost, i) => {
-              return i === 0 ?
-                 (
-                  <div>
-                    <h2>Combined levels</h2>
-                    { getCostAccordion(cost) }
-                    <h2>Individual levels</h2>
-                  </div>
-                )
-              :
-              (
-                <div key={ i }>
-                  <h4>{ `Level ${ i } costs (${ levels[i - 1] }%)` }</h4>
-                  { getCostAccordion(cost) }
-                </div>
-              );
-            })
-        */}
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
