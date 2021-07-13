@@ -160,15 +160,15 @@ class CostModel {
     /*
     */
   /* Marker I */
-    //this.#totalCostPerDrug = this.calcTotalCostPerDrug();
+    this.#totalCostPerDrug = this.calcTotalCostPerDrug();
     //console.log(this.#userCancers);
     //console.log("Drug dosages", this.#drugDosages);
     //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
-    console.log("Total cost per cancer", this.#totalCostPerCancer);
-    //console.log("Total cost per drug", this.#totalCostPerDrug);
+    //console.log("Total cost per cancer", this.#totalCostPerCancer);
+    console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -511,9 +511,9 @@ class CostModel {
   }
 
   calcTotalCostPerDrug() {
-    let totalCostPerDrug = {};
-    const costsPerLevel = [];
+    let totalCostPerDrug = { individual: {}, grandTotal: 0 };
     const tcpcCopy = JSON.parse( JSON.stringify(this.#totalCostPerCancer) );
+    const costsPerLevel = [];
     if (this.#hasLevels) {
       tcpcCopy.forEach( (cancerCostLevel) => {
         totalCostPerDrug = { individual: {}, grandTotal: cancerCostLevel.grandTotal };
@@ -526,6 +526,7 @@ class CostModel {
       }); // cost levels forEach
     }
     else {
+      totalCostPerDrug.grandTotal = tcpcCopy.grandTotal;
       Object.keys(tcpcCopy.individual).forEach( (cancer) => {
         const currCancer = tcpcCopy.individual[cancer];
        this.executeTotalCostPerDrug(currCancer, totalCostPerDrug);
@@ -543,14 +544,14 @@ class CostModel {
       const totalProps = copyObjProps(totals);
 
       // Get drug ready for population
-      if (!totalCostPerDrug.hasOwnProperty(drugHash)) {
-        totalCostPerDrug[drugHash] = { 
+      if (!totalCostPerDrug.individual.hasOwnProperty(drugHash)) {
+        totalCostPerDrug.individual[drugHash] = { 
           name: cancerDrug.name,
           totals: { ...totalProps },
           cancers: []
         };
       }
-      const tcpd = totalCostPerDrug[drugHash];
+      const tcpd = totalCostPerDrug.individual[drugHash];
       const totalsCopy = { ...tcpd.totals };
 
       // Add to drug price/dosage totals from already populated
