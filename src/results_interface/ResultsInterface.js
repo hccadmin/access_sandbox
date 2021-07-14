@@ -7,7 +7,7 @@ import LevelsCostAccordion from './LevelsCostAccordion';
 import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsUserSelections from './ResultsUserSelections';
-import { getObjKey, objNotEmpty } from '../helpers/utilities';
+import { getObjKey, objNotEmpty, setNumFormat } from '../helpers/utilities';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
@@ -81,19 +81,29 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             saved={ costType }
           />
           { setting.type === REACT_APP_SETTING_COMPLEX ?
-            <LevelsCostAccordion
-              combined={ Array.isArray(costs) && costs[0] }
-              individual={ Array.isArray(costs) && costs.slice(1) }
-              costType={ costType }
-              labels={ labels }
-              levels={ levels }
-            />
+            <>
+              <h3>Grand total: { 
+                setNumFormat(costs[0].grandTotal, 'currency', { currency: 'USD' }) 
+              }</h3>
+              <LevelsCostAccordion
+                combined={ Array.isArray(costs) && costs[0] }
+                individual={ Array.isArray(costs) && costs.slice(1) }
+                costType={ costType }
+                labels={ labels }
+                levels={ levels }
+              />
+            </>
             : 
-            <CostAccordion
-              costs={ objNotEmpty(costs) && costs.individual }
-              costType={ costType }
-              labels={ labels }
-            />
+            <>
+              <h3>Grand total: { 
+                setNumFormat(costs.grandTotal, 'currency', { currency: 'USD' }) 
+              }</h3>
+              <CostAccordion
+                costs={ objNotEmpty(costs) && costs.individual }
+                costType={ costType }
+                labels={ labels }
+              />
+            </>
           }
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
