@@ -46,10 +46,12 @@ const useTotalCostAssembler = (cost, type) => {
   const costData = {
     drug: {
       helpText: hasOverride ? drugOverride : given,
+      perChild: cost.totals.perChild,
       cost: hasOverride ? cost.totals.override : cost.totals.med
     },
     cancer: {
       helpText: hasOverride ? cancerOverride : given,
+      perChild: cost.totals.perChild,
       cost: hasOverride ? cost.totals.medAndUser : cost.totals.med
     }
   }
