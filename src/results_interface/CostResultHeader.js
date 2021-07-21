@@ -12,7 +12,7 @@ const CostResultHeader = ({ cost, type }) => {
       { isByDrug &&
         <div className="w-40">Total volume: { setNumFormat(cost.totals.dosage, 'decimal') } <small><em>(mg or IU)</em></small></div>
       }
-      <div className="w-30 text-right">Total cost: { setNumFormat(textAndCost.cost, 'currency', { currency: 'USD' }) }<br />
+      <div className="w-30 text-right">Cost: { setNumFormat(textAndCost.cost, 'currency', { currency: 'USD' }) }<br />
         <small><em>{ `(${ sentenceCase(textAndCost.helpText) })` }</em></small>
       </div>
     </div>

@@ -64,6 +64,9 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     );
   }
 */
+  const grandTotal = Array.isArray(costs) ? 
+    setNumFormat(costs[0].grandTotal, 'currency', { currency: 'USD' }) :
+    setNumFormat(costs.grandTotal, 'currency', { currency: 'USD' });
 
   return costs && (
     <div>
@@ -74,6 +77,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             selections={ setting }
             priceSource={ priceSource }
           />
+          <h3>Grand total: { grandTotal } </h3>
           <ForecastToggle
             name="costType"
             labels={ Object.values(labels) }
@@ -81,10 +85,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             saved={ costType }
           />
           { setting.type === REACT_APP_SETTING_COMPLEX ?
-            <>
-              <h3>Grand total: { 
-                setNumFormat(costs[0].grandTotal, 'currency', { currency: 'USD' }) 
-              }</h3>
+            Array.isArray(costs) && 
               <LevelsCostAccordion
                 combined={ Array.isArray(costs) && costs[0] }
                 individual={ Array.isArray(costs) && costs.slice(1) }
@@ -92,18 +93,12 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                 labels={ labels }
                 levels={ levels }
               />
-            </>
             : 
-            <>
-              <h3>Grand total: { 
-                setNumFormat(costs.grandTotal, 'currency', { currency: 'USD' }) 
-              }</h3>
               <CostAccordion
                 costs={ objNotEmpty(costs) && costs.individual }
                 costType={ costType }
                 labels={ labels }
               />
-            </>
           }
         </> : <p>You need to add incidents to each cancer to get costs</p>
       }
