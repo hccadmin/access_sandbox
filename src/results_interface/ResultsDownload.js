@@ -3,7 +3,8 @@ import { CSVLink } from 'react-csv';
 
 const ResultsDownload = ({ selections, priceSource, classes, costs, children }) => {
   const headers = [
-
+    "Cancer", "Drugs", "Volume", "Low price", 
+    "Med price", "High price", "Custom price"
   ];
   const data = [
   ];

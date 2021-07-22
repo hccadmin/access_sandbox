@@ -169,6 +169,7 @@ class CostModel {
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
     //console.log("Total cost per drug", this.#totalCostPerDrug);
+    this.getCSVCostPerCancer();
     return true;
   }
 
@@ -185,9 +186,30 @@ class CostModel {
   }
 
 /**
- * This is will need to be modified to account for Health system
- * may not have custom incidence. We do not want this inadvertently
- * removed
+ * Outputs array of objects specifically for react-csv component.
+ * Objects have cancer, drug, volume, low/med/high cost props and
+ * use the totalCostPerCancer obj to populate
+ * @returns {Array} Array of objects
+ */
+  getCSVCostPerCancer() { 
+    const output = [];
+    this.#userCancers.forEach( (cancerHash) => {
+      this.#totalCostPerCancer.individual[cancerHash].drugs.forEach( (drugObj) => {
+        const cancer = this.#totalCostPerCancer.individual[cancerHash].name;
+        const { name: drug, total_dosage: volume, costs } = drugObj;
+        //console.log(cancer, drug, costs);
+        const costObj = { cancer, drug, volume, ...costs };
+        output.push(costObj);
+      });
+    });
+    return output;
+  }
+
+/**
+ * Removes object properties that are empty or
+ * have no value
+ * @param {Object} Object with cancerHash props
+ * @returns {Object} Object with cancerHash props, all filled
  */
   removeEmptyInputs(source) {
     let inputs = JSON.parse( JSON.stringify(source));
@@ -199,7 +221,12 @@ class CostModel {
     return Object.keys(inputs).length >= 1 && inputs;
   }
 
-// Merges any overriden drug prices with default price list
+/**
+ * Merges any overriden drug prices with default price list
+ * @param {Object} Object with low/med/high drug prices filtered by user
+ * @param {Object} Object with user-overridden drug prices
+ * @returns {Object} Object with merged filtered, overridden drug prices
+ */
   mergePrices(filtered, overrides) {
     const list = JSON.parse( JSON.stringify(filtered) );
     if (Object.keys(overrides).length > 0) {
@@ -212,7 +239,9 @@ class CostModel {
     return list;
   }
 
-// Stores raw setting incidence * user input incidence * risk strat percentage
+/**
+ * Stores raw setting incidence * user input incidence * risk strat percentage
+ */
   calcAgeRangeIncidences(cancerSelections, incidences) {
     const ageRangeIncObj = {};
     this.#userCancers.forEach( (cancer) => {
@@ -243,14 +272,14 @@ class CostModel {
     return ageRangeIncObj;
   }
 
-  /**
-   * Helper method to examine custom and modeled props
-   * of incidence object. If in health sys mode, check for
-   * value in custom prop and return it. Otherwise, return modeled
-   * which will always be there in health sys mode. If in single
-   * inst mode, there is no modeled prop and custom must be present
-   * wich should be returned. Catch all is return false if both empty.
-   */
+/**
+ * Helper method to examine custom and modeled props
+ * of incidence object. If in health sys mode, check for
+ * value in custom prop and return it. Otherwise, return modeled
+ * which will always be there in health sys mode. If in single
+ * inst mode, there is no modeled prop and custom must be present
+ * wich should be returned. Catch all is return false if both empty.
+ */
   getSelectedIncidence(incidence) {
   // First make sure there are custom/modeled props
     if ( Object.keys(incidence).length === 0) {
@@ -266,7 +295,7 @@ class CostModel {
   }
 
   getAgeRangeGenderIncidence() {
-    let ageRangeGenderIncObj = JSON.parse( JSON.stringify(this.#ageRangeIncidences) );
+    const ageRangeGenderIncObj = JSON.parse( JSON.stringify(this.#ageRangeIncidences) );
   // Get male/female percentages from ageRangeIncidences
   // Multiply by age range figures in ageRangeIncidences
   // Overwrite results into ageRangeGenderDrugs
@@ -581,7 +610,6 @@ class CostModel {
 // Used in executeTotalCostPerDrug
   getPerDrugTotals(currDrugTotals, incidence, currCancerDrugTotals) {
     const costs = { ...currCancerDrugTotals.costs };
-    console.log(currCancerDrugTotals);
     const { total_dosage: dosage } = currCancerDrugTotals;
     const medCost = costs.override || costs.med;
     const perChild = medCost / incidence;
