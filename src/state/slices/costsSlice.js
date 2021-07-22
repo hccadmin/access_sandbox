@@ -3,7 +3,8 @@ import { DBQueryer } from '../../dbqueryer/DBQueryer';
 import { CostModel } from '../../models'
 
 const initialState = {
-  costs: {}
+  costs: {},
+  csvCosts: []
 };
 
 const { REACT_APP_SETTING_COMPLEX } = process.env;
@@ -31,6 +32,14 @@ export const getCostsByType = createAsyncThunk(
   }
 );
 
+export const getCSVCosts = createAsyncThunk(
+  'costs/getCSVCostsStatus',
+  async(type, thunkAPI) => {
+    const csvCosts = await cm.getCSVCostsPerCancer();
+    return csvCosts;
+  }
+);
+
 const costsSlice = createSlice({
   name: 'costs',
   initialState: initialState,
@@ -43,6 +52,9 @@ const costsSlice = createSlice({
       })
       .addCase(getCostsByType.fulfilled, (state, action) => {
         state.costs = action.payload;
+      })
+      .addCase(getCSVCosts.fulfilled, (state, action) => {
+        state.csvCosts = action.payload;
       })
   }
 });

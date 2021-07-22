@@ -1,13 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { CSVLink } from 'react-csv';
+import { getCSVCosts } from '../state/slices/costsSlice';
 
 const ResultsDownload = ({ selections, priceSource, classes, costs, children }) => {
+
+  const dispatch = useDispatch();
+
   const headers = [
-    "Cancer", "Drugs", "Volume", "Low price", 
-    "Med price", "High price", "Custom price"
+    { label: "Cancer", key: "cancer" },
+    { label: "Drug", key: "drug" },
+    { label: "Volume", key: "volume" },
+    { label: "Low costs", key: "low" },
+    { label: "Medium costs", key: "med" },
+    { label: "High costs", key: "high" },
+    { label: "Custom costs", key: "override" },
   ];
-  const data = [
-  ];
+
   return (
     <>
       <CSVLink

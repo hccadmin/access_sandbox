@@ -169,7 +169,6 @@ class CostModel {
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
     //console.log("Total cost per drug", this.#totalCostPerDrug);
-    this.getCSVCostPerCancer();
     return true;
   }
 
@@ -191,7 +190,7 @@ class CostModel {
  * use the totalCostPerCancer obj to populate
  * @returns {Array} Array of objects
  */
-  getCSVCostPerCancer() { 
+  getCSVCostsPerCancer() { 
     const output = [];
     this.#userCancers.forEach( (cancerHash) => {
       this.#totalCostPerCancer.individual[cancerHash].drugs.forEach( (drugObj) => {
