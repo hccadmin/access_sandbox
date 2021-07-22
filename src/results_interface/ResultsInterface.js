@@ -6,6 +6,7 @@ import CostResult from './CostResult';
 import LevelsCostAccordion from './LevelsCostAccordion';
 import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
+import ResultsDownload from './ResultsDownload';
 import ResultsUserSelections from './ResultsUserSelections';
 import { getObjKey, objNotEmpty, setNumFormat } from '../helpers/utilities';
 
@@ -71,6 +72,14 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   return costs && (
     <div>
       <h2>Costs</h2>
+      <ResultsDownload 
+        classes="float-right"
+        selections={ setting }
+        priceSource={ priceSource }
+        costs={ costs }
+      >
+        Download CSV
+      </ResultsDownload>
       { costs ? 
         <>
           <ResultsUserSelections

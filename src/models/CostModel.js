@@ -591,7 +591,6 @@ class CostModel {
     });
     /*
     */
-    console.log(currDrugTotals);
     return { ...currDrugTotals };
   }
 
