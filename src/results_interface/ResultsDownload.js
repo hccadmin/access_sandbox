@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
 
-const ResultsDownload = ({ selections, priceSource, classes, costs, children }) => {
-
+const ResultsDownload = ({ selections, priceSource, classes, children }) => {
+  const [csvData, setCsvData] = useState(false);
+  const csvInst = useRef();
   const dispatch = useDispatch();
+
+  useEffect( () => {
+    if (csvData && csvInst.current && csvInst.current.link) {
+      setTimeout( () => {
+        csvInst.current.link.click();
+        setCsvData(false);
+      });
+    }
+  }, [csvData]);
+
+  const loadCsvData = useCallback( (e) => {
+    dispatch( getCSVCosts() ).then( (result) => {
+      setCsvData(result.payload);
+    });
+  }, [csvData]);
+
 
   const headers = [
     { label: "Cancer", key: "cancer" },
@@ -19,14 +37,16 @@ const ResultsDownload = ({ selections, priceSource, classes, costs, children }) 
 
   return (
     <>
-      <CSVLink
-        data={ data }
-        headers={ headers }
-        filename= "costs_download.csv"
-        target="_blank"
-        className={ `btn btn-primary btn-lg ${ classes }`}
-      >{ children }
-      </CSVLink>
+      <Button onClick={ loadCsvData }>{ children }</Button>
+      { csvData &&
+        <CSVLink
+          data={ csvData }
+          headers={ headers }
+          filename= "costs_download.csv"
+          target="_blank"
+          ref={ csvInst }
+        />
+      }
     </>
   );
 }
