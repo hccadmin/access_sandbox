@@ -75,6 +75,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
       <ResultsDownload 
         classes="float-right"
         selections={ setting }
+        grandTotal={ grandTotal }
         priceSource={ priceSource }
         costs={ costs }
       >
