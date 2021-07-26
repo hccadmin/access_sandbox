@@ -10,10 +10,10 @@ const CostResultHeader = ({ cost, type }) => {
     <div className="d-flex justify-content-between">
       <div>{ cost.name }</div>
       { isByDrug &&
-        <div>Total volume: { setNumFormat(cost.totals.dosage, 'decimal') } <small><em>(mg or IU)</em></small></div>
+        <div>Total volume: { setNumFormat(cost.totals.dosage, 'decimal') } <small><em>(Price per mg)</em></small></div>
       }
       <div className="text-right">Total cost: { setNumFormat(textAndCost.cost, 'currency', { currency: 'USD' }) }<br />
-      Avg cost per child: { setNumFormat(textAndCost.perChild, 'currency', { currency: 'USD' }) }<br />
+      Avg cost per patient: { setNumFormat(textAndCost.perChild, 'currency', { currency: 'USD' }) }<br />
         <small><em>{ `(${ sentenceCase(textAndCost.helpText) })` }</em></small>
       </div>
     </div>

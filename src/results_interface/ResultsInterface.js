@@ -8,6 +8,7 @@ import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsDownload from './ResultsDownload';
 import ResultsUserSelections from './ResultsUserSelections';
+import resultsText from './text/results.json';
 import { getObjKey, objNotEmpty, setNumFormat } from '../helpers/utilities';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
@@ -87,6 +88,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
             selections={ setting }
             priceSource={ priceSource }
           />
+          <p className="font-italic">*{ resultsText.pricePerVial }</p>
           <h3>Grand total: { grandTotal } </h3>
           <ForecastToggle
             name="costType"

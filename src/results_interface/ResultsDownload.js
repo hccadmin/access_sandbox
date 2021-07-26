@@ -44,8 +44,8 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, classes, childre
   ];
 
   return (
-    <>
-      <Button onClick={ loadCsvData }>{ children }</Button>
+    <div className={ classes }>
+      <Button size="lg" onClick={ loadCsvData }>{ children }</Button>
       { csvData &&
         <CSVLink
           data={ csvData }
@@ -56,7 +56,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, classes, childre
           ref={ csvInst }
         />
       }
-    </>
+    </div>
   );
 }
 
