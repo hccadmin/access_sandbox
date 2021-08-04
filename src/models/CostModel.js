@@ -1,6 +1,7 @@
 import { 
   makeHashKey, 
   to4decimals, 
+  toSingular, 
   sortObjects, 
   setNumber, 
   copyObjProps, 
@@ -168,7 +169,7 @@ class CostModel {
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
     console.log("Total cost per cancer", this.#totalCostPerCancer);
-    //console.log("Total cost per drug", this.#totalCostPerDrug);
+    console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -190,26 +191,56 @@ class CostModel {
  * use the totalCostPerCancer obj to populate
  * @returns {Array} Array of objects
  */
-  getCSVCostsPerCancer() { 
+  getCSVCostsByType(type) { 
+    //console.log("Type: ", type);
+    const costObj = this.getCostsByType(type);
     const output = [];
-    this.#userCancers.forEach( (cancerHash) => {
-      const currCancer = this.#totalCostPerCancer.individual[cancerHash];
-      const { dosage, low, high, med, ...rest } = currCancer.totals;
-      currCancer.drugs.forEach( (drugObj) => {
+    Object.keys(costObj.individual).forEach( (costHash) => {
+      const curr = costObj.individual[costHash];
+      //console.log("Current: ", curr);
+      const itemType = toSingular( Object.keys(curr).filter(key => key !== "totals" && key !== "name").pop() );
+      console.log("Item type: ", itemType);
+      const { name, totals, ...itemized } = curr;
+      const { dosage, low, high, med, ...rest } = totals;
+      console.log("Itemized: ", itemized);
+      Object.values(itemized).forEach( (item) => {
+        const { name: itemName, total_dosage: volume, costs } = item;
+        //console.log(cancer, drug, costs);
+        const csvObj = { volume, ...costs };
+        csvObj[type] = name;
+        csvObj[itemType] = itemName;
+        console.log(csvObj);
+        output.push(csvObj);
+      });
+  // Add cancer totals and blank line as the last objs in array
+      const itemTotals = { volume: dosage, low, med, high, override: rest.override };
+      itemTotals[type] = "Totals";
+      itemTotals[itemType] = "";
+      const spacer = copyObjProps(itemTotals, false);
+      output.push(itemTotals, spacer);
+    });
+    //console.log(output);
+    return output;
+  }
+
+/** 
+ * Outputs a function that returns an array of cost objects
+ * specifically for CSV output
+ getCSVOutput(costObj) {
+    const output = [];
+    Object.keys(costObj).forEach( (costHash) => {
+      const curr = costObj.individual[costHash];
+      const { dosage, low, high, med, ...rest } = curr.totals;
+      curr.drugs.forEach( (drugObj) => {
         const cancer = currCancer.name;
         const { name: drug, total_dosage: volume, costs } = drugObj;
         //console.log(cancer, drug, costs);
         const costObj = { cancer, drug, volume, ...costs };
         output.push(costObj);
       });
-  // Add cancer totals as the last obj literal in array
+  // Add cancer totals and blank line as the last objs in array
       const totals = { cancer: "Totals", drug: "", volume: dosage, low, med, high, override: rest.override };
-      const spacer = copyObjProps(totals, false);
-      output.push(totals, spacer);
-    });
-    console.log(output);
-    return output;
-  }
+ */
 
 /**
  * Removes object properties that are empty or

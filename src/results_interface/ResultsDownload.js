@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
 
-const ResultsDownload = ({ selections, priceSource, grandTotal, classes, children }) => {
+const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
   const [csvData, setCsvData] = useState(false);
   const csvInst = useRef();
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, classes, childre
   }, [csvData]);
 
   const loadCsvData = useCallback( (e) => {
-    dispatch( getCSVCosts() ).then( (result) => {
+    dispatch( getCSVCosts(type) ).then( (result) => {
       setCsvData(result.payload);
     });
   }, [csvData]);

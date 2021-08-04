@@ -78,6 +78,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
         selections={ setting }
         grandTotal={ grandTotal }
         priceSource={ priceSource }
+        type={ costType.split(" ")[1] }
         costs={ costs }
       >
         Download CSV
