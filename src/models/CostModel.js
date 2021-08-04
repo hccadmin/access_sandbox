@@ -193,14 +193,20 @@ class CostModel {
   getCSVCostsPerCancer() { 
     const output = [];
     this.#userCancers.forEach( (cancerHash) => {
-      this.#totalCostPerCancer.individual[cancerHash].drugs.forEach( (drugObj) => {
-        const cancer = this.#totalCostPerCancer.individual[cancerHash].name;
+      const currCancer = this.#totalCostPerCancer.individual[cancerHash];
+      const { dosage, low, high, med, ...rest } = currCancer.totals;
+      currCancer.drugs.forEach( (drugObj) => {
+        const cancer = currCancer.name;
         const { name: drug, total_dosage: volume, costs } = drugObj;
         //console.log(cancer, drug, costs);
         const costObj = { cancer, drug, volume, ...costs };
         output.push(costObj);
       });
+  // Add cancer totals as the last obj literal in array
+      output.push({ cancer: "Totals", drug: "", volume: dosage, low, med, high, override: rest.override });
+      output.push({ cancer: "", drug: "", volume: "", low: "", med: "", high: "", override: "" });
     });
+    console.log(output);
     return output;
   }
 
