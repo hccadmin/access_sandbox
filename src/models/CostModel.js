@@ -203,8 +203,9 @@ class CostModel {
         output.push(costObj);
       });
   // Add cancer totals as the last obj literal in array
-      output.push({ cancer: "Totals", drug: "", volume: dosage, low, med, high, override: rest.override });
-      output.push({ cancer: "", drug: "", volume: "", low: "", med: "", high: "", override: "" });
+      const totals = { cancer: "Totals", drug: "", volume: dosage, low, med, high, override: rest.override };
+      const spacer = copyObjProps(totals, false);
+      output.push(totals, spacer);
     });
     console.log(output);
     return output;

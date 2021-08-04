@@ -13,7 +13,8 @@ const arrayFrom = (num) => {
   return returnArr;
 }
 
-const copyObjProps = (sourceObj) => {
+const copyObjProps = (sourceObj, zeros = true) => {
+  console.log(zeros);
   let returnObj = {};
   const props = Object.keys(sourceObj);
   props.forEach( (prop) => {
@@ -21,7 +22,7 @@ const copyObjProps = (sourceObj) => {
       returnObj[prop] = copyObjProps(sourceObj[prop]);
     }
     else {
-      returnObj[prop] = (typeof sourceObj[prop] === "number" ? 0 : "");
+      returnObj[prop] = (typeof sourceObj[prop] === "number" && zeros) ? 0 : "";
     }
   });
   return returnObj;
