@@ -41,6 +41,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
       const key = getObjKey(labels, type);
       setCostType(type);
       loadCostsByType(type.split(" ").pop());
+      //console.log("Toggled type: ", type);
     }, [costType]
   );
 

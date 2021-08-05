@@ -199,17 +199,21 @@ class CostModel {
       const curr = costObj.individual[costHash];
       //console.log("Current: ", curr);
       const itemType = toSingular( Object.keys(curr).filter(key => key !== "totals" && key !== "name").pop() );
-      console.log("Item type: ", itemType);
+      //console.log("Item type: ", itemType);
       const { name, totals, ...itemized } = curr;
+      //console.log("Name: ", name);
       const { dosage, low, high, med, ...rest } = totals;
-      console.log("Itemized: ", itemized);
-      Object.values(itemized).forEach( (item) => {
+      //console.log("Itemized: ", itemized);
+      const itemVals = Object.values(itemized).pop();
+      //console.log("Item values: ", itemVals);
+      itemVals.forEach( (item) => {
         const { name: itemName, total_dosage: volume, costs } = item;
-        //console.log(cancer, drug, costs);
+        //console.log("Item: ", item);
+        //console.log(itemName, volume, costs);
         const csvObj = { volume, ...costs };
         csvObj[type] = name;
         csvObj[itemType] = itemName;
-        console.log(csvObj);
+        //console.log(csvObj);
         output.push(csvObj);
       });
   // Add cancer totals and blank line as the last objs in array
@@ -218,6 +222,7 @@ class CostModel {
       itemTotals[itemType] = "";
       const spacer = copyObjProps(itemTotals, false);
       output.push(itemTotals, spacer);
+      //console.log("Output: ", output);
     });
     //console.log(output);
     return output;

@@ -8,6 +8,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
   const [csvData, setCsvData] = useState(false);
   const csvInst = useRef();
   const dispatch = useDispatch();
+  //console.log("Results download type: ", type);
 
   useEffect( () => {
     if (csvData && csvInst.current && csvInst.current.link) {
@@ -22,7 +23,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
     dispatch( getCSVCosts(type) ).then( (result) => {
       setCsvData(result.payload);
     });
-  }, [csvData]);
+  }, [csvData, type]);
 
   const inserts = [
     ["Access Forecast cost results"],

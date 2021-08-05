@@ -14,7 +14,6 @@ const arrayFrom = (num) => {
 }
 
 const copyObjProps = (sourceObj, zeros = true) => {
-  console.log(zeros);
   let returnObj = {};
   const props = Object.keys(sourceObj);
   props.forEach( (prop) => {
