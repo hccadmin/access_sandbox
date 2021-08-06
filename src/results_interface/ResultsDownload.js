@@ -6,6 +6,7 @@ import { getCSVCosts } from '../state/slices/costsSlice';
 import { sentenceCase} from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
+  const { REACT_APP_SETTING_COMPLEX } = process.env;
   const [csvData, setCsvData] = useState(false);
   const csvInst = useRef();
   const dispatch = useDispatch();
@@ -66,7 +67,8 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
           data={ csvData }
           inserts={ inserts }
           headers={ headers }
-          filename= "costs_download.csv"
+          filename={ `costs_per_${ type }.csv` }
+          multiArray={ selections.type === REACT_APP_SETTING_COMPLEX }
           target="_blank"
           ref={ csvInst }
         />
