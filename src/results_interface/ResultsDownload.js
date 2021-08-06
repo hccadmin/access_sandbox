@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
+import { sentenceCase} from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
   const [csvData, setCsvData] = useState(false);
@@ -27,16 +28,29 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
 
   const inserts = [
     ["Access Forecast cost results"],
+    ["",""],
     ["Setting", selections.type],
     ["Country", selections.name],
     ["Year", selections.year],
     ["Price source", priceSource],
-    ["Grand total cost", grandTotal]
+    ["Grand total cost", grandTotal],
+    ["",""]
   ];
 
+  const costPerType = { 
+    cancer: { field1: "cancer", field2: "drug" },
+    drug: { field1: "drug", field2: "cancer" }
+  }
+
   const headers = [
-    { label: "Cancer", key: "cancer" },
-    { label: "Drug", key: "drug" },
+    { 
+      label: sentenceCase(costPerType[type].field1), 
+      key: costPerType[type].field1 
+    },
+    { 
+      label: sentenceCase(costPerType[type].field2), 
+      key: costPerType[type].field2 
+    },
     { label: "Volume", key: "volume" },
     { label: "Low costs", key: "low" },
     { label: "Medium costs", key: "med" },
