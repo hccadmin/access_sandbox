@@ -194,6 +194,18 @@ class CostModel {
   getCSVCostsByType(type) { 
     //console.log("Type: ", type);
     const costObj = this.getCostsByType(type);
+    if (this.#hasLevels) {
+      const csvCostArr = [];
+      costObj.forEach( (obj) => {
+        const levelCost = this.assembleCSVCosts(obj, type);
+        csvCostArr.push(levelCost);
+      });
+      return csvCostArr;
+    }
+    return this.assembleCSVCosts(costObj, type);
+  }
+
+  assembleCSVCosts(costObj, type) {
     const output = [];
     Object.keys(costObj.individual).forEach( (costHash) => {
       const curr = costObj.individual[costHash];
@@ -228,24 +240,9 @@ class CostModel {
     return output;
   }
 
-/** 
- * Outputs a function that returns an array of cost objects
- * specifically for CSV output
- getCSVOutput(costObj) {
-    const output = [];
-    Object.keys(costObj).forEach( (costHash) => {
-      const curr = costObj.individual[costHash];
-      const { dosage, low, high, med, ...rest } = curr.totals;
-      curr.drugs.forEach( (drugObj) => {
-        const cancer = currCancer.name;
-        const { name: drug, total_dosage: volume, costs } = drugObj;
-        //console.log(cancer, drug, costs);
-        const costObj = { cancer, drug, volume, ...costs };
-        output.push(costObj);
-      });
-  // Add cancer totals and blank line as the last objs in array
-      const totals = { cancer: "Totals", drug: "", volume: dosage, low, med, high, override: rest.override };
- */
+/**
+ * Removes object properties that are empty or
+  }
 
 /**
  * Removes object properties that are empty or

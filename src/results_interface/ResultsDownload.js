@@ -23,7 +23,8 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
 
   const loadCsvData = useCallback( (e) => {
     dispatch( getCSVCosts(type) ).then( (result) => {
-      setCsvData(result.payload);
+      console.log(result.payload);
+      //setCsvData(result.payload);
     });
   }, [csvData, type]);
 
