@@ -8,26 +8,30 @@ import { sentenceCase} from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
-  const [csvData, setCsvData] = useState(false);
+  const [csvState, setCsvState] = useState(false);
+  const [csvData, setCsvData] = useState({ inserts: false, headers: false, data: false });
+  const buildCsvData = useCSVLink(selections, priceSource, grandTotal, type);
   const csvInst = useRef();
   const dispatch = useDispatch();
   //console.log("Results download type: ", type);
 
   useEffect( () => {
-    if (csvData && csvInst.current && csvInst.current.link) {
+    if (csvState && csvInst.current && csvInst.current.link) {
       setTimeout( () => {
         csvInst.current.link.click();
-        setCsvData(false);
+        setCsvState(false);
       });
     }
-  }, [csvData]);
+  }, [csvState]);
 
   const loadCsvData = useCallback( (e) => {
     dispatch( getCSVCosts(type) ).then( (result) => {
-      console.log(result.payload);
-      //setCsvData(result.payload);
+      const csvPrepared = buildCsvData(result.payload);
+        setCsvData(csvPrepared);
+        setCsvState(true);
+      //console.log(result.payload);
     });
-  }, [csvData, type]);
+  }, [csvState, type]);
 
 /*
   const inserts = [
@@ -68,9 +72,12 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
       <Button size="lg" onClick={ loadCsvData }>{ children }</Button>
       { csvData &&
         <CSVLink
-          data={ csvData }
-          inserts={ inserts }
-          headers={ headers }
+          //data={ csvData.data }
+          data={ [{ test: "test" }] }
+          //inserts={ csvData.inserts }
+          inserts={ [["Test", "test"]] }
+          //headers={ csvData.headers }
+          headers={ [{ label: "Test", key: "test" }] }
           filename={ `costs_per_${ type }.csv` }
           multiArray={ selections.type === REACT_APP_SETTING_COMPLEX }
           target="_blank"

@@ -1,12 +1,12 @@
 {
   "inserts": [
-    ["Access Forecast cost results"],
-    ["",""],
-    ["Setting"],
-    ["Year"],
-    ["Price source"],
-    ["Grand total cost"],
-    ["",""]
+    "Access Forecast cost results",
+    "",
+    "Setting",
+    "Year",
+    "Price source",
+    "Grand total cost",
+    ""
   ],
   "headers": [
     { "label": "Volume", "key": "volume" },
