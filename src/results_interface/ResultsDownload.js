@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
+import { useCSVLink} from './useCSVLink';
 import { sentenceCase} from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
@@ -28,6 +29,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
     });
   }, [csvData, type]);
 
+/*
   const inserts = [
     ["Access Forecast cost results"],
     ["",""],
@@ -59,6 +61,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
     { label: "High costs", key: "high" },
     { label: "Custom costs", key: "override" },
   ];
+*/
 
   return (
     <div className={ classes }>

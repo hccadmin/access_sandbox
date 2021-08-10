@@ -1,0 +1,18 @@
+{
+  "inserts": [
+    ["Access Forecast cost results"],
+    ["",""],
+    ["Setting"],
+    ["Year"],
+    ["Price source"],
+    ["Grand total cost"],
+    ["",""]
+  ],
+  "headers": [
+    { "label": "Volume", "key": "volume" },
+    { "label": "Low costs", "key": "low" },
+    { "label": "Medium costs", "key": "med" },
+    { "label": "High costs", "key": "high" },
+    { "label": "Custom costs", "key": "override" }
+  ]
+}
