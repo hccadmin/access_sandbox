@@ -9,6 +9,7 @@
     "Grand total cost",
     ""
   ],
+  "hsInserts": [],
   "headers": {
     "props": ["label", "key"],
     "staticValues":[

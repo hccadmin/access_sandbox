@@ -64,6 +64,9 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
     return headers;
   }
 
+  const addInsertsToData = (dataCopy, headers) => {
+
+
 
   const inserts = buildInserts(selections, priceSource, grandTotal, text.inserts);
   const staticHeaders = buildStaticHeaders(text.headers);
@@ -71,12 +74,13 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
   const headers = [dynamicHeaders, staticHeaders].flat();
 
   return (data) => {
-    let reworkedData;
+    let healthSysData;
     if (selections.type === REACT_APP_SETTING_COMPLEX) {
-      reworkedData = JSON.parse( JSON.stringify(data) );
+      dataCopy = JSON.parse( JSON.stringify(data) );
+      healthSysData = addInsertsToData(dataCopy, headers);
       // rework data
     }
-    return { inserts, headers, data: reworkedData || data }
+    return { inserts, headers, data: healthSysData || data }
   }
 }
 
