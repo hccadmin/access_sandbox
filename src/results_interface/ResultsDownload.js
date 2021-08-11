@@ -27,8 +27,9 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
   const loadCsvData = useCallback( (e) => {
     dispatch( getCSVCosts(type) ).then( (result) => {
       const csvPrepared = buildCsvData(result.payload);
+        console.log(csvPrepared);
         setCsvData(csvPrepared);
-        setCsvState(true);
+        //setCsvState(true);
       //console.log(result.payload);
     });
   }, [csvState, type]);
