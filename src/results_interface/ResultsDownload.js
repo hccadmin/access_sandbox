@@ -6,7 +6,7 @@ import { getCSVCosts } from '../state/slices/costsSlice';
 import { useCSVLink} from './useCSVLink';
 import { sentenceCase} from '../helpers/utilities';
 
-const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, children }) => {
+const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, costs, children }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
   const [csvState, setCsvState] = useState(false);
   const [csvData, setCsvData] = useState({ inserts: false, headers: false, data: false });
@@ -16,6 +16,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
   //console.log("Results download type: ", type);
 
   useEffect( () => {
+    //console.log("Or will this be called first? ", costs);
     if (csvState && csvInst.current && csvInst.current.link) {
       setTimeout( () => {
         csvInst.current.link.click();

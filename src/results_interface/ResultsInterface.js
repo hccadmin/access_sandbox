@@ -45,33 +45,11 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     }, [costType]
   );
 
-/*
-  const getCostAccordion = (cost) => {
-    if (Object.keys(cost).length === 0) {
-      return false;
-    }
-    return (
-      <Accordion>
-        { Object.keys(cost).map( (costGroup, i) => {
-          return (
-            <CostResult 
-              key={ i } 
-              type={ costType } 
-              cost={ cost[costGroup] } 
-              eventKey={ i + 1 } 
-              tableLabel={ getObjKey(labels, costType) }
-            />
-          );
-        })}
-      </Accordion>
-    );
-  }
-*/
   const grandTotal = Array.isArray(costs) ? 
     setNumFormat(costs[0].grandTotal, 'currency', { currency: 'USD' }) :
     setNumFormat(costs.grandTotal, 'currency', { currency: 'USD' });
 
-  return costs && (
+  return objNotEmpty(costs) && (
     <div>
       <h2>Costs</h2>
       <ResultsDownload 

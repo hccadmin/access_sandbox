@@ -9,7 +9,10 @@
     "Grand total cost",
     ""
   ],
-  "hsInserts": [],
+  "hsInserts": [
+    ["Combined levels", "Level"],
+    "Total cost"
+  ],
   "headers": {
     "props": ["label", "key"],
     "staticValues":[

@@ -64,8 +64,17 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
     return headers;
   }
 
-  const addInsertsToData = (dataCopy, headers) => {
-
+/*
+*/
+  const addInsertsToData = (dataCopy, headers, hsInserts) => {
+    /*
+    const hsData = dataCopy.map( (data, i) => {
+      const level = { inserts: [], data: data };
+      const inserts = [];
+      const insert1 = [( i === 0 ? hsInserts[0][0] : `${ hsInsert[0][1] } ${ i }` )];
+      const insert2 = [ hsInserts[1], data
+   */ 
+  }
 
 
   const inserts = buildInserts(selections, priceSource, grandTotal, text.inserts);
@@ -76,11 +85,12 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
   return (data) => {
     let healthSysData;
     if (selections.type === REACT_APP_SETTING_COMPLEX) {
-      dataCopy = JSON.parse( JSON.stringify(data) );
-      healthSysData = addInsertsToData(dataCopy, headers);
+      const dataCopy = JSON.parse( JSON.stringify(data) );
+      //healthSysData = addInsertsToData(dataCopy, headers, text.hsInserts);
       // rework data
     }
-    return { inserts, headers, data: healthSysData || data }
+    return { inserts, headers, data }
+    //return { inserts, headers, data: healthSysData || data }
   }
 }
 
