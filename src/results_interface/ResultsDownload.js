@@ -4,13 +4,13 @@ import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
 import { useCSVLink} from './useCSVLink';
-import { sentenceCase} from '../helpers/utilities';
+import { sentenceCase, objNotEmpty } from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, costs, children }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
   const [csvState, setCsvState] = useState(false);
-  const [csvData, setCsvData] = useState({ inserts: false, headers: false, data: false });
-  const buildCsvData = useCSVLink(selections, priceSource, grandTotal, type);
+  const [csvData, setCsvData] = useState(false);
+  const csvFromBoilerplate = useCSVLink(selections, priceSource, grandTotal, type);
   const csvInst = useRef();
   const dispatch = useDispatch();
   //console.log("Results download type: ", type);
@@ -27,59 +27,25 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
 
   const loadCsvData = useCallback( (e) => {
     dispatch( getCSVCosts(type) ).then( (result) => {
-      const csvPrepared = buildCsvData(result.payload);
-        console.log(csvPrepared);
-        setCsvData(csvPrepared);
-        //setCsvState(true);
+      const csvAssembled = csvFromBoilerplate(result.payload, costs);
+        console.log(csvAssembled);
+        setCsvData(csvAssembled);
+        setCsvState(true);
       //console.log(result.payload);
     });
   }, [csvState, type]);
-
-/*
-  const inserts = [
-    ["Access Forecast cost results"],
-    ["",""],
-    ["Setting", selections.type],
-    ["Country", selections.name],
-    ["Year", selections.year],
-    ["Price source", priceSource],
-    ["Grand total cost", grandTotal],
-    ["",""]
-  ];
-
-  const costPerType = { 
-    cancer: { field1: "cancer", field2: "drug" },
-    drug: { field1: "drug", field2: "cancer" }
-  }
-
-  const headers = [
-    { 
-      label: sentenceCase(costPerType[type].field1), 
-      key: costPerType[type].field1 
-    },
-    { 
-      label: sentenceCase(costPerType[type].field2), 
-      key: costPerType[type].field2 
-    },
-    { label: "Volume", key: "volume" },
-    { label: "Low costs", key: "low" },
-    { label: "Medium costs", key: "med" },
-    { label: "High costs", key: "high" },
-    { label: "Custom costs", key: "override" },
-  ];
-*/
 
   return (
     <div className={ classes }>
       <Button size="lg" onClick={ loadCsvData }>{ children }</Button>
       { csvData &&
         <CSVLink
-          //data={ csvData.data }
-          data={ [{ test: "test" }] }
-          //inserts={ csvData.inserts }
-          inserts={ [["Test", "test"]] }
-          //headers={ csvData.headers }
-          headers={ [{ label: "Test", key: "test" }] }
+          data={ csvData.data }
+          //data={ [{ test: "test" }] }
+          inserts={ csvData.inserts }
+          //inserts={ [["Test", "test"]] }
+          headers={ csvData.headers }
+          //headers={ [{ label: "Test", key: "test" }] }
           filename={ `costs_per_${ type }.csv` }
           multiArray={ selections.type === REACT_APP_SETTING_COMPLEX }
           target="_blank"

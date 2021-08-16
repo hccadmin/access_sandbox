@@ -35,7 +35,6 @@ export const getCostsByType = createAsyncThunk(
 export const getCSVCosts = createAsyncThunk(
   'costs/getCSVCostsStatus',
   async(type, thunkAPI) => {
-    console.log("Async type: ", type);
     const csvCosts = await cm.getCSVCostsByType(type);
     return csvCosts;
   }

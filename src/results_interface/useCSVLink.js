@@ -66,14 +66,16 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
 
 /*
 */
-  const addInsertsToData = (dataCopy, headers, hsInserts) => {
-    /*
+  const addInsertsToData = (dataCopy, headers, hsInserts, costs) => {
     const hsData = dataCopy.map( (data, i) => {
       const level = { inserts: [], data: data };
-      const inserts = [];
-      const insert1 = [( i === 0 ? hsInserts[0][0] : `${ hsInsert[0][1] } ${ i }` )];
-      const insert2 = [ hsInserts[1], data
-   */ 
+      const insert1 = [( i === 0 ? hsInserts[0][0] : `${ hsInserts[0][1] } ${ i }` )];
+      const insert2 = [ hsInserts[1], costs[i].grandTotal];
+      level.inserts.push(insert1, insert2);
+      return level;
+    });
+    //console.log(hsData);
+    return hsData;
   }
 
 
@@ -82,15 +84,15 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
   const dynamicHeaders = getDynamicHeaders(type);
   const headers = [dynamicHeaders, staticHeaders].flat();
 
-  return (data) => {
+  return (data, costs) => {
     let healthSysData;
     if (selections.type === REACT_APP_SETTING_COMPLEX) {
       const dataCopy = JSON.parse( JSON.stringify(data) );
-      //healthSysData = addInsertsToData(dataCopy, headers, text.hsInserts);
+      healthSysData = addInsertsToData(dataCopy, headers, text.hsInserts, costs);
       // rework data
     }
-    return { inserts, headers, data }
-    //return { inserts, headers, data: healthSysData || data }
+    //return { inserts, headers, data }
+    return { inserts, headers, data: healthSysData || data }
   }
 }
 
