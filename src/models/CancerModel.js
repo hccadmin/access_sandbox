@@ -1,4 +1,4 @@
-import { makeHashKey, sortObjects } from '../helpers/utilities';
+import { makeHashKey, sortObjects, arrayFrom } from '../helpers/utilities';
 
 class CancerModel {
   #cancers = [];
@@ -19,11 +19,13 @@ class CancerModel {
    *   }
    * }
    */
+  #regimenContent = {};
   #regimens = {};
 
   loadCancers(dbCancers, dbRegimens) {
     this.#cancers = this.restructure(dbCancers);
     this.#regimens = this.buildRegimens(dbRegimens);
+    this.#regimenContent = this.buildRegimenContent(dbCancers, dbRegimens);
   }
 
   getCancerNames() {
@@ -36,9 +38,57 @@ class CancerModel {
     return this.#cancers;
   }
 
+  getRegimenContent() {
+    return this.#regimenContent;
+  }
+
   getRegimens() {
     return this.#regimens;
   }
+
+/**
+ *
+ * cancers: {
+     cancerHash: [
+       {
+         name: regimen name,
+         drugs: [
+           {
+             ...drug
+  *
+*/
+  buildRegimenContent(dbCancers, dbRegimens) {
+    const regimenContent = {};
+    dbCancers.forEach( (cancer) => {
+      const cancerHash = makeHashKey(cancer.cancer);
+      const currCancerRegs = dbRegimens.filter(reg => reg.cancer === cancer.cancer);
+      const sorted = this.sortRegimenContent(currCancerRegs, cancer.risk_strats);
+      //console.log(currCancerRegs);
+      regimenContent[cancerHash] = sorted;
+    });
+    console.log(regimenContent);
+    return regimenContent;
+  }
+
+  sortRegimenContent(mixedRegs, sortedRisks) {
+    const regs = sortedRisks.map(risk => risk.regimens).flat();
+    // eliminate duplicate regimens
+    const regSet = new Set(regs);
+    const sortedRegNames = [...regSet];
+    const sortedRegs = arrayFrom(sortedRegNames.length);
+    //console.log(sortedRegs);
+    sortedRegNames.forEach( (regName, i) => {
+      for (let j = 0; j < mixedRegs.length; j++) {
+        if (mixedRegs[j].name === regName) {
+          sortedRegs[i] = mixedRegs[j];
+          break;
+        }
+      }
+    });
+    //console.log(sortedRegs);
+    return sortedRegs;
+  }
+
 
   buildRegimens(results) {
     let regimens = {};

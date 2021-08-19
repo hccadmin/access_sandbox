@@ -4,7 +4,8 @@ import { CancerModel } from '../../models';
 
 const initialState = {
   full: [],
-  regimens: {},
+  regimenContent: {},
+  regimens: {}
 };
 
 const cm = new CancerModel();
@@ -18,6 +19,7 @@ export const loadCancers = createAsyncThunk(
       const dbRegimens = await DBQueryer.getAll('regimens');
       cm.loadCancers(dbCancers, dbRegimens);
       cancers.full = cm.getCancersFull();
+      cancers.regimenContent = cm.getRegimenContent();
       cancers.regimens = cm.getRegimens();
     }
     catch (e) {
@@ -38,6 +40,7 @@ const cancerDataSlice = createSlice({
     builder
       .addCase(loadCancers.fulfilled, (state, action) => {
         state.full = action.payload.full;
+        state.regimenContent = action.payload.regimenContent;
         state.regimens = action.payload.regimens;
       })
   }
