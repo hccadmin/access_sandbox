@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { initCostCalc, getCostsByType  } from './state/slices/costsSlice';
 import { loadUI } from './state/slices/uiSlice';
 import Container from 'react-bootstrap/Container';
+import Layout from './shared_components/Layout';
+import Header from './shared_components/Header';
 import UserInterface from './user_interface/UserInterface';
 import ResultsInterface from './results_interface/ResultsInterface';
 import text from './text/global';
@@ -49,29 +51,30 @@ const App = () => {
   }
 
   return (
-    <div className="mt-3">
-      <Container>
-        <h1>Access Forecast</h1>
-        <p className="lead">{ text.siteDescription }</p>
-      { visibility.inputs ? 
-        <>
-          <UserInterface 
-            setVisible={ setVisibility } 
-            loadAllCosts={ loadAllCosts }
-            uiLabels={ uiLabels }
-          />
-        </>
-        :
-        <>
-          <ResultsInterface 
-            setVisible={ setVisibility } 
-            costs={ costs }
-            loadCostsByType={ loadCostsByType }
-          />
-        </>
-      }
-      </Container>
-    </div>
+    <Layout>
+      <Header />
+        <Container>
+          <h1>Access Forecast</h1>
+          <p className="lead">{ text.siteDescription }</p>
+        { visibility.inputs ? 
+          <>
+            <UserInterface 
+              setVisible={ setVisibility } 
+              loadAllCosts={ loadAllCosts }
+              uiLabels={ uiLabels }
+            />
+          </>
+          :
+          <>
+            <ResultsInterface 
+              setVisible={ setVisibility } 
+              costs={ costs }
+              loadCostsByType={ loadCostsByType }
+            />
+          </>
+        }
+        </Container>
+    </Layout>
   );
 }
 
