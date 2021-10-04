@@ -54,8 +54,6 @@ const App = () => {
     <Layout>
       <Header />
         <Container>
-          <h1>Access Forecast</h1>
-          <p className="lead">{ text.siteDescription }</p>
         { visibility.inputs ? 
           <>
             <UserInterface 

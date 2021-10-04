@@ -1,0 +1,37 @@
+@import '../../styles/fonts.scss';
+@import '../../styles/colors.scss';
+
+.lead-in {
+  h1, p {
+    color: $navy;
+  }
+  .lead {
+    font-weight: $reg;
+  }
+}
+
+.setting-toggle .btn-group-toggle > .btn-primary {
+}
+
+.setting-toggle .btn-group-toggle > .btn-primary.disabled {
+  background-color: #fff;
+}
+
+/*
+.setting-toggle {
+  .btn-primary:not(:disabled):not(.disabled).active {
+    background-color: $orange;
+    border: none;
+    color: #fff;
+  }
+*/
+
+.setting-toggle {
+  .btn-group-toggle > .btn-primary {
+    background-color: $lt-orange;
+    border: $orange 1px solid;
+    color: #fff;
+  }
+}
+
+

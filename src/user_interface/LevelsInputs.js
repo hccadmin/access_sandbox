@@ -31,7 +31,11 @@ const LevelsInputs = ({ defaults, children }) => {
 
   return (
     <>
-      <h6>{ children }</h6>
+      <Row> 
+      <Col> 
+      <p>{ children }</p>
+      </Col> 
+      <Col>
       <Row>
         { defaults.map( (level, i) => {
           return (
@@ -51,6 +55,8 @@ const LevelsInputs = ({ defaults, children }) => {
         className="d-flex"
         saved={ levels.custom }
       />
+    </Col>
+    </Row>
     </>
   );
 }

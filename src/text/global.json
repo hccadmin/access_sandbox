@@ -1,5 +1,4 @@
 {
-  "siteDescription": "Welcome to ACCESS (\"Access to Childhood Cancer Essentials\") FORxECAST, an open-access demand forecasting tool designed to quantify chemotherapy demand (mg or IU) and estimate price for on-the-ground stakeholders in low-and-middle-income-countries (LMICs).",
   "valueOverride" : {
     "given" : "modeled",
     "override" : "custom"

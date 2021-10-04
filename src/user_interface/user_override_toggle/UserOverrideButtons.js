@@ -4,10 +4,10 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import { makeHashKey, sentenceCase } from '../../helpers/utilities';
 import terms from '../../text/global';
 
-const UserOverrideButtons = ({ name, visibility, handleEvent }) => {
+const UserOverrideButtons = ({ name, visibility, size, handleEvent }) => {
 
   return (
-    <ButtonGroup toggle aria-label="User override buttons"> 
+    <ButtonGroup toggle size={ size } aria-label="User override buttons"> 
     { Object.values(terms.valueOverride).map( (value, i) => {
       return (
         <ToggleButton 

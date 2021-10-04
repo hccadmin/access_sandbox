@@ -81,11 +81,11 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     <Form.Text>
                       Descriptions of level types
                     </Form.Text>
-                    <Col md="4">
+                    <Col bsPrefix="col p-0 col-md-9">
                       <LevelsInputs 
                         defaults={ setting.levels.modeled }
                       >
-                        Modeled institution level percentages
+                        Modeled institution level percentages:
                       </LevelsInputs>
                     </Col>
                   </Form.Group>

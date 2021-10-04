@@ -50,6 +50,7 @@ const PriceTable = ({ drugs, list }) => {
                   setOverride={ initOverride }
                   handleRemoval={ removeOverride }
                   saved={ overrides.hasOwnProperty(drugHash) && overrides[drugHash] }
+                  btnSize="sm"
                 />
               </td>
             </tr>
