@@ -11,7 +11,6 @@ import { validateCancerInputs } from '../state/slices/validationSlice';
 const CancerButtons = ({ cancers, settingType }) => {
 
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
-
   const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", risks: {} });
 
   const dispatch = useDispatch();
@@ -65,8 +64,10 @@ const CancerButtons = ({ cancers, settingType }) => {
       { cancers.map( (cancer, i) => {
         return (
           <Button 
+            active={ cancerSelections.selected.name === cancer }
             block 
-            variant="outline-secondary" 
+            name={ i }
+            variant="outline-info" 
             key={ i } 
             onClick={ loadCancer }
           >

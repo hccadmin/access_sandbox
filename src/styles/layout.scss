@@ -25,6 +25,7 @@ h1 {
 // CARD
 .card {
   border: none;
+  border-radius: unset;
 }
 .card-body {
   padding: 0
@@ -74,6 +75,26 @@ select.form-control,
   padding: .3rem 0.5rem;
   font-size: 1.0rem;
 }
+
+.btn-group-vertical > .btn {
+  font-weight: $med;
+  padding: .5rem 1.4rem;
+}
+
+.btn-outline-info {
+  border-color: $pale-turq;
+  color: $navy;
+  text-align: left;
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active,
+.btn-outline-info:not(:disabled):not(.disabled).active {
+  background-color: $navy;
+  color: #fff;
+}
+
 .btn {
   font-family: $mont;
   font-weight: $bold;

@@ -10,6 +10,7 @@
   }
 }
 
+// STEP 1 BUTTONS
 .setting-toggle .btn-group-toggle > .btn-primary {
 }
 
@@ -34,4 +35,37 @@
   }
 }
 
+// CANCER INPUTS
+.cancer-inputs {
+  .card {
+    padding: 1.0rem 1.6rem;
+    border: $pale-turq 1px solid;
+    margin-bottom: 2.0rem;
+  }
+  .card-title {
+    background-color: unset;
+    color: #000;
+    font-family: $mont;
+    font-weight: $ex-bold;
+    padding-left: 0;
+  }
+}
+
+.forecast-table {
+  font-family: $mont;
+  .table-bordered,
+  .table-bordered td {
+    border: $pale-turq 1px solid;
+  }
+  thead {
+    background-color: $navy;
+    color: #fff;
+    th {
+      border: none;
+    }
+  }
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: $pale-blue;
+  }
+}
 

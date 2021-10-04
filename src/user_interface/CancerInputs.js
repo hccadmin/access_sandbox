@@ -115,9 +115,9 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
 
   return (
-    <div role="cancerSelections-inputs">
+    <div role="cancerSelections-inputs" className="cancer-inputs">
           <Form>
-            <h3>Cancer: <span className="display-4">{ selected.name }</span></h3>
+            <h1>{ selected.name }</h1>
             <Row>
               <Col>
         {/* INCIDENCE */}
@@ -125,7 +125,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                   <Card.Body>
                     <Card.Title>Incidence</Card.Title>
                     <Form.Group>
-                      <Form.Text><p>{ stepTerms.step2.instructions.incidence }</p></Form.Text>
+                      <p>{ stepTerms.step2.instructions.incidence }</p>
                         <CancerIncidence
                           type={ settingType }
                           predictedIncs={ predictedIncs }
@@ -147,13 +147,13 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                 <Card.Body>
                 <Card.Title>Risks and regimens</Card.Title>
                 <Form.Group>
-                  <Form.Text>
+                  <p>
                     { text.step2.instructions.risksRegimens.map( (paragraph, i) => {
                       return (
                         <p key={ i } dangerouslySetInnerHTML={ { __html: paragraph } } />
                       );
                     })}
-                  </Form.Text>
+                  </p>
 
         {/* RISK AND REGIMENS */}
                   <ButtonGroup toggle> 
@@ -172,7 +172,8 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                     );
                   })}
                   </ButtonGroup>
-                  <Table>
+                  <div className="forecast-table">
+                  <Table striped bordered>
                     <thead>
                       <tr>
                         <th>Risk stratification</th>
@@ -261,6 +262,7 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                     })}{/* End Risks map */}
                     </tbody>
                   </Table>
+                  </div>
                 </Form.Group>
                 </Card.Body>
                 </Card>
