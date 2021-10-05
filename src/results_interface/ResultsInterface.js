@@ -70,8 +70,8 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                   selections={ setting }
                   priceSource={ priceSource }
                 />
-                <p className="font-italic">*{ resultsText.pricePerVial }</p>
-                <h3>Grand total: { grandTotal } </h3>
+                <p>*{ resultsText.pricePerVial }</p>
+                <h3 className="font-weight-bold">Grand total: { grandTotal } </h3>
               </Card.Text>
             </Card.Body>
           </Card>

@@ -37,7 +37,7 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
 
   return (
     <div className={ classes }>
-      <Button size="lg" onClick={ loadCsvData }>{ children }</Button>
+      <Button bsPrefix="btn btn-xl btn-primary active" onClick={ loadCsvData }>{ children }</Button>
       { csvData &&
         <CSVLink
           data={ csvData.data }

@@ -6,16 +6,16 @@ const ResultsUserSelections = ({ selections, priceSource }) => {
 
   return (
     <ul className="list-unstyled">
-      <li>Setting: { selections.type }</li>
+      <li><strong>Setting:</strong> { selections.type }</li>
       { selections.subtype && 
-        <li>Geographical area: { toSingular(selections.subtype) }</li>
+        <li><strong>Geographical area:</strong> { toSingular(selections.subtype) }</li>
       }
-      <li>{ selections.type === "Health system" ? "Area selected:" : "Country:" } { selections.name }</li>
-      <li>Year: { selections.year }</li>
+      <li><strong>{ selections.type === "Health system" ? "Area selected:" : "Country:" }</strong> { selections.name }</li>
+      <li><strong>Year:</strong> { selections.year }</li>
       { selections.type === "Health system" && 
-        <li>Diagnoses type: { selections.diagType }</li>
+        <li><strong>Diagnoses type:</strong> { selections.diagType }</li>
       }
-      <li>Price source: { priceSource }</li>
+      <li><strong>Price source:</strong> { priceSource }</li>
     </ul>
   );
 }
