@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Badge from 'react-bootstrap/Badge';
 import ForecastSelect from './ForecastSelect';
 import PriceTable from './PriceTable';
 import HelpTextModal from '../shared_components/HelpTextModal';
@@ -44,9 +45,9 @@ const Step3Prices = ({ drugNames }) => {
     <>
     {/*
     */}
-      <p>
-        <a href="#" onClick={ () => changeModalVis(true) }>
-          Learn more about price sources and which one to choose.
+      <p className="my-4">
+        <a className="forecast-tip text-success" href="#" onClick={ () => changeModalVis(true) }>
+          <Badge variant="success">TIP</Badge>Learn more about price sources and which one to choose.
         </a>
       </p>
       <HelpTextModal

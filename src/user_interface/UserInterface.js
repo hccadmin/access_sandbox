@@ -77,8 +77,10 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             drugNames={ uiLabels.drugs }
           />
         </Step>
-        <Step title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
-          <Button onClick={ initCostCalc } size="lg">Calculate</Button>
+        <Step noBorder={ true } title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
+        <p className="text-center">
+          <Button bsPrefix="active btn btn-primary d-inline-block btn-xl"  onClick={ initCostCalc } >Calculate</Button>
+          </p>
         </Step>
       </Container>
     </div>

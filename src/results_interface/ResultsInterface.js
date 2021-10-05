@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import CostResult from './CostResult';
@@ -50,26 +51,30 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     setNumFormat(costs.grandTotal, 'currency', { currency: 'USD' });
 
   return objNotEmpty(costs) && (
-    <div>
-      <h2>Costs</h2>
-      <ResultsDownload 
-        classes="float-right"
-        selections={ setting }
-        grandTotal={ grandTotal }
-        priceSource={ priceSource }
-        type={ costType.split(" ")[1] }
-        costs={ costs }
-      >
-        Download CSV
-      </ResultsDownload>
-      { costs ? 
-        <>
-          <ResultsUserSelections
-            selections={ setting }
-            priceSource={ priceSource }
-          />
-          <p className="font-italic">*{ resultsText.pricePerVial }</p>
-          <h3>Grand total: { grandTotal } </h3>
+    <div className="results-interface mt-5">
+      <Card border="0">
+        <Card.Body>
+          <Card.Title as="h2">Costs</Card.Title>
+          <Card.Text as="div" bsPrefix="card-text card-border">
+            <ResultsDownload 
+              classes="float-right"
+              selections={ setting }
+              grandTotal={ grandTotal }
+              priceSource={ priceSource }
+              type={ costType.split(" ")[1] }
+              costs={ costs }
+            >
+              Download CSV
+            </ResultsDownload>
+                <ResultsUserSelections
+                  selections={ setting }
+                  priceSource={ priceSource }
+                />
+                <p className="font-italic">*{ resultsText.pricePerVial }</p>
+                <h3>Grand total: { grandTotal } </h3>
+              </Card.Text>
+            </Card.Body>
+          </Card>
           <ForecastToggle
             name="costType"
             labels={ Object.values(labels) }
@@ -92,8 +97,6 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                 labels={ labels }
               />
           }
-        </> : <p>You need to add incidents to each cancer to get costs</p>
-      }
       <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
     </div>
   );

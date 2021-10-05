@@ -10,10 +10,10 @@ const Header = () => {
   return (
     <header className="bkgrd-ht">
       <div className="bkgrd-left logo-bkgrd-color bkgrd-ht"></div>
-      <Container>
+      <Container fluid="xxl">
         <Row>
           <Col md="3">
-            <div className="logo-bkgrd-color logo-container bkgrd-ht">
+            <div className="logo-bkgrd-color logo-container bkgrd-ht d-flex align-items-center justify-content-center">
               <a href="/"><Image src={ headerLogo } fluid /></a>
             </div>
           </Col>

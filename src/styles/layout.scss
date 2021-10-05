@@ -11,6 +11,10 @@ body {
   color: $navy;
 }
 
+p {
+  margin-bottom: 1.3em;
+}
+
 h1, h2 {
   font-family: $mont;
 }
@@ -20,6 +24,20 @@ h1 {
   strong {
     font-weight: $ex-bold;
   }
+}
+
+a {
+  text-decoration: underline;
+}
+
+// CONTAINER 
+.container-xxl {
+  max-width: 1280px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 // CARD
@@ -34,13 +52,22 @@ h1 {
 .card-title {
   background-color: $lt-blue;
   color: #fff;
+  font-size: 2.1rem;
   font-weight: $bold;
   padding: 10px 25px;
+  margin-bottom: 0.3rem;
+}
+
+.card-title.h5 {
+  font-size: 1.25rem;
 }
 
 .card-text {
-  border: $turq 1px solid;
   padding: 26px 36px;
+}
+
+.card-border {
+  border: $turq 1px solid;
 }
 
 // FORM
@@ -58,7 +85,18 @@ select.form-control,
   font-size: 1.2rem;
 }
 
+input[type="number"],
+input[type="text"] {
+  border-color: $navy;
+  border-radius: unset;
+}
+
 // BUTTON
+.btn-group {
+  margin-top: 1.0rem;
+  margin-bottom: 2.5rem;
+}
+
 .btn-group > .btn {
   width: 186px;
   padding: .5rem 1rem;
@@ -68,6 +106,10 @@ select.form-control,
 .btn-group-lg > .btn {
   width: 256px;
   padding: .7rem 1.2rem;
+}
+
+.btn-group-sm {
+  margin: 0.4rem;
 }
 
 .btn-group-sm > .btn {
@@ -106,6 +148,7 @@ select.form-control,
   color: #fff;
 }
 
+.btn-primary,
 .btn-group-toggle > .btn-primary {
   background-color: #fff;
   border: $orange 1px solid;
@@ -120,3 +163,23 @@ select.form-control,
 .btn-primary {
   border: $orange 1px solid;
 }
+
+.btn-xl {
+  width: 354px;
+  font-size: 1.3rem;
+  padding: 0.5em 1.0em;
+}
+
+// TIP
+.forecast-tip {
+  font-weight: $bold;
+  .badge {
+    font-family: $mont;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    border-radius: unset;
+    padding: 0.35em 0.7em;
+    font-size: 1.1rem;
+  }
+}
+

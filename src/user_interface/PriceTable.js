@@ -27,37 +27,39 @@ const PriceTable = ({ drugs, list }) => {
   }
 
   return Object.keys(list).length > 0 && (
-    <Table striped hover size="sm">
-      <thead>
-        <tr>
-          <th>Drug name</th>
-          <th>Price per mg or IU (in US dollars)</th>
-          <th>Price override</th>
-        </tr>
-      </thead>
-      <tbody>
-      { drugs.map( (drug, i) => {
-          const drugHash = makeHashKey(drug);
-          const price = list[drugHash].prices.med;
-          const displayed = isNaN(price) ? price : `$${ price.toFixed(3) }`;
-          return (
-            <tr key={ i }>
-              <td>{ drug }</td>
-              <td>{ Object.keys(list).length > 0  && displayed }</td> 
-              <td>
-                <UserOverrideToggle 
-                  name={ drugHash } 
-                  setOverride={ initOverride }
-                  handleRemoval={ removeOverride }
-                  saved={ overrides.hasOwnProperty(drugHash) && overrides[drugHash] }
-                  btnSize="sm"
-                />
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
+    <div className="forecast-table">
+      <Table bordered striped size="sm">
+        <thead>
+          <tr>
+            <th>Drug name</th>
+            <th>Price per mg or IU (in US dollars)</th>
+            <th>Price override</th>
+          </tr>
+        </thead>
+        <tbody>
+        { drugs.map( (drug, i) => {
+            const drugHash = makeHashKey(drug);
+            const price = list[drugHash].prices.med;
+            const displayed = isNaN(price) ? price : `$${ price.toFixed(3) }`;
+            return (
+              <tr key={ i }>
+                <td>{ drug }</td>
+                <td>{ Object.keys(list).length > 0  && displayed }</td> 
+                <td>
+                  <UserOverrideToggle 
+                    name={ drugHash } 
+                    setOverride={ initOverride }
+                    handleRemoval={ removeOverride }
+                    saved={ overrides.hasOwnProperty(drugHash) && overrides[drugHash] }
+                    btnSize="sm"
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    </div>
   );
 }
 
