@@ -98,7 +98,9 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
                 labels={ labels }
               />
           }
-      <Button onClick={ backToInputs } size="lg">Back to user interface</Button>
+      <div className="text-center my-5">
+        <Button bsPrefix="btn btn-primary active btn-xl d-inline-block" onClick={ backToInputs }>Back to user interface</Button>
+      </div>
     </div>
   );
 }

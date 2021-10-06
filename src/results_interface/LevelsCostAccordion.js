@@ -5,7 +5,7 @@ import CostAccordionHeader from './CostAccordionHeader';
 const LevelsCostAccordion = ({ combined, individual, costType, labels, levels }) => {
   return individual.length > 0 && (
     <>
-      <CostAccordionHeader tag="h3" total={ combined.grandTotal }>
+      <CostAccordionHeader tag="h3" total={ combined.grandTotal } className="level-header">
         Combined levels
       </CostAccordionHeader>
       <CostAccordion
@@ -13,11 +13,13 @@ const LevelsCostAccordion = ({ combined, individual, costType, labels, levels })
         costType={ costType }
         labels={ labels }
       />
-      <h3>Individual levels</h3>
+      <div className="level-header mt-5">
+        <h3>Individual levels</h3>
+      </div>
       { individual.map( (ind, i) => {
         return (
           <div key={ i }>
-            <CostAccordionHeader tag="h4" total={ ind.grandTotal }>
+            <CostAccordionHeader tag="h4" total={ ind.grandTotal } className="ind-level mt-3">
               { `Level ${ i + 1 } costs (${ levels[i] }%)` }
             </CostAccordionHeader>
             <CostAccordion
