@@ -1,0 +1,43 @@
+@import '../../styles/fonts.scss';
+@import '../../styles/colors.scss';
+
+// ACCORDION
+.accordion {
+  .card-header {
+    background-color: $pale-blue;
+    border: $pale-turq 1px solid;
+    cursor: pointer;
+  }
+  .card:last-child .card-header {
+    margin-bottom: 0;
+  }
+}
+
+
+.icon {
+  background-image: url('../images/plus_minus.svg');
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-close {
+  background-position: center right;
+}
+
+.icon-open {
+  background-position: center left;
+}
+
+h4.accordion-heading {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  font-family: $mont;
+  font-weight: $med;
+  font-size: 1.4rem;
+}
+
+.heading-stats {
+  line-height: 1.2em;
+  font-size: 95%;
+}

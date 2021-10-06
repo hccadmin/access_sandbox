@@ -62,26 +62,4 @@
   }
 }
 
-.forecast-table {
-  font-family: $mont;
-  font-size: 1.1rem;
-  td {
-    vertical-align: middle;
-  }
-  .table-bordered,
-  .table-bordered td {
-    border: $pale-turq 1px solid;
-  }
-  thead {
-    background-color: $navy;
-    color: #fff;
-    th {
-      border: none;
-      vertical-align: middle;
-    }
-  }
-  .table-striped tbody tr:nth-of-type(odd) {
-    background-color: $pale-blue;
-  }
-}
 

@@ -12,12 +12,12 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
 
 
   return costsArr && (
-    <>
-      <Table striped bordered hover size="sm">
+    <div className="forecast-table">
+      <Table striped bordered size="sm">
         <thead>
           <tr>
             <th>{ sentenceCase(tableLabel) }</th> 
-            { type === "By cancer" && <th>Volume <small><em>(mg or IU)</em></small></th> }
+            { type === "By cancer" && <th>Volume <small>(mg or IU)</small></th> }
             <th>Low price</th>
             <th>Med price</th>
             <th>High price</th>
@@ -49,7 +49,7 @@ const CostResultTable = ({ costs, type, tableLabel }) => {
           </tr>
         </tbody>
       </Table>
-    </>
+    </div>
   );
 }
 

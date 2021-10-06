@@ -11,6 +11,7 @@ import ResultsDownload from './ResultsDownload';
 import ResultsUserSelections from './ResultsUserSelections';
 import resultsText from './text/results.json';
 import { getObjKey, objNotEmpty, setNumFormat } from '../helpers/utilities';
+import './styles/styles.scss';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;

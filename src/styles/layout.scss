@@ -187,3 +187,42 @@ input[type="text"] {
   }
 }
 
+// TABLE
+.forecast-table {
+  font-family: $mont;
+  font-size: 1.1rem;
+  td {
+    vertical-align: middle;
+    color: $navy;
+    font-weight: $med;
+  }
+  .table-bordered,
+  .table-bordered td {
+    border: $pale-turq 1px solid;
+  }
+  .table-sm td,
+  .table-sm th {
+    padding-left: 1.2em;
+  }
+  .table-sm th {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+  }
+  thead {
+    background-color: $navy;
+    color: #fff;
+    th {
+      border: none;
+      vertical-align: middle;
+    }
+  }
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: $pale-blue;
+  }
+  .table-sm td {
+    font-size: 1.0rem;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+}
+
