@@ -13,7 +13,6 @@
   }
 }
 
-
 .icon {
   background-image: url('../images/plus_minus.svg');
   background-repeat: no-repeat;
@@ -40,4 +39,26 @@ h4.accordion-heading {
 .heading-stats {
   line-height: 1.2em;
   font-size: 95%;
+}
+
+.level-header {
+  padding: 0.8em 1.1em;
+  font-family: $mont;
+  background-color: $navy;
+  h3 {
+    color: #fff;
+    font-weight: $semi;
+    margin-bottom: 0;
+  }
+}
+
+.ind-level {
+  background-color: $lt-blue;
+  padding: 0.4em 1.1em;
+  h4 {
+    color: #fff;
+    font-family: $mont;
+    font-weight: $med;
+    margin-bottom: 0;
+  }
 }

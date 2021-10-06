@@ -25,7 +25,7 @@ const CancerIncidence = ({ type, predictedIncs, handleIncidence, saved, cancer, 
   return type === REACT_APP_SETTING_COMPLEX ?
     (
       <>
-        <h6 className="mt-3">{ children }</h6>
+        <p>{ children }</p>
         <UserOverrideToggle
          name="incidence"
          setOverride={ handleIncidence }
