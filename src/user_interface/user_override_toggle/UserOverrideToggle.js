@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
+import UserOverrideValidation from './UserOverrideValidation';
 import { arrayFrom } from '../../helpers/utilities';
 import { useUserOverride } from '../../hooks';
 
@@ -31,22 +32,27 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
           numArr ?
             numArr.map( (num, i) => {
               return (
+              <UserOverrideValidation key={ i }>
                 <Form.Control 
                   key={ i }
                   name={ name + num } 
                   type="text" 
-                  value={ saved[i] }
+                  value={ saved[i] || "" }
                   onChange={ setOverride } 
+                  isInvalid="true"
                 />
+              </UserOverrideValidation>
               );
             })
           :
+          <UserOverrideValidation>
             <Form.Control 
               name={ name } 
               type="text" 
-              value={ saved }
+              value={ saved || "" }
               onChange={ setOverride } 
             />
+          </UserOverrideValidation>
         }
       </div>
     </>
