@@ -5,7 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 const HelpTextPopover = ({ title, content, children }) => {
   return (
     <OverlayTrigger
-      trigger="click"
+      trigger="hover"
       placement="top"
       overlay={
         <Popover>
@@ -14,9 +14,11 @@ const HelpTextPopover = ({ title, content, children }) => {
         </Popover>
       }
     >
-      <a href="#">
-        { children }
-      </a>
+      <span>&nbsp;
+        <a className="definition" href="#">
+          { children }
+        </a>
+      &nbsp;</span>
     </OverlayTrigger>
   );
 }

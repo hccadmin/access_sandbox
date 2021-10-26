@@ -187,6 +187,18 @@ input[type="text"] {
   }
 }
 
+// DEFINITION
+.definition, .definition:hover {
+  text-decoration: underline dotted;
+}
+.definition {
+  cursor: help;
+  color: $blue-gray;
+}
+.definition:hover {
+  color: $slate;
+}
+
 // TABLE
 .forecast-table {
   font-family: $mont;

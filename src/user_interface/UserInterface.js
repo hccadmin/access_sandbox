@@ -11,6 +11,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Step from './Step';
 import ForecastSelect from './ForecastSelect';
+import HelpTextPopover from '../shared_components/HelpTextPopover';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
@@ -52,7 +53,18 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           <p className="lead">{ text.siteDescription }</p>
         </div>
         <Step title={ text.step1.title } fade={ true }>
-          <p>{ text.step1.description }</p>
+          {/*<p>{ text.step1.description }</p>*/}
+          <p>
+            Select
+            <HelpTextPopover title="Single institution" content={ text.step1.tooltips.single }>
+              "Single institution"
+            </HelpTextPopover>
+            or
+            <HelpTextPopover title="Health system" content={ text.step1.tooltips.health }>
+              "Health system"
+            </HelpTextPopover>
+            to begin
+          </p>
           <Step1Setting
             uiLabels={ uiLabels }
             setComplete={ setStepVisible }

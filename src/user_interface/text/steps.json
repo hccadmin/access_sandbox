@@ -2,7 +2,10 @@
   "siteDescription": "ACCESS FORECAST is an open-access demand forecasting tool designed to quantify chemotherapy demand (mg or IU) and estimate price for on-the-ground stakeholders in low-and-middle-income-countries (LMICs).",
   "step1" : {
     "title": "Step 1: Setting",
-    "description": "Select 'Single institution' or 'Health system' to begin",
+    "tooltips" : {
+      "single" : "A \"single institution\" is a pediatric oncology clinic or hospital. A typical user would be either the medical director, head of pharmacy, or hospital administrator.",
+      "health" : "A \"health system\" setting could be a region, a country, or a continent. This setting would be used by those involved in health policy and planning such as a Minister of Health or a non-profit organization working at the national or international level to ensure access to essential childhood cancer medicines."
+    },
     "instructions" : {
       "single" : "Select a country and a year from the drop down menus"
     },
