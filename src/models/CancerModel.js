@@ -66,7 +66,6 @@ class CancerModel {
       //console.log(currCancerRegs);
       regimenContent[cancerHash] = sorted;
     });
-    console.log(regimenContent);
     return regimenContent;
   }
 

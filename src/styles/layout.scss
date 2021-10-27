@@ -30,6 +30,10 @@ a {
   text-decoration: underline;
 }
 
+a.btn {
+  text-decoration: none;
+}
+
 strong {
   font-weight: $bold;
 }
@@ -146,10 +150,18 @@ input[type="text"] {
   font-weight: $bold;
 }
 
+.btn-primary:hover,
 .btn-primary:not(:disabled):not(.disabled).active {
   background-color: $orange;
-  border: none;
   color: #fff;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active {
+  border: none;
+}
+
+.btn-primary:hover {
+  border-color: $orange;
 }
 
 .btn-primary,

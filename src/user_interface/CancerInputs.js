@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
 import CancerIncidence from './CancerIncidence';
@@ -154,6 +155,11 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                       );
                     })}
                   </p>
+
+        {/* REGIMEN REFERENCE BUTTON */}
+                <p>
+                  <a target="_blank" className="btn btn-primary" href="/assets/PBC-PODC-Endemic-BL-Guidelines.pdf">View regimens for { selected.name }</a>
+                </p>
 
         {/* RISK AND REGIMENS */}
                   <ButtonGroup toggle> 
