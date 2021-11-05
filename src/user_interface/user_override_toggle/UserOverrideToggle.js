@@ -39,7 +39,6 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
                   type="text" 
                   value={ saved[i] || "" }
                   onChange={ setOverride } 
-                  isInvalid="true"
                 />
               </UserOverrideValidation>
               );
