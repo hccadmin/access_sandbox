@@ -15,6 +15,7 @@ import stepTerms from './text/steps';
 import globalTerms from '../text/global';
 import { disableError, checkSelect } from '../state/slices/validationSlice';
 import text from './text/steps';
+import { useRegimenRef } from '../hooks';
 import {
   setIncidence, 
   setRiskStrat, 
@@ -35,6 +36,8 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
   const validation = useSelector( (state) => {
     return state.validation;
   });
+
+  const ref = useRegimenRef(selected.ref);
 
 
   const handleEvent = (e) => {
@@ -158,7 +161,10 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
 
         {/* REGIMEN REFERENCE BUTTON */}
                 <p>
-                  <a target="_blank" className="btn btn-primary" href="/assets/PBC-PODC-Endemic-BL-Guidelines.pdf">View regimens for { selected.name }</a>
+                  { ref ?
+                    <a target="_blank" className="btn btn-primary" href={ ref }>View regimens for { selected.name }</a>
+                    : <strong>There are no regimen references for this cancer</strong>
+                  }
                 </p>
 
         {/* RISK AND REGIMENS */}
