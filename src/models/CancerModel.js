@@ -121,6 +121,7 @@ class CancerModel {
       });
       return {
         name: result.cancer,
+        reg_ref: result.reg_ref,
         risk_strats: riskStrats
       }
     });

@@ -11,7 +11,7 @@ import { validateCancerInputs } from '../state/slices/validationSlice';
 const CancerButtons = ({ cancers, settingType }) => {
 
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
-  const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", risks: {} });
+  const [cancerDisplay, setCancerDisplay] = useState({ cancer: "", name: "", ref: "", risks: {} });
 
   const dispatch = useDispatch();
 
@@ -47,6 +47,7 @@ const CancerButtons = ({ cancers, settingType }) => {
     const cancerObj = {
       cancer: cancerHash,
       name: selected.name,
+      ref: selected.reg_ref,
       risks: selected.risk_strats
     };
     if (cancerSelections.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {

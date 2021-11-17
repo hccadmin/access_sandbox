@@ -52,8 +52,8 @@ const cancerSelectionsSlice = createSlice({
       state.cancerButtonClicks = 0;
     },
     initializeCancer(state, action) {
-      const { risks, cancer, name } = action.payload; 
-      state.selected = { name, risks }
+      const { risks, cancer, name, ref } = action.payload; 
+      state.selected = { name, risks, ref }
       if (!state.cancers.hasOwnProperty(cancer)) {
         state.initialized = true;
         const riskObj = assembleRisks(cancer, risks);
