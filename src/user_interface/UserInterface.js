@@ -41,8 +41,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   }
 
   return (
-    <div className="mt-3">
-      <Container>
+      <div className="user-interface">
         <div className="lead-in">
           <h1>
             Welcome to<br />
@@ -94,8 +93,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           <Button bsPrefix="active btn btn-primary d-inline-block btn-xl"  onClick={ initCostCalc } >Calculate</Button>
           </p>
         </Step>
-      </Container>
-    </div>
+      </div>
   );
 }
 

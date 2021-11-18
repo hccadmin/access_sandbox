@@ -4,9 +4,11 @@ import Container from 'react-bootstrap/Container';
 
 const Content = () => {
   return (
-    <Container>
-      <Outlet />
-    </Container>
+    <div className="content-top-margin">
+      <Container>
+        <Outlet />
+      </Container>
+    </div>
   );
 }
 

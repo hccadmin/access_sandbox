@@ -18,9 +18,9 @@ const Header = () => {
               <a href="/"><Image src={ headerLogo } fluid /></a>
             </div>
           </Col>
-          <Col md="9">
-            <MenuLinks />
-          </Col>
+            <Col bsPrefix="col-md-9 d-flex align-items-center">
+              <MenuLinks />
+            </Col>
         </Row>
       </Container>
     </header>

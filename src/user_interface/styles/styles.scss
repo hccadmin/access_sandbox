@@ -2,9 +2,12 @@
 @import '../../styles/colors.scss';
 
 
+.content-top-margin {
+  margin-top: 3.5em;
+}
+
 // LEAD IN
 .lead-in {
-  margin-top: 3em;
   margin-bottom: 2em;
   h1, p {
     color: $navy;
