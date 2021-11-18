@@ -8,14 +8,17 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import Popper from 'popper.js';
 import App from './App';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import store from './state/store';
 
 
 ReactDOM.render(
   <React.StrictMode>
-		<Provider store={ store }>
-			<App />
-		</Provider>
+    <BrowserRouter>
+      <Provider store={ store }>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

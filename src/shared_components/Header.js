@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import headerLogo from "../images/logo_header.svg";
+import MenuLinks from './MenuLinks';
 import "./styles/styles.scss"
 
 const Header = () => {
@@ -18,6 +19,7 @@ const Header = () => {
             </div>
           </Col>
           <Col md="9">
+            <MenuLinks />
           </Col>
         </Row>
       </Container>
