@@ -8,6 +8,7 @@ import { useUserOverride } from '../../hooks';
 
 const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs, className, btnSize }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
+  const [error, showError] = useState(false);
   const dispatch = useDispatch();
   const numArr = numInputs && arrayFrom(numInputs);
 
@@ -27,20 +28,28 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
         handleEvent={ handleButtonClick }
         size={ btnSize }
       />
-      <div className={ visibility.custom ? `visibile position-relative ${ className }` : "invisible position-absolute" }>
+      <div className={ visibility.custom ? "visibile position-relative" : "invisible position-absolute" }>
+        { numArr && 
+          <div className="percentage-validation">
+            <div className="is-invalid"></div>
+            <div className="invalid-feedback">Percentage values must add up to 100</div>
+          </div>
+        }
+        <div className={ className }>
         { 
           numArr ?
             numArr.map( (num, i) => {
               return (
-              <UserOverrideValidation key={ i }>
-                <Form.Control 
-                  key={ i }
-                  name={ name + num } 
-                  type="text" 
-                  value={ saved[i] || "" }
-                  onChange={ setOverride } 
-                />
-              </UserOverrideValidation>
+                <UserOverrideValidation>
+                  <Form.Control 
+                    key={ i }
+                    name={ name + num } 
+                    type="text" 
+                    value={ saved[i] || "" }
+                    onChange={ setOverride } 
+                    isInvalid={ true }
+                  />
+                </UserOverrideValidation>
               );
             })
           :
@@ -53,6 +62,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
             />
           </UserOverrideValidation>
         }
+      </div>
       </div>
     </>
   );

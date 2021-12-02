@@ -37,6 +37,19 @@ class ValidationHelper {
     this.#defaults = { ...defaults };
     this.#errors = { ...defaults };
   }
+  
+  validatePercentageTotal(toValidate) {
+    let numbers = toValidate;
+    if ( !Array.isArray(numbers) ) {
+      //console.log("Before map", numbers);
+      numbers = Object.keys(numbers.risks).map( (risk) => {
+        return numbers.risks[risk].percentage;
+      });
+      //console.log("After map", numbers);
+    }
+    const sum = this.sumTo100(numbers);
+    return sum;
+  }
 
   validateCancerInputs(toValidate) {
     this.#data = { ...toValidate };
@@ -68,7 +81,7 @@ class ValidationHelper {
           //console.log(objWithError, this.#errors);
           //console.log(objWithError);
           if (objWithError.hasCustomRisk) {
-            const is100 = this.sumTo100(objWithError);
+            const is100 = this.validatePercentageTotal(objWithError);
             this.#errors.riskSumError = !is100;
           }
         } // if !hasFilledRisksAndRegimens
@@ -126,7 +139,7 @@ class ValidationHelper {
     const filtered = keys.filter( (key) => {
       //console.log(this.hasEmptyRisks(data[key]));
       if (!this.hasEmptyRisks(data[key])) {
-        riskStatus = this.hasFilledRisks(data[key]) && this.sumTo100(data[key]);
+        riskStatus = this.hasFilledRisks(data[key]) && this.validatePercentageTotal(data[key]);
       }
       //const hasNoErrors =  this.hasIncidence(data[key]) && this.hasFilledRegimens(data[key]) &&  this.hasFilledRisks(data[key]) && this.sumTo100(data[key]);
       const hasNoErrors = this.hasIncidence(data[key]) && this.hasFilledRegimens(data[key]) && riskStatus;
@@ -158,12 +171,9 @@ class ValidationHelper {
     return key === 'regimen' && !value.hasMultipleRegimens;
   }
 
-  sumTo100(cancer) {
-    let sum = 0;
-    Object.keys(cancer.risks).forEach( (risk) => {
-      //console.log(cancer.risks[risk].percentage);
-      sum += parseFloat(cancer.risks[risk].percentage);
-    });
+  sumTo100(numbers) {
+    const sum = numbers.reduce( (prev, curr) => Number.parseFloat(prev) + Number.parseFloat(curr) );
+    console.log(sum);
     return sum === 100;
   }
 

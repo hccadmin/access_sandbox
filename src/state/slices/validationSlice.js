@@ -6,6 +6,7 @@ const initialState = {
   hasErrors: false,
   incidence: false,
   riskSumError: false,
+  levelSumError: false,
   risks: {},
   regimens: {}
 };
