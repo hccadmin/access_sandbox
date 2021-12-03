@@ -29,26 +29,13 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
     const newObj = { ...levelsObj };
     newObj[e.target.name] = e.target.value;
     const stateArr = Object.values(newObj);
-    console.log("UserOverrideToggle->checkSum, newObj:", newObj);
-    //console.log("UserOverrideToggle->checkSum, stateArr:", stateArr);
+    //console.log("UserOverrideToggle->checkSum, newObj:", newObj);
     if (stateArr.length === numArr.length) {
-      dispatch( validateLevelSum(stateArr) ).then( (result) => {
-        console.log(result);
-      });
+      dispatch( validateLevelSum(stateArr) );
     }
     updateLevelsObj({ ...newObj });
     setOverride(e);
-    //console.log("UserOverrideToggle->checkSum, e:", e);
-    /*
-    if (saved.length === numArr.length - 1 || (saved.length === numArr.length && !allFieldsFilled(saved) ) ) {
-      //console.log("UserOverrideToggle->checkSum, saved, e.target.value:", [saved[0], e.target.value]);
-      dispatch( validateLevelSum([saved[0], e.target.value]) );
-    }
-    if (saved.length === numArr.length && allFieldsFilled(saved) ) {
-      dispatch( validateLevelSum(saved) );
-    }
-    */
-    console.log("UserOverrideToggle->checkSum, levelSumError: ", validation.levelSumError);
+    //console.log("UserOverrideToggle->checkSum, levelSumError: ", validation.levelSumError);
   }
 
 

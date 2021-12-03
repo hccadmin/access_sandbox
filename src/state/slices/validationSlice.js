@@ -14,6 +14,7 @@ const initialState = {
 const initialCopy = { ...initialState };
 const vh = new ValidationHelper(initialCopy);
 
+/*
 export const validateLevelSum = createAsyncThunk(
   'validation/checkForErrorsStatus',
   async(data, thunkAPI) => {
@@ -21,7 +22,6 @@ export const validateLevelSum = createAsyncThunk(
     return isValid;
   }
 );
-/*
 */
 
 const validationSlice = createSlice({
@@ -38,6 +38,10 @@ const validationSlice = createSlice({
       state.riskSumError = errors.riskSumError;;
       state.risks = { ...errors.risks };
       state.regimens = { ...errors.regimens };
+    },
+    validateLevelSum(state, action) {
+      const isValid = vh.validateLevelSum(action.payload);
+      state.levelSumError = isValid;
     },
     checkSelect(state, action) {
       const { riskStrat, regimen } = action.payload;
@@ -62,18 +66,22 @@ const validationSlice = createSlice({
     },
     resetErrors(state, action) {
     }
+  }
+  /*
   },
   extraReducers: (builder) => {
     builder.addCase( validateLevelSum.fulfilled, (state, action) => {
       state.levelSumError = action.payload;
     });
   }
+  */
 });
 
 const { actions, reducer } = validationSlice;
 
 export const { 
   validateCancerInputs, 
+  validateLevelSum, 
   checkSelect, 
   disableError, 
   resetErrors 
