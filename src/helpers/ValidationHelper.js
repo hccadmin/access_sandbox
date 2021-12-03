@@ -8,6 +8,7 @@ class ValidationHelper {
    * prop hasErrors: bool
    * prop incidence: bool
    * prop riskSumError: bool
+   * prop levelSumError: bool
    * prop risks: obj {
    *   riskHash: bool
    * prop regimens: obj {
@@ -38,18 +39,6 @@ class ValidationHelper {
     this.#errors = { ...defaults };
   }
   
-  validatePercentageTotal(toValidate) {
-    let numbers = toValidate;
-    if ( !Array.isArray(numbers) ) {
-      //console.log("Before map", numbers);
-      numbers = Object.keys(numbers.risks).map( (risk) => {
-        return numbers.risks[risk].percentage;
-      });
-      //console.log("After map", numbers);
-    }
-    const sum = this.sumTo100(numbers);
-    return sum;
-  }
 
   validateCancerInputs(toValidate) {
     this.#data = { ...toValidate };
@@ -95,6 +84,26 @@ class ValidationHelper {
     this.#errors = JSON.parse( JSON.stringify(this.#defaults) );
     //console.log(allErrors);
     return allErrors;
+  }
+
+  validateLevelSum(toValidate) {
+    const result = this.validatePercentageTotal(toValidate);
+    this.#errors.hasErrors = !result;
+    this.#errors.levelSumError = !result;
+    return this.#errors.levelSumError;
+  }
+
+  validatePercentageTotal(toValidate) {
+    let numbers = toValidate;
+    if ( !Array.isArray(numbers) ) {
+      console.log("Before map", numbers);
+      numbers = Object.keys(numbers.risks).map( (risk) => {
+        return numbers.risks[risk].percentage;
+      });
+      //console.log("After map", numbers);
+    }
+    const sum = this.sumTo100(numbers);
+    return sum;
   }
 
   setError(type, errorKey, errorArr) {

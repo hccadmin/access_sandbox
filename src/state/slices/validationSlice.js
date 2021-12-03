@@ -14,12 +14,14 @@ const initialState = {
 const initialCopy = { ...initialState };
 const vh = new ValidationHelper(initialCopy);
 
-/*
-export const checkForErrors = createAsyncThunk(
+export const validateLevelSum = createAsyncThunk(
   'validation/checkForErrorsStatus',
   async(data, thunkAPI) => {
+    const isValid = await vh.validateLevelSum(data);
+    return isValid;
   }
 );
+/*
 */
 
 const validationSlice = createSlice({
@@ -60,11 +62,21 @@ const validationSlice = createSlice({
     },
     resetErrors(state, action) {
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase( validateLevelSum.fulfilled, (state, action) => {
+      state.levelSumError = action.payload;
+    });
   }
 });
 
 const { actions, reducer } = validationSlice;
 
-export const { validateCancerInputs, checkSelect, disableError, resetErrors } = actions;
+export const { 
+  validateCancerInputs, 
+  checkSelect, 
+  disableError, 
+  resetErrors 
+} = actions;
 
 export default reducer;

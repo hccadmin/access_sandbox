@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
 import UserOverrideValidation from './UserOverrideValidation';
-import { arrayFrom } from '../../helpers/utilities';
+import { disableError, validateLevelSum } from '../../state/slices/validationSlice';
+import { arrayFrom, allFieldsFilled } from '../../helpers/utilities';
 import { useUserOverride } from '../../hooks';
 
 const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs, className, btnSize }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
-  const [error, showError] = useState(false);
-  const dispatch = useDispatch();
+  const [showError, setError] = useState(false);
+  const [levelsObj, updateLevelsObj] = useState({});
   const numArr = numInputs && arrayFrom(numInputs);
+  const dispatch = useDispatch();
+  const validation = useSelector( (state) => {
+    return state.validation;
+  });
 
   const handleButtonClick = (e) => {
     handleRemoval(e);
@@ -19,6 +24,34 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
       custom: !visibility.custom
     });
   }
+
+  const checkSum = (e) => {
+    const newObj = { ...levelsObj };
+    newObj[e.target.name] = e.target.value;
+    const stateArr = Object.values(newObj);
+    console.log("UserOverrideToggle->checkSum, newObj:", newObj);
+    //console.log("UserOverrideToggle->checkSum, stateArr:", stateArr);
+    if (stateArr.length === numArr.length) {
+      dispatch( validateLevelSum(stateArr) ).then( (result) => {
+        console.log(result);
+      });
+    }
+    updateLevelsObj({ ...newObj });
+    setOverride(e);
+    //console.log("UserOverrideToggle->checkSum, e:", e);
+    /*
+    if (saved.length === numArr.length - 1 || (saved.length === numArr.length && !allFieldsFilled(saved) ) ) {
+      //console.log("UserOverrideToggle->checkSum, saved, e.target.value:", [saved[0], e.target.value]);
+      dispatch( validateLevelSum([saved[0], e.target.value]) );
+    }
+    if (saved.length === numArr.length && allFieldsFilled(saved) ) {
+      dispatch( validateLevelSum(saved) );
+    }
+    */
+    console.log("UserOverrideToggle->checkSum, levelSumError: ", validation.levelSumError);
+  }
+
+
 
   return (
     <>
@@ -31,7 +64,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
       <div className={ visibility.custom ? "visibile position-relative" : "invisible position-absolute" }>
         { numArr && 
           <div className="percentage-validation">
-            <div className="is-invalid"></div>
+            <div className={ validation.levelSumError && "is-invalid" }></div>
             <div className="invalid-feedback">Percentage values must add up to 100</div>
           </div>
         }
@@ -46,7 +79,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
                     name={ name + num } 
                     type="text" 
                     value={ saved[i] || "" }
-                    onChange={ setOverride } 
+                    onChange={ checkSum } 
                     isInvalid={ true }
                   />
                 </UserOverrideValidation>
