@@ -14,22 +14,20 @@
         "Percent of patients within each risk stratification group (based on cancer stage and other patient risk factors)",
         "Price of each chemotherapy agent at your institution"
       ]
-    }
+    },
+    "instructions": "To begin: Select from the dropdown menu the country and the calendar year you wish to analyze"
   },
   "health" : {
-    "required": {
-      "list_intro": "Required data to use the Model:",
+    "optional": {
+      "list_intro": "Optional data to use this Model:",
       "list_items": [
-        "Annual incidence of each cancer",
-        "The chemotherapy regimen from among the Model’s included options that is most similar to the one used at your institution"
+        "Percentage of Level 1, 2, 3 institutions in selected area (see definitions of Level 1, 2, and 3 institutions)",
+        "Annual incidence of each cancer in selected area",
+        "Percentage of patients within each risk stratification group (based on cancer stage and patient risk factors) in selected area",
+        "Price of chemotherapy agent in selected area "
       ]
     },
-    "optional": {
-      "list_intro": "Optional data (data can be input or modeled data can be used):",
-      "list_items": [
-        "Percent of patients within each risk stratification group (based on cancer stage and other patient risk factors)",
-        "Price of each chemotherapy agent at your institution"
-      ]
-    }
+    "geographical": "Geographical area allows you to segment data at the worldwide, continent, region, World Bank region, sub-region, country-income status, or country level. For example, a Ministry of Health should select \"Country,\" while an international organization interested in Latin American drug procurement should select \"Region.\"",
+    "high_income": "Chemotherapy regimens are based on resource-adapted recommendations for low- and middle-income countries. Selection of high-income countries or regions will generate baseline estimates of demand and cost, which may not reflect the full extent of treatment regimens used in high-income settings. More comprehensive incorporation of treatment regimens corresponding to level 4 care is planned for future updates of the Model to enhance the accuracy and applicability of these estimates to high-income centers and jurisdictions."
   }
 }

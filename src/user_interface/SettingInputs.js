@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import LevelsInputs from './LevelsInputs';
+import HelpTextPopover from '../shared_components/HelpTextPopover';
 import MultilineJSON from '../shared_components/MultilineJSON';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
@@ -31,7 +32,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
   const settingText = ( setting.type === REACT_APP_SETTING_SIMPLE ? step1Text.single : step1Text.health );
 
   return (
-    <Fade in={ selected ? true : false }>
+    <Fade in={ selected ? true : false } unmountOnExit="true">
       <Card>
         <Card.Body>
           <p>{ step1Text.intro }</p>
@@ -44,6 +45,29 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                 </MultilineJSON>
               </ul>
             </div>
+          }
+          <div className="optional">
+            <p>{ settingText.optional.list_intro }</p>
+            <ul>
+              <MultilineJSON tag="li">
+                { settingText.optional.list_items }
+              </MultilineJSON>
+            </ul>
+          </div>
+          { 
+            settingText.instructions ? 
+              <p>{ settingText.instructions }</p>
+            :
+            <p>
+              To begin: Select from the dropdown menu the 
+              <HelpTextPopover title="Geographical area" content={ settingText.geographical }>
+                geographical area
+              </HelpTextPopover>
+              and the calendar year you wish to analyze.
+              <HelpTextPopover title="High-income countries or regions" content={ settingText.high_income }>
+                Note for high-income countries or regions.
+              </HelpTextPopover>
+            </p>
           }
           { selected &&
             <>
