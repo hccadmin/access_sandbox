@@ -6,37 +6,52 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import LevelsInputs from './LevelsInputs';
+import MultilineJSON from '../shared_components/MultilineJSON';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
 import text from './text/steps';
+import step1Text from './text/step1';
 
 const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
+
+  const { REACT_APP_SETTING_SIMPLE } = process.env;
 
   const setting = useSelector( (state) => {
     return state.setting;
   });
 
-  const getSavedValue = () => {
-    if (type === "health_systems") {
+  const getSavedValue = (settingType) => {
+    if (settingType === "health_systems") {
       return setting.subtype || 0;
     }
     return setting.name || 0;
   }
 
   const type = Object.keys(keyVals).find( setting => keyVals[setting].buttonText === selected);
+  const settingText = ( setting.type === REACT_APP_SETTING_SIMPLE ? step1Text.single : step1Text.health );
 
   return (
     <Fade in={ selected ? true : false }>
       <Card>
         <Card.Body>
-          <p>{ text.step1.instructions.single }</p>
+          <p>{ step1Text.intro }</p>
+          { settingText.required &&
+            <div className="required">
+              <p>{ settingText.required.list_intro }</p>
+              <ul>
+                <MultilineJSON tag="li">
+                  { settingText.required.list_items }
+                </MultilineJSON>
+              </ul>
+            </div>
+          }
           { selected &&
             <>
               <div className="d-flex flex-wrap">
                 <ForecastSelect
                   name={ keyVals[type].next || keyVals[type].selectName }
                   label={ keyVals[type].label }
-                  value={ getSavedValue() }
+                  value={ getSavedValue(type) }
                   options={ uiLabels[type] }
                   sendSelection={ setOption }
                 /> 

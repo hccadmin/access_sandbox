@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import HelpTextPopover from '../shared_components/HelpTextPopover';
+import MultilineJSON from '../shared_components/MultilineJSON';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
@@ -49,8 +50,16 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             (Access to Childhood Cancer Essentials)
             <strong> FORECAST</strong>
           </h1>
-          <p className="lead">{ text.siteDescription }</p>
+          <div className="lead">
+            { text.siteDescription.map( (desc, i) => {
+              return (
+                <p key={ i } dangerouslySetInnerHTML={ { __html: desc } } />
+              );
+            })}
+          </div>
         </div>
+
+{/* STEP 1 SETTING */}
         <Step title={ text.step1.title } fade={ true }>
           {/*<p>{ text.step1.description }</p>*/}
           <p>
@@ -69,25 +78,29 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             setComplete={ setStepVisible }
           />
         </Step>
-          <Step title={ text.step2.title } fade={ stepVisible }>
-            <p>{ text.step2.description }</p>
-            <Step2Cancers
-              selected={ cancerSelections.selected }
-              executeCosts={ loadAllCosts }
-              uiCancers={ uiLabels.cancers }
-              setting={ setting }
-            />
-          </Step>
+
+{/* STEP 2 CANCERS */}
+        <Step title={ text.step2.title } fade={ stepVisible }>
+          <p>{ text.step2.description }</p>
+          <Step2Cancers
+            selected={ cancerSelections.selected }
+            executeCosts={ loadAllCosts }
+            uiCancers={ uiLabels.cancers }
+            setting={ setting }
+          />
+        </Step>
+
+{/* STEP 3 PRICES */}
         <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
-          { text.step3.description.map( (desc, i) => {
-            return (
-              <p key={ i } dangerouslySetInnerHTML={ { __html: desc } } />
-            );
-          })}
+          <MultilineJSON tag="p">
+            { text.step3.description }
+          </MultilineJSON>
           <Step3Prices 
             drugNames={ uiLabels.drugs }
           />
         </Step>
+
+{/* STEP 4 CALCULATE*/}
         <Step noBorder={ true } title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
         <p className="text-center">
           <Button bsPrefix="active btn btn-primary d-inline-block btn-xl"  onClick={ initCostCalc } >Calculate</Button>

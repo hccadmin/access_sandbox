@@ -1,0 +1,35 @@
+{
+  "intro": "This Model will combine data inputs on disease incidence and drug prices with health system-adapted treatment regimens developed and endorsed by international experts to generate estimates of the amount of chemotherapy needed and associated costs, by drug and disease.",
+  "single" : {
+    "required": {
+      "list_intro": "Required data to use the Model:",
+      "list_items": [
+        "Annual incidence of each cancer",
+        "The chemotherapy regimen from among the Model’s included options that is most similar to the one used at your institution"
+      ]
+    },
+    "optional": {
+      "list_intro": "Optional data (data can be input or modeled data can be used):",
+      "list_items": [
+        "Percent of patients within each risk stratification group (based on cancer stage and other patient risk factors)",
+        "Price of each chemotherapy agent at your institution"
+      ]
+    }
+  },
+  "health" : {
+    "required": {
+      "list_intro": "Required data to use the Model:",
+      "list_items": [
+        "Annual incidence of each cancer",
+        "The chemotherapy regimen from among the Model’s included options that is most similar to the one used at your institution"
+      ]
+    },
+    "optional": {
+      "list_intro": "Optional data (data can be input or modeled data can be used):",
+      "list_items": [
+        "Percent of patients within each risk stratification group (based on cancer stage and other patient risk factors)",
+        "Price of each chemotherapy agent at your institution"
+      ]
+    }
+  }
+}
