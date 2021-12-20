@@ -88,7 +88,6 @@ class ValidationHelper {
 
   validateLevelSum(toValidate) {
     const result = this.validatePercentageTotal(toValidate);
-    this.#errors.hasErrors = !result;
     this.#errors.levelSumError = !result;
     return this.#errors.levelSumError;
   }

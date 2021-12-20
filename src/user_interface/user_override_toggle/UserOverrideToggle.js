@@ -9,7 +9,6 @@ import { useUserOverride } from '../../hooks';
 
 const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs, className, btnSize }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
-  const [showError, setError] = useState(false);
   const [levelsObj, updateLevelsObj] = useState({});
   const numArr = numInputs && arrayFrom(numInputs);
   const dispatch = useDispatch();
@@ -55,7 +54,8 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
             <div className="invalid-feedback">Percentage values must add up to 100</div>
           </div>
         }
-        <div className={ className }>
+        <div className="custom-control">
+        <div className={ `form-group ${ className || ""  }` }>
         { 
           numArr ?
             numArr.map( (num, i) => {
@@ -67,7 +67,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
                     type="text" 
                     value={ saved[i] || "" }
                     onChange={ checkSum } 
-                    isInvalid={ true }
+                    isInvalid={ false }
                   />
                 </UserOverrideValidation>
               );
@@ -82,6 +82,7 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
             />
           </UserOverrideValidation>
         }
+      </div>
       </div>
       </div>
     </>
