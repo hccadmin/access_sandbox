@@ -101,6 +101,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   <>
                   <Form.Group>
                     <Form.Label>Diagnosis type</Form.Label>
+                    <Form.Text>
+                      { settingText.diagnosis }
+                    </Form.Text>
                     {["diagnosed", "total"].map( (type, i) => {
                       return (
                         <Form.Check
@@ -118,7 +121,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   <Form.Group>
                     <Form.Label>Institution level types</Form.Label>
                     <Form.Text>
-                      Descriptions of level types
+                      <MultilineJSON tag="p">
+                        { settingText.levels }
+                      </MultilineJSON>
                     </Form.Text>
                     <Col bsPrefix="col p-0 col-md-9">
                       <LevelsInputs 
