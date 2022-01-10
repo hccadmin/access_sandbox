@@ -61,7 +61,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
 {/* STEP 1 SETTING */}
         <Step title={ text.step1.title } fade={ true }>
-          {/*<p>{ text.step1.description }</p>*/}
           <p>
             Select
             <HelpTextPopover title="Single institution" content={ text.step1.tooltips.single }>
@@ -81,7 +80,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
 {/* STEP 2 CANCERS */}
         <Step title={ text.step2.title } fade={ stepVisible }>
-          <p>{ text.step2.description }</p>
+          <p>{ text.step2.description[setting.typeHash] }</p>
           <Step2Cancers
             selected={ cancerSelections.selected }
             executeCosts={ loadAllCosts }

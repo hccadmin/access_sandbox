@@ -4,6 +4,7 @@ import { SettingModel } from '../../models';
 
 const initialState = {
   type: "",
+  typeHash: "",
   subtype: "",
   name: "",
   year: "",
@@ -51,6 +52,8 @@ const settingSlice = createSlice({
         state.bodyStats = {};
       }
       if (name === "type") {
+        const typeHash = value.split(" ").shift().toLowerCase();
+        state.typeHash = typeHash;
         if (value === "Single institution") {
           state.diagType = "diagnosed";
         }

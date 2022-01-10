@@ -29,7 +29,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
   }
 
   const type = Object.keys(keyVals).find( setting => keyVals[setting].buttonText === selected);
-  const settingText = ( setting.type === REACT_APP_SETTING_SIMPLE ? step1Text.single : step1Text.health );
+  const settingText = step1Text[setting.typeHash] || {};
 
   return (
     <Fade in={ selected ? true : false } unmountOnExit="true">
@@ -38,7 +38,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
           <p>{ step1Text.intro }</p>
           { settingText.required &&
             <div className="required">
-              <p>{ settingText.required.list_intro }</p>
+              <p>{ settingText.required.list_intro || "" }</p>
               <ul>
                 <MultilineJSON tag="li">
                   { settingText.required.list_items }
@@ -46,14 +46,16 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
               </ul>
             </div>
           }
-          <div className="optional">
-            <p>{ settingText.optional.list_intro }</p>
-            <ul>
-              <MultilineJSON tag="li">
-                { settingText.optional.list_items }
-              </MultilineJSON>
-            </ul>
-          </div>
+          { settingText.optional &&
+            <div className="optional">
+              <p>{ settingText.optional.list_intro || "" }</p>
+              <ul>
+                <MultilineJSON tag="li">
+                  { settingText.optional.list_items }
+                </MultilineJSON>
+              </ul>
+            </div>
+          }
           { 
             settingText.instructions ? 
               <p>{ settingText.instructions }</p>

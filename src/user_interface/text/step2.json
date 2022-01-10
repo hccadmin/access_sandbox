@@ -1,8 +1,2 @@
 {
-  "single": {
-    "intro": "Please select a cancer from the list below to estimate the amount of chemotherapy needed and costs. Once you have entered information for one cancer, you may select another."
-  },
-  "health": {
-    "intro": "By default, this Model calculates costs for each cancer listed. It also provides modeled information for incidence and patient risk grouping (stratification) for each cancer type. Click on each cancer to review the modeled incidence and risk stratification data. Use the \"Custom\" button to enter your own data." 
-  }
 }

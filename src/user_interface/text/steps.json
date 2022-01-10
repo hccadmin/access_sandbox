@@ -9,18 +9,16 @@
       "single" : "\"Single institution\" mode generates forecasting estimates for an individual clinic or hospital that provides pediatric oncology services. A typical user would be the medical director, head of pharmacy, or hospital administrator at such an institution.",
       "health" : "\"Health system\" mode generates forecasting estimates for a region, country, continent, or globally. This setting is geared toward those involved in health policy and planning, such as a Ministry of Health or a nonprofit organization working at the national or international level."
     },
-    "instructions" : {
-      "single" : "Select a country and a year from the drop down menus"
-    },
-    "headings" : {
-    },
     "errors" : {
       "incidence" : "You must enter an incidence number"
     }
   },
   "step2" : {
     "title": "Step 2: Cancers",
-    "description": "Please select a cancer from the menu below, then enter incidence, risk stratification, and regimen data.",
+    "description": {
+      "single": "Please select a cancer from the list below to estimate the amount of chemotherapy needed and costs. Once you have entered information for one cancer, you may select another.",
+      "health": "By default, this Model calculates costs for each cancer listed. It also provides modeled information for incidence and patient risk grouping (stratification) for each cancer type. Click on each cancer to review the modeled incidence and risk stratification data. Use the \"Custom\" button to enter your own data." 
+      },
     "instructions" : {
       "incidence": "Enter the estimated number of cases per year your institution expects to have",
       "risksRegimens": [
