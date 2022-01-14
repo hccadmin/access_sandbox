@@ -15,6 +15,7 @@ import stepTerms from './text/steps';
 import globalTerms from '../text/global';
 import { disableError, checkSelect } from '../state/slices/validationSlice';
 import text from './text/steps';
+import step2text from './text/step2';
 import { useRegimenRef } from '../hooks';
 import {
   setIncidence, 
@@ -24,7 +25,7 @@ import {
   setRegimen 
 } from '../state/slices/cancerSelectionsSlice';
 
-const CancerInputs = ({ selected, settingType, predictedIncs }) => {
+const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => {
 
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
@@ -128,18 +129,16 @@ const CancerInputs = ({ selected, settingType, predictedIncs }) => {
                 <Card>
                   <Card.Body>
                     <Card.Title>Incidence</Card.Title>
-                    <Form.Group>
-                      <p>{ stepTerms.step2.instructions.incidence }</p>
-                        <CancerIncidence
-                          type={ settingType }
-                          predictedIncs={ predictedIncs }
-                          handleIncidence={ handleEvent }
-                          saved={ cancerSelections.cancers[cancerHash].incidence.custom }
-                          cancer={ cancerHash }
-                        >
-                          Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }
-                        </CancerIncidence>
-                    </Form.Group>
+                    <CancerIncidence
+                      type={ settingType }
+                      content={ step2text.incidence[settingHash] }
+                      predictedIncs={ predictedIncs }
+                      handleIncidence={ handleEvent }
+                      saved={ cancerSelections.cancers[cancerHash].incidence.custom }
+                      cancer={ cancerHash }
+                    >
+                      Modeled incidence: { predictedIncs && predictedIncs.total.toFixed() }
+                    </CancerIncidence>
                   </Card.Body>
                 </Card>
               </Col>

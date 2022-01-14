@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import ForecastSelect from './ForecastSelect';
 import LevelsInputs from './LevelsInputs';
 import HelpTextPopover from '../shared_components/HelpTextPopover';
-import MultilineJSON from '../shared_components/MultilineJSON';
+import MarkupJSON from '../shared_components/MarkupJSON';
 import { useSelector } from 'react-redux';
 import { sentenceCase, toSingular, toPlural } from '../helpers/utilities';
 import text from './text/steps';
@@ -40,9 +40,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
             <div className="required">
               <p>{ settingText.required.list_intro || "" }</p>
               <ul>
-                <MultilineJSON tag="li">
+                <MarkupJSON tag="li">
                   { settingText.required.list_items }
-                </MultilineJSON>
+                </MarkupJSON>
               </ul>
             </div>
           }
@@ -50,9 +50,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
             <div className="optional">
               <p>{ settingText.optional.list_intro || "" }</p>
               <ul>
-                <MultilineJSON tag="li">
+                <MarkupJSON tag="li">
                   { settingText.optional.list_items }
-                </MultilineJSON>
+                </MarkupJSON>
               </ul>
             </div>
           }
@@ -123,9 +123,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   <Form.Group>
                     <Form.Label>Institution level types</Form.Label>
                     <Form.Text>
-                      <MultilineJSON tag="p">
+                      <MarkupJSON tag="p">
                         { settingText.levels }
-                      </MultilineJSON>
+                      </MarkupJSON>
                     </Form.Text>
                     <Col bsPrefix="col p-0 col-md-9">
                       <LevelsInputs 

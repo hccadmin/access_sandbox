@@ -1,6 +1,9 @@
 import React from 'react';
 
-const MultilineJSON = ({ tag: Tag, children }) => {
+const MarkupJSON = ({ tag: Tag, multiline=true, children }) => {
+  if (!multiline) {
+    return <Tag dangerouslySetInnerHTML={ { __html: children } } />
+  }
   return (
     <>
       { React.Children.map( children, (child, i) => {
@@ -12,4 +15,4 @@ const MultilineJSON = ({ tag: Tag, children }) => {
   );
 }
 
-export default MultilineJSON;
+export default MarkupJSON;

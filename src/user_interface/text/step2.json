@@ -1,2 +1,11 @@
 {
+  "incidence": {
+    "single": {
+      "text" :"Enter the incidence number of patients newly diagnosed in a year of the selected cancer at your institution. This data is required for the tool to be able to make its calculations of chemotherapy demand and estimated costs."
+    },
+    "health": {
+      "text": "By default, modeled incidence data are shown; <a href=\"#\">view incidence data sources.</a> Use the \"Custom\" button to enter your own data.",
+      "modeled_data": "Modeled incidence data: Modeled incidence data is based on a microsimulation model that simulates childhood cancer incidence for 200 countries and territories worldwide, taking into account trends in population growth and urbanicity, geographical variation in cancer incidence, and health system barriers to access and referral that contribute to underdiagnosis. To ensure model results were consistent with epidemiological data, the model is calibrated to publicly available cancer registry data using a Bayesian approach in which the observed data are fixed and the model parameters (cancer incidence and probabilities of health system access and referral) are random variables. The microsimulation estimated total incidence of childhood cancer (diagnosed and undiagnosed) in each country in 2015 and then projected the number of cases from 2015 to 2030."
+    }
+  }
 }

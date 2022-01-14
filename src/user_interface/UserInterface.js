@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import HelpTextPopover from '../shared_components/HelpTextPopover';
-import MultilineJSON from '../shared_components/MultilineJSON';
+import MarkupJSON from '../shared_components/MarkupJSON';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
@@ -91,9 +91,9 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
 {/* STEP 3 PRICES */}
         <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
-          <MultilineJSON tag="p">
+          <MarkupJSON tag="p">
             { text.step3.description }
-          </MultilineJSON>
+          </MarkupJSON>
           <Step3Prices 
             drugNames={ uiLabels.drugs }
           />

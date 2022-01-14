@@ -45,17 +45,11 @@ const Step3Prices = ({ drugNames }) => {
     <>
     {/*
     */}
-      <p className="my-4">
-        <a className="forecast-tip text-success" href="#" onClick={ () => changeModalVis(true) }>
-          <Badge variant="success">TIP</Badge>Learn more about price sources and which one to choose.
-        </a>
-      </p>
       <HelpTextModal
-       title="Price sources" 
-       content={ priceText }
-       visible={ modalVis }
-       closeModal={ closeModal }
-      />
+       modalTitle="Price sources" 
+       modalContent={ priceText }
+      >Learn more about price sources and which one to choose.
+      </HelpTextModal>
       <Row>
         <Col md="4">
           <ForecastSelect

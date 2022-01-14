@@ -13,7 +13,7 @@ import { makeHashKey } from '../helpers/utilities';
 const Step2Cancers = ({ uiCancers, selected, setting }) => {
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
   const dispatch = useDispatch();
-  const { type, incidences } = setting;
+  const { type, typeHash, incidences } = setting;
   const cancerHash = makeHashKey(selected.name);
   const predictedIncs = incidences[cancerHash];
 
@@ -50,6 +50,7 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
             <CancerInputs 
               selected={ selected } 
               settingType={ type }
+              settingHash={ typeHash }
               predictedIncs={ predictedIncs }
             />
         }
