@@ -38,6 +38,10 @@ const Tool = () => {
   });
 
   const loadAllCosts = () => {
+    //console.log("Setting:", setting);
+    //console.log("Cancers:", cancerSelections.cancers);
+    //console.log("Regimens:", regimens);
+    //console.log("Prices:", prices);
     dispatch( initCostCalc({ setting, cancers: cancerSelections.cancers, regimens, prices }));
   }
 

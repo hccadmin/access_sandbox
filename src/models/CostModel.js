@@ -132,13 +132,15 @@ class CostModel {
     const { type, incidences, bodyStats, hasLevels } = setting;
     this.#hasLevels = hasLevels ? true : false;
     const filteredInput = this.#hasLevels ? cancers : this.removeEmptyInputs(cancers);
-    //console.log(filteredInput);
+    //console.log("Filtered input: ", filteredInput);
     if (!filteredInput) {
       return filteredInput;
     }
     this.#bodyStats = bodyStats;
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
+    //console.log("Prices after merge: ", this.#prices);
     this.#userCancers = Object.keys(filteredInput);
+    //console.log("User cancers: ", this.#userCancers);
 
   /* Marker B */
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
@@ -168,8 +170,8 @@ class CostModel {
     //console.log("Age range incidences", this.#ageRangeIncidences);
     //console.log("Age range gender incidence", ageRangeGenderIncidence);
     //console.log("Total dosage by type", totalDosageByType);
-    console.log("Total cost per cancer", this.#totalCostPerCancer);
-    console.log("Total cost per drug", this.#totalCostPerDrug);
+    //console.log("Total cost per cancer", this.#totalCostPerCancer);
+    //console.log("Total cost per drug", this.#totalCostPerDrug);
     return true;
   }
 
@@ -851,6 +853,7 @@ class CostModel {
     riskCostObj.percentage = currRisk.percentage;
 
     if (!this.#hasLevels) {
+      console.log("No levels: ", currCancer.name);
       if ( this.#noCostRegimens.includes(currRisk.regimen) ) {
         riskCostObj = false;
       }
@@ -860,6 +863,8 @@ class CostModel {
       };
     }
     else {
+      //console.log("Has levels: ", currCancer.name);
+      //console.log("cancer", currCancer);
       riskCostObj.regimens = {}
       currRisk.levels.forEach( (level) => {
         if ( !this.#noCostRegimens.includes(level) ) {
@@ -869,6 +874,7 @@ class CostModel {
           }
         }
       });
+      //console.log("riskCostObj", riskCostObj);
     }
     return riskCostObj;
   }
