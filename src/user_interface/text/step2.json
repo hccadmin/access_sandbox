@@ -5,7 +5,49 @@
     },
     "health": {
       "text": "By default, modeled incidence data are shown; <a href=\"#\">view incidence data sources.</a> Use the \"Custom\" button to enter your own data.",
-      "modeled_data": "Modeled incidence data: Modeled incidence data is based on a microsimulation model that simulates childhood cancer incidence for 200 countries and territories worldwide, taking into account trends in population growth and urbanicity, geographical variation in cancer incidence, and health system barriers to access and referral that contribute to underdiagnosis. To ensure model results were consistent with epidemiological data, the model is calibrated to publicly available cancer registry data using a Bayesian approach in which the observed data are fixed and the model parameters (cancer incidence and probabilities of health system access and referral) are random variables. The microsimulation estimated total incidence of childhood cancer (diagnosed and undiagnosed) in each country in 2015 and then projected the number of cases from 2015 to 2030."
+      "modal": [
+        {
+          "body": "Modeled incidence data is based on a microsimulation model that simulates childhood cancer incidence for 200 countries and territories worldwide, taking into account trends in population growth and urbanicity, geographical variation in cancer incidence, and health system barriers to access and referral that contribute to underdiagnosis. To ensure model results were consistent with epidemiological data, the model is calibrated to publicly available cancer registry data using a Bayesian approach in which the observed data are fixed and the model parameters (cancer incidence and probabilities of health system access and referral) are random variables. The microsimulation estimated total incidence of childhood cancer (diagnosed and undiagnosed) in each country in 2015 and then projected the number of cases from 2015 to 2030."
+        }
+      ]
+    }
+  },
+  "risks_regs": {
+    "intro": "The information below shows patient risk groupings (stratification) for each cancer and a corresponding chemotherapy regimen (protocol).",
+    "single": {
+      "notes": [
+        "For some cancers, the risk groupings can be customized (optional) based on your institution's patient data.",
+        "For some cancers, chemotherapy regimens can be selected, while for some, the tool's modeled regimens must be used. Across all cancers, the regimens included in the Model are based on published and expert-agreed upon adjusted treatment protocols for use in low-and-middle-income countries."
+      ],
+      "modal": [
+        {
+          "heading": "Risk stratification",
+          "body": [
+          "Chemotherapy regimens vary according to patient criteria, including presence of metastases, cancer stage, and patient risk factors. <strong>Modeled risk stratification percentages are shown,</strong> based on SEER data estimates from the United States and, thus, may not reflect risk stratification in other countries. <strong>However, since reliable data are lacking, particularly for under-resourced countries, these data have been input as a starting point for analysis.</strong> <a href=\"#\">View risk stratification data sources.</a>",
+          "When risk stratifications are customizable, users are encouraged to adjust the percent of patients expected at each risk group, if data specific to their own institution is known. To adjust percentages, click the \"Custom\" button below (Note: Some scenarios do not allow for adjustments in risk stratification) and fill in the percentage for each risk stratification level in the \"Percentage\" column (numbers must add up to 100)."
+          ]
+        },
+        {
+          "heading": "Regimen (protocol) selection",
+          "body": "In the column labeled \"Regimens,\" some cancers will have multiple treatment protocols from which to select. Use the \"View regimens\" button below to see what each regimen consists of and the published literature on which the regimen is based. Select the regimen from the dropdown menu that is most similar to what is used at your institution."
+        }
+      ]
+    },
+    "health": {
+      "notes": "For some cancers, the risk groupings can be customized based on the chosen area's patient data.",
+      "modal": [
+        {
+          "heading": "Risk stratification",
+          "body": [
+          "Chemotherapy regimens vary according to patient criteria, including presence of metastases, cancer stage, and patient risk factors. Modeled risk stratification percentages are shown, based on SEER data estimates from the United States and, thus, may not reflect risk stratification in other countries. However, since reliable data are lacking, particularly for under-resourced countries, these data have been input as a starting point for analysis. <a href=\"#\">View risk stratification data sources.</a>",
+          "Users are encouraged to adjust the percent of patients expected at each risk group, if data are known. To adjust percentages, click the \"Custom\" button below (button won't be clickable if risk stratification isn't adjustable) and fill in the percentage for each risk stratification level in the \"Percentage\" column (numbers must add up to 100)."
+          ]
+        },
+        {
+          "heading": "Regimen",
+          "body": "This Model automatically assigns the preferred Level 1, 2, and 3 <a href=\"#\">(view definitions of Levels 1, 2, and 3)</a> chemotherapy regimens <a href=\"#\">(view regimen sources)</a> based on institutional capabilities and expected drug availability."
+        }
+      ]
     }
   }
 }

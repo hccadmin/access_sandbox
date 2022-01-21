@@ -40,7 +40,7 @@ const CancerIncidence = ({ type, content, predictedIncs, handleIncidence, saved,
           />
           <HelpTextModal
            modalTitle="Modeled incidence data" 
-           modalContent={ content.modeled_data }
+           modalContent={ content.modal }
           >Learn more about modeled incidence data
           </HelpTextModal>
         </>

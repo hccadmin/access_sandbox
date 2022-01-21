@@ -9,6 +9,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ForecastToggle from './ForecastToggle';
+import MarkupJSON from '../shared_components/MarkupJSON';
+import HelpTextModal from '../shared_components/HelpTextModal';
 import CancerIncidence from './CancerIncidence';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
 import stepTerms from './text/steps';
@@ -148,8 +150,27 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
               <Col>
                 <Card>
                 <Card.Body>
-                <Card.Title>Risks and regimens</Card.Title>
+                <Card.Title>Risk stratification and chemotherapy regimens</Card.Title>
                 <Form.Group>
+                  <p>{ step2text.risks_regs.intro }</p>
+                  { Array.isArray(step2text.risks_regs[settingHash].notes) ?
+                    <ul>
+                      <MarkupJSON multiline="true" tag="li">
+                        { step2text.risks_regs[settingHash].notes }
+                      </MarkupJSON>
+                    </ul>
+                  :
+                    <p>{ step2text.risks_regs[settingHash].notes }</p>
+                  }
+                  <HelpTextModal
+                    modalTitle="Risks and regimens"
+                    modalContent={ step2text.risks_regs[settingHash].modal }
+                  >Learn more about risks and regimens
+                  </HelpTextModal>
+
+
+
+                {/*
                   <p>
                     { text.step2.instructions.risksRegimens.map( (paragraph, i) => {
                       return (
@@ -157,7 +178,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                       );
                     })}
                   </p>
-
+                */}
         {/* REGIMEN REFERENCE BUTTON */}
                 <p>
                   { ref ?

@@ -1,35 +1,30 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import MarkupJSON from './MarkupJSON';
 import { sentenceCase } from '../helpers/utilities';
+
 
 const HelpTextModalContent = ({ title, content, visible, closeModal, children }) => {
   return (
     <Modal size="lg" show={ visible } onHide={ closeModal }>
       <Modal.Header closeButton>
-        <Modal.Title as="h3">{ title }</Modal.Title>
+        <Modal.Title as="h1">{ title }</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <>
-          { typeof content === "object" ? 
-            Object.keys(content).map( (fragment, i) => {
+          { content.map( (fragment, i) => {
               return (
                 <div key={ i } role="article">
-                  <h4>{ sentenceCase(fragment) }</h4>
-                    { Array.isArray(content[fragment]) ?
-                      content[fragment].map( (paragraph, j) => {
-                        return (
-                          <p key={ j } dangerouslySetInnerHTML={ { __html: paragraph } } />
-                        );
-                      })
-                      : content[fragment]
-                    }
+                  { fragment.heading && <h2>{ fragment.heading }</h2> }
+                  <MarkupJSON
+                    multiline={ Array.isArray(fragment.body) }
+                    tag="p"
+                  >{ fragment.body }
+                  </MarkupJSON>
                 </div>
               );
-            })
-            : content
-          }
-          { children }
+          })}
         </>
         <Button 
           className="float-right"
