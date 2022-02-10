@@ -1,0 +1,14 @@
+[
+  {
+    "heading": "Buyer",
+    "body": "Recommended selection for most users; defaults to supplier prices (where available) because this is expected to be more reflective of on-the-ground prices in low- and middle-income countries; in this setting, the Forecast Model uses buyer prices only when supplier prices are not available (this is the case for 6 drugs: Actinomycin D, Asparaginase, Dacarbazine, Daunorubicin, Rituximab, 6MP)."
+  },
+ {
+    "heading": "Supplier",
+    "body": "Buyer prices are sourced from Management Sciences for Health (MSH) Drug Price Indicator. These are derived from public sector sources and typically represent prices obtained by government agencies through competitive tender processes."
+  },
+  {
+    "heading": "Consolidated",
+    "body": "Supplier prices represent those obtained by organizations that maintain a warehouse and supply items directly to customers, also sourced from the MSH Drug Price Indicator. These include procurement agencies that negotiate prices and place purchase orders for client nongovernmental organizations (NGOs), private voluntary organizations (PVOs), and Ministries of Health (MOHs), as well as international development organizations that provide commodities to countries that they and others support."
+  }
+]

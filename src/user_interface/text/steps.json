@@ -33,9 +33,10 @@
   "step3" : {
     "title": "Step 3: Drug pricing",
     "description": [
-      "Choose a price range calculation source to view drug pricing.",
-      "Most users should select \"Consolidated\" which defaults to Supplier prices (due to expert consensus that supply-side prices are not reflective of on-the-ground price in LMICs), but calculates any drug without Supplier price data with Buyer price data. Users who prefer to calculate with Buyer or Supplier data only should select accordingly (note that each of these options is NOT RECOMMENDED because each has drugs without price data, so cost will not be comprehensive of all drugs.",
-      "Prices can be overridden by clicking the \"Custom\" button for the corresponding drug in the \"Price override\" column."
+      "Choose a price source below to view calculated drug pricing for the selected cancer(s).",
+      "Most users should select \"consolidated\" as a price source, which defaults to supplier prices (due to expert consensus that buyer-side prices are not reflective of on-the-ground price in low- and middle-income countries) but calculates any drug without supplier price data with buyer price data.",
+      "Users who prefer to calculate with buyer or supplier data only should select the price source accordingly (note that each of these options is NOT RECOMMENDED because each has drugs without price data, so cost will not be comprehensive of all drugs).",
+      "If local price data per mg (or per IU for Asparaginase and Bleomycin) in USD are available for the jurisdiction(s) of interest, we <strong>HIGHLY RECOMMEND</strong> entering them to get the most accurate pricing estimates. Prices can be overridden by clicking the \"Custom\" button for the corresponding drug in the \"Price override\" column."
       ],
     "instructions" : {
     },

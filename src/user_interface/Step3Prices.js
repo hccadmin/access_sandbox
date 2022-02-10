@@ -6,7 +6,7 @@ import Badge from 'react-bootstrap/Badge';
 import ForecastSelect from './ForecastSelect';
 import PriceTable from './PriceTable';
 import HelpTextModal from '../shared_components/HelpTextModal';
-import priceText from './text/price_data_definitions';
+import priceText from './text/step3';
 import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
 import text from './text/steps';
 
