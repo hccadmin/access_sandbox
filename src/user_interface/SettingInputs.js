@@ -103,9 +103,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   <>
                   <Form.Group>
                     <Form.Label>Diagnosis type</Form.Label>
-                    <Form.Text>
-                      { settingText.diagnosis }
-                    </Form.Text>
+                    <p>{ settingText.diagnosis }</p>
                     {["diagnosed", "total"].map( (type, i) => {
                       return (
                         <Form.Check
@@ -122,11 +120,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Institution level types</Form.Label>
-                    <Form.Text>
-                      <MarkupJSON tag="p">
-                        { settingText.levels }
-                      </MarkupJSON>
-                    </Form.Text>
+                    <MarkupJSON tag="p">
+                      { settingText.levels }
+                    </MarkupJSON>
                     <Col bsPrefix="col p-0 col-md-9">
                       <LevelsInputs 
                         defaults={ setting.levels.modeled }
