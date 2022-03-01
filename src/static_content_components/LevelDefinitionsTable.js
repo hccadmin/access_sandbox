@@ -11,9 +11,6 @@ const LevelDefinitionsTable = () => {
               Services
             </th>
             <th>
-              Level 0
-            </th>
-            <th>
               Level 1
             </th>
             <th>
@@ -44,16 +41,10 @@ const LevelDefinitionsTable = () => {
             <td>
                
             </td>
-            <td>
-               
-            </td>
           </tr>
           <tr>
             <td>
               <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.26879">Pediatric cancer unit general description</a>
-            </td>
-            <td>
-              Pilot project
             </td>
             <td>
               Some basic oncology services
@@ -71,9 +62,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Typical settings
-            </td>
-            <td>
-              Centers in LIC in disadvantaged areas
             </td>
             <td>
               Centers with relatively greater resources in LIC, disadvantaged areas in lower MIC
@@ -98,9 +86,6 @@ const LevelDefinitionsTable = () => {
               Inpatient ward
             </td>
             <td>
-              No pediatric oncology inpatient unit
-            </td>
-            <td>
               Area of the hospital where children with cancer are admitted when possible; frequent overflow to other wards; no fixed staff
             </td>
             <td>
@@ -116,9 +101,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Inpatient ward effective access
-            </td>
-            <td>
-              Very limited access (e.g., due to lack of beds or high cost relative to typical family's salary)
             </td>
             <td>
               Accessible to some patients sometimes
@@ -138,9 +120,6 @@ const LevelDefinitionsTable = () => {
               Isolation rooms for infected patients
             </td>
             <td>
-              None
-            </td>
-            <td>
               Isolation rooms exist but rarely available
             </td>
             <td>
@@ -158,9 +137,6 @@ const LevelDefinitionsTable = () => {
               Outpatient facilities
             </td>
             <td>
-              None
-            </td>
-            <td>
               Outpatient area for chemotherapy and some emergency care; services for surgery/diagnostic imaging may be primarily for adults but can partially accommodate pediatric patient needs
             </td>
             <td>
@@ -176,9 +152,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Outpatient facilities effective access
-            </td>
-            <td>
-              Very limited access (e.g., due to lack of space or high cost relative to typical family's salary)
             </td>
             <td>
               Accessible to some patients sometimes
@@ -203,9 +176,6 @@ const LevelDefinitionsTable = () => {
               Radiation therapy facilities
             </td>
             <td>
-              None
-            </td>
-            <td>
               Cobalt machine
             </td>
             <td>
@@ -221,9 +191,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Radiation therapy planning tools
-            </td>
-            <td>
-              None
             </td>
             <td>
               2D planning
@@ -243,9 +210,6 @@ const LevelDefinitionsTable = () => {
               Radiation therapists
             </td>
             <td>
-              None
-            </td>
-            <td>
               Radiation oncologists with adult expertise
             </td>
             <td>
@@ -261,9 +225,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Anesthesia for radiation therapy
-            </td>
-            <td>
-              None
             </td>
             <td>
               Sedation only
@@ -283,9 +244,6 @@ const LevelDefinitionsTable = () => {
               Radiation therapy personnel (medical physicists, radiation therapy technicians)
             </td>
             <td>
-              None
-            </td>
-            <td>
               Few personnel, no pediatric expertise
             </td>
             <td>
@@ -301,9 +259,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Radiation therapy effective access
-            </td>
-            <td>
-              None
             </td>
             <td>
               Radiation therapy available to some patients some of the time; frequent delays
@@ -328,9 +283,6 @@ const LevelDefinitionsTable = () => {
               Antineoplastic drug availability
             </td>
             <td>
-              Very limited access to a small selection of oncology drugs
-            </td>
-            <td>
               Access to a limited selection of oncology drugs; frequent shortages
             </td>
             <td>
@@ -346,9 +298,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Antineoplastic drug quality
-            </td>
-            <td>
-              Low or unknown quality
             </td>
             <td>
               Variable or unknown quality
@@ -368,9 +317,6 @@ const LevelDefinitionsTable = () => {
               Antineoplastic drug effective access
             </td>
             <td>
-              Dependent entirely on NGO support or out‐of‐pocket payment
-            </td>
-            <td>
               Limited supply of basic drugs accessible from the health system; dependent on NGO support or out‐of‐pocket payment for some drugs much of the time or most drugs some of the time
             </td>
             <td>
@@ -386,9 +332,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Antimicrobial drug availability
-            </td>
-            <td>
-              Limited selection, delayed access
             </td>
             <td>
               Limited selection available to most patients, some delays
@@ -408,9 +351,6 @@ const LevelDefinitionsTable = () => {
               Antimicrobial drug effective access
             </td>
             <td>
-              Dependent entirely on NGO support or out‐of‐pocket payment
-            </td>
-            <td>
               Limited supply of basic drugs from the health system; dependent on NGO support for some drugs much of the time or most drugs some of the time
             </td>
             <td>
@@ -428,9 +368,6 @@ const LevelDefinitionsTable = () => {
               Analgesic drug availability
             </td>
             <td>
-              Limited selection of analgesics, delayed access
-            </td>
-            <td>
               Limited selection of opioid and non‐opioid analgesics available to most patients, some delays
             </td>
             <td>
@@ -446,9 +383,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Analgesic effective access
-            </td>
-            <td>
-              Dependent entirely on NGO support or out‐of‐pocket payment; significant regulatory or cultural barriers
             </td>
             <td>
               Limited supply of basic drugs from the health system; dependent on NGO support or out‐of‐pocket payment for much of the time; some regulatory and cultural barriers
@@ -474,9 +408,6 @@ const LevelDefinitionsTable = () => {
               Limited selection available to most patients, some delays
             </td>
             <td>
-              Wide selection available to most patients with minimal delays
-            </td>
-            <td>
               Wide selection of antiemetics, growth factors, and other supportive care medicines available to all patients with rare delays
             </td>
             <td>
@@ -494,9 +425,6 @@ const LevelDefinitionsTable = () => {
               Limited supply of basic drugs from the health system; dependent on NGO support or out‐of‐pocket payment for some drugs much of the time or most drugs some of the time
             </td>
             <td>
-              Basic drugs provided by the health system, more expensive drugs may depend on private insurance or NGO support
-            </td>
-            <td>
               Most oncology drugs provided by the health system or private insurance available to most patients
             </td>
             <td>
@@ -511,9 +439,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Blood product availability
-            </td>
-            <td>
-              Whole blood
             </td>
             <td>
               Some blood products available sometimes for some patients; no irradiation/filtration possible
@@ -533,9 +458,6 @@ const LevelDefinitionsTable = () => {
               Blood product effective access
             </td>
             <td>
-              Accessible to a few patients; long and frequent delays
-            </td>
-            <td>
               Accessible sometimes for some patients; frequent delays
             </td>
             <td>
@@ -551,9 +473,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Intensive care availability
-            </td>
-            <td>
-              None
             </td>
             <td>
               Intensive care unit present; limited equipment; personnel with limited pediatric experience
@@ -573,9 +492,6 @@ const LevelDefinitionsTable = () => {
               Intensive care effective access
             </td>
             <td>
-              Not accessible to most patients
-            </td>
-            <td>
               Accessible to some oncology patients occasionally; frequently delayed access
             </td>
             <td>
@@ -591,9 +507,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Infection prevention and control
-            </td>
-            <td>
-              None
             </td>
             <td>
               Hand hygiene stations usually available; prophylactic antibiotics for <i>Pneumocystis jiroveci</i> usually available
@@ -613,9 +526,6 @@ const LevelDefinitionsTable = () => {
               <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.26879">Nutritional support availability and effective access6</a>
             </td>
             <td>
-              None
-            </td>
-            <td>
               Limited nutritional support available to some patients; staff with limited training or experience in management of nutritional issues
             </td>
             <td>
@@ -631,9 +541,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Venous access
-            </td>
-            <td>
-              Peripheral IV access
             </td>
             <td>
               Mainly peripheral IV access; PICC available to some patients
@@ -653,9 +560,6 @@ const LevelDefinitionsTable = () => {
               Safe chemotherapy preparation infrastructure
             </td>
             <td>
-              None
-            </td>
-            <td>
               No special chemotherapy preparation area; no access to personal protective equipment
             </td>
             <td>
@@ -671,9 +575,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Pain and symptom management team
-            </td>
-            <td>
-              No specific program
             </td>
             <td>
               Pain and symptom management by oncology personnel without special expertise in this area
@@ -698,9 +599,6 @@ const LevelDefinitionsTable = () => {
               General laboratory availability
             </td>
             <td>
-              Must send out even basic labs
-            </td>
-            <td>
               Blood chemistry profile and hemogram
             </td>
             <td>
@@ -716,9 +614,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               General laboratory effective access
-            </td>
-            <td>
-              Rarely accessible, depends on NGO support
             </td>
             <td>
               Accessible to some patients sometimes; may depend on financial situation or NGO support
@@ -738,9 +633,6 @@ const LevelDefinitionsTable = () => {
               Pathology availability
             </td>
             <td>
-              None
-            </td>
-            <td>
               Microscope, H&amp;E staining, CSF cytology
             </td>
             <td>
@@ -756,9 +648,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Pathology effective access
-            </td>
-            <td>
-              Rarely accessible; depends on NGO support; long delays
             </td>
             <td>
               Accessible to some patients sometimes; may depend on financial situation or NGO support; frequent delays in access to results
@@ -778,9 +667,6 @@ const LevelDefinitionsTable = () => {
               Pathology personnel
             </td>
             <td>
-              No pathologist
-            </td>
-            <td>
               Pathologist available for some cases
             </td>
             <td>
@@ -796,9 +682,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Hematopathology availability
-            </td>
-            <td>
-              None
             </td>
             <td>
               Microscope, H&amp;E staining, CSF cytology
@@ -818,9 +701,6 @@ const LevelDefinitionsTable = () => {
               Hematopathology effective access
             </td>
             <td>
-              Rarely accessible, depends on NGO support
-            </td>
-            <td>
               Accessible to some patients sometimes; may depend on financial situation or NGO support
             </td>
             <td>
@@ -836,9 +716,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Hematopathology personnel
-            </td>
-            <td>
-              No hemato‐pathologist
             </td>
             <td>
               Hematopathologist available for some cases; hematologist with some hematopathology expertise
@@ -858,9 +735,6 @@ const LevelDefinitionsTable = () => {
               Diagnostic imaging availability
             </td>
             <td>
-              None
-            </td>
-            <td>
               Radiographs, ultrasound
             </td>
             <td>
@@ -878,9 +752,6 @@ const LevelDefinitionsTable = () => {
               Diagnostic imaging effective access
             </td>
             <td>
-              Rarely accessible, depends on NGO support
-            </td>
-            <td>
               Accessible to some patients sometimes; may depend on financial situation or NGO support
             </td>
             <td>
@@ -896,9 +767,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Diagnostic imaging personnel
-            </td>
-            <td>
-              No radiologist
             </td>
             <td>
               Radiologist available to interpret most imaging, occasional delays
@@ -923,9 +791,6 @@ const LevelDefinitionsTable = () => {
               Multidisciplinary team
             </td>
             <td>
-              Absent
-            </td>
-            <td>
               Ad hoc meetings for special cases
             </td>
             <td>
@@ -941,9 +806,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Oncology team leader
-            </td>
-            <td>
-              Primary care physicians care for cancer and many other diseases
             </td>
             <td>
               Primary care provider with interest in oncology
@@ -963,9 +825,6 @@ const LevelDefinitionsTable = () => {
               Oncology team training and experience
             </td>
             <td>
-              A few staff members with basic training
-            </td>
-            <td>
               A few oncology personnel with some oncology training; trainees responsible for many aspects of patient care
             </td>
             <td>
@@ -981,9 +840,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Oncology physician effective access
-            </td>
-            <td>
-              Rarely accessible; for private patients only
             </td>
             <td>
               Occasionally accessible; most oncology work done by non-oncologists
@@ -1003,9 +859,6 @@ const LevelDefinitionsTable = () => {
               Nurse training and expertise
             </td>
             <td>
-              No nurses with oncology training and no experience with oncology patients
-            </td>
-            <td>
               Nurses with no specialized oncology training; some experience with cancer patients
             </td>
             <td>
@@ -1021,9 +874,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Nursing effective access
-            </td>
-            <td>
-              Extremely low nurse‐to‐patient ratio for oncology patients (1:25 or lower)
             </td>
             <td>
               Very low nurse‐to‐patient ratio for oncology patients (1:15 or lower)
@@ -1043,9 +893,6 @@ const LevelDefinitionsTable = () => {
               Surgery
             </td>
             <td>
-              No surgeon
-            </td>
-            <td>
               General surgeon; limited pediatric experience
             </td>
             <td>
@@ -1061,9 +908,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Surgical subspecialties relevant for oncology
-            </td>
-            <td>
-              None
             </td>
             <td>
               Adult subspecialty surgeon (neurosurgeon, orthopedic surgeon, ophthalmologist, other)
@@ -1083,9 +927,6 @@ const LevelDefinitionsTable = () => {
               Anesthesiologists
             </td>
             <td>
-              None
-            </td>
-            <td>
               Anesthesiologist available sometimes
             </td>
             <td>
@@ -1101,9 +942,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Pharmacists 
-            </td>
-            <td>
-              None
             </td>
             <td>
               Pharmacist in the hospital to dispense medications, but not available to prepare chemotherapy
@@ -1123,9 +961,6 @@ const LevelDefinitionsTable = () => {
               Infectious disease specialists
             </td>
             <td>
-              None
-            </td>
-            <td>
               General pediatricians manage infectious disease problems
             </td>
             <td>
@@ -1141,9 +976,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Pediatric subspecialty support (e.g., nephrology, neurology, endocrinology)
-            </td>
-            <td>
-              None
             </td>
             <td>
               General pediatricians manage subspecialty problems
@@ -1163,9 +995,6 @@ const LevelDefinitionsTable = () => {
               Professions allied to medicine (e.g., physical therapist, occupational therapist, speech therapist, psychologist)
             </td>
             <td>
-              None
-            </td>
-            <td>
               Some availability of some professionals
             </td>
             <td>
@@ -1181,9 +1010,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Social workers
-            </td>
-            <td>
-              None
             </td>
             <td>
               Small number of social workers available to some patients
@@ -1214,16 +1040,10 @@ const LevelDefinitionsTable = () => {
             <td>
                
             </td>
-            <td>
-               
-            </td>
           </tr>
           <tr>
             <td>
               Abandonment prevention program
-            </td>
-            <td>
-              None
             </td>
             <td>
               Limited support for some patients’ nonmedical expenses. Limited support for some medical expenses. Limited access to psychologists, social workers, and parent support groups
@@ -1243,9 +1063,6 @@ const LevelDefinitionsTable = () => {
               Guest house (patient/family lodging)
             </td>
             <td>
-              None
-            </td>
-            <td>
               Available to a few patients; delayed access; overcrowded
             </td>
             <td>
@@ -1261,9 +1078,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Appointment scheduling and call‐back system
-            </td>
-            <td>
-              None
             </td>
             <td>
               Appointment records kept, no systematic way to identify patients who miss an appointment
@@ -1283,9 +1097,6 @@ const LevelDefinitionsTable = () => {
               Transportation support
             </td>
             <td>
-              None
-            </td>
-            <td>
               Some transportation subsidy for some patients
             </td>
             <td>
@@ -1303,9 +1114,6 @@ const LevelDefinitionsTable = () => {
               Patient and family education
             </td>
             <td>
-              None
-            </td>
-            <td>
               Some education for some patients and families
             </td>
             <td>
@@ -1321,9 +1129,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Patient and family support groups
-            </td>
-            <td>
-              None
             </td>
             <td>
               Ad hoc support by some families of others; not supported by the oncology service
@@ -1348,9 +1153,6 @@ const LevelDefinitionsTable = () => {
               Satellite centers for shared care
             </td>
             <td>
-              None
-            </td>
-            <td>
               Informal relationship with local primary care colleagues. Communication delayed or sporadic
             </td>
             <td>
@@ -1368,9 +1170,6 @@ const LevelDefinitionsTable = () => {
               Data management program
             </td>
             <td>
-              None
-            </td>
-            <td>
               Record of patients treated is kept ad hoc by various staff members
             </td>
             <td>
@@ -1386,9 +1185,6 @@ const LevelDefinitionsTable = () => {
           <tr>
             <td>
               Research focused on quality improvement and enhancing clinical care
-            </td>
-            <td>
-              None
             </td>
             <td>
               Limited single‐center research including retrospective analyses with limited outcome data
