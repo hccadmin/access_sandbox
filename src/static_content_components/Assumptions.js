@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import LevelDefinitionsTable from './LevelDefinitionsTable';
 import RegimensByLevelTable from './RegimensByLevelTable';
+import IncidenceAssumptionsTable from './IncidenceAssumptionsTable';
 
 const Assumptions = () => {
   return (
@@ -14,6 +15,7 @@ const Assumptions = () => {
           <Nav.Link href="#start">Top of page</Nav.Link>
           <Nav.Link href="#level-defs">Level definitions</Nav.Link>
           <Nav.Link href="#regimens-by-level">Regimens by level</Nav.Link>
+          <Nav.Link href="#incidence-assumptions">Incidence assumptions</Nav.Link>
         </Nav>
         </div>
       </Col>
@@ -37,6 +39,11 @@ const Assumptions = () => {
         <h2 id="regimens-by-level">Chemotherapy regimens by infrastructure level</h2>
         <p>Because an institution's capabilities vary by level, the regimens an institution chooses to administer will vary according to level of supportive care available, etc.</p>
         <RegimensByLevelTable  />
+
+{/* Incidence assumptions */}
+        <h2 id="incidence-assumptions">Incidence assumptions</h2>
+        <p>The percent cuts in incidence, outlined in table format below, are automatically calculated into the assumed incidence calculation based on the incidence microsimulation (for health system or organization users only).</p>
+        <IncidenceAssumptionsTable  />
       </Col>
     </Row>
   );
