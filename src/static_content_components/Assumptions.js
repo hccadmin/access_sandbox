@@ -2,9 +2,9 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
-import LevelDefinitionsTable from './LevelDefinitionsTable';
-import RegimensByLevelTable from './RegimensByLevelTable';
-import IncidenceAssumptionsTable from './IncidenceAssumptionsTable';
+import LevelDefinitionsTable from './tables/LevelDefinitionsTable';
+import RegimensByLevelTable from './tables/RegimensByLevelTable';
+import IncidenceAssumptionsTable from './tables/IncidenceAssumptionsTable';
 
 const Assumptions = () => {
   return (

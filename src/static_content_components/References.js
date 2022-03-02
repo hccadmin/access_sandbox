@@ -2,9 +2,10 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
-import RegimenCalculationsTable from './RegimenCalculationsTable';
-import CountryWeightBSATable from './CountryWeightBSATable';
-import DiagnosedTotalIncidenceTable from './DiagnosedTotalIncidenceTable';
+import RegimenCalculationsTable from './tables/RegimenCalculationsTable';
+import CountryWeightBSATable from './tables/CountryWeightBSATable';
+import DiagnosedTotalIncidenceTable from './tables/DiagnosedTotalIncidenceTable';
+import RiskStratificationTable from './tables/RiskStratificationTable';
 
 const References = () => {
   return (
@@ -15,6 +16,7 @@ const References = () => {
           <Nav.Link href="#start">Top of page</Nav.Link>
           <Nav.Link href="#country-weight-bsa">Country weight & BSA</Nav.Link>
           <Nav.Link href="#diagnosed-total-incidence">Diagnosed & total incidence</Nav.Link>
+          <Nav.Link href="#risk-strat">Risk stratification data</Nav.Link>
         </Nav>
         </div>
       </Col>
@@ -45,7 +47,7 @@ const References = () => {
         </ul>
         <CountryWeightBSATable />
 
-{/* Diagnosed Total incidence*/}
+{/* Diagnosed Total incidence */}
         <h2 id="diagnosed-total-incidence">Diagnosed and total (diagnosed and undiagnosed) incidence data</h2>
         <p><strong>Notes</strong></p>
         <ul>
@@ -54,6 +56,16 @@ const References = () => {
           <li>Incidence calculations completed by model estimates, fully attributed to Zachary Ward, MPH, and PhD candidate at Harvard University.</li>
         </ul>
         <DiagnosedTotalIncidenceTable />
+
+{/* Risk stratification data */}
+        <h2 id="risk-strat">Risk stratification data</h2>
+        <p><strong>Notes</strong></p>
+        <ul>
+          <li>Patients are stratified along one of three axes depending on the cancer: (1) metastatic vs. non-metastatic, (2) risk status, and (3) stage at diagnosis.</li>
+          <li>Risk stratification data is only incorporated in the model for cancers in which SIOP protocols specified that different patient segments received different treatment regimens. For example, SIOP protocols specify that all AML patients receive the same regimen regardless of patient characteristics, so segmentation data not required.</li>
+          <li>For a comprehensive definition of each risk stratification, please use the relevant link below:</li>
+        </ul>
+        <RiskStratificationTable />
       </Col>
     </Row>
   );
