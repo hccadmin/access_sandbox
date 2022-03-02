@@ -14,9 +14,6 @@ const RegimensByLevelTable = () => {
               Patient segment
             </th>
             <th>
-              Unique identifier
-            </th>
-            <th>
               Level 1 Default Regimen
             </th>
             <th>
@@ -39,9 +36,6 @@ const RegimensByLevelTable = () => {
               Low risk
             </td>
             <td>
-              ALL Low Risk
-            </td>
-            <td>
               ALL Regimen 1
             </td>
             <td>
@@ -60,9 +54,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High risk
-            </td>
-            <td>
-              ALLHigh Risk
             </td>
             <td>
               ALL Regimen 1
@@ -85,9 +76,6 @@ const RegimensByLevelTable = () => {
               Very high risk
             </td>
             <td>
-              ALLVery High Risk
-            </td>
-            <td>
               ALL Regimen 1
             </td>
             <td>
@@ -107,10 +95,7 @@ const RegimensByLevelTable = () => {
             <td>
             </td>
             <td>
-              AML
-            </td>
-            <td>
-              Low-dose induction
+             Low-dose induction
             </td>
             <td>
               Standard-dose induction
@@ -128,9 +113,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Standard risk
-            </td>
-            <td>
-              APLStandard Risk
             </td>
             <td>
               Standard dose
@@ -151,9 +133,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High risk
-            </td>
-            <td>
-              APLHigh Risk
             </td>
             <td>
               High-Risk dose
@@ -176,9 +155,6 @@ const RegimensByLevelTable = () => {
               Stage 1/2
             </td>
             <td>
-              Burkitt LymphomaStage 1/2
-            </td>
-            <td>
               Burkitt lymphoma Regimen 1
             </td>
             <td>
@@ -197,9 +173,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Stage 3
-            </td>
-            <td>
-              Burkitt LymphomaStage 3
             </td>
             <td>
               Burkitt lymphoma Regimen 2
@@ -222,9 +195,6 @@ const RegimensByLevelTable = () => {
               Stage 4
             </td>
             <td>
-              Burkitt LymphomaStage 4
-            </td>
-            <td>
               Burkitt lymphoma Regimen 3
             </td>
             <td>
@@ -243,9 +213,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
                
-            </td>
-            <td>
-              DLBCL
             </td>
             <td>
               CHOP
@@ -268,9 +235,6 @@ const RegimensByLevelTable = () => {
                
             </td>
             <td>
-              Ewing sarcoma
-            </td>
-            <td>
               AEWS1031
             </td>
             <td>
@@ -289,9 +253,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Low risk
-            </td>
-            <td>
-              Germ Cell TumorLow Risk
             </td>
             <td>
               Surgery, only
@@ -314,9 +275,6 @@ const RegimensByLevelTable = () => {
               Standard risk
             </td>
             <td>
-              Germ Cell TumorStandard Risk
-            </td>
-            <td>
               PEB
             </td>
             <td>
@@ -335,9 +293,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Poor risk
-            </td>
-            <td>
-              Germ Cell TumorPoor Risk
             </td>
             <td>
               BEP (4 Cycles)
@@ -360,9 +315,6 @@ const RegimensByLevelTable = () => {
               Non-metastatic
             </td>
             <td>
-              HepatoblastomaNon-Metastatic
-            </td>
-            <td>
               Cisplatin Monotherapy
             </td>
             <td>
@@ -381,9 +333,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Metastatic
-            </td>
-            <td>
-              HepatoblastomaMetastatic
             </td>
             <td>
               Cisplatin Monotherapy
@@ -406,9 +355,6 @@ const RegimensByLevelTable = () => {
               Low risk
             </td>
             <td>
-              Hodgkin's LymphomaLow Risk
-            </td>
-            <td>
               ABVD (4 cycles)
             </td>
             <td>
@@ -429,9 +375,6 @@ const RegimensByLevelTable = () => {
               Intermediate risk
             </td>
             <td>
-              Hodgkin's LymphomaIntermediate Risk
-            </td>
-            <td>
               ABVD (6 cycles)
             </td>
             <td>
@@ -447,9 +390,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High risk
-            </td>
-            <td>
-              Hodgkin's LymphomaHigh Risk
             </td>
             <td>
               ABVD (6 cycles)
@@ -469,9 +409,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
                
-            </td>
-            <td>
-              Kaposi Sarcoma
             </td>
             <td>
               Antiretrovirals, only
@@ -494,9 +431,6 @@ const RegimensByLevelTable = () => {
               Fully resectable
             </td>
             <td>
-              LGGFully Resectable
-            </td>
-            <td>
               Surgery, only
             </td>
             <td>
@@ -515,9 +449,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Unresectable/Incomplete resection
-            </td>
-            <td>
-              LGGUnresectable/Incomplete Resection
             </td>
             <td>
               Carboplatin + Vincristine
@@ -540,9 +471,6 @@ const RegimensByLevelTable = () => {
               Low risk
             </td>
             <td>
-              Lymphoblastic LymphomaLow Risk
-            </td>
-            <td>
               ALL Regimen 1
             </td>
             <td>
@@ -561,9 +489,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High risk
-            </td>
-            <td>
-              Lymphoblastic LymphomaHigh Risk
             </td>
             <td>
               ALL Regimen 1
@@ -586,9 +511,6 @@ const RegimensByLevelTable = () => {
               Very high risk
             </td>
             <td>
-              Lymphoblastic LymphomaVery High Risk
-            </td>
-            <td>
               ALL Regimen 1
             </td>
             <td>
@@ -607,9 +529,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Low risk
-            </td>
-            <td>
-              NeuroblastomaLow Risk
             </td>
             <td>
               Surgery, only
@@ -632,9 +551,6 @@ const RegimensByLevelTable = () => {
               Intermediate risk
             </td>
             <td>
-              NeuroblastomaIntermediate Risk
-            </td>
-            <td>
               80% dose intermediate risk regimen
             </td>
             <td>
@@ -653,9 +569,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High risk
-            </td>
-            <td>
-              NeuroblastomaHigh Risk
             </td>
             <td>
               Palliative Cyclophosphamide Monotherapy
@@ -678,9 +591,6 @@ const RegimensByLevelTable = () => {
                
             </td>
             <td>
-              Osteosarcoma
-            </td>
-            <td>
               Methotrexate NOT Feasible
             </td>
             <td>
@@ -699,9 +609,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Non-metastatic
-            </td>
-            <td>
-              RetinoblastomaNon-Metastatic
             </td>
             <td>
               CEV
@@ -724,9 +631,6 @@ const RegimensByLevelTable = () => {
               Metastatic
             </td>
             <td>
-              RetinoblastomaMetastatic
-            </td>
-            <td>
               CHO
             </td>
             <td>
@@ -745,9 +649,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
                
-            </td>
-            <td>
-              Rhabdomyosarcoma
             </td>
             <td>
               VAC
@@ -770,9 +671,6 @@ const RegimensByLevelTable = () => {
                
             </td>
             <td>
-              Standard-Risk Medulloblastoma
-            </td>
-            <td>
               Cisplatin-based combination
             </td>
             <td>
@@ -791,9 +689,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Low Risk Stage 1
-            </td>
-            <td>
-              Wilms TumorLow Risk Stage 1
             </td>
             <td>
               Observation, only
@@ -816,9 +711,6 @@ const RegimensByLevelTable = () => {
               Low Risk Stage 2
             </td>
             <td>
-              Wilms TumorLow Risk Stage 2
-            </td>
-            <td>
               Vincristine + Actinomycin D (5 cycles)
             </td>
             <td>
@@ -837,9 +729,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Low Risk Stage 3
-            </td>
-            <td>
-              Wilms TumorLow Risk Stage 3
             </td>
             <td>
               Vincristine + Actinomycin D (5 cycles)
@@ -862,9 +751,6 @@ const RegimensByLevelTable = () => {
               Intermediate Risk Stage 1
             </td>
             <td>
-              Wilms TumorIntermediate Risk Stage 1
-            </td>
-            <td>
               Vincristine + Actinomycin D (1 cycle)
             </td>
             <td>
@@ -883,9 +769,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Intermediate Risk Stage 2
-            </td>
-            <td>
-              Wilms TumorIntermediate Risk Stage 2
             </td>
             <td>
               Vincristine + Actinomycin D (5 cycles)
@@ -908,9 +791,6 @@ const RegimensByLevelTable = () => {
               Intermediate Risk Stage 3
             </td>
             <td>
-              Wilms TumorIntermediate Risk Stage 3
-            </td>
-            <td>
               Vincristine + Actinomycin D + Doxorubicin (5 cycles)
             </td>
             <td>
@@ -929,9 +809,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               High Risk All Stages
-            </td>
-            <td>
-              Wilms TumorHigh Risk All Stages
             </td>
             <td>
               Vincristine + Actinomycin D + Doxorubicin (5 cycles)
