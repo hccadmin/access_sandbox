@@ -6,6 +6,8 @@ import RegimenCalculationsTable from './tables/RegimenCalculationsTable';
 import CountryWeightBSATable from './tables/CountryWeightBSATable';
 import DiagnosedTotalIncidenceTable from './tables/DiagnosedTotalIncidenceTable';
 import RiskStratificationTable from './tables/RiskStratificationTable';
+import GenderDistributionTable from './tables/GenderDistributionTable';
+import DrugPriceTable from './tables/DrugPriceTable';
 
 const References = () => {
   return (
@@ -17,6 +19,8 @@ const References = () => {
           <Nav.Link href="#country-weight-bsa">Country weight & BSA</Nav.Link>
           <Nav.Link href="#diagnosed-total-incidence">Diagnosed & total incidence</Nav.Link>
           <Nav.Link href="#risk-strat">Risk stratification data</Nav.Link>
+          <Nav.Link href="#gender-dist">Gender distribution</Nav.Link>
+          <Nav.Link href="#drug-price">Drug price data</Nav.Link>
         </Nav>
         </div>
       </Col>
@@ -66,6 +70,28 @@ const References = () => {
           <li>For a comprehensive definition of each risk stratification, please use the relevant link below:</li>
         </ul>
         <RiskStratificationTable />
+
+{/* Gender distribution by cancer */}
+        <h2 id="gender-dist">Gender distribution by cancer</h2>
+        <p><strong>Notes</strong></p>
+        <ul>
+          <li>Sex-based diagnostic bias is speculated to impact rate of diagnosis for male vs. female pediatric patients in some geographic regions and income-statuses; because of this, segmenting the percent of male and female patients per cancer without keeping rates consistent worldwide is critical to maximize accuracy</li>
+        </ul>
+        <GenderDistributionTable />
+
+{/* Drug price data */}
+        <h2 id="drug-price">Drug price data</h2>
+        <p><strong>Notes</strong></p>
+        <ul>
+          <li>Data used to provide a price range for users as a comparison to user's known, input price data.</li>
+          <li>Buyer and supplier data captured (user has option to view both); supplier is preferred because Management Sciences for Health (MSH) definition/expert consensus indicate supply-price is more reflective of on-the-ground prices in LMICs.</li>
+          <li>IV and oral tablet formulations captured only due to relevance to oncology; oral solution, ointments, and other modes of administration (e.g. for steroids) not captured.</li>
+          <li>If MSH only has one formulation with pricing data for either buyers or suppliers, that formulation's pricing data is used.</li>
+          <li>If MSH has pricing data for both IV and oral formulations, IV pricing data is used in the model because IV is preferred route of administration for cancer treatment.</li>
+          <li>If MSH has multiple IV formulations available for a given drug: (1) low is reflective of the absolute low across all formulations, (2) high is reflective of the absolute high across all formulations, and (3) median is reflective of the weighted average of each formulation's median price (for buyers and suppliers separately).</li>
+          <li>ATRA and Arsenic Trioxide price data not available via MSH, so Pan-Canadian Oncology Drug Review is used as a proxy; Canadian prices are meant for comparison only and expected to be highly inconsistent with on-the-ground prices in LMICs.</li>
+        </ul>
+        <DrugPriceTable />
       </Col>
     </Row>
   );
