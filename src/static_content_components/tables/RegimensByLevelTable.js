@@ -22,15 +22,12 @@ const RegimensByLevelTable = () => {
             <th>
               Level 3 Default Regimen
             </th>
-            <th>
-              Rationale for Default Regimen Selection:
-            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
-              ALL
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.21889">ALL</a>
             </td>
             <td>
               Low risk
@@ -44,13 +41,10 @@ const RegimensByLevelTable = () => {
             <td>
               ALL Regimen 2
             </td>
-            <td>
-              Regimen source (Hunger et al 2009) recommendation
-            </td>
           </tr>
           <tr>
             <td>
-              ALL
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.21889">ALL</a>
             </td>
             <td>
               High risk
@@ -64,13 +58,10 @@ const RegimensByLevelTable = () => {
             <td>
               ALL Regimen 3
             </td>
-            <td>
-              Regimen source (Hunger et al 2009) recommendation
-            </td>
           </tr>
           <tr>
             <td>
-              ALL
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.21889">ALL</a>
             </td>
             <td>
               Very high risk
@@ -84,13 +75,10 @@ const RegimensByLevelTable = () => {
             <td>
               ALL Regimen 4
             </td>
-            <td>
-              Regimen source (Hunger et al 2009) recommendation
-            </td>
           </tr>
           <tr>
             <td>
-              AML
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Faml.pdf?alt=media&token=80fd173a-30ba-49ce-90d0-19fa2b6b0889">AML</a>
             </td>
             <td>
             </td>
@@ -103,13 +91,10 @@ const RegimensByLevelTable = () => {
             <td>
               Standard-dose induction
             </td>
-            <td>
-              Regimen source (SIOP PODC) does not provide a recommendation; low-dose regimen assumed better suited for Level 1 institutions due to decreased need to manage significant toxicity
-            </td>
           </tr>
           <tr>
             <td>
-              APL
+              <a target="_blank" href="https://www.childrensoncologygroup.org/aaml1331">APL</a>
             </td>
             <td>
               Standard risk
@@ -123,13 +108,10 @@ const RegimensByLevelTable = () => {
             <td>
               Standard dose
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              APL
+              <a target="_blank" href="https://www.childrensoncologygroup.org/aaml1331">APL</a>
             </td>
             <td>
               High risk
@@ -143,13 +125,10 @@ const RegimensByLevelTable = () => {
             <td>
               High-risk dose
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Burkitt lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fburkittlymphoma.pdf?alt=media&token=bdc2c924-a046-4180-aa14-fd5ca391faa8">Burkitt lymphoma</a>
             </td>
             <td>
               Stage 1/2
@@ -163,13 +142,10 @@ const RegimensByLevelTable = () => {
             <td>
               Burkitt lymphoma Regimen 1
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Burkitt lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fburkittlymphoma.pdf?alt=media&token=bdc2c924-a046-4180-aa14-fd5ca391faa8">Burkitt lymphoma</a>
             </td>
             <td>
               Stage 3
@@ -183,13 +159,10 @@ const RegimensByLevelTable = () => {
             <td>
               Burkitt lymphoma Regimen 2
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Burkitt lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fburkittlymphoma.pdf?alt=media&token=bdc2c924-a046-4180-aa14-fd5ca391faa8">Burkitt lymphoma</a>
             </td>
             <td>
               Stage 4
@@ -203,13 +176,10 @@ const RegimensByLevelTable = () => {
             <td>
               Burkitt lymphoma Regimen 3
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              DLBCL
+              <a target="_blank" href="https://apps.who.int/iris/bitstream/handle/10665/273826/EML-20-eng.pdf?ua=1">DLBCL</a>
             </td>
             <td>
                
@@ -223,13 +193,10 @@ const RegimensByLevelTable = () => {
             <td>
               R-CHOP
             </td>
-            <td>
-              Rituximab expected to be unaffordable/inaccessible in most LMIC settings
-            </td>
           </tr>
           <tr>
             <td>
-              Ewing sarcoma
+              <a target="_blank" href="https://apps.who.int/iris/bitstream/handle/10665/273825/EMLc-6-eng.pdf?ua=1">Ewing sarcoma</a>
             </td>
             <td>
                
@@ -243,13 +210,10 @@ const RegimensByLevelTable = () => {
             <td>
               AEWS1031
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Germ cell tumor
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fgermcelltumor.pdf?alt=media&token=634b0c6b-83f8-4ee0-83f6-28e46873155c">Germ cell tumor</a>
             </td>
             <td>
               Low risk
@@ -263,13 +227,10 @@ const RegimensByLevelTable = () => {
             <td>
               Surgery, only
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Germ cell tumor
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fgermcelltumor.pdf?alt=media&token=634b0c6b-83f8-4ee0-83f6-28e46873155c">Germ cell tumor</a>
             </td>
             <td>
               Standard risk
@@ -283,13 +244,10 @@ const RegimensByLevelTable = () => {
             <td>
               PEB
             </td>
-            <td>
-              Cancer expert recommendation not to vary regimen across levels, based on personal LMIC experience
-            </td>
           </tr>
           <tr>
             <td>
-              Germ cell tumor
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fgermcelltumor.pdf?alt=media&token=634b0c6b-83f8-4ee0-83f6-28e46873155c">Germ cell tumor</a>
             </td>
             <td>
               Poor risk
@@ -303,13 +261,10 @@ const RegimensByLevelTable = () => {
             <td>
               BEP (4 Cycles)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Hepatoblastoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fhepatoblastoma.pdf?alt=media&token=3d72938e-2eed-4028-a3d9-0a1e1ea5f415">Hepatoblastoma</a>
             </td>
             <td>
               Non-metastatic
@@ -323,13 +278,10 @@ const RegimensByLevelTable = () => {
             <td>
               Cisplatin Monotherapy
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Hepatoblastoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fhepatoblastoma.pdf?alt=media&token=3d72938e-2eed-4028-a3d9-0a1e1ea5f415">Hepatoblastoma</a>
             </td>
             <td>
               Metastatic
@@ -343,13 +295,10 @@ const RegimensByLevelTable = () => {
             <td>
               Cisplatin + Carboplatin + Doxorubicin
             </td>
-            <td>
-               
-            </td>
           </tr>
           <tr>
             <td>
-              Hodgkin's lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fhodgkinslymphoma.pdf?alt=media&token=3b3dc626-a033-4d8d-a347-191638eadff1">Hodgkin's lymphoma</a>
             </td>
             <td>
               Low risk
@@ -363,13 +312,10 @@ const RegimensByLevelTable = () => {
             <td>
               ABVD (4 cycles)
             </td>
-            <td rowspan="3">
-              SIOP PODC indicates which regimens are expected to be available in which settings, but does not provide a recommendation; default determined in conjunction with cancer expert
-            </td>
           </tr>
           <tr>
             <td>
-              Hodgkin's lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fhodgkinslymphoma.pdf?alt=media&token=3b3dc626-a033-4d8d-a347-191638eadff1">Hodgkin's lymphoma</a>
             </td>
             <td>
               Intermediate risk
@@ -386,7 +332,7 @@ const RegimensByLevelTable = () => {
           </tr>
           <tr>
             <td>
-              Hodgkin's Lymphoma
+              <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/access-forecast-dev.appspot.com/o/regimen_docs%2Fhodgkinslymphoma.pdf?alt=media&token=3b3dc626-a033-4d8d-a347-191638eadff1">Hodgkin's lymphoma</a>
             </td>
             <td>
               High risk
@@ -400,12 +346,10 @@ const RegimensByLevelTable = () => {
             <td>
               ABVD (6 cycles)
             </td>
-            <td>
-            </td>
           </tr>
           <tr>
             <td>
-              Kaposi sarcoma
+              <a target="_blank" href="https://siop-online.org/wp-content/uploads/2016/10/PBC-PODC-KS-Guidelines.pdf">Kaposi sarcoma</a>
             </td>
             <td>
                
@@ -419,13 +363,10 @@ const RegimensByLevelTable = () => {
             <td>
               ABV standard dose (with Vincristine)
             </td>
-            <td>
-              Regimen source (SIOP PODC) does not provide a recommendation but indicates that vincristine-containing regimens are more efficacious; combination regimen only assumed for Level 3 institutions due to increased ability to manage toxicity
-            </td>
           </tr>
           <tr>
             <td>
-              LGG
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.26737">LGG</a>
             </td>
             <td>
               Fully resectable
@@ -439,13 +380,10 @@ const RegimensByLevelTable = () => {
             <td>
               Surgery, only
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              LGG
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.26737">LGG</a>
             </td>
             <td>
               Unresectable/Incomplete resection
@@ -458,9 +396,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Carboplatin + Vincristine
-            </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
             </td>
           </tr>
           <tr>
@@ -478,9 +413,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               ALL Regimen 2
-            </td>
-            <td>
-              Assumed the same as ALL
             </td>
           </tr>
           <tr>
@@ -499,9 +431,6 @@ const RegimensByLevelTable = () => {
             <td>
               ALL Regimen 3
             </td>
-            <td>
-              Assumed the same as ALL
-            </td>
           </tr>
           <tr>
             <td>
@@ -519,13 +448,10 @@ const RegimensByLevelTable = () => {
             <td>
               ALL Regimen 4
             </td>
-            <td>
-              Assumed the same as ALL
-            </td>
           </tr>
           <tr>
             <td>
-              Neuroblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.25501">Neuroblastoma</a>
             </td>
             <td>
               Low risk
@@ -539,13 +465,10 @@ const RegimensByLevelTable = () => {
             <td>
               Surgery, only
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Neuroblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.25501">Neuroblastoma</a>
             </td>
             <td>
               Intermediate risk
@@ -559,13 +482,10 @@ const RegimensByLevelTable = () => {
             <td>
               100% dose intermediate risk regimen
             </td>
-            <td>
-              Regimen source (SIOP PODC) recommendation
-            </td>
           </tr>
           <tr>
             <td>
-              Neuroblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.25501">Neuroblastoma</a>
             </td>
             <td>
               High risk
@@ -578,9 +498,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Modified POG-9341
-            </td>
-            <td>
-              Regimen source (SIOP PODC) recommendation; additional option for Level 3 high-risk patients with transplant excluded because transplant capabilities not expected to be feasible for most users
             </td>
           </tr>
           <tr>
@@ -599,13 +516,10 @@ const RegimensByLevelTable = () => {
             <td>
               Methotrexate-Feasible
             </td>
-            <td>
-              Regimen source (SIOP PODC) distinguishes between Methotrexate-Not-Feasible and Methotrexate-Feasible, but does not assign infrastructure levels; Methotrexate-Not-Feasible regimen assumed better suited for Level 1 institutions due to decreased need to manage toxicity and complicated administration protocols
-            </td>
           </tr>
           <tr>
             <td>
-              Retinoblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24468">Retinoblastoma</a>
             </td>
             <td>
               Non-metastatic
@@ -619,13 +533,10 @@ const RegimensByLevelTable = () => {
             <td>
               CEV
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Retinoblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24468">Retinoblastoma</a>
             </td>
             <td>
               Metastatic
@@ -639,13 +550,10 @@ const RegimensByLevelTable = () => {
             <td>
               CHO
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Rhabdomyosarcoma
+              <a target="_blank" href="https://apps.who.int/iris/bitstream/handle/10665/273825/EMLc-6-eng.pdf?ua=1">Rhabdomyeosarcoma</a>
             </td>
             <td>
                
@@ -659,13 +567,10 @@ const RegimensByLevelTable = () => {
             <td>
               VAC
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Standard-risk medulloblastoma
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.25313">Standard-risk medulloblastoma</a>
             </td>
             <td>
                
@@ -679,13 +584,10 @@ const RegimensByLevelTable = () => {
             <td>
               Cisplatin + Carboplatin-based combination
             </td>
-            <td>
-              Regimen source (SIOP PODC) recommendation
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Low Risk Stage 1
@@ -699,13 +601,10 @@ const RegimensByLevelTable = () => {
             <td>
               Observation, only
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Low Risk Stage 2
@@ -719,13 +618,10 @@ const RegimensByLevelTable = () => {
             <td>
               Vincristine + Actinomycin D (5 cycles)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Low Risk Stage 3
@@ -739,13 +635,10 @@ const RegimensByLevelTable = () => {
             <td>
               Vincristine + Actinomycin D (5 cycles)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Intermediate Risk Stage 1
@@ -759,13 +652,10 @@ const RegimensByLevelTable = () => {
             <td>
               Vincristine + Actinomycin D (1 cycle)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Intermediate Risk Stage 2
@@ -779,13 +669,10 @@ const RegimensByLevelTable = () => {
             <td>
               Vincristine + Actinomycin D (5 cycles)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               Intermediate Risk Stage 3
@@ -799,13 +686,10 @@ const RegimensByLevelTable = () => {
             <td>
               Vincristine + Actinomycin D + Doxorubicin (5 cycles)
             </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
-            </td>
           </tr>
           <tr>
             <td>
-              Wilms tumor
+              <a target="_blank" href="https://onlinelibrary.wiley.com/doi/full/10.1002/pbc.24321">Wilms tumor</a>
             </td>
             <td>
               High Risk All Stages
@@ -818,9 +702,6 @@ const RegimensByLevelTable = () => {
             </td>
             <td>
               Vincristine + Actinomycin D + Doxorubicin (5 cycles)
-            </td>
-            <td>
-              N/A - regimen selection does not vary by level selection
             </td>
           </tr>
         </tbody>
