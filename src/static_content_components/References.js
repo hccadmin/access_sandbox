@@ -14,14 +14,14 @@ const References = () => {
     <Row>
       <Col lg="2">
         <div className="sticky-top">
-        <Nav className="flex-column" navbarScroll>
-          <Nav.Link href="#start">Top of page</Nav.Link>
-          <Nav.Link href="#country-weight-bsa">Country weight & BSA</Nav.Link>
-          <Nav.Link href="#diagnosed-total-incidence">Diagnosed & total incidence</Nav.Link>
-          <Nav.Link href="#risk-strat">Risk stratification data</Nav.Link>
-          <Nav.Link href="#gender-dist">Gender distribution</Nav.Link>
-          <Nav.Link href="#drug-price">Drug price data</Nav.Link>
-        </Nav>
+          <Nav className="flex-column" navbarScroll>
+            <Nav.Link href="#start">Top of page</Nav.Link>
+            <Nav.Link href="#country-weight-bsa">Country weight & BSA</Nav.Link>
+            <Nav.Link href="#diagnosed-total-incidence">Diagnosed & total incidence</Nav.Link>
+            <Nav.Link href="#risk-strat">Risk stratification data</Nav.Link>
+            <Nav.Link href="#gender-dist">Gender distribution</Nav.Link>
+            <Nav.Link href="#drug-price">Drug price data</Nav.Link>
+          </Nav>
         </div>
       </Col>
       <Col lg="10">

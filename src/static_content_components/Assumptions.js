@@ -11,12 +11,12 @@ const Assumptions = () => {
     <Row>
       <Col lg="2">
         <div className="sticky-top">
-        <Nav className="flex-column" navbarScroll>
-          <Nav.Link href="#start">Top of page</Nav.Link>
-          <Nav.Link href="#level-defs">Level definitions</Nav.Link>
-          <Nav.Link href="#regimens-by-level">Regimens by level</Nav.Link>
-          <Nav.Link href="#incidence-assumptions">Incidence assumptions</Nav.Link>
-        </Nav>
+          <Nav className="flex-column" navbarScroll>
+            <Nav.Link href="#start">Top of page</Nav.Link>
+            <Nav.Link href="#level-defs">Level definitions</Nav.Link>
+            <Nav.Link href="#regimens-by-level">Regimens by level</Nav.Link>
+            <Nav.Link href="#incidence-assumptions">Incidence assumptions</Nav.Link>
+          </Nav>
         </div>
       </Col>
       <Col lg="10">
@@ -30,8 +30,8 @@ const Assumptions = () => {
         <h2 id="level-defs">Infrastructure "level" definitions</h2>
         <p>Notes:</p>
         <ul>
-          <li>Care capabilities vary significantly across countries and institutions; a universalized definition of each level of care, from 0-4, is provided below.</li>
-          <li>The model only incorporates settings with Level 1-3 capabilities. Level 0 institutions are assumed to lack reliable access to the care and services that make the Forecast Model estimates meaningful, so are not included; Level 4 institutions are not included because they are largely confined to high-income countries or advanced institutions in other income settings, which are less likely to employ resource-adjusted treatment regimens.</li>
+          <li>Care capabilities vary significantly across countries and institutions; a universalized definition of each level of care, from 1-4, is provided below.</li>
+          <li>The model only incorporates settings with Level 1-3 capabilities. Level 4 institutions are not included because they are largely confined to high-income countries or advanced institutions in other income settings, which are less likely to employ resource-adjusted treatment regimens.</li>
         </ul>
         <LevelDefinitionsTable />
 
