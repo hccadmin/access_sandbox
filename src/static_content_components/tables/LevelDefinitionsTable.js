@@ -25,21 +25,9 @@ const LevelDefinitionsTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
+          <tr className="row-heading">
+            <td colspan="6">
               General description
-            </td>
-            <td>
-               
-            </td>
-            <td>
-               
-            </td>
-            <td>
-               
-            </td>
-            <td>
-               
             </td>
           </tr>
           <tr>
