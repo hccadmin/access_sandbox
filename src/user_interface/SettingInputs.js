@@ -111,7 +111,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                           key={ i }
                           type="radio"
                           name="diagType"
-                          label={ sentenceCase(type) }
+                          label={ type === "total" ? sentenceCase(type) + " (diagnosed and undiagnosed)" : sentenceCase(type) }
                           value={ type }
                           onChange={ setOption }
                         />
