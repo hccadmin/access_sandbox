@@ -21,7 +21,7 @@
     "optional": {
       "list_intro": "Optional data to use this Model:",
       "list_items": [
-        "Percentage of Level 1, 2, 3 institutions in selected area (see definitions of Level 1, 2, and 3 institutions)",
+        "Distribution of Level 1, 2, 3 institutions in selected area (see definitions of Level 1, 2, and 3 institutions)",
         "Annual incidence of each cancer in selected area",
         "Percentage of patients within each risk stratification group (based on cancer stage and patient risk factors) in selected area",
         "Price of chemotherapy agent in selected area "
@@ -31,8 +31,8 @@
     "high_income": "Chemotherapy regimens are based on resource-adapted recommendations for low- and middle-income countries. Selection of high-income countries or regions will generate baseline estimates of demand and cost, which may not reflect the full extent of treatment regimens used in high-income settings. More comprehensive incorporation of treatment regimens corresponding to level 4 care is planned for future updates of the Model to enhance the accuracy and applicability of these estimates to high-income centers and jurisdictions.",
     "diagnosis": "For diagnosis type, select \"Diagnosed\" if you want to calculate using the actual number of incident cases; select \"Total\" (diagnosed and undiagnosed) if you want to calculate taking under-diagnosis into account.",
     "levels": [
-      "By default, modeled percentages for the selected area's institution Levels are shown. These percentages are based on the Inequality-Adjusted Human Development Index, a metric produced by the United Nations Development Programme that combines health, education, and income across a country’s population to quantify that country's development.", 
-    "Users are encouraged to adjust the percentages of institution Levels, if data are known. To estimate what percent of institutions fall into Level 1, 2 and 3 within your geography, please read the definition of each level by clicking the link above and estimating the percent of institutions in your geography that fall into each. To adjust percentages, click the \"Custom\" button below and fill in the percentage for each Level (numbers must add up to 100)."
+      "By default, modeled distribution for the selected area's institution Levels are shown. These distributions are based on the Inequality-Adjusted Human Development Index, a metric produced by the United Nations Development Programme that combines health, education, and income across a country’s population to quantify that country's development.", 
+    "Users are encouraged to adjust the distributions of institution Levels, if data are known. To estimate the distribution of institutions falling into Level 1, 2 and 3 categories within your geography, please read the definition of each level by clicking the link above. To adjust distributions, click the \"Custom\" button below and fill in the distribution for each Level (numbers must add up to 100)."
     ]
   }
 }

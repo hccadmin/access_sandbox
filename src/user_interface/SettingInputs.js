@@ -127,7 +127,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                       <LevelsInputs 
                         defaults={ setting.levels.modeled }
                       >
-                        Modeled institution level percentages:
+                        Modeled institution level distribution:
                       </LevelsInputs>
                     </Col>
                   </Form.Group>
