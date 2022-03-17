@@ -1,6 +1,7 @@
 @import '../../styles/colors.scss';
 @import '../../styles/fonts.scss';
 
+// Header
 header {
   background-color: #004A70;
 }
@@ -48,4 +49,36 @@ header {
       color: $lt-blue;
     }
   }
+}
+
+// Content
+.content-bkgrd {
+  background: #fff;
+}
+
+.content-padding {
+  padding-top: 3.5em;
+  padding-bottom: 3.5em;
+}
+
+// Footer
+footer {
+  text-align: center;
+  color: #fff;
+  font-size: 0.8em;
+  a, a:hover, a:active, a:focus {
+    color: #fff;
+  }
+}
+
+.footer-padding {
+  padding-top: 3em;
+  padding-bottom: 2.5em;
+}
+
+.footer-tagline {
+  display: inline-block;
+  border-top: #fff 1px solid;
+  padding: 10px 16px;
+  font-weight: $semi;
 }

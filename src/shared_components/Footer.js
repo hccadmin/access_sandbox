@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="access-footer">
       <div className="footer-padding">
-        <a href="/"><Image src={ footerLogo } fluid /></a>
+        <p><a href="/"><Image src={ footerLogo } fluid /></a></p>
         <p className="footer-tagline">ACCESS (Access to Childhood Cancer Essentials) FORECAST</p>
         <div className="footer-credit">
           <p>Developed by<br />

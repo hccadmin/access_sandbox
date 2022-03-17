@@ -4,10 +4,12 @@ import Container from 'react-bootstrap/Container';
 
 const Content = () => {
   return (
-    <div className="content-top-margin">
-      <Container>
-        <Outlet />
-      </Container>
+    <div className="content-bkgrd">
+      <div className="content-padding">
+        <Container>
+          <Outlet />
+        </Container>
+      </div>
     </div>
   );
 }
