@@ -7,6 +7,7 @@ import Assumptions from './static_content_components/Assumptions';
 import Layout from './shared_components/Layout';
 import Header from './shared_components/Header';
 import Content from './shared_components/Content';
+import Footer from './shared_components/Footer';
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
         </Route>
       </Routes>
       <Outlet />
+      <Footer />
     </Layout>
   );
 }
