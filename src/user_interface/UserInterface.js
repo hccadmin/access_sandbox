@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { resetClicks } from '../state/slices/cancerSelectionsSlice';
 import { sentenceCase } from '../helpers/utilities';
+import { useStepVisibility } from '../hooks';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,6 +23,7 @@ import './styles/styles.scss';
 
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const [stepVisible, setStepVisible] = useState(false);
+  const [stepsVis, changeVis] = useStepVisibility(4);
 
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
 
@@ -74,12 +76,12 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           </p>
           <Step1Setting
             uiLabels={ uiLabels }
-            setComplete={ setStepVisible }
+            setComplete={ (vis) => changeVis(vis, 1) }
           />
         </Step>
 
 {/* STEP 2 CANCERS */}
-        <Step title={ text.step2.title } fade={ stepVisible }>
+        <Step title={ text.step2.title } fade={ stepsVis[1] }>
           <p>{ text.step2.description[setting.typeHash] }</p>
           <Step2Cancers
             selected={ cancerSelections.selected }

@@ -6,7 +6,8 @@ const initialState = {
   priceSource: "",
   priceList: {},
   filtered: {},
-  overrides: {}
+  overrides: {},
+  initialized: false
 };
 
 const pm = new PriceModel();
@@ -28,6 +29,7 @@ const pricesSlice = createSlice({
     setPriceSource(state, action) {
       state.priceSource = action.payload;
       state.filtered = state.priceList[state.priceSource];
+      state.initialized = true;
     },
     overridePrice(state, action) {
       state.overrides[action.payload.drug] = action.payload.newPrice;

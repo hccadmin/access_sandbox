@@ -358,6 +358,12 @@ class CostModel {
   }
 
   addToLevelsTotal(levelCost, levelsTotal) {
+  /*
+    if(currCancer.name === "Osteosarcoma") {
+      //console.log(levelsTotalCancer.drugs[ltIndex].name, currCancer.drugs[i].name);
+      console.log(levelsTotalCancer.drugs);
+    }
+  */
   // if this is the first level iteration, just copy the
   // first level's data into levelsTotal
     if ( Object.keys(levelsTotal).length === 0 ) {
@@ -422,9 +428,13 @@ class CostModel {
   // Check if user overrode default (modeled) level percentages, assign either the user 
   // or default percentages array to levels
       const levels = hasLevels.custom.length === 3 ? hasLevels.custom.map( num => setNumber(num) ) : hasLevels.modeled;
+
+  // Begin levels loop
       arrayFrom("3").forEach( (level, i) => {
+
   // Re-initialize totalCostPerCancer obj to accept new cost calcs in
   // next inst level iteration
+        console.log(level);
         totalCostPerCancer = { individual: {}, grandTotal: 0 };
         this.#userCancers.forEach( (cancer) => {
           const incidence = selectedCancers[cancer].incidence.custom || selectedCancers[cancer].incidence.modeled; 
@@ -439,11 +449,15 @@ class CostModel {
           };
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], incidence, levelsObj);
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
+          /*
+          if(totalDosageByType[cancer].name === "Osteosarcoma") {
+            console.log({costPerLevel});
+          }
+          */
           totalCostPerCancer.grandTotal += levelByRiskCost.totals.medAndUser;
         });// cancers forEach
         costsPerLevel.push(totalCostPerCancer);
         levelsTotal = this.addToLevelsTotal(totalCostPerCancer, levelsTotal);
-        //console.log(level);
       });// levels forEach
       costsPerLevel.unshift(levelsTotal);
       //console.log(costsPerLevel);
@@ -522,6 +536,7 @@ class CostModel {
           if (this.#hasLevels) {
             dosageTotal *= levelPercentage;
           }
+
           const currCancerDrugPrices = this.#prices[drug].prices;
           const hasOverride = Object.keys(currCancerDrugPrices).includes("override");
           costOutput.drugs[drug].total_dosage += dosageTotal;
@@ -575,6 +590,13 @@ class CostModel {
 
     // Make sure to update the generic drug dosage totals before leaving loop
           costOutput.totals.dosage += dosageTotal;
+
+/*
+          if(totalDosageByCancer.name === "Osteosarcoma") {
+            console.log(costOutput.drugs);
+          }
+*/
+
         });// Drugs forEach
       }); // Risk strats forEach
     const costArr = this.objToArray(costOutput.drugs);

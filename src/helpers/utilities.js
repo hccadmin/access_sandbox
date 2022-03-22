@@ -4,6 +4,13 @@ const allFieldsFilled = (...arr) => {
   });
 }
 
+/**
+ * Takes an integer argument, returns an array with the same length
+ * as the argument and filling each index with consecutive integers 
+ * (starting at 1) 
+ * @param {integer} num - an integer
+ * @return {Array} array of integers with length (num)
+ */
 const arrayFrom = (num) => {
   const returnArr = [];
   const arr = Array(+num);
