@@ -14,6 +14,7 @@ import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import HelpTextPopover from '../shared_components/HelpTextPopover';
 import MarkupJSON from '../shared_components/MarkupJSON';
+import LoadingSpinner from '../shared_components/LoadingSpinner';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
@@ -45,6 +46,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   return (
       <div className="user-interface">
+        <LoadingSpinner showLoad={ !uiLabels.isLoaded }/>
         <div className="lead-in">
           <h1>
             Welcome to<br />

@@ -11,6 +11,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
  * }
  */
 const initialState = {
+  isLoaded: false,
   cancers: [],
   drugs: [],
   years: [],
@@ -44,6 +45,7 @@ const uiSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadUI.fulfilled, (state, action) => {
+        state.isLoaded = true;
         state.cancers = action.payload.cancers;
         state.drugs = action.payload.drugs;
         state.years = action.payload.years;
