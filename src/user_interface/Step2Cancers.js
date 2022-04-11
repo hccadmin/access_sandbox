@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useInitializeAllCancers } from '../hooks';
 import { loadCancers } from '../state/slices/cancerDataSlice';
 import { initializeAllCancers } from '../state/slices/cancerSelectionsSlice';
+import { setLoading } from '../state/slices/loadingSlice';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CancerButtons from './CancerButtons';
@@ -25,7 +26,9 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
 
   useEffect( () => {
     if (Object.keys(cancerData).length === 0) {
+      dispatch( setLoading(true) );
       dispatch( loadCancers() ).then( (result) => {
+        dispatch( setLoading(false) );
         const loaded = result.payload.full;
         if ( shouldInitializeAll(type, loaded, incidences) ) {
           dispatch( initializeAllCancers({ cancers: loaded, incidences }) );

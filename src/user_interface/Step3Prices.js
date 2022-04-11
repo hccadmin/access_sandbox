@@ -8,6 +8,7 @@ import PriceTable from './PriceTable';
 import HelpTextModal from '../shared_components/HelpTextModal';
 import priceText from './text/step3';
 import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
+import { setLoading } from '../state/slices/loadingSlice';
 import text from './text/steps';
 
 const Step3Prices = ({ drugNames }) => {
@@ -29,7 +30,10 @@ const Step3Prices = ({ drugNames }) => {
 
   useEffect( () => {
     if ( Object.values(priceList).length === 0 ) {
-      dispatch( loadPrices() );
+      dispatch( setLoading(true) );
+      dispatch( loadPrices() ).then( (res) => {
+        dispatch( setLoading(false) );
+      });
     }
   }, [priceList] );
 

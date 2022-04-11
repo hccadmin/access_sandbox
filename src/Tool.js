@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { initCostCalc, getCostsByType  } from './state/slices/costsSlice';
+import { setLoading } from './state/slices/loadingSlice';
 import { loadUI } from './state/slices/uiSlice';
 import Layout from './shared_components/Layout';
 import Header from './shared_components/Header';
+import LoadingSpinner from './shared_components/LoadingSpinner';
 import UserInterface from './user_interface/UserInterface';
 import ResultsInterface from './results_interface/ResultsInterface';
 import text from './text/global';
@@ -12,6 +14,10 @@ const Tool = () => {
   const [visibility, setVisibility] = useState({ inputs: true, results: false });
 
   const dispatch = useDispatch();
+
+  const isLoading = useSelector( (state) => {
+    return state.loading.isLoading;
+  });
 
   const uiLabels = useSelector( (state) => {
     return state.ui;
@@ -50,28 +56,31 @@ const Tool = () => {
   }
 
   if ( uiLabels.cancers.length === 0) {
-    dispatch(loadUI());
+    dispatch(loadUI()).then( (res) => {
+      dispatch( setLoading(false));
+    });
   }
 
   return (
     <>
-    { visibility.inputs ? 
-      <>
-        <UserInterface 
-          setVisible={ setVisibility } 
-          loadAllCosts={ loadAllCosts }
-          uiLabels={ uiLabels }
-        />
-      </>
-      :
-      <>
-        <ResultsInterface 
-          setVisible={ setVisibility } 
-          costs={ costs }
-          loadCostsByType={ loadCostsByType }
-        />
-      </>
-    }
+      <LoadingSpinner showLoad={ isLoading } />
+      { visibility.inputs ? 
+        <>
+          <UserInterface 
+            setVisible={ setVisibility } 
+            loadAllCosts={ loadAllCosts }
+            uiLabels={ uiLabels }
+          />
+        </>
+        :
+        <>
+          <ResultsInterface 
+            setVisible={ setVisibility } 
+            costs={ costs }
+            loadCostsByType={ loadCostsByType }
+          />
+        </>
+      }
     </>
   );
 }

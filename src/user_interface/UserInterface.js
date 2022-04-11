@@ -14,7 +14,6 @@ import Step from './Step';
 import ForecastSelect from './ForecastSelect';
 import HelpTextPopover from '../shared_components/HelpTextPopover';
 import MarkupJSON from '../shared_components/MarkupJSON';
-import LoadingSpinner from '../shared_components/LoadingSpinner';
 import Step1Setting from './Step1Setting';
 import Step2Cancers from './Step2Cancers';
 import Step3Prices from './Step3Prices';
@@ -46,7 +45,6 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   return (
       <div className="user-interface">
-        <LoadingSpinner showLoad={ !uiLabels.isLoaded }/>
         <div className="lead-in">
           <h1>
             Welcome to<br />
@@ -94,7 +92,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         </Step>
 
 {/* STEP 3 PRICES */}
-        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
+        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepsVis[1] }>
           <MarkupJSON tag="p">
             { text.step3.description }
           </MarkupJSON>

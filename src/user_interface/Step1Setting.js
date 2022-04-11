@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useInitializeAllCancers } from '../hooks';
 import { setSettingInput, loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { initializeAllCancers, resetAllInitializedCancers } from '../state/slices/cancerSelectionsSlice';
+import { setLoading } from '../state/slices/loadingSlice';
 import { allFieldsFilled } from '../helpers/utilities';
 import ForecastToggle from './ForecastToggle';
 import SettingInputs from './SettingInputs';
@@ -31,9 +32,11 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
   useEffect( () => {
     if (allFieldsFilled(name, type, year, diagType)) {
       setComplete(true);
+      dispatch( setLoading(true) );
       dispatch( loadIncidencesAndBsa({
         name, type, year, diagType
       })).then( (result) => {
+        dispatch( setLoading(false) );
         const incidences = result.payload.incidences;
         if ( shouldInitializeAll(type, cancerData, incidences) ) {
           dispatch( initializeAllCancers({ cancers: cancerData, incidences }) );
