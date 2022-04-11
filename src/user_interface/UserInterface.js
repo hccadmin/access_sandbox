@@ -43,6 +43,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
     loadAllCosts();
   }
 
+  //console.log(stepsVis);
   return (
       <div className="user-interface">
         <div className="lead-in">
@@ -98,11 +99,12 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           </MarkupJSON>
           <Step3Prices 
             drugNames={ uiLabels.drugs }
+            setComplete={ (vis) => { console.log(vis); changeVis(vis, 3); } }
           />
         </Step>
 
 {/* STEP 4 CALCULATE*/}
-        <Step noBorder={ true } title={ text.step4.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepVisible }>
+        <Step noBorder={ true } title={ text.step4.title } fade={ stepsVis[3] }>
         <p className="text-center">
           <Button bsPrefix="active btn btn-primary d-inline-block btn-xl"  onClick={ initCostCalc } >Calculate</Button>
           </p>

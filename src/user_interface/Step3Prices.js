@@ -11,10 +11,14 @@ import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
 import { setLoading } from '../state/slices/loadingSlice';
 import text from './text/steps';
 
-const Step3Prices = ({ drugNames }) => {
+const Step3Prices = ({ drugNames, setComplete }) => {
   const [modalVis, changeModalVis] = useState(false);
 
   const dispatch = useDispatch();
+
+  const isInitialized = useSelector( (state) => {
+    return state.prices.initialized;
+  });
 
   const priceSource = useSelector( (state) => {
     return state.prices.priceSource;
@@ -35,7 +39,8 @@ const Step3Prices = ({ drugNames }) => {
         dispatch( setLoading(false) );
       });
     }
-  }, [priceList] );
+    setComplete(isInitialized);
+  }, [priceList, isInitialized] );
 
   const setOption = (e) => {
     dispatch( setPriceSource(e.target.value) );
