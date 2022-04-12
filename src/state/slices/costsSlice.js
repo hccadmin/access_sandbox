@@ -14,6 +14,7 @@ const cm = new CostModel();
 export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
+    console.log("initCostCalc started");
     const { cancers, setting, regimens, prices } = criteria;
     const { type, incidences, bodyStats, levels } = setting;
     const hasLevels = ( type === REACT_APP_SETTING_COMPLEX && levels );
@@ -48,6 +49,7 @@ const costsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initCostCalc.fulfilled, (state, action) => {
+        //console.log(action.payload);
         state.costs = action.payload;
       })
       .addCase(getCostsByType.fulfilled, (state, action) => {

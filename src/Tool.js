@@ -43,16 +43,26 @@ const Tool = () => {
     return state.prices;
   });
 
-  const loadAllCosts = () => {
+  const loadAllCosts = async () => {
+    dispatch( setLoading(true));
+    console.log("Init cost load start");
     //console.log("Setting:", setting);
     //console.log("Cancers:", cancerSelections.cancers);
     //console.log("Regimens:", regimens);
     //console.log("Prices:", prices);
-    dispatch( initCostCalc({ setting, cancers: cancerSelections.cancers, regimens, prices }));
+    const res = await dispatch( initCostCalc({ setting, cancers: cancerSelections.cancers, regimens, prices }));
+    if (res.meta.requestStatus === "fulfilled") {
+      dispatch( setLoading(false));
+      console.log("Init cost load stop");
+    }
   }
 
-  const loadCostsByType = (type) => {
-    dispatch( getCostsByType(type));
+  const loadCostsByType = async (type) => {
+    const res = await dispatch( getCostsByType(type));
+    if (res.meta.requestStatus === "fulfilled") {
+      dispatch( setLoading(false));
+      console.log("Toggle cost load stop");
+    }
   }
 
   if ( uiLabels.cancers.length === 0) {

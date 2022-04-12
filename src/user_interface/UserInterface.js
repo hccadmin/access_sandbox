@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { resetClicks } from '../state/slices/cancerSelectionsSlice';
+import { setLoading } from '../state/slices/loadingSlice';
 import { sentenceCase } from '../helpers/utilities';
 import { useStepVisibility } from '../hooks';
 import Container from 'react-bootstrap/Container';
@@ -38,6 +39,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   });
 
   const initCostCalc = () => {
+    dispatch( setLoading(true) );
     setVisible({ inputs: false, results: true });
     dispatch( resetClicks() );
     loadAllCosts();

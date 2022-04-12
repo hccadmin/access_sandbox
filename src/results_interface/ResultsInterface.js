@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
@@ -9,12 +9,15 @@ import CostAccordion from './CostAccordion';
 import ForecastToggle from '../user_interface/ForecastToggle';
 import ResultsDownload from './ResultsDownload';
 import ResultsUserSelections from './ResultsUserSelections';
+import { setLoading } from '../state/slices/loadingSlice';
 import resultsText from './text/results.json';
 import { getObjKey, objNotEmpty, setNumFormat } from '../helpers/utilities';
 import './styles/styles.scss';
 
 const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
+
+  const dispatch = useDispatch();
 
   const labels = {
     drug: "By cancer",
@@ -37,8 +40,17 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
     setVisible({ inputs: true, results: false });
   }
 
+/*
+  useEffect( () => {
+    if (!objNotEmpty(costs)) {
+      dispatch( setLoading(true) );
+    }
+  }, [costs]);
+*/
   const toggleCost = useCallback(
     (e) => {
+      console.log("Toggle cost load start");
+      dispatch( setLoading(true) );
       const type = e.target.value;
       const key = getObjKey(labels, type);
       setCostType(type);
