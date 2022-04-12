@@ -99,7 +99,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
           </MarkupJSON>
           <Step3Prices 
             drugNames={ uiLabels.drugs }
-            setComplete={ (vis) => { console.log(vis); changeVis(vis, 3); } }
+            setComplete={ (vis) => changeVis(vis, 3) }
           />
         </Step>
 
