@@ -39,12 +39,15 @@ const Step3Prices = ({ drugNames, setComplete }) => {
         dispatch( setLoading(false) );
       });
     }
-    //console.log("Price list loaded: ", isInitialized);
   }, [priceList] );
 
   const setOption = (e) => {
     dispatch( setPriceSource(e.target.value) );
-    setComplete(true);
+
+// Check whether or not the price list option selected is 0,
+// set the fade in function visibility accordingly
+    const priceListChosen = e.target.value !== "0";
+    setComplete(priceListChosen);
   }
 
   const closeModal = () => {

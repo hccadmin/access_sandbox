@@ -26,7 +26,7 @@ const PriceTable = ({ drugs, list }) => {
     dispatch( overridePrice({ drug, newPrice }) );
   }
 
-  return Object.keys(list).length > 0 && (
+  return list !== undefined && Object.keys(list).length > 0 && (
     <div className="forecast-table">
       <Table bordered striped size="sm">
         <thead>

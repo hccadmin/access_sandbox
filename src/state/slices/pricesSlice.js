@@ -27,6 +27,9 @@ const pricesSlice = createSlice({
   initialState: initialState,
   reducers: {
     setPriceSource(state, action) {
+      if (action.payload === "0") {
+        return initialState;
+      }
       state.priceSource = action.payload;
       state.filtered = state.priceList[state.priceSource];
       state.initialized = true;
