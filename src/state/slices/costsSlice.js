@@ -14,12 +14,12 @@ const cm = new CostModel();
 export const initCostCalc = createAsyncThunk(
   'costs/initCostCalcStatus',
   async(criteria, thunkAPI) => {
-    console.log("initCostCalc started");
     const { cancers, setting, regimens, prices } = criteria;
     const { type, incidences, bodyStats, levels } = setting;
     const hasLevels = ( type === REACT_APP_SETTING_COMPLEX && levels );
     const settingData = { type, incidences, bodyStats, hasLevels };
     const hasValidInputs = cm.loadAllCostData(settingData, cancers, regimens, prices);
+    //console.log("Has valid inputs: ", hasValidInputs);
     return hasValidInputs && cm.getTotalCostPerCancer();
     //return true;
   }
