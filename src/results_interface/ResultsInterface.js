@@ -49,8 +49,6 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
 */
   const toggleCost = useCallback(
     (e) => {
-      console.log("Toggle cost load start");
-      dispatch( setLoading(true) );
       const type = e.target.value;
       const key = getObjKey(labels, type);
       setCostType(type);
