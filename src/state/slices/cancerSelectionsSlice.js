@@ -90,6 +90,7 @@ const cancerSelectionsSlice = createSlice({
       if (cancerKeys.length > 0) {
         state.selected = {};
         state.allCancersInitialized = false;
+        state.initialized = false;
         cancerKeys.forEach( (key) => {
           delete state.cancers[key];
         });

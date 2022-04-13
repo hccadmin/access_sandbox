@@ -64,6 +64,7 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
     const input = { name, value, reset: false };
     if (name === "type") {
       input.reset = true;
+      setComplete(false);
       if (cancerSelections.allCancersInitialized) {
         dispatch( resetAllInitializedCancers() );
       }
