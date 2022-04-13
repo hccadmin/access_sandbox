@@ -62,16 +62,19 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
     const name = e.target.name;
     const value = e.target.value;
     const input = { name, value, reset: false };
-    if (name === "type") {
-      input.reset = true;
+    if (name === "type" || value === "0") {
       setComplete(false);
-      if (cancerSelections.allCancersInitialized) {
-        dispatch( resetAllInitializedCancers() );
+      if (name === "type") {
+        input.reset = true;
+        if (cancerSelections.allCancersInitialized) {
+          dispatch( resetAllInitializedCancers() );
+        }
+      }
+      if (value === "0") {
+        input.value = "";
       }
     }
     dispatch( setSettingInput(input) );
-    /*
-    */
   }
 
   return (
