@@ -7,7 +7,7 @@ const HelpTextPopover = ({ title, content, children }) => {
     <OverlayTrigger
       placement="top"
       overlay={
-        <Popover id={ title }>
+        <Popover id={ title } bsPrefix="popover forecast-popover">
           <Popover.Title as="h3">{ title }</Popover.Title>
           <Popover.Content>{ content }</Popover.Content>
         </Popover>

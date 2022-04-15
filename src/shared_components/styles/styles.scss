@@ -101,3 +101,26 @@ footer {
   left: 50%;
   right: 50%;
 }
+
+// Popover
+.forecast-popover.bs-popover-top>.arrow::before {
+  border-top-color: rgba(54, 169, 231, 1);;
+}
+
+.forecast-popover.popover {
+  border-color: $lt-blue;
+  color: $navy;
+  .popover-header {
+    font-family: $mont;
+    font-weight: $bold;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 0.7rem 0.9rem 0 0.9rem;
+  }
+  .popover-body {
+    padding: 0.7rem 0.9rem;
+    color: $navy;
+    font-size: 0.95rem;
+  }
+}
