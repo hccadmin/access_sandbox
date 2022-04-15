@@ -33,6 +33,7 @@ const CancerIncidence = ({ type, content, predictedIncs, handleIncidence, saved,
         <>
           <p>{ children }</p>
           <UserOverrideToggle
+           above
            name="incidence"
            setOverride={ handleIncidence }
            handleRemoval={ setModeledIncidence }
