@@ -32,16 +32,12 @@ const LevelsInputs = ({ defaults, children }) => {
 
   return (
     <>
-      <Row> 
-      <Col> 
       <p>{ children }</p>
-      </Col> 
-      <Col>
       <Row>
         { defaults.map( (level, i) => {
           return (
             <Col key={ i }>
-              <p className="text-center"><strong>{ `Level ${ i + 1 }` }</strong><br />
+              <p className="text-center level-title"><strong>{ `Level ${ i + 1 }` }</strong><br />
                 { `${ level }%` }
               </p>
             </Col>
@@ -53,11 +49,10 @@ const LevelsInputs = ({ defaults, children }) => {
         setOverride={ handleLevelInput }
         handleRemoval={ handleLevelRemoval }
         numInputs="3"
+        above
         className="d-flex"
         saved={ levels.custom }
       />
-    </Col>
-    </Row>
     </>
   );
 }

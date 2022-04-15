@@ -6,8 +6,18 @@ import UserOverrideValidation from './UserOverrideValidation';
 import { disableError, validateLevelSum } from '../../state/slices/validationSlice';
 import { arrayFrom, allFieldsFilled } from '../../helpers/utilities';
 import { useUserOverride } from '../../hooks';
+import './styles/styles.scss';
 
-const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs, className, btnSize }) => {
+const UserOverrideToggle = ({ 
+  name, 
+  setOverride, 
+  handleRemoval, 
+  saved, 
+  numInputs, 
+  className, 
+  btnSize, 
+  above = false
+}) => {
   const [visibility, setVisibility] = useUserOverride(saved);
   const [levelsObj, updateLevelsObj] = useState({});
   const numArr = numInputs && arrayFrom(numInputs);
@@ -24,6 +34,17 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
     });
   }
 
+  const getOverrideButtons = () => {
+    return (
+      <UserOverrideButtons 
+        name={ `${name}-override-buttons` }
+        visibility={ visibility }
+        handleEvent={ handleButtonClick }
+        size={ btnSize }
+      />
+    );
+  }
+
   const checkSum = (e) => {
     const newObj = { ...levelsObj };
     newObj[e.target.name] = e.target.value;
@@ -38,15 +59,9 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
   }
 
 
-
   return (
     <>
-      <UserOverrideButtons 
-        name={ `${name}-override-buttons` }
-        visibility={ visibility }
-        handleEvent={ handleButtonClick }
-        size={ btnSize }
-      />
+      { !above && getOverrideButtons() }
       <div className={ visibility.custom ? "visibile position-relative" : "invisible position-absolute" }>
         { numArr && 
           <div className="percentage-validation">
@@ -54,37 +69,39 @@ const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved, numInputs
             <div className="invalid-feedback">Percentage values must add up to 100</div>
           </div>
         }
-        <div className="custom-control">
-        <div className={ `form-group ${ className || ""  }` }>
-        { 
-          numArr ?
-            numArr.map( (num, i) => {
-              return (
+          <div className="custom-control user-override-toggle">
+            <div className={ `form-group ${ className || ""  }` }>
+              { 
+                numArr ?
+                  numArr.map( (num, i) => {
+                    return (
+                      <UserOverrideValidation>
+                        <Form.Control 
+                          key={ i }
+                          name={ name + num } 
+                          type="text" 
+                          value={ saved[i] || "" }
+                          onChange={ checkSum } 
+                          bsPrefix={'form-control multiple-inputs'}
+                          isInvalid={ false }
+                        />
+                      </UserOverrideValidation>
+                    );
+                  })
+                :
                 <UserOverrideValidation>
                   <Form.Control 
-                    key={ i }
-                    name={ name + num } 
+                    name={ name } 
                     type="text" 
-                    value={ saved[i] || "" }
-                    onChange={ checkSum } 
-                    isInvalid={ false }
+                    value={ saved || "" }
+                    onChange={ setOverride } 
                   />
                 </UserOverrideValidation>
-              );
-            })
-          :
-          <UserOverrideValidation>
-            <Form.Control 
-              name={ name } 
-              type="text" 
-              value={ saved || "" }
-              onChange={ setOverride } 
-            />
-          </UserOverrideValidation>
-        }
+              }
+          </div>
+        </div>
       </div>
-      </div>
-      </div>
+      { above && getOverrideButtons() }
     </>
   );
 }

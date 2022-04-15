@@ -1,0 +1,10 @@
+@import '../../../styles/fonts.scss';
+@import '../../../styles/colors.scss';
+
+.user-override-toggle.custom-control {
+  padding-left: 0;
+  .form-group div {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

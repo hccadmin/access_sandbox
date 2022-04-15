@@ -123,7 +123,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     <MarkupJSON tag="p">
                       { settingText.levels }
                     </MarkupJSON>
-                    <Col bsPrefix="col p-0 col-md-9">
+                    <Col bsPrefix="col p-0 col-md-6">
                       <LevelsInputs 
                         defaults={ setting.levels.modeled }
                       >
