@@ -181,7 +181,6 @@ class ValidationHelper {
 
   sumTo100(numbers) {
     const sum = numbers.reduce( (prev, curr) => Number.parseFloat(prev) + Number.parseFloat(curr) );
-    console.log(sum);
     return sum === 100;
   }
 

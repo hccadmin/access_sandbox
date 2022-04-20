@@ -43,9 +43,23 @@ const hasHTML = (text) => {
   return text.search(regex) !== -1;
 }
 
+const hasOneOrNoDecimal = (input) => {
+  const result = input.match(/\./g);
+  return result === null || result.length === 1;
+}
+
 const isNumber = (input) => {
-  const num = Number.parseFloat(input);
-  return !Number.isNaN(num);
+  let chars, decimals = null;
+  if ( typeof input === "string" ) {
+    const trimmed = input.trim();
+// Search pattern for any characters that are not 
+// digits or a decimal
+    const digitDecimalPattern = /[^\d\.]/g;
+    chars = trimmed.match(digitDecimalPattern);
+  }
+  return typeof input !== "object" && 
+    chars === null && 
+    hasOneOrNoDecimal(input);
 }
 
 const makeHashKey = (...elements) => {

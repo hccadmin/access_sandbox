@@ -20,9 +20,7 @@ const PriceTable = ({ drugs, list }) => {
     }
   }
 
-  const initOverride = (e) => {
-    const drug = e.target.name;
-    const newPrice = e.target.value;
+  const initOverride = (drug, newPrice) => {
     dispatch( overridePrice({ drug, newPrice }) );
   }
 

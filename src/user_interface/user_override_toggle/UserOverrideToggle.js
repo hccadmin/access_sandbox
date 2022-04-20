@@ -47,30 +47,32 @@ const UserOverrideToggle = ({
   }
 
   const checkNum = (e) => {
+    const name = e.target.name;
     const val = e.target.value;
     const id = parseInt(e.target.id);
+    if (val === " ") { return false; }
     const isNum = isNumber(val);
     const showInvalidCopy = showInvalid;
     showInvalidCopy[id] = !isNum;
     setInvalid(showInvalidCopy);
     if (numInputs) {
-      return checkSum(e);
+      return checkSum(name, val);
     }
-    setOverride(e);
+    setOverride(name, val);
   }
 
 
 
-  const checkSum = (e) => {
+  const checkSum = (name, val) => {
     const newObj = { ...levelsObj };
-    newObj[e.target.name] = e.target.value;
+    newObj[name] = val
     const stateArr = Object.values(newObj);
     //console.log("UserOverrideToggle->checkSum, newObj:", newObj);
     if (stateArr.length === numArr.length) {
       dispatch( validateLevelSum(stateArr) );
     }
     updateLevelsObj({ ...newObj });
-    setOverride(e);
+    setOverride(name, val);
     //console.log("UserOverrideToggle->checkSum, levelSumError: ", validation.levelSumError);
   }
 
