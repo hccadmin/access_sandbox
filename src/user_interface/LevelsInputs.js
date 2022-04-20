@@ -19,7 +19,6 @@ const LevelsInputs = ({ defaults, children }) => {
   const dispatch = useDispatch();
 
   const handleLevelInput = (e) => {
-    console.log("LevelsInput->handleLevelInput", e);
     let index = e.target.name.slice(-1);
     index = index -1;
     const level = e.target.value;

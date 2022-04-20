@@ -43,6 +43,11 @@ const hasHTML = (text) => {
   return text.search(regex) !== -1;
 }
 
+const isNumber = (input) => {
+  const num = Number.parseFloat(input);
+  return !Number.isNaN(num);
+}
+
 const makeHashKey = (...elements) => {
   const str = elements.join('');
   const arr = str.split(/[\s-]/).map( (el) => {
@@ -79,7 +84,11 @@ const setCurrency = (toSet) => {
   return toSet === 0 ? "No pricing available" : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(toSet);
 }
 
-const setNumber = (num) => {
+const setNumber = (input) => {
+  return isNumber(input) && Number.parseFloat(input);
+}
+
+  /*
   if (num === false || isNaN(num) || num.length === 0) {
     return false;
   }
@@ -92,7 +101,7 @@ const setNumber = (num) => {
     }
   }
   return num;
-}
+  */
 
 
 const sortObjects = (objs) => {
@@ -190,6 +199,7 @@ export {
   copyObjProps,
   getObjKey,
   hasHTML,
+  isNumber,
   makeHashKey,
   objNotEmpty,
   sentenceCase,

@@ -22,7 +22,7 @@ const PriceTable = ({ drugs, list }) => {
 
   const initOverride = (e) => {
     const drug = e.target.name;
-    const newPrice = toCurrency(e.target.value);
+    const newPrice = e.target.value;
     dispatch( overridePrice({ drug, newPrice }) );
   }
 

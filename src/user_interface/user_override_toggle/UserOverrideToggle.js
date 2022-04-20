@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import UserOverrideButtons from './UserOverrideButtons';
 import UserOverrideValidation from './UserOverrideValidation';
 import { disableError, validateLevelSum } from '../../state/slices/validationSlice';
-import { arrayFrom, allFieldsFilled } from '../../helpers/utilities';
+import { arrayFrom, allFieldsFilled, isNumber } from '../../helpers/utilities';
 import { useUserOverride } from '../../hooks';
 import './styles/styles.scss';
 
@@ -20,6 +20,7 @@ const UserOverrideToggle = ({
 }) => {
   const [visibility, setVisibility] = useUserOverride(saved);
   const [levelsObj, updateLevelsObj] = useState({});
+  const [showInvalid, setInvalid] = useState([false, false, false]);
   const numArr = numInputs && arrayFrom(numInputs);
   const dispatch = useDispatch();
   const validation = useSelector( (state) => {
@@ -44,6 +45,21 @@ const UserOverrideToggle = ({
       />
     );
   }
+
+  const checkNum = (e) => {
+    const val = e.target.value;
+    const id = parseInt(e.target.id);
+    const isNum = isNumber(val);
+    const showInvalidCopy = showInvalid;
+    showInvalidCopy[id] = !isNum;
+    setInvalid(showInvalidCopy);
+    if (numInputs) {
+      return checkSum(e);
+    }
+    setOverride(e);
+  }
+
+
 
   const checkSum = (e) => {
     const newObj = { ...levelsObj };
@@ -75,28 +91,36 @@ const UserOverrideToggle = ({
                 numArr ?
                   numArr.map( (num, i) => {
                     return (
-                      <UserOverrideValidation>
+                      <div key={ i }>
                         <Form.Control 
-                          key={ i }
+                          id={ i.toString() }
                           name={ name + num } 
                           type="text" 
                           value={ saved[i] || "" }
-                          onChange={ checkSum } 
+                          onChange={ checkNum } 
                           bsPrefix={'form-control multiple-inputs'}
-                          isInvalid={ false }
+                          isInvalid={ showInvalid[i] }
                         />
-                      </UserOverrideValidation>
+                        <Form.Control.Feedback type="invalid">
+                          Only numbers are allowed
+                        </Form.Control.Feedback>
+                      </div>
                     );
                   })
                 :
-                <UserOverrideValidation>
-                  <Form.Control 
-                    name={ name } 
-                    type="text" 
-                    value={ saved || "" }
-                    onChange={ setOverride } 
-                  />
-                </UserOverrideValidation>
+                  <>
+                    <Form.Control 
+                      id="0"
+                      name={ name } 
+                      type="text" 
+                      value={ saved || "" }
+                      onChange={ checkNum } 
+                      isInvalid={ showInvalid[0] }
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Only numbers are allowed
+                    </Form.Control.Feedback>
+                  </>
               }
           </div>
         </div>
