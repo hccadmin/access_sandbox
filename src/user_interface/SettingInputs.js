@@ -72,8 +72,8 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
             </p>
           }
           { selected &&
-            <>
-              <div className="d-flex flex-wrap">
+            <Row>
+              <Col md="6">
                 <ForecastSelect
                   name={ keyVals[type].next || keyVals[type].selectName }
                   label={ keyVals[type].label }
@@ -81,14 +81,6 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                   options={ uiLabels[type] }
                   sendSelection={ setOption }
                 /> 
-                <ForecastSelect
-                  name="year"
-                  label="Year"
-                  value={ setting.year || 0 }
-                  options={ uiLabels.years }
-                  sendSelection={ setOption }
-                /> 
-              </div>
               { (setting.subtype && setting.subtype !== "worldwide") &&
                   <ForecastSelect
                     name="name"
@@ -98,9 +90,17 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                     options={ uiLabels[setting.subtype] }
                     sendSelection={ setOption }
                   /> 
-                }
+              }
+                  <ForecastSelect
+                    name="year"
+                    label="Year"
+                    value={ setting.year || 0 }
+                    options={ uiLabels.years }
+                    sendSelection={ setOption }
+                  /> 
+                </Col>
                 { setting.subtype &&
-                  <>
+                  <Col md="12">
                   <Form.Group>
                     <Form.Label>Diagnosis type</Form.Label>
                     <p>{ settingText.diagnosis }</p>
@@ -131,9 +131,9 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
                       </LevelsInputs>
                     </Col>
                   </Form.Group>
-                </>
+                </Col>
                 }
-            </>
+            </Row>
         }
         </Card.Body>
       </Card>
