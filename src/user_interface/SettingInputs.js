@@ -38,7 +38,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
           <p>{ step1Text.intro }</p>
           { settingText.required &&
             <div className="required">
-              <p>{ settingText.required.list_intro || "" }</p>
+              <p><strong>{ settingText.required.list_intro || "" }</strong></p>
               <ul>
                 <MarkupJSON tag="li">
                   { settingText.required.list_items }
@@ -48,7 +48,7 @@ const SettingInputs = ({ selected, keyVals, uiLabels, saved, setOption }) => {
           }
           { settingText.optional &&
             <div className="optional">
-              <p>{ settingText.optional.list_intro || "" }</p>
+              <p><strong>{ settingText.optional.list_intro || "" }</strong></p>
               <ul>
                 <MarkupJSON tag="li">
                   { settingText.optional.list_items }

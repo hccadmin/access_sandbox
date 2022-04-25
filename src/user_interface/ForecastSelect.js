@@ -4,12 +4,13 @@ import Form from 'react-bootstrap/Form';
 
 const ForecastSelect = ({ name, id, value, options, label, sendSelection }) => {
   return (
-    <Form.Group>
+    <Form.Group bsPrefix="form-group forecast-select">
     {/*<h3>{ sentenceCase(name) }</h3>*/}
       <Form.Label bsPrefix="form-label h5">{ sentenceCase(toPlural(label)) }</Form.Label>
       <Form.Control
         id={ id }
         as="select"
+        size="lg"
         value={ value }
         name={ name }
         custom
