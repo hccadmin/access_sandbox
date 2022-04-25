@@ -36,6 +36,8 @@ h2 {
 }
 
 a {
+  color: $turq;
+  font-weight: $semi;
   text-decoration: underline;
 }
 
@@ -45,6 +47,10 @@ a.btn {
 
 strong {
   font-weight: $bold;
+}
+
+p ~ ul {
+  margin-top: -1.0em;
 }
 
 // CONTAINER 
@@ -193,70 +199,5 @@ input[type="text"] {
   width: 354px;
   font-size: 1.3rem;
   padding: 0.5em 1.0em;
-}
-
-// TIP
-.forecast-tip {
-  font-weight: $bold;
-  .badge {
-    font-family: $mont;
-    text-decoration: none;
-    margin-right: 0.5rem;
-    border-radius: unset;
-    padding: 0.35em 0.7em;
-    font-size: 1.1rem;
-  }
-}
-
-// DEFINITION
-.definition, .definition:hover {
-  text-decoration: underline dotted;
-}
-.definition {
-  cursor: help;
-  color: $blue-gray;
-}
-.definition:hover {
-  color: $slate;
-}
-
-// TABLE
-.forecast-table {
-  font-family: $mont;
-  font-size: 1.1rem;
-  line-height: 1.2em;
-  td {
-    vertical-align: middle;
-    color: $navy;
-    font-weight: $med;
-  }
-  .table-bordered,
-  .table-bordered td {
-    border: $pale-turq 1px solid;
-  }
-  .table-sm td,
-  .table-sm th {
-    padding-left: 1.2em;
-  }
-  .table-sm th {
-    padding-top: 0.7em;
-    padding-bottom: 0.7em;
-  }
-  thead {
-    background-color: $navy;
-    color: #fff;
-    th {
-      border: none;
-      vertical-align: middle;
-    }
-  }
-  .table-striped tbody tr:nth-of-type(odd) {
-    background-color: $pale-blue;
-  }
-  .table-sm td {
-    font-size: 1.0rem;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-  }
 }
 

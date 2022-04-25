@@ -8,12 +8,13 @@ import DiagnosedTotalIncidenceTable from './tables/DiagnosedTotalIncidenceTable'
 import RiskStratificationTable from './tables/RiskStratificationTable';
 import GenderDistributionTable from './tables/GenderDistributionTable';
 import DrugPriceTable from './tables/DrugPriceTable';
+import './styles/styles.scss';
 
 const References = () => {
   return (
     <Row>
       <Col lg="2">
-        <div className="sticky-top">
+        <div className="sticky-top forecast-navbarScroll">
           <Nav className="flex-column" navbarScroll>
             <Nav.Link href="#start">Top of page</Nav.Link>
             <Nav.Link href="#country-weight-bsa">Country weight & BSA</Nav.Link>

@@ -1,7 +1,7 @@
 @import '../../styles/colors.scss';
 @import '../../styles/fonts.scss';
 
-// Header
+// HEADER
 header {
   background-color: #004A70;
 }
@@ -24,6 +24,7 @@ header {
   border-right: #fff 9px solid;
 }
 
+// NAV
 .menu-links {
   margin-top: -15px;
   .navbar-light .navbar-nav .nav-link {
@@ -51,7 +52,7 @@ header {
   }
 }
 
-// Content
+// CONTENT
 .content-bkgrd {
   background: #fff;
 }
@@ -61,29 +62,97 @@ header {
   padding-bottom: 3.5em;
 }
 
-// Footer
-footer {
-  text-align: center;
-  color: #fff;
-  font-size: 0.8em;
-  a, a:hover, a:active, a:focus {
+// TABLE
+ul ~ .forecast-table {
+  margin-top: 1.4em;
+}
+
+.forecast-table {
+  font-size: 1.2rem;
+  line-height: 1.2em;
+  margin-bottom: 1.6em;
+  td {
+    vertical-align: middle;
+    color: $navy;
+    font-weight: $med;
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  td .form-group {
+    margin-bottom: 0;
+  }
+  .table-bordered,
+  .table-bordered td {
+    border: $pale-turq 1px solid;
+  }
+  .table-sm td,
+  .table-sm th {
+    padding-left: 1.2em;
+  }
+  .table-sm th {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+  }
+  thead {
+    background-color: $navy;
     color: #fff;
+    th {
+      font-family: $mont;
+      line-height: 1.2rem;
+      border: none;
+      vertical-align: middle;
+    }
+  }
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: $table-stripe;
+  }
+  .table-striped tbody tr.row-heading {
+    background-color: $pale-orange;
+    text-transform: uppercase;
+    font-size: 1.0rem;
+    td {
+      font-weight: $semi;
+      color: $dk-orange;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+  .table-sm td {
+    font-size: 1.1rem;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
   }
 }
 
-.footer-padding {
-  padding-top: 3em;
-  padding-bottom: 2.5em;
+
+// TIP
+.forecast-tip {
+  font-weight: $bold;
+  .badge {
+    font-family: $mont;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    border-radius: unset;
+    padding: 0.35em 0.7em;
+    font-size: 1.1rem;
+  }
 }
 
-.footer-tagline {
-  display: inline-block;
-  border-top: #fff 1px solid;
-  padding: 10px 16px;
-  font-weight: $semi;
+// DEFINITION
+.definition, .definition:hover {
+  text-decoration: underline dotted;
+}
+.definition {
+  cursor: help;
+  color: $blue-gray;
+  font-weight: $reg;
+}
+.definition:hover {
+  color: $slate;
 }
 
-// Loading spinner
+// LOADING SPINNER
 .loading-overlay {
   position: fixed;
   background-color: #fff;
@@ -102,7 +171,7 @@ footer {
   right: 50%;
 }
 
-// Popover
+// POPOVER
 .forecast-popover.bs-popover-top>.arrow::before {
   border-top-color: rgba(54, 169, 231, 1);;
 }
@@ -125,7 +194,7 @@ footer {
   }
 }
 
-// Modal
+// MODAL
 .modal {
   .modal-content {
     border-color: $lt-blue;
@@ -145,5 +214,33 @@ footer {
   }
   .modal-body {
     padding: 1.0rem 1.7rem;
+  }
+}
+
+// FOOTER
+footer {
+  text-align: center;
+  color: #fff;
+  font-size: 0.8em;
+  a, a:hover, a:active, a:focus {
+    color: #fff;
+  }
+}
+
+.footer-padding {
+  padding-top: 3em;
+  padding-bottom: 2.5em;
+}
+
+.footer-tagline {
+  display: inline-block;
+  border-top: #fff 1px solid;
+  padding: 10px 16px;
+  font-weight: $semi;
+}
+
+@media (min-width: 2000px) {
+  .bkgrd-left {
+    width: 30%;
   }
 }

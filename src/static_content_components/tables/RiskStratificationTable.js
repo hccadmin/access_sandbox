@@ -9,7 +9,7 @@ const RiskStratificationTable = () => {
 
   return (
     <div className="forecast-table">
-      <Table bordered>
+      <Table bordered striped>
         <thead>
           <tr>
             <th>Cancer</th>

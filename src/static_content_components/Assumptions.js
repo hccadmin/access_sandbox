@@ -5,12 +5,13 @@ import Nav from 'react-bootstrap/Nav';
 import LevelDefinitionsTable from './tables/LevelDefinitionsTable';
 import RegimensByLevelTable from './tables/RegimensByLevelTable';
 import IncidenceAssumptionsTable from './tables/IncidenceAssumptionsTable';
+import './styles/styles.scss';
 
 const Assumptions = () => {
   return (
     <Row>
       <Col lg="2">
-        <div className="sticky-top">
+        <div className="sticky-top forecast-navbarScroll">
           <Nav className="flex-column" navbarScroll>
             <Nav.Link href="#start">Top of page</Nav.Link>
             <Nav.Link href="#level-defs">Level definitions</Nav.Link>

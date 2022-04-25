@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 const LevelDefinitionsTable = () => {
   return (
     <div className="forecast-table">
-      <Table responsive="xl" bordered>
+      <Table responsive="xl" bordered striped>
         <thead>
           <tr>
             <th>

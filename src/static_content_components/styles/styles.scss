@@ -1,0 +1,19 @@
+@import '../../styles/fonts.scss';
+@import '../../styles/colors.scss';
+
+// STATIC NAV
+.forecast-navbarScroll {
+  a {
+    font-family: $mont;
+    font-size: 1.0rem;
+    line-height: 1.4rem;
+  }
+  .nav-link {
+    padding-left: 0;
+    padding-bottom: 0.8rem;
+  }
+  .nav-link:focus, .nav-link:hover {
+    text-decoration: underline;
+  }
+}
+

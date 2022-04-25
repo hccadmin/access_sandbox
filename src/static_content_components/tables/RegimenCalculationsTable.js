@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 const RegimenCalculationsTable = () => {
   return (
     <div className="forecast-table">
-      <Table bordered>
+      <Table bordered striped>
         <thead>
           <tr>
             <th>
