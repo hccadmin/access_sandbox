@@ -25,6 +25,7 @@ import './styles/styles.scss';
 const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
   const [stepVisible, setStepVisible] = useState(false);
   const [stepsVis, changeVis] = useStepVisibility(4);
+  //console.log(stepsVis);
 
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
 
@@ -91,11 +92,12 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
             executeCosts={ loadAllCosts }
             uiCancers={ uiLabels.cancers }
             setting={ setting }
+            setComplete={ (vis) => changeVis(vis, 2) }
           />
         </Step>
 
 {/* STEP 3 PRICES */}
-        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepsVis[1] }>
+        <Step title={ text.step3.title } fade={ setting.type === REACT_APP_SETTING_SIMPLE ? cancerSelections.initialized : stepsVis[2] }>
           <MarkupJSON tag="p">
             { text.step3.description }
           </MarkupJSON>
@@ -106,7 +108,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
         </Step>
 
 {/* STEP 4 CALCULATE*/}
-        <Step noBorder={ true } title={ text.step4.title } fade={ stepsVis[3] }>
+        <Step noBorder title={ text.step4.title } fade={ stepsVis[3] }>
         <p className="text-center">
           <Button bsPrefix="active btn btn-primary d-inline-block btn-xl"  onClick={ initCostCalc } >Calculate</Button>
           </p>

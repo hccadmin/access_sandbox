@@ -26,7 +26,7 @@ const LevelDefinitionsTable = () => {
         </thead>
         <tbody>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               General description
             </td>
           </tr>
@@ -65,7 +65,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Medical facilities
             </td>
           </tr>
@@ -155,7 +155,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Radiation therapy
             </td>
           </tr>
@@ -262,7 +262,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Access to medications
             </td>
           </tr>
@@ -420,7 +420,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Supportive care
             </td>
           </tr>
@@ -578,7 +578,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Diagnosis and staging
             </td>
           </tr>
@@ -770,7 +770,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Personnel not included with specific service lines above
             </td>
           </tr>
@@ -1132,7 +1132,7 @@ const LevelDefinitionsTable = () => {
             </td>
           </tr>
           <tr className="row-heading">
-            <td colspan="6">
+            <td colSpan="6">
               Health system
             </td>
           </tr>

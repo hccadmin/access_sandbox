@@ -11,7 +11,7 @@ import CancerInputs from './CancerInputs';
 import { makeHashKey } from '../helpers/utilities';
 
 
-const Step2Cancers = ({ uiCancers, selected, setting }) => {
+const Step2Cancers = ({ uiCancers, selected, setting, setComplete }) => {
   const { REACT_APP_SETTING_SIMPLE, REACT_APP_SETTING_COMPLEX } = process.env;
   const dispatch = useDispatch();
   const { type, typeHash, incidences } = setting;
@@ -22,6 +22,10 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
     return state.cancerData.full;
   });
 
+  const cancerSelections = useSelector( (state) => {
+    return state.cancerSelections;
+  });
+
   const shouldInitializeAll = useInitializeAllCancers();
 
   useEffect( () => {
@@ -29,15 +33,20 @@ const Step2Cancers = ({ uiCancers, selected, setting }) => {
       dispatch( setLoading(true) );
       dispatch( loadCancers() ).then( (result) => {
         dispatch( setLoading(false) );
+        setComplete(true);
         const loaded = result.payload.full;
         if ( shouldInitializeAll(type, loaded, incidences) ) {
           dispatch( initializeAllCancers({ cancers: loaded, incidences }) );
+
         }
         /*
         */
       });
     }
-  }, [cancerData, incidences, dispatch]);
+    if (cancerSelections.initialized) {
+      setComplete(true);
+    }
+  }, [cancerData, incidences, dispatch, cancerSelections.initialized]);
 
   return (
     <Row>

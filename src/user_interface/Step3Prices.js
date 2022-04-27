@@ -9,6 +9,7 @@ import HelpTextModal from '../shared_components/HelpTextModal';
 import priceText from './text/step3';
 import { setPriceSource, loadPrices } from '../state/slices/pricesSlice';
 import { setLoading } from '../state/slices/loadingSlice';
+import { objNotEmpty } from '../helpers/utilities';
 import text from './text/steps';
 
 const Step3Prices = ({ drugNames, setComplete }) => {
@@ -16,30 +17,25 @@ const Step3Prices = ({ drugNames, setComplete }) => {
 
   const dispatch = useDispatch();
 
-  const isInitialized = useSelector( (state) => {
-    return state.prices.initialized;
-  });
-
-  const priceSource = useSelector( (state) => {
-    return state.prices.priceSource;
-  });
-
-  const priceList = useSelector( (state) => {
-    return state.prices.priceList;
-  });
-
-  const filtered = useSelector( (state) => {
-    return state.prices.filtered;
+  const prices = useSelector( (state) => {
+    return state.prices;
   });
 
   useEffect( () => {
-    if ( Object.values(priceList).length === 0 ) {
+    if ( Object.values(prices.priceList).length === 0 ) {
       dispatch( setLoading(true) );
       dispatch( loadPrices() ).then( (res) => {
         dispatch( setLoading(false) );
       });
     }
-  }, [priceList] );
+
+// Make sure to set step 4 visibility to true via 
+// setComplete prop method as long as a price source 
+// has been set (filtered property)
+    if ( objNotEmpty(prices.filtered) ) {
+      setComplete(true);
+    }
+  }, [prices.priceList, prices.filtered] );
 
   const setOption = (e) => {
     dispatch( setPriceSource(e.target.value) );
@@ -68,7 +64,7 @@ const Step3Prices = ({ drugNames, setComplete }) => {
           <ForecastSelect
             name="priceSource"
             label="Price source"
-            value={ priceSource || 0 }
+            value={ prices.priceSource || 0 }
             options={ ["buyer", "supplier", "consolidated"] }
             sendSelection={ setOption }
           /> 
@@ -76,7 +72,7 @@ const Step3Prices = ({ drugNames, setComplete }) => {
       </Row>
       <Row>
         <Col md="8">
-          <PriceTable drugs={ drugNames } list={ filtered } />
+          <PriceTable drugs={ drugNames } list={ prices.filtered } />
         </Col>
       </Row>
     </>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { arrayFrom } from '../helpers/utilities';
 
 const useStepVisibility = (numSteps) => {
@@ -8,7 +8,8 @@ const useStepVisibility = (numSteps) => {
   });
   */
   const [stepsVis, setStepVis] = useState([true, false, false, false]);
-  //console.log(stepsVis);
+  console.log(stepsVis);
+
   // return array with function and array variable
   const changeVis = (val, index) => {
     const newSteps = stepsVis;
