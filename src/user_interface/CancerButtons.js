@@ -7,6 +7,7 @@ import { getRisksAndRegs } from '../state/slices/cancerDataSlice';
 import { makeHashKey } from '../helpers/utilities';
 import { initializeCancer, setClicks } from '../state/slices/cancerSelectionsSlice';
 import { validateCancerInputs } from '../state/slices/validationSlice';
+import { setNavigation } from '../state/slices/navigationSlice';
 
 const CancerButtons = ({ cancers, settingType }) => {
 
@@ -27,6 +28,10 @@ const CancerButtons = ({ cancers, settingType }) => {
     return state.validation.hasErrors;
   });
 
+  const visitedStaticPage = useSelector( (state) => {
+    return state.navigation.staticPage;
+  });
+
   const getSelection = (cancerList, toFind) => {
     return cancerList.find( (cancer) => {
       return cancer.name === toFind;
@@ -36,7 +41,7 @@ const CancerButtons = ({ cancers, settingType }) => {
   /*
   */
   useEffect( () => {
-    if (!hasErrors && cancerSelections.cancerButtonClicks > 0) {
+    if (!hasErrors && cancerSelections.cancerButtonClicks > 0 && !visitedStaticPage) {
       dispatch( initializeCancer({ ...cancerDisplay }) );
     }
   }, [cancerSelections.cancerButtonClicks]);
@@ -51,6 +56,9 @@ const CancerButtons = ({ cancers, settingType }) => {
       risks: selected.risk_strats
     };
     if (cancerSelections.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {
+      if (visitedStaticPage) {
+        dispatch( setNavigation({ staticPage: false }));
+      }
       dispatch( validateCancerInputs({ ...cancerSelections }));
     }
     else {

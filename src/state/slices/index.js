@@ -6,6 +6,7 @@ import costsReducer from './costsSlice';
 import validationReducer from './validationSlice';
 import uiReducer from './uiSlice';
 import loadingReducer from './loadingSlice';
+import navigationReducer from './navigationSlice';
 import pricesReducer from './pricesSlice';
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   costs: costsReducer,
   ui: uiReducer,
   loading: loadingReducer,
+  navigation: navigationReducer,
   prices: pricesReducer,
   cancerSelections: cancerSelectionsReducer
 });
