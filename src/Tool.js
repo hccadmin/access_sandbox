@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { initCostCalc, getCostsByType  } from './state/slices/costsSlice';
 import { setLoading } from './state/slices/loadingSlice';
+import { setNavigation } from './state/slices/navigationSlice';
 import { loadUI } from './state/slices/uiSlice';
 import Layout from './shared_components/Layout';
 import Header from './shared_components/Header';
@@ -11,12 +12,16 @@ import ResultsInterface from './results_interface/ResultsInterface';
 import text from './text/global';
 
 const Tool = () => {
-  const [visibility, setVisibility] = useState({ inputs: true, results: false });
+  //const [visibility, setVisibility] = useState({ inputs: true, results: false });
 
   const dispatch = useDispatch();
 
   const isLoading = useSelector( (state) => {
     return state.loading.isLoading;
+  });
+
+  const resultsCalculated = useSelector( (state) => {
+    return state.navigation.results;
   });
 
   const uiLabels = useSelector( (state) => {
@@ -63,6 +68,10 @@ const Tool = () => {
     }
   }
 
+  const setVisibility = (visible) => {
+    dispatch( setNavigation({ results: visible }));
+  }
+
   if ( uiLabels.cancers.length === 0) {
     dispatch(loadUI()).then( (res) => {
       dispatch( setLoading(false));
@@ -72,7 +81,7 @@ const Tool = () => {
   return (
     <>
       <LoadingSpinner showLoad={ isLoading } />
-      { visibility.inputs ? 
+      { !resultsCalculated ? 
         <>
           <UserInterface 
             setVisible={ setVisibility } 

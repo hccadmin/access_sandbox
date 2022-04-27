@@ -17,7 +17,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect( () => { 
-    //console.log(location);
+// Check to see whether we're on the homepage or a static page and set 
+// the static page flag in the navigation state slice accordingly. 
+// The RegEx checks for any character after a backslash which would indicate
+// any page except the homepage. This is used to help facilitate loading
+// cancers within the CancerButtons component
     const path = /\/.+/g;
     const page = location.pathname.match(path);
     page !== null && dispatch( setNavigation({ staticPage: true }) );

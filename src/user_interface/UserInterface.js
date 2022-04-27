@@ -40,7 +40,7 @@ const UserInterface = ({ setVisible, loadAllCosts, uiLabels }) => {
 
   const initCostCalc = () => {
     dispatch( setLoading(true) );
-    setVisible({ inputs: false, results: true });
+    setVisible(true);
     dispatch( resetClicks() );
     loadAllCosts();
   }

@@ -37,7 +37,7 @@ const ResultsInterface = ({ setVisible, costs, loadCostsByType }) => {
   });
 
   const backToInputs = () => {
-    setVisible({ inputs: true, results: false });
+    setVisible(false);
   }
 
 /*
