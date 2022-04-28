@@ -8,7 +8,6 @@ const useStepVisibility = (numSteps) => {
   });
   */
   const [stepsVis, setStepVis] = useState([true, false, false, false]);
-  console.log(stepsVis);
 
   // return array with function and array variable
   const changeVis = (val, index) => {

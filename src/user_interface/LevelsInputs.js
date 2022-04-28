@@ -7,9 +7,6 @@ import { sentenceCase, toSingular, toPlural, setNumber } from '../helpers/utilit
 import { setLevel, removeLevels } from '../state/slices/settingSlice';
 import text from './text/steps';
 
-//const UserOverrideToggle = ({ name, setOverride, handleRemoval, saved }) => {
-
-
 const LevelsInputs = ({ defaults, children }) => {
 
   const levels = useSelector( (state) => {
@@ -18,7 +15,9 @@ const LevelsInputs = ({ defaults, children }) => {
 
   const dispatch = useDispatch();
 
-  const handleLevelInput = (name, level) => {
+  const handleLevelInput = (e) => {
+    const name = e.target.name;
+    const level = e.target.value;
     let index = name.slice(-1);
     index = index -1;
     dispatch( setLevel({ index, level }) );
