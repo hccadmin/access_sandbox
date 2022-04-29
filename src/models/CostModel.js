@@ -28,6 +28,7 @@ class CostModel {
   // need to be omitted from cost calculation
   #noCostRegimens = [
     "Surgery only",
+    "Observation only",
     "Antiretrovirals, only"
   ];
  
