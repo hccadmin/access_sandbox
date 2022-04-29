@@ -379,6 +379,9 @@ class CostModel {
     this.#userCancers.forEach( (cancer) => {
       const currCancer= levelCost.individual[cancer];
       const levelsTotalCancer = levelsTotal.individual[cancer];
+      const drugsCopy = JSON.parse( JSON.stringify(levelsTotalCancer.drugs) );
+      const levelsDrugArr = drugsCopy.map(drug => drug.name);
+      //console.log("Cancer: ", currCancer.name, "Levels drug arr: ", levelsDrugArr);
 
   // Cancer totals
       Object.keys(currCancer.totals).forEach( (totalType) => {
@@ -389,57 +392,25 @@ class CostModel {
         }
         levelsTotalCancer.totals[totalType] += currCancer.totals[totalType];
       });
-      const levelDrugLength = [];
   // Individual drugs
       if (currCancer.drugs.length > 0) {
         currCancer.drugs.forEach( (drug, i) => {
-        levelDrugLength.push(levelsTotalCancer.drugs.length);
 
   // First check if levelsTotal drugs array is empty (happens if a treatment regimen does NOT
-  // include drugs) and if the levelsTotal drug name and currCancer drug names match
-          if (levelsTotalCancer.drugs.length > 0) {
+  // include drugs)
+          //if (levelsTotalCancer.drugs.length > 0) {
 
-  // Add a flag to test later if a new drug obj needs to be added to the array in levelsTotal
-            //let needsToBeAdded = true;
-
-  // First check if it's the same drug in the same index in levelsTotal, currCancer,
-  // if so, update levelsTotal and switch flag
-            if (levelsTotalCancer.drugs[i].name === currCancer.drugs[i].name) {
-              this.addToLevelIteration(levelsTotalCancer.drugs[i], currCancer.drugs[i]);
-              //needsToBeAdded = false;
+            const drugIndex = levelsDrugArr.indexOf(currCancer.drugs[i].name);
+            if (drugIndex !== -1) {
+              this.addToLevelIteration(levelsTotalCancer.drugs[drugIndex], currCancer.drugs[i]);
             }
-  
-  // Otherwise, iterate through remaining drugs within levelsTotal drug array in case
-  // the currCancer drug matches a drug in a different index. Update levelsTotal,
-  // switch flag.
             else {
-              if (i < levelsTotalCancer.drugs.length) {
-                for ( let ltIndex = 0; ltIndex < levelsTotalCancer.drugs.length; ltIndex++) {
-                //for ( let ltIndex = 0; ltIndex < levelsTotalCancer.drugs.length; ltIndex++) {
-                //for ( let ltIndex = i + 1; ltIndex < levelsTotalCancer.drugs.length; ltIndex++) {
-                    //console.log(`Level ${level}`, "Curr cancer: ", currCancer.name, ", Curr level drug: ",levelsTotalCancer.drugs[ltIndex].name);
-                  if (levelsTotalCancer.drugs[ltIndex].name === currCancer.drugs[i].name) {
-                    this.addToLevelIteration(levelsTotalCancer.drugs[ltIndex], currCancer.drugs[i]);
-                    break;
-                    //needsToBeAdded = false;
-                  }
-                }
-                levelsTotalCancer.drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
-              }// for loop
-              else {
-                levelsTotalCancer.drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
-              }
+              levelsTotalCancer.drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
             }
-            //console.log(`Level ${level + 1}`, "Curr cancer: ", currCancer.name,", Curr level drug list: ",levelsTotalCancer.drugs[i]);
-            //console.log("Cancer: ", currCancer.name, "Level drugs total length: ", levelDrugLength);
-
-  // Only add currCancer drug to levelsTotal drug array if it doesn't match any drug at
-  // any array index
-            //needsToBeAdded && levelsTotalCancer.drugs.push( JSON.parse( JSON.stringify(currCancer.drugs[i]) ) );
-          } // if drugs arr > 0 and names match
+          //} // if more than 0 drugs in levelsTotalCancer obj
         }); // drugs loop
         levelsTotalCancer.drugs = sortObjects(levelsTotalCancer.drugs);
-      } // if more than 0 drugs
+      } // if more than 0 drugs in currCancer obj
     }); // cancers loop
     return levelsTotal;
   }
