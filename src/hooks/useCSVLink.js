@@ -1,5 +1,5 @@
 import { sentenceCase } from '../helpers/utilities';
-import text from './text/csvOutputText.json';
+import text from '../results_interface/text/csvOutputText.json';
 
 const useCSVLink = (selections, priceSource, grandTotal, type) => {
   const { REACT_APP_SETTING_COMPLEX } = process.env;
@@ -96,4 +96,4 @@ const useCSVLink = (selections, priceSource, grandTotal, type) => {
   }
 }
 
-export { useCSVLink };
+export default useCSVLink;

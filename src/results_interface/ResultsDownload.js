@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { CSVLink } from 'react-csv';
 import { getCSVCosts } from '../state/slices/costsSlice';
-import { useCSVLink} from './useCSVLink';
+import { useCSVLink } from '../hooks';
 import { sentenceCase, objNotEmpty } from '../helpers/utilities';
 
 const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, costs, children }) => {
@@ -16,7 +16,6 @@ const ResultsDownload = ({ selections, priceSource, grandTotal, type, classes, c
   //console.log("Results download type: ", type);
 
   useEffect( () => {
-    //console.log("Or will this be called first? ", costs);
     if (csvState && csvInst.current && csvInst.current.link) {
       setTimeout( () => {
         csvInst.current.link.click();

@@ -79,7 +79,7 @@ const sentenceCase = (str) => {
     return str;
   }
   if (str.includes("_")) {
-    str = str.replaceAll(/_/g, ' ')
+    str = removePunctuation(str, " ")
   }
   return str[0].toUpperCase() + str.substring(1); 
 }
@@ -169,7 +169,10 @@ const toSingular = (str) => {
     return false;
   }
   let singular = "";
-  if (str.endsWith("ies")) {
+  if (str.endsWith("us")) {
+    return str;
+  }
+  else if (str.endsWith("ies")) {
     singular = str.replace(/ies\b/, "y");
   }
   else {
@@ -179,12 +182,8 @@ const toSingular = (str) => {
 }
 
 
-// Filter out anything that's not a number except for 
-// a '.'
-
-
-const removePunctuation = (str) => {
-  return str.replace(/[^A-Za-z\s\d]/, "");
+const removePunctuation = (str, replace = "") => {
+  return str.replaceAll(/[^A-Za-z\s\d]/g, replace);
 }
 
 
@@ -216,6 +215,7 @@ export {
   isNumber,
   makeHashKey,
   objNotEmpty,
+  removePunctuation,
   sentenceCase,
   setCurrency,
   setNumber,
