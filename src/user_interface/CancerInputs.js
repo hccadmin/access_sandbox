@@ -170,15 +170,6 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
 
 
 
-                {/*
-                  <p>
-                    { text.step2.instructions.risksRegimens.map( (paragraph, i) => {
-                      return (
-                        <p key={ i } dangerouslySetInnerHTML={ { __html: paragraph } } />
-                      );
-                    })}
-                  </p>
-                */}
         {/* REGIMEN REFERENCE BUTTON */}
                 <p>
                   { ref ?
@@ -230,7 +221,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                         <tr key={ i }>
                           <td>{ rs.name || "Risk stratification" }</td>
 
-                        {/* Risk strat override goes here */}
+                {/* RISK STRAT % OVERRIDE */}
                           <td>
                             <RiskStratToggle 
                               num={ i }
@@ -247,7 +238,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                             />
                           </td>
 
-                        {/* Regimens selection */}
+                {/* REGIMEN SELECTION */}
                           { 
                             settingType === "Single institution" ?
                               <td>

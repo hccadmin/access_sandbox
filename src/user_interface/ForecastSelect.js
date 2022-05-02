@@ -16,7 +16,7 @@ const ForecastSelect = ({ name, id, value, options, label, sendSelection }) => {
         custom
         onChange={ sendSelection }
       >
-        <option value="0">{ `--Select a ${ label }--` }</option>
+        <option value="0">{ `--Select a ${ label.toLowerCase() }--` }</option>
         { options.map( (option, i) => {
           return (
             <option 
