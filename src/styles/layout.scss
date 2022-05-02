@@ -53,6 +53,11 @@ p ~ ul {
   margin-top: -1.0em;
 }
 
+input[type="text"],
+input[type="number"] {
+  color: #000;
+}
+
 // CONTAINER 
 .container-xxl {
   max-width: 1280px;

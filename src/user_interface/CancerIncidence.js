@@ -37,6 +37,7 @@ const CancerIncidence = ({ type, content, predictedIncs, handleIncidence, saved,
            name="incidence"
            setOverride={ handleIncidence }
            handleRemoval={ setModeledIncidence }
+           className="incidence-input"
            saved={ saved }
           />
           <HelpTextModal
@@ -54,6 +55,7 @@ const CancerIncidence = ({ type, content, predictedIncs, handleIncidence, saved,
             isInvalid={ validation.incidence }
             value={ saved || "" } 
             type="number" 
+            bsPrefix="form-control incidence-input"
             onChange={ handleIncidence } 
           />
           <Form.Control.Feedback type="invalid">
