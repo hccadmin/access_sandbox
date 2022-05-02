@@ -47,6 +47,8 @@ const validationSlice = createSlice({
       const { riskStrat, regimen } = action.payload;
       if (regimen !== "0") {
         state.regimens[riskStrat] = false;
+        const regErrors = Object.values(state.regimens);
+        state.hasErrors = regErrors.includes(true);
       }
     },
     disableError(state, action) {

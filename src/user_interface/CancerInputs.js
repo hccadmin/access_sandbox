@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import RiskStratToggle from './RiskStratToggle';
+import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -120,6 +122,9 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
   }
 */
 
+  useEffect( () => {
+    console.log(validation.hasErrors)
+  }, [validation.hasErrors]);
 
   return (
     <div role="cancerSelections-inputs" className="cancer-inputs">
@@ -127,6 +132,9 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
             <h1>{ selected.name }</h1>
             <Row>
               <Col>
+              <Alert variant="danger" show={ validation.hasErrors }>
+                There are errors on the page. Please scroll down to correct the errors in order to proceed.
+              </Alert>
         {/* INCIDENCE */}
                 <Card>
                   <Card.Body>
@@ -221,7 +229,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                         <tr key={ i }>
                           <td>{ rs.name || "Risk stratification" }</td>
 
-                {/* RISK STRAT % OVERRIDE */}
+          {/* RISK STRAT % OVERRIDE */}
                           <td>
                             <RiskStratToggle 
                               num={ i }
@@ -238,7 +246,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                             />
                           </td>
 
-                {/* REGIMEN SELECTION */}
+          {/* REGIMEN SELECTION */}
                           { 
                             settingType === "Single institution" ?
                               <td>
