@@ -28,8 +28,8 @@ const CancerButtons = ({ cancers, settingType }) => {
     return state.validation.hasErrors;
   });
 
-  const visitedStaticPage = useSelector( (state) => {
-    return state.navigation.staticPage;
+  const navigation = useSelector( (state) => {
+    return state.navigation;
   });
 
   const getSelection = (cancerList, toFind) => {
@@ -41,7 +41,8 @@ const CancerButtons = ({ cancers, settingType }) => {
   /*
   */
   useEffect( () => {
-    if (!hasErrors && cancerSelections.cancerButtonClicks > 0 && !visitedStaticPage) {
+    if (!hasErrors && cancerSelections.cancerButtonClicks > 0 
+        && !navigation.staticPage && !navigation.settingReset) {
       dispatch( initializeCancer({ ...cancerDisplay }) );
     }
   }, [cancerSelections.cancerButtonClicks]);
@@ -55,11 +56,14 @@ const CancerButtons = ({ cancers, settingType }) => {
       ref: selected.reg_ref,
       risks: selected.risk_strats
     };
-    if (cancerSelections.initialized && settingType !== REACT_APP_SETTING_COMPLEX) {
-      if (visitedStaticPage) {
+    if (cancerSelections.initialized) {
+      dispatch( setNavigation({ settingReset: false }) );
+      if (settingType !== REACT_APP_SETTING_COMPLEX) {
+        dispatch( validateCancerInputs({ ...cancerSelections }));
+      }
+      if (navigation.staticPage) {
         dispatch( setNavigation({ staticPage: false }));
       }
-      dispatch( validateCancerInputs({ ...cancerSelections }));
     }
     else {
       dispatch( initializeCancer({ ...cancerObj }));

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  settingReset: false,
   staticPage: false,
   results: false
 }

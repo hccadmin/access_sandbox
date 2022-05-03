@@ -4,6 +4,7 @@ import { useInitializeAllCancers } from '../hooks';
 import { setSettingInput, loadIncidencesAndBsa } from '../state/slices/settingSlice';
 import { initializeAllCancers, resetAllInitializedCancers } from '../state/slices/cancerSelectionsSlice';
 import { setLoading } from '../state/slices/loadingSlice';
+import { setNavigation } from '../state/slices/navigationSlice';
 import { allFieldsFilled } from '../helpers/utilities';
 import ForecastToggle from './ForecastToggle';
 import SettingInputs from './SettingInputs';
@@ -66,6 +67,9 @@ const Step1Setting = ({ uiLabels, setComplete }) => {
       setComplete(false);
       if (name === "type") {
         input.reset = true;
+        if (cancerSelections.initialized) {
+          dispatch( setNavigation({ settingReset: true }) );
+        }
         if (cancerSelections.allCancersInitialized) {
           dispatch( resetAllInitializedCancers() );
         }
