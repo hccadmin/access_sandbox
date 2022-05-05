@@ -455,11 +455,6 @@ class CostModel {
           };
           const levelByRiskCost = this.executeCostCalculation(totalDosageByType[cancer], incidence, levelsObj);
           Object.assign(totalCurrCancerCost, JSON.parse( JSON.stringify(levelByRiskCost) ) );
-          /*
-          if(totalDosageByType[cancer].name === "Osteosarcoma") {
-            console.log({costPerLevel});
-          }
-          */
           totalCostPerCancer.grandTotal += levelByRiskCost.totals.medAndUser;
         });// cancers forEach
         costsPerLevel.push(totalCostPerCancer);
@@ -467,7 +462,7 @@ class CostModel {
       });// levels forEach
       costsPerLevel.unshift(levelsTotal);
       //console.log(costsPerLevel);
-    }
+    }// if Health System
     else {
       this.#userCancers.forEach( (cancer) => {
         const incidence = selectedCancers[cancer].incidence.custom || selectedCancers[cancer].incidence.modeled; 

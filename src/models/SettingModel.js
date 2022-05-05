@@ -47,7 +47,12 @@ class SettingModel {
     let newRanges = {};
     let total = this.getIncidenceTotal(Object.values(age_ranges));
     for( const age in age_ranges ) {
-      const value = age_ranges[age]/total;
+      let value = 0;
+  // Prevent division by 0 and NaN by first checking if both 
+  // curr age range and total > 0, otherwise result = 0
+      if (age_ranges[age] > 0 && total > 0) {
+        value = age_ranges[age]/total;
+      }
       newRanges[age] = value;
     }
     total = total;
