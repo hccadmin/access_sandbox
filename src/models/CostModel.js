@@ -28,7 +28,6 @@ class CostModel {
   // need to be omitted from cost calculation
   #noCostRegimens = [
     "Surgery only",
-    "Observation only",
     "Antiretrovirals, only"
   ];
  
@@ -133,7 +132,6 @@ class CostModel {
     const { type, incidences, bodyStats, hasLevels } = setting;
     this.#hasLevels = hasLevels ? true : false;
     const filteredInput = this.#hasLevels ? cancers : this.removeEmptyInputs(cancers);
-    //console.log("Filtered input: ", filteredInput);
     if (!filteredInput) {
       return filteredInput;
     }
@@ -141,7 +139,6 @@ class CostModel {
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     //console.log("Prices after merge: ", this.#prices);
     this.#userCancers = Object.keys(filteredInput);
-    //console.log("User cancers: ", this.#userCancers);
 
   /* Marker B */
     this.#drugDosages = this.setupCostObj(filteredInput, regimens);
@@ -854,7 +851,9 @@ class CostModel {
 // Marker B
   setupCostObj(cancerSelections, regimens) {
     const costObj = {};
-    // for( const cancer in user ) {
+    if (this.#userCancers.includes('wilmstumor') ) {
+      this.overrideWilmsLowRiskStage1(cancerSelections);
+    }
     Object.keys(cancerSelections).forEach( (cancer, i) => {
       let drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
@@ -878,7 +877,7 @@ class CostModel {
         });
       }
     });
-    //console.log("Cost obj: ", costObj);
+    // console.log("Cost obj: ", costObj);
     return costObj;
   }
 
@@ -888,7 +887,6 @@ class CostModel {
     riskCostObj.percentage = currRisk.percentage;
 
     if (!this.#hasLevels) {
-      // console.log("No levels: ", currCancer.name);
       if ( !this.#noCostRegimens.includes(currRisk.regimen) ) {
         const regHash = makeHashKey(risk, currRisk.regimen);
         riskCostObj.regimens[regHash] = { 
@@ -907,6 +905,8 @@ class CostModel {
             drugs: this.loadDrugArray(regHash, regimens)
           }
         }
+        else {
+        }
       });
       //console.log("riskCostObj", riskCostObj);
     }
@@ -918,6 +918,7 @@ class CostModel {
     let drugsArr= {};
     // iterate through user selected cancer regs
     const reg = regimens[regHash];
+    // console.log(reg)
   // Drug names as keys from regimen obj lit
       Object.keys(reg.drugs).forEach( (drug) => {
         if (!drugsArr.hasOwnProperty(drug)) {
@@ -956,6 +957,22 @@ class CostModel {
       prices[drugName] = { ...drug.pricing[filtered.pop()] };
     });
     return prices;
+  }
+
+  overrideWilmsLowRiskStage1(cancerSelections) {
+    const wilms = cancerSelections['wilmstumor'];
+    // console.log(wilms);
+    /*
+    const { 
+      wilmstumorlowriskstage1,
+      wilmstumorlowriskstage2
+    } = wilms.risks;
+    const stage2Props = { ...wilmstumorlowriskstage2 };
+    wilmstumorlowriskstage1.levels = stage2Props.levels;
+    wilmstumorlowriskstage1.regimen = stage2Props.regimen;
+    // console.log(wilmstumorlowriskstage1)
+    // console.log(cancerSelections)
+    */
   }
 }
 
