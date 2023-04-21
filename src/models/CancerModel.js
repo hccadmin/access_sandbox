@@ -1,5 +1,7 @@
 import { makeHashKey, sortObjects, arrayFrom } from '../helpers/utilities';
 
+const WILMS_TUMOR = "Wilms Tumor";
+
 class CancerModel {
   #cancers = [];
   /**
@@ -90,10 +92,12 @@ class CancerModel {
 
 
   buildRegimens(results) {
-    let regimens = {};
+    const regimens = {};
     results.forEach( (result) => {
       const { cancer, risk_strat, name, drugs } = result
-      const regkey = makeHashKey(cancer, risk_strat, name);
+      const regkey = (cancer === WILMS_TUMOR ? 
+          makeHashKey(cancer, drugs[0].phase, risk_strat, name) : 
+          makeHashKey(cancer, risk_strat, name));
       if (!regimens.hasOwnProperty(regkey)) {
         regimens[regkey] = { cancer, risk_strat, regimen: name, drugs: {} };
       }
@@ -111,12 +115,13 @@ class CancerModel {
   restructure(results) {
     const cancers =  results.map( (result) => {
       const riskStrats = result.risk_strats.map( (rs) => {
+        const regimens = rs.hasOwnProperty("phases") ? rs.phases.postop.regimens : rs.regimens;
         return {
           name: rs.strat_name,
           percent_total: rs.percent_total,
-          regimens: rs.regimens,
+          regimens: regimens,
           inst_levels: rs.inst_levels,
-          hasMultipleRegimens: rs.regimens.length > 1
+          hasMultipleRegimens: regimens.length > 1
         }
       });
       return {
@@ -127,7 +132,6 @@ class CancerModel {
     });
     return sortObjects(cancers);
   }
-  
 }
 
 export default CancerModel;
