@@ -46,7 +46,7 @@ const assembleRisks = (cancer, risks) => {
   risks.forEach( (risk) => {
     let riskHash;
     // Just using makeHashKey to remove spaces and make lowercase
-    if (cancer === makeHashKey(REACT_APP_WILMS_TUMOR)) {
+    if (makeHashKey(cancer) === makeHashKey(REACT_APP_WILMS_TUMOR)) {
       Object.keys(risk.phases).forEach(phase => {
         riskHash = makeHashKey(cancer, phase, risk.name);
         risksObj[riskHash] = getRiskObj(risk, phase);
