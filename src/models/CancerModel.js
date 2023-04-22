@@ -115,18 +115,19 @@ class CancerModel {
   restructure(results) {
     const cancers =  results.map( (result) => {
       const riskStrats = result.risk_strats.map( (rs) => {
-        const regimens = rs.hasOwnProperty("phases") ? rs.phases : rs.regimens;
         const riskStrat = {
           name: rs.strat_name,
           percent_total: rs.percent_total,
-          inst_levels: rs.inst_levels,
-          hasMultipleRegimens: regimens.length > 1
         }
+        // This is specific to Wilms Tumor
         if (rs.hasOwnProperty("phases")) {
           riskStrat.phases = rs.phases;
+          riskStrat.hasMultipleRegimens = false;
         }
         else {
           riskStrat.regimens = rs.regimens;
+          riskStrat.inst_levels = rs.inst_levels;
+          riskStrat.hasMultipleRegimens = rs.regimens.length > 1;
         }
         return riskStrat;
       });

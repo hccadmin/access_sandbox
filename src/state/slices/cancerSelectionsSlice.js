@@ -22,16 +22,21 @@ const initialState = {
 
 const reformatWilmsRisksForUI = (risks) => {
   return risks.map(risk => {
-    // Only use postoperative regimens for UI display
-    return { regimens: risk.phases.postoperative.regimens, ...risk }
+    // Only use postoperative levels/regimens for UI display
+    return { 
+      inst_levels: risk.phases.postoperative.inst_levels,
+      regimens: risk.phases.postoperative.regimens, 
+      ...risk 
+    }
   })
 }
 
-const getRiskObj = (risk) => {
+const getRiskObj = (risk, phase = "") => {
+  const levels = phase.length > 0 ? risk.phases[phase].inst_levels : risk.inst_levels;
   return {
     hasMultipleRegimens: risk.hasMultipleRegimens,
+    levels, 
     percentage: risk.percent_total,
-    levels: risk.inst_levels,
     regimen: ""
   }
 }
@@ -44,7 +49,7 @@ const assembleRisks = (cancer, risks) => {
     if (cancer === makeHashKey(REACT_APP_WILMS_TUMOR)) {
       Object.keys(risk.phases).forEach(phase => {
         riskHash = makeHashKey(cancer, phase, risk.name);
-        risksObj[riskHash] = getRiskObj(risk);
+        risksObj[riskHash] = getRiskObj(risk, phase);
       })
     }
     else {
