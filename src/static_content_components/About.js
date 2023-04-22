@@ -13,10 +13,10 @@ const About = () => {
 
       <h2>Model feedback</h2>	
       <p>The goal of the Forecast Model is to be as user-friendly, pragmatic, and impactful as possible. We strive to help users organize their data, while filling in the blanks with the best publicly available sources where there are gaps. Our included regimens draw on international expert recommendations for resource-adapted care and seek to be as reflective of real-world use as possible.</p>
-      <p>See something that we could do better? Please let us know by filling out the feedback google form or contacting one of our team members below.</p>
+      <p>See something that we could do better? Please let us know by <a target="_blank" href="https://forms.gle/9MuT461RwwkpFEPw7">filling out the feedback google form</a> or contacting one of our team members below.</p>
 
       <h2>Contact us!</h2>
-      <p>We welcome all feedback—please complete this short feedback google form or reach out to us via email, and we will get back to you as soon as possible:</p>
+      <p>We welcome all feedback—please <a target="_blank" href="https://forms.gle/9MuT461RwwkpFEPw7">complete this short feedback google form</a> or reach out to us via email, and we will get back to you as soon as possible:</p>
 
       <p><strong>Terence M. Hughes, BA</strong><br />
       <Obfuscate email="terence.m.hughes.17@gmail.com" /><br />
