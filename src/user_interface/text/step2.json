@@ -48,6 +48,7 @@
           "body": "This Model automatically assigns the preferred Level 1, 2, and 3 <a href=\"#\">(view definitions of Levels 1, 2, and 3)</a> chemotherapy regimens <a href=\"#\">(view regimen sources)</a> based on institutional capabilities and expected drug availability."
         }
       ]
-    }
+    },
+    "wilms_reg_text": "*Note: shown above are the post-operative regimens of choice ONLY; all non-metastatic patients will be treated with additional Vincristine + Actinomycin D pre-operatively, and all metastatic patients will be treated with Vincristine + Actinomycin D + Doxorubicin pre-operatively."
   }
 }

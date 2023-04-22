@@ -15,10 +15,8 @@ import MarkupJSON from '../shared_components/MarkupJSON';
 import HelpTextModal from '../shared_components/HelpTextModal';
 import CancerIncidence from './CancerIncidence';
 import { makeHashKey, sentenceCase } from '../helpers/utilities';
-import stepTerms from './text/steps';
 import globalTerms from '../text/global';
 import { disableError, checkSelect } from '../state/slices/validationSlice';
-import text from './text/steps';
 import step2text from './text/step2';
 import { useRegimenRef } from '../hooks';
 import {
@@ -297,6 +295,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
                     })}{/* End Risks map */}
                     </tbody>
                   </Table>
+                  { selected.name === REACT_APP_WILMS_TUMOR ? <p>{ step2text.risks_regs.wilms_reg_text }</p> : "" }
                   </div>
                 </Form.Group>
                 </Card.Body>
