@@ -27,8 +27,9 @@ class CostModel {
   // Regimens that have no associated drugs, hence
   // need to be omitted from cost calculation
   #noCostRegimens = [
+    "Antiretrovirals, only",
     "Surgery only",
-    "Antiretrovirals, only"
+    "Observation only post-surgery"
   ];
  
   /**
@@ -131,27 +132,27 @@ class CostModel {
   loadAllCostData(setting, cancers, regimens, prices) {
     const { type, incidences, bodyStats, hasLevels } = setting;
     this.#hasLevels = hasLevels ? true : false;
-    const filteredInput = this.#hasLevels ? cancers : this.removeEmptyInputs(cancers);
-    if (!filteredInput) {
-      return filteredInput;
+    const filteredCancerInput = this.#hasLevels ? cancers : this.removeEmptyInputs(cancers);
+    if (!filteredCancerInput) {
+      return filteredCancerInput;
     }
     this.#bodyStats = bodyStats;
     this.#prices = this.mergePrices(prices.filtered, prices.overrides);
     //console.log("Prices after merge: ", this.#prices);
-    this.#userCancers = Object.keys(filteredInput);
+    this.#userCancers = Object.keys(filteredCancerInput);
 
   /* Marker B */
-    this.#drugDosages = this.setupCostObj(filteredInput, regimens);
-    //console.log("Drug dosages", this.#drugDosages);
+    this.#drugDosages = this.setupCostObj(filteredCancerInput, regimens);
+    // console.log("Drug dosages", this.#drugDosages);
 
     this.#ageRanges = Object.keys(bodyStats.bsa);
 
   /* Marker C */
     this.#ageRangeGenderDrugs = this.assembleAgeRangeGenderDrugs();
-    //console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
+    // console.log("Age range gender drugs", this.#ageRangeGenderDrugs);
 
   /* Marker D */
-    this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredInput, incidences);
+    this.#ageRangeIncidences = this.calcAgeRangeIncidences(filteredCancerInput, incidences);
     //console.log("Age range incidences", this.#ageRangeIncidences);
 
   /* Marker E */
@@ -163,11 +164,11 @@ class CostModel {
     //console.log("Total dosage by type", totalDosageByType);
   
   /* Marker G */
-    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredInput, hasLevels);
+    this.#totalCostPerCancer = this.calcTotalCostPerCancer(totalDosageByType, filteredCancerInput, hasLevels);
     //console.log("Total cost per cancer", this.#totalCostPerCancer);
 
   /* Marker H */
-    this.#totalCostPerDrug = this.calcTotalCostPerDrug(filteredInput);
+    this.#totalCostPerDrug = this.calcTotalCostPerDrug(filteredCancerInput);
 
   /* Marker 1 */
     //console.log(this.#userCancers);
@@ -851,20 +852,15 @@ class CostModel {
 // Marker B
   setupCostObj(cancerSelections, regimens) {
     const costObj = {};
-    if (this.#userCancers.includes('wilmstumor') ) {
-      this.overrideWilmsLowRiskStage1(cancerSelections);
-    }
     Object.keys(cancerSelections).forEach( (cancer, i) => {
-      let drugArr = {};
+      const drugArr = {};
       if (!costObj.hasOwnProperty(cancer)) {
         costObj[cancer] = { name: cancerSelections[cancer].name, risk_strats: {} };
-        //costObj[cancer] = { name: user[cancer].name, drugs: {} };
       }
       const currCancer = cancerSelections[cancer];
       const risks = Object.keys(currCancer.risks);
       if (risks.length >= 1) {
         risks.forEach( (risk) => {
-          //console.log(currCancer.name, risk);
           const riskCostObj = this.setupRiskCostObj(risk, currCancer, regimens);
 
 // Check if the risk strat has corresponding regimens, delete the property if it does not
@@ -883,7 +879,7 @@ class CostModel {
 
   setupRiskCostObj(risk, currCancer, regimens) {
     const currRisk = currCancer.risks[risk];
-    let riskCostObj = { regimens: {} };
+    const riskCostObj = { regimens: {} };
     riskCostObj.percentage = currRisk.percentage;
 
     if (!this.#hasLevels) {
@@ -915,7 +911,7 @@ class CostModel {
 
 
   loadDrugArray(regHash, regimens) {
-    let drugsArr= {};
+    const drugsArr= {};
     // iterate through user selected cancer regs
     const reg = regimens[regHash];
     // console.log(reg)
@@ -959,10 +955,10 @@ class CostModel {
     return prices;
   }
 
+/*
   overrideWilmsLowRiskStage1(cancerSelections) {
     const wilms = cancerSelections['wilmstumor'];
     // console.log(wilms);
-    /*
     const { 
       wilmstumorlowriskstage1,
       wilmstumorlowriskstage2
@@ -972,8 +968,8 @@ class CostModel {
     wilmstumorlowriskstage1.regimen = stage2Props.regimen;
     // console.log(wilmstumorlowriskstage1)
     // console.log(cancerSelections)
-    */
   }
+*/
 }
 
 export default CostModel;
