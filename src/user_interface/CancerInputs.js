@@ -31,6 +31,8 @@ import {
 
 const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => {
 
+  const { REACT_APP_WILMS_TUMOR } = process.env;
+
   const cancerHash = makeHashKey(selected.name);
   const dispatch = useDispatch();
 
@@ -43,6 +45,7 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
   });
 
   const ref = useRegimenRef(selected.ref);
+
 
 
   const handleEvent = (e) => {
@@ -81,21 +84,32 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
   }
 
   const loadSingleRegs = (riskStrats) => {
-    let singleRegArr = [];
+    const singleRegArr = [];
+    let rsHash
     riskStrats.forEach( (rs) => {
-      if (rs.regimens.length === 1) {
-        const rsHash = makeHashKey(cancerHash, rs.name);
-        singleRegArr.push(
-          { 
-            cancer: cancerHash,
-            riskStrat: rsHash,
-            percentage: rs.percent_total,
-            regimen: rs.regimens[0] 
-          }
-        );
+      if (selected.name === REACT_APP_WILMS_TUMOR) {
+        Object.keys(rs.phases).forEach( (rsPhase) => {
+          rsHash = makeHashKey(cancerHash, rsPhase, rs.name);
+          singleRegArr.push( getSingleRegObj(cancerHash, rs.phases[rsPhase], rsHash) );
+        });
       }
+      else if (rs.regimens.length === 1) {
+        rsHash = makeHashKey(cancerHash, rs.name);
+        singleRegArr.push( getSingleRegObj(cancerHash, rs, rsHash) );
+      }
+      else {}
     });
     return (singleRegArr.length > 0) && singleRegArr;
+  }
+
+  const getSingleRegObj = (cancerHash, rs, rsHash) => {
+    return {
+      cancer: cancerHash,
+      riskStrat: rsHash,
+      // Not sure I need this anymore
+      // percentage: rs.percent_total,
+      regimen: rs.regimens[0] 
+    }
   }
 
   const captureRegimen = (e) => {

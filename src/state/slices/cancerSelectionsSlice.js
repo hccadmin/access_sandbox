@@ -22,9 +22,8 @@ const initialState = {
 
 const reformatWilmsRisksForUI = (risks) => {
   return risks.map(risk => {
-    const { phases, ...rest } = risk;
     // Only use postoperative regimens for UI display
-    return { regimens: risk.phases.postoperative.regimens, ...rest }
+    return { regimens: risk.phases.postoperative.regimens, ...risk }
   })
 }
 
@@ -146,15 +145,9 @@ const cancerSelectionsSlice = createSlice({
     setPercentage(state, action) {
       const { cancer, riskName, value } = action.payload;
       state.cancers[cancer].risks[riskName].percentage = value;
-      //state[cancer].hasCustomRisk = value.length > 0;
       const risks = Object.keys(state.cancers[cancer].risks);
       const empty = risks.every( risk => state.cancers[cancer].risks[risk].percentage.length === 0 );
       state.cancers[cancer].hasCustomRisk = empty ? false : true;
-      /*
-      if (!state[cancer].hasCustomRisk) {
-        state[cancer].hasCustomRisk = true;
-      }
-      */
     },
     setIncidence(state, action) {
       const { type, cancer, incidence } = action.payload;
