@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { makeHashKey } from '../../helpers/utilities';
 
+const { REACT_APP_WILMS_TUMOR } = process.env;
+
 /**
  * cancer: {
  *   incidence: 0,
@@ -18,8 +20,15 @@ const initialState = {
   initialized: false
 }
 
+const reformatWilmsRisksForUI = (risks) => {
+  return risks.map(risk => {
+    const { phases, ...rest } = risk;
+    return { regimens: risk.phases.postop.regimens, ...rest }
+  })
+}
+
 const assembleRisks = (cancer, risks) => {
-  let riskObj = {};
+  const riskObj = {};
   risks.forEach( (risk) => {
     const riskHash = makeHashKey(cancer, risk.name);
     riskObj[riskHash] = { 
@@ -52,7 +61,10 @@ const cancerSelectionsSlice = createSlice({
       state.cancerButtonClicks = 0;
     },
     initializeCancer(state, action) {
-      const { risks, cancer, name, ref } = action.payload; 
+      let { risks, cancer, name, ref } = action.payload; 
+      if (name === REACT_APP_WILMS_TUMOR) {
+        risks = reformatWilmsRisksForUI(risks);
+      }
       state.selected = { name, risks, ref }
       if (!state.cancers.hasOwnProperty(cancer)) {
         state.initialized = true;

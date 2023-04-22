@@ -112,16 +112,6 @@ const CancerInputs = ({ selected, settingType, settingHash, predictedIncs }) => 
     dispatch( setRegimen(captured) );
   }
 
-/*
-  if ( !cancerSelections.hasOwnProperty(cancerHash) ) {
-    dispatch( initializeCancer({ 
-      cancer: cancerHash, 
-      risks: selected.risk_strats,
-      name: selected.name 
-    }));
-  }
-*/
-
   useEffect( () => {
     console.log(validation.hasErrors)
   }, [validation.hasErrors]);
