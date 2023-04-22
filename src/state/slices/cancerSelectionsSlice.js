@@ -23,22 +23,37 @@ const initialState = {
 const reformatWilmsRisksForUI = (risks) => {
   return risks.map(risk => {
     const { phases, ...rest } = risk;
-    return { regimens: risk.phases.postop.regimens, ...rest }
+    // Only use postoperative regimens for UI display
+    return { regimens: risk.phases.postoperative.regimens, ...rest }
   })
 }
 
+const getRiskObj = (risk) => {
+  return {
+    hasMultipleRegimens: risk.hasMultipleRegimens,
+    percentage: risk.percent_total,
+    levels: risk.inst_levels,
+    regimen: ""
+  }
+}
+
 const assembleRisks = (cancer, risks) => {
-  const riskObj = {};
+  const risksObj = {};
   risks.forEach( (risk) => {
-    const riskHash = makeHashKey(cancer, risk.name);
-    riskObj[riskHash] = { 
-      hasMultipleRegimens: risk.hasMultipleRegimens,
-      percentage: risk.percent_total,
-      levels: risk.inst_levels,
-      regimen: ""
-    };
+    let riskHash;
+    // Just using makeHashKey to remove spaces and make lowercase
+    if (cancer === makeHashKey(REACT_APP_WILMS_TUMOR)) {
+      Object.keys(risk.phases).forEach(phase => {
+        riskHash = makeHashKey(cancer, phase, risk.name);
+        risksObj[riskHash] = getRiskObj(risk);
+      })
+    }
+    else {
+      riskHash = makeHashKey(cancer, risk.name);
+      risksObj[riskHash] = getRiskObj(risk);
+    }
   });
-  return riskObj;
+  return risksObj;
 }
 
 const revertRisks = (selected, risks) => {
@@ -61,11 +76,12 @@ const cancerSelectionsSlice = createSlice({
       state.cancerButtonClicks = 0;
     },
     initializeCancer(state, action) {
-      let { risks, cancer, name, ref } = action.payload; 
+      const { risks, cancer, name, ref } = action.payload; 
+      let wilmsRisks;
       if (name === REACT_APP_WILMS_TUMOR) {
-        risks = reformatWilmsRisksForUI(risks);
+        wilmsRisks = reformatWilmsRisksForUI(risks);
       }
-      state.selected = { name, risks, ref }
+      state.selected = { name, risks: wilmsRisks || risks, ref }
       if (!state.cancers.hasOwnProperty(cancer)) {
         state.initialized = true;
         const riskObj = assembleRisks(cancer, risks);
